@@ -15,6 +15,7 @@ import (
 	"time"
 	"mua/gatesvr/internal/rpc"
 	"google.golang.org/protobuf/proto"
+	"mua/gatesvr/config"
 )
 
 // 实现gRPC服务
@@ -139,22 +140,32 @@ func (s *server) PushToClient(ctx context.Context, req *pb.PushRequest) (*pb.Pus
 }
 
 func main() {
+	// 加载配置并启动热更
+	if err := config.LoadConfig(); err != nil {
+		log.Fatalf("配置加载失败: %v", err)
+	}
+	config.WatchConfig()
+
+	// 初始化Kafka
+	kafka.Init()
+
 	// 注册到Nacos
 	instanceID := "gatesvr-" + strconv.FormatInt(time.Now().UnixNano(), 10)
-	ip := "127.0.0.1" // 实际部署时应获取本机真实IP
+	// ip := "127.0.0.1" // 实际部署时应获取本机真实IP
+	ip := getLocalIP()
 	grpcPort := uint64(50051)
 	nacos.Register(instanceID, ip, grpcPort)
 
-	// 订阅Kafka玩家上线
-	kafka.Subscribe(kafka.KafkaTopicOnline, func(playerID, gatesvrID string) {
-		playerRouteMap[playerID] = gatesvrID
-		log.Printf("[路由] 玩家[%s] 上线于 %s", playerID, gatesvrID)
-	})
-	// 订阅Kafka玩家下线
-	kafka.Subscribe(kafka.KafkaTopicOffline, func(playerID, gatesvrID string) {
-		if v, ok := playerRouteMap[playerID]; ok && v == gatesvrID {
-			delete(playerRouteMap, playerID)
-			log.Printf("[路由] 玩家[%s] 从 %s 下线", playerID, gatesvrID)
+	// 订阅Kafka玩家上下线事件
+	kafka.Subscribe(func(event *pb.PlayerStatusChanged) {
+		if event.Event == pb.PlayerStatusEventType_ONLINE {
+			playerRouteMap[event.PlayerId] = event.Ip
+			log.Printf("[路由] 玩家[%s] 上线于 %s", event.PlayerId, event.Ip)
+		} else if event.Event == pb.PlayerStatusEventType_OFFLINE {
+			if v, ok := playerRouteMap[event.PlayerId]; ok && v == event.Ip {
+				delete(playerRouteMap, event.PlayerId)
+				log.Printf("[路由] 玩家[%s] 从 %s 下线", event.PlayerId, event.Ip)
+			}
 		}
 	})
 
@@ -195,4 +206,17 @@ func main() {
 
 	// 阻塞主线程
 	select {}
+}
+
+func getLocalIP() string {
+	addrs, err := net.InterfaceAddrs()
+	if err != nil {
+		return "127.0.0.1"
+	}
+	for _, addr := range addrs {
+		if ipnet, ok := addr.(*net.IPNet); ok && !ipnet.IP.IsLoopback() && ipnet.IP.To4() != nil {
+			return ipnet.IP.String()
+		}
+	}
+	return "127.0.0.1"
 } 

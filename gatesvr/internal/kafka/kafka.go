@@ -2,37 +2,71 @@ package kafka
 
 import (
 	"context"
+	"crypto/tls"
+	"crypto/x509"
+	"io/ioutil"
 	"log"
 	"time"
+	"io"
 
 	"github.com/segmentio/kafka-go"
+	"github.com/golang/protobuf/proto"
+	"mua/gatesvr/internal/pb"
+	"mua/gatesvr/config"
 )
 
 const (
-	KafkaTopicOnline  = "player_online"
-	KafkaTopicOffline = "player_offline"
+	KafkaTopicPlayerStatusChanged = "player_status_changed"
 )
 
 var (
-	kafkaBrokers = []string{"localhost:9092"} // 可配置
+	kafkaBrokers []string
+	tlsConfig    *tls.Config
 )
 
-// 广播玩家上线
-func BroadcastOnline(playerID, gatesvrID string) {
-	msg := playerID + "," + gatesvrID
-	writeKafka(KafkaTopicOnline, msg)
+// 初始化Kafka配置，需在配置加载后调用
+func Init() {
+	cfg := config.GetConfig().Kafka
+	kafkaBrokers = cfg.Brokers
+	if cfg.CaCert == "" {
+		log.Fatalf("Kafka配置缺少caCert路径，请检查config.yaml")
+	}
+	var err error
+	tlsConfig, err = newTLSConfig(cfg.CaCert)
+	if err != nil {
+		log.Fatalf("加载Kafka CA证书失败[%s]: %v", cfg.CaCert, err)
+	}
 }
 
-// 广播玩家下线
-func BroadcastOffline(playerID, gatesvrID string) {
-	msg := playerID + "," + gatesvrID
-	writeKafka(KafkaTopicOffline, msg)
+// 加载CA证书
+func newTLSConfig(caFile string) (*tls.Config, error) {
+	caCert, err := ioutil.ReadFile(caFile)
+	if err != nil {
+		return nil, err
+	}
+	caCertPool := x509.NewCertPool()
+	caCertPool.AppendCertsFromPEM(caCert)
+	return &tls.Config{
+		RootCAs: caCertPool,
+	}, nil
+}
+
+// 广播玩家上下线事件
+func BroadcastPlayerStatusChanged(event *pb.PlayerStatusChanged) {
+	data, err := proto.Marshal(event)
+	if err != nil {
+		log.Printf("PlayerStatusChanged序列化失败: %v", err)
+		return
+	}
+	cfg := config.GetConfig().Kafka
+	writeKafka(cfg.Topic, string(data))
 }
 
 func writeKafka(topic, msg string) {
-	w := kafka.Writer{
-		Addr:     kafka.TCP(kafkaBrokers...),
-		Topic:    topic,
+	w := &kafka.Writer{
+		Addr:      kafka.TCP(kafkaBrokers...),
+		Topic:     topic,
+		Transport: &kafka.Transport{TLS: tlsConfig},
 	}
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
@@ -43,26 +77,36 @@ func writeKafka(topic, msg string) {
 	w.Close()
 }
 
-// 订阅玩家上下线
-func Subscribe(topic string, handler func(playerID, gatesvrID string)) {
+// 订阅玩家上下线事件
+func Subscribe(handler func(event *pb.PlayerStatusChanged)) {
+	dialer := &kafka.Dialer{
+		Timeout: 10 * time.Second,
+		TLS:    tlsConfig,
+	}
+	cfg := config.GetConfig().Kafka
 	r := kafka.NewReader(kafka.ReaderConfig{
 		Brokers: kafkaBrokers,
-		Topic:   topic,
+		Topic:   cfg.Topic,
 		GroupID: "gatesvr-group",
+		Dialer:  dialer,
 	})
 	go func() {
 		for {
 			m, err := r.ReadMessage(context.Background())
 			if err != nil {
+				if err == io.EOF {
+					time.Sleep(100 * time.Millisecond)
+					continue
+				}
 				log.Printf("Kafka读取失败: %v", err)
 				continue
 			}
-			parts := string(m.Value)
-			arr := make([]string, 2)
-			copy(arr, split2(parts, ','))
-			if len(arr) == 2 {
-				handler(arr[0], arr[1])
+			var event pb.PlayerStatusChanged
+			if err := proto.Unmarshal(m.Value, &event); err != nil {
+				log.Printf("PlayerStatusChanged反序列化失败: %v", err)
+				continue
 			}
+			handler(&event)
 		}
 	}()
 }

@@ -61,4 +61,18 @@ message GameMessage {
   int64 role_id = 5; // 游戏角色id
   int32 msg_tap = 6; // 消息标签 用于未来业务消息转发
   int32 game_id = 7; // 游戏id 用于未来业务消息转发
+}
+
+// 玩家上下线事件类型
+enum PlayerStatusEventType {
+  ONLINE = 0;  // 上线
+  OFFLINE = 1; // 下线
+}
+
+// 玩家上下线事件消息
+message PlayerStatusChanged {
+  string player_id = 1;         // 玩家ID
+  string ip = 2;                // 客户端IP地址
+  PlayerStatusEventType event = 3; // 事件类型：上线/下线
+  int64 event_time = 4;         // 事件时间（时间戳，单位秒或毫秒）
 } 

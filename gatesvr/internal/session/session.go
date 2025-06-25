@@ -5,6 +5,7 @@ import (
 	"sync"
 	"time"
 	"mua/gatesvr/internal/kafka"
+	"mua/gatesvr/internal/pb"
 )
 
 type Session struct {
@@ -38,7 +39,13 @@ func PlayerOnline(playerID, ip, gatesvrID string, kickFunc func(string)) (isOthe
 		}
 	}
 	// 广播上线
-	kafka.BroadcastOnline(playerID, gatesvrID)
+	event := &pb.PlayerStatusChanged{
+		PlayerId:  playerID,
+		Ip:        ip,
+		Event:     pb.PlayerStatusEventType_ONLINE,
+		EventTime: time.Now().Unix(),
+	}
+	kafka.BroadcastPlayerStatusChanged(event)
 	return false, nil
 }
 
@@ -46,7 +53,13 @@ func PlayerOnline(playerID, ip, gatesvrID string, kickFunc func(string)) (isOthe
 func PlayerOffline(playerID string) {
 	if val, ok := sessions.Load(playerID); ok {
 		sess := val.(*Session)
-		kafka.BroadcastOffline(playerID, sess.GateSvrID)
+		event := &pb.PlayerStatusChanged{
+			PlayerId:  playerID,
+			Ip:        sess.IP,
+			Event:     pb.PlayerStatusEventType_OFFLINE,
+			EventTime: time.Now().Unix(),
+		}
+		kafka.BroadcastPlayerStatusChanged(event)
 		ip2pid.Delete(sess.IP)
 	}
 	sessions.Delete(playerID)

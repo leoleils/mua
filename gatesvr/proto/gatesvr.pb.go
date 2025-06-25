@@ -70,6 +70,53 @@ func (CallbackType) EnumDescriptor() ([]byte, []int) {
 	return file_gatesvr_proto_gatesvr_proto_rawDescGZIP(), []int{0}
 }
 
+// 玩家上下线事件类型
+type PlayerStatusEventType int32
+
+const (
+	PlayerStatusEventType_ONLINE  PlayerStatusEventType = 0 // 上线
+	PlayerStatusEventType_OFFLINE PlayerStatusEventType = 1 // 下线
+)
+
+// Enum value maps for PlayerStatusEventType.
+var (
+	PlayerStatusEventType_name = map[int32]string{
+		0: "ONLINE",
+		1: "OFFLINE",
+	}
+	PlayerStatusEventType_value = map[string]int32{
+		"ONLINE":  0,
+		"OFFLINE": 1,
+	}
+)
+
+func (x PlayerStatusEventType) Enum() *PlayerStatusEventType {
+	p := new(PlayerStatusEventType)
+	*p = x
+	return p
+}
+
+func (x PlayerStatusEventType) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (PlayerStatusEventType) Descriptor() protoreflect.EnumDescriptor {
+	return file_gatesvr_proto_gatesvr_proto_enumTypes[1].Descriptor()
+}
+
+func (PlayerStatusEventType) Type() protoreflect.EnumType {
+	return &file_gatesvr_proto_gatesvr_proto_enumTypes[1]
+}
+
+func (x PlayerStatusEventType) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use PlayerStatusEventType.Descriptor instead.
+func (PlayerStatusEventType) EnumDescriptor() ([]byte, []int) {
+	return file_gatesvr_proto_gatesvr_proto_rawDescGZIP(), []int{1}
+}
+
 type PushRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	PlayerId      string                 `protobuf:"bytes,1,opt,name=player_id,json=playerId,proto3" json:"player_id,omitempty"`
@@ -491,6 +538,75 @@ func (x *GameMessage) GetGameId() int32 {
 	return 0
 }
 
+// 玩家上下线事件消息
+type PlayerStatusChanged struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	PlayerId      string                 `protobuf:"bytes,1,opt,name=player_id,json=playerId,proto3" json:"player_id,omitempty"`               // 玩家ID
+	Ip            string                 `protobuf:"bytes,2,opt,name=ip,proto3" json:"ip,omitempty"`                                           // 客户端IP地址
+	Event         PlayerStatusEventType  `protobuf:"varint,3,opt,name=event,proto3,enum=gatesvr.PlayerStatusEventType" json:"event,omitempty"` // 事件类型：上线/下线
+	EventTime     int64                  `protobuf:"varint,4,opt,name=event_time,json=eventTime,proto3" json:"event_time,omitempty"`           // 事件时间（时间戳，单位秒或毫秒）
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *PlayerStatusChanged) Reset() {
+	*x = PlayerStatusChanged{}
+	mi := &file_gatesvr_proto_gatesvr_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *PlayerStatusChanged) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*PlayerStatusChanged) ProtoMessage() {}
+
+func (x *PlayerStatusChanged) ProtoReflect() protoreflect.Message {
+	mi := &file_gatesvr_proto_gatesvr_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use PlayerStatusChanged.ProtoReflect.Descriptor instead.
+func (*PlayerStatusChanged) Descriptor() ([]byte, []int) {
+	return file_gatesvr_proto_gatesvr_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *PlayerStatusChanged) GetPlayerId() string {
+	if x != nil {
+		return x.PlayerId
+	}
+	return ""
+}
+
+func (x *PlayerStatusChanged) GetIp() string {
+	if x != nil {
+		return x.Ip
+	}
+	return ""
+}
+
+func (x *PlayerStatusChanged) GetEvent() PlayerStatusEventType {
+	if x != nil {
+		return x.Event
+	}
+	return PlayerStatusEventType_ONLINE
+}
+
+func (x *PlayerStatusChanged) GetEventTime() int64 {
+	if x != nil {
+		return x.EventTime
+	}
+	return 0
+}
+
 var File_gatesvr_proto_gatesvr_proto protoreflect.FileDescriptor
 
 const file_gatesvr_proto_gatesvr_proto_rawDesc = "" +
@@ -524,11 +640,21 @@ const file_gatesvr_proto_gatesvr_proto_rawDesc = "" +
 	"clientType\x12\x17\n" +
 	"\arole_id\x18\x05 \x01(\x03R\x06roleId\x12\x17\n" +
 	"\amsg_tap\x18\x06 \x01(\x05R\x06msgTap\x12\x17\n" +
-	"\agame_id\x18\a \x01(\x05R\x06gameId*-\n" +
+	"\agame_id\x18\a \x01(\x05R\x06gameId\"\x97\x01\n" +
+	"\x13PlayerStatusChanged\x12\x1b\n" +
+	"\tplayer_id\x18\x01 \x01(\tR\bplayerId\x12\x0e\n" +
+	"\x02ip\x18\x02 \x01(\tR\x02ip\x124\n" +
+	"\x05event\x18\x03 \x01(\x0e2\x1e.gatesvr.PlayerStatusEventTypeR\x05event\x12\x1d\n" +
+	"\n" +
+	"event_time\x18\x04 \x01(\x03R\teventTime*-\n" +
 	"\fCallbackType\x12\b\n" +
 	"\x04SYNC\x10\x00\x12\t\n" +
 	"\x05ASYNC\x10\x01\x12\b\n" +
-	"\x04PUSH\x10\x022\xe0\x01\n" +
+	"\x04PUSH\x10\x02*0\n" +
+	"\x15PlayerStatusEventType\x12\n" +
+	"\n" +
+	"\x06ONLINE\x10\x00\x12\v\n" +
+	"\aOFFLINE\x10\x012\xe0\x01\n" +
 	"\aGateSvr\x12E\n" +
 	"\n" +
 	"KickPlayer\x12\x1a.gatesvr.KickPlayerRequest\x1a\x1b.gatesvr.KickPlayerResponse\x12Q\n" +
@@ -547,32 +673,35 @@ func file_gatesvr_proto_gatesvr_proto_rawDescGZIP() []byte {
 	return file_gatesvr_proto_gatesvr_proto_rawDescData
 }
 
-var file_gatesvr_proto_gatesvr_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_gatesvr_proto_gatesvr_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
+var file_gatesvr_proto_gatesvr_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
+var file_gatesvr_proto_gatesvr_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
 var file_gatesvr_proto_gatesvr_proto_goTypes = []any{
 	(CallbackType)(0),              // 0: gatesvr.CallbackType
-	(*PushRequest)(nil),            // 1: gatesvr.PushRequest
-	(*PushResponse)(nil),           // 2: gatesvr.PushResponse
-	(*KickPlayerRequest)(nil),      // 3: gatesvr.KickPlayerRequest
-	(*KickPlayerResponse)(nil),     // 4: gatesvr.KickPlayerResponse
-	(*ForwardMessageRequest)(nil),  // 5: gatesvr.ForwardMessageRequest
-	(*ForwardMessageResponse)(nil), // 6: gatesvr.ForwardMessageResponse
-	(*GameMessage)(nil),            // 7: gatesvr.GameMessage
+	(PlayerStatusEventType)(0),     // 1: gatesvr.PlayerStatusEventType
+	(*PushRequest)(nil),            // 2: gatesvr.PushRequest
+	(*PushResponse)(nil),           // 3: gatesvr.PushResponse
+	(*KickPlayerRequest)(nil),      // 4: gatesvr.KickPlayerRequest
+	(*KickPlayerResponse)(nil),     // 5: gatesvr.KickPlayerResponse
+	(*ForwardMessageRequest)(nil),  // 6: gatesvr.ForwardMessageRequest
+	(*ForwardMessageResponse)(nil), // 7: gatesvr.ForwardMessageResponse
+	(*GameMessage)(nil),            // 8: gatesvr.GameMessage
+	(*PlayerStatusChanged)(nil),    // 9: gatesvr.PlayerStatusChanged
 }
 var file_gatesvr_proto_gatesvr_proto_depIdxs = []int32{
 	0, // 0: gatesvr.PushRequest.cb_type:type_name -> gatesvr.CallbackType
-	7, // 1: gatesvr.PushRequest.message:type_name -> gatesvr.GameMessage
-	3, // 2: gatesvr.GateSvr.KickPlayer:input_type -> gatesvr.KickPlayerRequest
-	5, // 3: gatesvr.GateSvr.ForwardMessage:input_type -> gatesvr.ForwardMessageRequest
-	1, // 4: gatesvr.GateSvr.PushToClient:input_type -> gatesvr.PushRequest
-	4, // 5: gatesvr.GateSvr.KickPlayer:output_type -> gatesvr.KickPlayerResponse
-	6, // 6: gatesvr.GateSvr.ForwardMessage:output_type -> gatesvr.ForwardMessageResponse
-	2, // 7: gatesvr.GateSvr.PushToClient:output_type -> gatesvr.PushResponse
-	5, // [5:8] is the sub-list for method output_type
-	2, // [2:5] is the sub-list for method input_type
-	2, // [2:2] is the sub-list for extension type_name
-	2, // [2:2] is the sub-list for extension extendee
-	0, // [0:2] is the sub-list for field type_name
+	8, // 1: gatesvr.PushRequest.message:type_name -> gatesvr.GameMessage
+	1, // 2: gatesvr.PlayerStatusChanged.event:type_name -> gatesvr.PlayerStatusEventType
+	4, // 3: gatesvr.GateSvr.KickPlayer:input_type -> gatesvr.KickPlayerRequest
+	6, // 4: gatesvr.GateSvr.ForwardMessage:input_type -> gatesvr.ForwardMessageRequest
+	2, // 5: gatesvr.GateSvr.PushToClient:input_type -> gatesvr.PushRequest
+	5, // 6: gatesvr.GateSvr.KickPlayer:output_type -> gatesvr.KickPlayerResponse
+	7, // 7: gatesvr.GateSvr.ForwardMessage:output_type -> gatesvr.ForwardMessageResponse
+	3, // 8: gatesvr.GateSvr.PushToClient:output_type -> gatesvr.PushResponse
+	6, // [6:9] is the sub-list for method output_type
+	3, // [3:6] is the sub-list for method input_type
+	3, // [3:3] is the sub-list for extension type_name
+	3, // [3:3] is the sub-list for extension extendee
+	0, // [0:3] is the sub-list for field type_name
 }
 
 func init() { file_gatesvr_proto_gatesvr_proto_init() }
@@ -585,8 +714,8 @@ func file_gatesvr_proto_gatesvr_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_gatesvr_proto_gatesvr_proto_rawDesc), len(file_gatesvr_proto_gatesvr_proto_rawDesc)),
-			NumEnums:      1,
-			NumMessages:   7,
+			NumEnums:      2,
+			NumMessages:   8,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

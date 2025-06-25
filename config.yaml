@@ -1,0 +1,15 @@
+nacos:
+  addr: mse-df8d5240-p.nacos-ans.mse.aliyuncs.com
+  port: 8848
+  username: "${NACOS_USERNAME}"
+  password: "${NACOS_PASSWORD}"
+  service: gatesvr
+  group: DEFAULT_GROUP
+
+kafka:
+  brokers:
+    - alikafka-serverless-cn-0mm42ujh802-1000.alikafka.aliyuncs.com:9093
+    - alikafka-serverless-cn-0mm42ujh802-2000.alikafka.aliyuncs.com:9093
+    - alikafka-serverless-cn-0mm42ujh802-3000.alikafka.aliyuncs.com:9093
+  caCert: ./only-4096-ca-cert
+  topic: player_status_changed 
