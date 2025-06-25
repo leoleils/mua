@@ -1,0 +1,64 @@
+syntax = "proto3";
+
+package gatesvr;
+
+option go_package = "internal/pb;pb";
+
+enum CallbackType {
+  SYNC = 0;
+  ASYNC = 1;
+  PUSH = 2;
+}
+
+message PushRequest {
+  string player_id = 1;
+  string ip = 2;
+  CallbackType cb_type = 3;
+  GameMessage message = 4;
+}
+
+message PushResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+service GateSvr {
+  // 踢下线
+  rpc KickPlayer(KickPlayerRequest) returns (KickPlayerResponse);
+  // 消息转发
+  rpc ForwardMessage(ForwardMessageRequest) returns (ForwardMessageResponse);
+  // 通知客户端
+  rpc PushToClient(PushRequest) returns (PushResponse);
+
+}
+
+message KickPlayerRequest {
+  string player_id = 1;
+  string reason = 2;
+}
+
+message KickPlayerResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+message ForwardMessageRequest {
+  string player_id = 1;
+  bytes payload = 2;
+}
+
+message ForwardMessageResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+// 游戏通用消息
+message GameMessage {
+  string player_id = 1;
+  int32  msg_type  = 2; // 消息类型/标签
+  bytes  payload   = 3; // 业务数据
+  int32  client_type = 4; // 客户端类型 1.android/2.ios/3.pc/4.minigame/5.web/6.harmonyOS
+  int64 role_id = 5; // 游戏角色id
+  int32 msg_tap = 6; // 消息标签 用于未来业务消息转发
+  int32 game_id = 7; // 游戏id 用于未来业务消息转发
+} 
