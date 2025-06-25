@@ -39,7 +39,7 @@ func (s *server) KickPlayer(ctx context.Context, req *pb.KickPlayerRequest) (*pb
 			Message: "本节点踢下线成功",
 		}, nil
 	}
-	// 不在本节点，查路由并远程调用
+	// 不在本节点，查路由并远程调用（只通过nacos实例遍历）
 	if gatesvrID, ok := playerRouteMap[playerID]; ok {
 		addrList := nacos.GetAllInstances()
 		for _, addr := range addrList {
@@ -151,20 +151,21 @@ func main() {
 
 	// 注册到Nacos
 	instanceID := "gatesvr-" + strconv.FormatInt(time.Now().UnixNano(), 10)
-	// ip := "127.0.0.1" // 实际部署时应获取本机真实IP
+	kafka.SetLocalGateSvrID(instanceID)
 	ip := getLocalIP()
+	kafka.SetLocalGateSvrIP(ip)
 	grpcPort := uint64(50051)
 	nacos.Register(instanceID, ip, grpcPort)
 
 	// 订阅Kafka玩家上下线事件
 	kafka.Subscribe(func(event *pb.PlayerStatusChanged) {
 		if event.Event == pb.PlayerStatusEventType_ONLINE {
-			playerRouteMap[event.PlayerId] = event.Ip
-			log.Printf("[路由] 玩家[%s] 上线于 %s", event.PlayerId, event.Ip)
+			playerRouteMap[event.PlayerId] = event.GatesvrId
+			log.Printf("[路由] 玩家[%s] 上线于 %s (gatesvr: %s)", event.PlayerId, event.Ip, event.GatesvrId)
 		} else if event.Event == pb.PlayerStatusEventType_OFFLINE {
-			if v, ok := playerRouteMap[event.PlayerId]; ok && v == event.Ip {
+			if v, ok := playerRouteMap[event.PlayerId]; ok && v == event.GatesvrId {
 				delete(playerRouteMap, event.PlayerId)
-				log.Printf("[路由] 玩家[%s] 从 %s 下线", event.PlayerId, event.Ip)
+				log.Printf("[路由] 玩家[%s] 从 %s 下线 (gatesvr: %s)", event.PlayerId, event.Ip, event.GatesvrId)
 			}
 		}
 	})

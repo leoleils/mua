@@ -22,6 +22,8 @@ const (
 var (
 	kafkaBrokers []string
 	tlsConfig    *tls.Config
+	localGateSvrID string
+	localGateSvrIP string
 )
 
 // 初始化Kafka配置，需在配置加载后调用
@@ -51,8 +53,22 @@ func newTLSConfig(caFile string) (*tls.Config, error) {
 	}, nil
 }
 
+func SetLocalGateSvrID(id string) {
+	localGateSvrID = id
+}
+
+func SetLocalGateSvrIP(ip string) {
+	localGateSvrIP = ip
+}
+
 // 广播玩家上下线事件
 func BroadcastPlayerStatusChanged(event *pb.PlayerStatusChanged) {
+	if event.GatesvrId == "" {
+		event.GatesvrId = localGateSvrID
+	}
+	if event.GatesvrIp == "" {
+		event.GatesvrIp = localGateSvrIP
+	}
 	data, err := proto.Marshal(event)
 	if err != nil {
 		log.Printf("PlayerStatusChanged序列化失败: %v", err)

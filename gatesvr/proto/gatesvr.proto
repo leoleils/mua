@@ -75,4 +75,6 @@ message PlayerStatusChanged {
   string ip = 2;                // 客户端IP地址
   PlayerStatusEventType event = 3; // 事件类型：上线/下线
   int64 event_time = 4;         // 事件时间（时间戳，单位秒或毫秒）
+  string gatesvr_id = 5; // 接入服务的id
+  string gatesvr_ip = 6; // 接入服务的ip地址
 } 

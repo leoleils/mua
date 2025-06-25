@@ -545,6 +545,8 @@ type PlayerStatusChanged struct {
 	Ip            string                 `protobuf:"bytes,2,opt,name=ip,proto3" json:"ip,omitempty"`                                           // 客户端IP地址
 	Event         PlayerStatusEventType  `protobuf:"varint,3,opt,name=event,proto3,enum=gatesvr.PlayerStatusEventType" json:"event,omitempty"` // 事件类型：上线/下线
 	EventTime     int64                  `protobuf:"varint,4,opt,name=event_time,json=eventTime,proto3" json:"event_time,omitempty"`           // 事件时间（时间戳，单位秒或毫秒）
+	GatesvrId     string                 `protobuf:"bytes,5,opt,name=gatesvr_id,json=gatesvrId,proto3" json:"gatesvr_id,omitempty"`            // 接入服务的id
+	GatesvrIp     string                 `protobuf:"bytes,6,opt,name=gatesvr_ip,json=gatesvrIp,proto3" json:"gatesvr_ip,omitempty"`            // 接入服务的ip地址
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -607,6 +609,20 @@ func (x *PlayerStatusChanged) GetEventTime() int64 {
 	return 0
 }
 
+func (x *PlayerStatusChanged) GetGatesvrId() string {
+	if x != nil {
+		return x.GatesvrId
+	}
+	return ""
+}
+
+func (x *PlayerStatusChanged) GetGatesvrIp() string {
+	if x != nil {
+		return x.GatesvrIp
+	}
+	return ""
+}
+
 var File_gatesvr_proto_gatesvr_proto protoreflect.FileDescriptor
 
 const file_gatesvr_proto_gatesvr_proto_rawDesc = "" +
@@ -640,13 +656,17 @@ const file_gatesvr_proto_gatesvr_proto_rawDesc = "" +
 	"clientType\x12\x17\n" +
 	"\arole_id\x18\x05 \x01(\x03R\x06roleId\x12\x17\n" +
 	"\amsg_tap\x18\x06 \x01(\x05R\x06msgTap\x12\x17\n" +
-	"\agame_id\x18\a \x01(\x05R\x06gameId\"\x97\x01\n" +
+	"\agame_id\x18\a \x01(\x05R\x06gameId\"\xd5\x01\n" +
 	"\x13PlayerStatusChanged\x12\x1b\n" +
 	"\tplayer_id\x18\x01 \x01(\tR\bplayerId\x12\x0e\n" +
 	"\x02ip\x18\x02 \x01(\tR\x02ip\x124\n" +
 	"\x05event\x18\x03 \x01(\x0e2\x1e.gatesvr.PlayerStatusEventTypeR\x05event\x12\x1d\n" +
 	"\n" +
-	"event_time\x18\x04 \x01(\x03R\teventTime*-\n" +
+	"event_time\x18\x04 \x01(\x03R\teventTime\x12\x1d\n" +
+	"\n" +
+	"gatesvr_id\x18\x05 \x01(\tR\tgatesvrId\x12\x1d\n" +
+	"\n" +
+	"gatesvr_ip\x18\x06 \x01(\tR\tgatesvrIp*-\n" +
 	"\fCallbackType\x12\b\n" +
 	"\x04SYNC\x10\x00\x12\t\n" +
 	"\x05ASYNC\x10\x01\x12\b\n" +
