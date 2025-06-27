@@ -12,4 +12,7 @@ kafka:
     - alikafka-serverless-cn-0mm42ujh802-2000.alikafka.aliyuncs.com:9093
     - alikafka-serverless-cn-0mm42ujh802-3000.alikafka.aliyuncs.com:9093
   caCert: ./only-4096-ca-cert
-  topic: player_status_changed 
+  topic: player_status_changed
+  username: "alikafka_serverless-cn-0mm42ujh802"
+  password: "JbuuPVcos0sAME5LtFLZFzlgrE6E3mGC"
+  groupId: gatesvr-group-0

@@ -8,11 +8,13 @@ import (
 	"log"
 	"time"
 	"io"
+	"os"
 
 	"github.com/segmentio/kafka-go"
 	"github.com/golang/protobuf/proto"
 	"mua/gatesvr/internal/pb"
 	"mua/gatesvr/config"
+	"github.com/segmentio/kafka-go/sasl/plain"
 )
 
 const (
@@ -79,10 +81,19 @@ func BroadcastPlayerStatusChanged(event *pb.PlayerStatusChanged) {
 }
 
 func writeKafka(topic, msg string) {
+	cfg := config.GetConfig().Kafka
+	dialer := &kafka.Dialer{
+		Timeout: 10 * time.Second,
+		TLS: tlsConfig,
+		SASLMechanism: plain.Mechanism{
+			Username: cfg.Username,
+			Password: cfg.Password,
+		},
+	}
 	w := &kafka.Writer{
 		Addr:      kafka.TCP(kafkaBrokers...),
 		Topic:     topic,
-		Transport: &kafka.Transport{TLS: tlsConfig},
+		Transport: &kafka.Transport{TLS: tlsConfig, SASL: dialer.SASLMechanism},
 	}
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
@@ -95,15 +106,24 @@ func writeKafka(topic, msg string) {
 
 // 订阅玩家上下线事件
 func Subscribe(handler func(event *pb.PlayerStatusChanged)) {
+	cfg := config.GetConfig().Kafka
 	dialer := &kafka.Dialer{
 		Timeout: 10 * time.Second,
-		TLS:    tlsConfig,
+		TLS: tlsConfig,
+		SASLMechanism: plain.Mechanism{
+			Username: cfg.Username,
+			Password: cfg.Password,
+		},
 	}
-	cfg := config.GetConfig().Kafka
+	groupID := cfg.GroupID
+	if envGroup := os.Getenv("KAFKA_GROUP_ID"); envGroup != "" {
+		groupID = envGroup
+	}
+	log.Printf("Kafka订阅 Topic: %s, GroupID: %s", cfg.Topic, groupID)
 	r := kafka.NewReader(kafka.ReaderConfig{
 		Brokers: kafkaBrokers,
 		Topic:   cfg.Topic,
-		GroupID: "gatesvr-group",
+		GroupID: groupID,
 		Dialer:  dialer,
 	})
 	go func() {

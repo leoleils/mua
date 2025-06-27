@@ -22,6 +22,9 @@ type KafkaConfig struct {
 	Brokers []string `yaml:"brokers"`
 	CaCert  string   `yaml:"caCert"`
 	Topic   string   `yaml:"topic"`
+	Username string  `yaml:"username"`
+	Password string  `yaml:"password"`
+	GroupID  string  `yaml:"groupId"`
 }
 
 type AppConfig struct {
