@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.6
 // 	protoc        v5.29.3
-// source: gatesvr/proto/gatesvr.proto
+// source: proto/gatesvr.proto
 
 package pb
 
@@ -54,11 +54,11 @@ func (x CallbackType) String() string {
 }
 
 func (CallbackType) Descriptor() protoreflect.EnumDescriptor {
-	return file_gatesvr_proto_gatesvr_proto_enumTypes[0].Descriptor()
+	return file_proto_gatesvr_proto_enumTypes[0].Descriptor()
 }
 
 func (CallbackType) Type() protoreflect.EnumType {
-	return &file_gatesvr_proto_gatesvr_proto_enumTypes[0]
+	return &file_proto_gatesvr_proto_enumTypes[0]
 }
 
 func (x CallbackType) Number() protoreflect.EnumNumber {
@@ -67,7 +67,7 @@ func (x CallbackType) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use CallbackType.Descriptor instead.
 func (CallbackType) EnumDescriptor() ([]byte, []int) {
-	return file_gatesvr_proto_gatesvr_proto_rawDescGZIP(), []int{0}
+	return file_proto_gatesvr_proto_rawDescGZIP(), []int{0}
 }
 
 // 玩家上下线事件类型
@@ -101,11 +101,11 @@ func (x PlayerStatusEventType) String() string {
 }
 
 func (PlayerStatusEventType) Descriptor() protoreflect.EnumDescriptor {
-	return file_gatesvr_proto_gatesvr_proto_enumTypes[1].Descriptor()
+	return file_proto_gatesvr_proto_enumTypes[1].Descriptor()
 }
 
 func (PlayerStatusEventType) Type() protoreflect.EnumType {
-	return &file_gatesvr_proto_gatesvr_proto_enumTypes[1]
+	return &file_proto_gatesvr_proto_enumTypes[1]
 }
 
 func (x PlayerStatusEventType) Number() protoreflect.EnumNumber {
@@ -114,7 +114,7 @@ func (x PlayerStatusEventType) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use PlayerStatusEventType.Descriptor instead.
 func (PlayerStatusEventType) EnumDescriptor() ([]byte, []int) {
-	return file_gatesvr_proto_gatesvr_proto_rawDescGZIP(), []int{1}
+	return file_proto_gatesvr_proto_rawDescGZIP(), []int{1}
 }
 
 type PushRequest struct {
@@ -129,7 +129,7 @@ type PushRequest struct {
 
 func (x *PushRequest) Reset() {
 	*x = PushRequest{}
-	mi := &file_gatesvr_proto_gatesvr_proto_msgTypes[0]
+	mi := &file_proto_gatesvr_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -141,7 +141,7 @@ func (x *PushRequest) String() string {
 func (*PushRequest) ProtoMessage() {}
 
 func (x *PushRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_gatesvr_proto_gatesvr_proto_msgTypes[0]
+	mi := &file_proto_gatesvr_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -154,7 +154,7 @@ func (x *PushRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PushRequest.ProtoReflect.Descriptor instead.
 func (*PushRequest) Descriptor() ([]byte, []int) {
-	return file_gatesvr_proto_gatesvr_proto_rawDescGZIP(), []int{0}
+	return file_proto_gatesvr_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *PushRequest) GetPlayerId() string {
@@ -195,7 +195,7 @@ type PushResponse struct {
 
 func (x *PushResponse) Reset() {
 	*x = PushResponse{}
-	mi := &file_gatesvr_proto_gatesvr_proto_msgTypes[1]
+	mi := &file_proto_gatesvr_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -207,7 +207,7 @@ func (x *PushResponse) String() string {
 func (*PushResponse) ProtoMessage() {}
 
 func (x *PushResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_gatesvr_proto_gatesvr_proto_msgTypes[1]
+	mi := &file_proto_gatesvr_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -220,7 +220,7 @@ func (x *PushResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PushResponse.ProtoReflect.Descriptor instead.
 func (*PushResponse) Descriptor() ([]byte, []int) {
-	return file_gatesvr_proto_gatesvr_proto_rawDescGZIP(), []int{1}
+	return file_proto_gatesvr_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *PushResponse) GetSuccess() bool {
@@ -247,7 +247,7 @@ type KickPlayerRequest struct {
 
 func (x *KickPlayerRequest) Reset() {
 	*x = KickPlayerRequest{}
-	mi := &file_gatesvr_proto_gatesvr_proto_msgTypes[2]
+	mi := &file_proto_gatesvr_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -259,7 +259,7 @@ func (x *KickPlayerRequest) String() string {
 func (*KickPlayerRequest) ProtoMessage() {}
 
 func (x *KickPlayerRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_gatesvr_proto_gatesvr_proto_msgTypes[2]
+	mi := &file_proto_gatesvr_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -272,7 +272,7 @@ func (x *KickPlayerRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use KickPlayerRequest.ProtoReflect.Descriptor instead.
 func (*KickPlayerRequest) Descriptor() ([]byte, []int) {
-	return file_gatesvr_proto_gatesvr_proto_rawDescGZIP(), []int{2}
+	return file_proto_gatesvr_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *KickPlayerRequest) GetPlayerId() string {
@@ -299,7 +299,7 @@ type KickPlayerResponse struct {
 
 func (x *KickPlayerResponse) Reset() {
 	*x = KickPlayerResponse{}
-	mi := &file_gatesvr_proto_gatesvr_proto_msgTypes[3]
+	mi := &file_proto_gatesvr_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -311,7 +311,7 @@ func (x *KickPlayerResponse) String() string {
 func (*KickPlayerResponse) ProtoMessage() {}
 
 func (x *KickPlayerResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_gatesvr_proto_gatesvr_proto_msgTypes[3]
+	mi := &file_proto_gatesvr_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -324,7 +324,7 @@ func (x *KickPlayerResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use KickPlayerResponse.ProtoReflect.Descriptor instead.
 func (*KickPlayerResponse) Descriptor() ([]byte, []int) {
-	return file_gatesvr_proto_gatesvr_proto_rawDescGZIP(), []int{3}
+	return file_proto_gatesvr_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *KickPlayerResponse) GetSuccess() bool {
@@ -351,7 +351,7 @@ type ForwardMessageRequest struct {
 
 func (x *ForwardMessageRequest) Reset() {
 	*x = ForwardMessageRequest{}
-	mi := &file_gatesvr_proto_gatesvr_proto_msgTypes[4]
+	mi := &file_proto_gatesvr_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -363,7 +363,7 @@ func (x *ForwardMessageRequest) String() string {
 func (*ForwardMessageRequest) ProtoMessage() {}
 
 func (x *ForwardMessageRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_gatesvr_proto_gatesvr_proto_msgTypes[4]
+	mi := &file_proto_gatesvr_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -376,7 +376,7 @@ func (x *ForwardMessageRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ForwardMessageRequest.ProtoReflect.Descriptor instead.
 func (*ForwardMessageRequest) Descriptor() ([]byte, []int) {
-	return file_gatesvr_proto_gatesvr_proto_rawDescGZIP(), []int{4}
+	return file_proto_gatesvr_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *ForwardMessageRequest) GetPlayerId() string {
@@ -403,7 +403,7 @@ type ForwardMessageResponse struct {
 
 func (x *ForwardMessageResponse) Reset() {
 	*x = ForwardMessageResponse{}
-	mi := &file_gatesvr_proto_gatesvr_proto_msgTypes[5]
+	mi := &file_proto_gatesvr_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -415,7 +415,7 @@ func (x *ForwardMessageResponse) String() string {
 func (*ForwardMessageResponse) ProtoMessage() {}
 
 func (x *ForwardMessageResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_gatesvr_proto_gatesvr_proto_msgTypes[5]
+	mi := &file_proto_gatesvr_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -428,7 +428,7 @@ func (x *ForwardMessageResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ForwardMessageResponse.ProtoReflect.Descriptor instead.
 func (*ForwardMessageResponse) Descriptor() ([]byte, []int) {
-	return file_gatesvr_proto_gatesvr_proto_rawDescGZIP(), []int{5}
+	return file_proto_gatesvr_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *ForwardMessageResponse) GetSuccess() bool {
@@ -445,23 +445,97 @@ func (x *ForwardMessageResponse) GetMessage() string {
 	return ""
 }
 
+type HeadMessage struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	PlayerId      string                 `protobuf:"bytes,1,opt,name=player_id,json=playerId,proto3" json:"player_id,omitempty"`
+	ClientType    int32                  `protobuf:"varint,2,opt,name=client_type,json=clientType,proto3" json:"client_type,omitempty"` // 客户端类型 1.android/2.ios/3.pc/4.minigame/5.web/6.harmonyOS
+	ClientId      string                 `protobuf:"bytes,3,opt,name=client_id,json=clientId,proto3" json:"client_id,omitempty"`        // 客户端id
+	RoleId        int64                  `protobuf:"varint,4,opt,name=role_id,json=roleId,proto3" json:"role_id,omitempty"`             // 游戏角色id
+	Token         string                 `protobuf:"bytes,8,opt,name=token,proto3" json:"token,omitempty"`                              // 会话令牌，用于身份验证
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *HeadMessage) Reset() {
+	*x = HeadMessage{}
+	mi := &file_proto_gatesvr_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *HeadMessage) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*HeadMessage) ProtoMessage() {}
+
+func (x *HeadMessage) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_gatesvr_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use HeadMessage.ProtoReflect.Descriptor instead.
+func (*HeadMessage) Descriptor() ([]byte, []int) {
+	return file_proto_gatesvr_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *HeadMessage) GetPlayerId() string {
+	if x != nil {
+		return x.PlayerId
+	}
+	return ""
+}
+
+func (x *HeadMessage) GetClientType() int32 {
+	if x != nil {
+		return x.ClientType
+	}
+	return 0
+}
+
+func (x *HeadMessage) GetClientId() string {
+	if x != nil {
+		return x.ClientId
+	}
+	return ""
+}
+
+func (x *HeadMessage) GetRoleId() int64 {
+	if x != nil {
+		return x.RoleId
+	}
+	return 0
+}
+
+func (x *HeadMessage) GetToken() string {
+	if x != nil {
+		return x.Token
+	}
+	return ""
+}
+
 // 游戏通用消息
 type GameMessage struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	PlayerId      string                 `protobuf:"bytes,1,opt,name=player_id,json=playerId,proto3" json:"player_id,omitempty"`
-	MsgType       int32                  `protobuf:"varint,2,opt,name=msg_type,json=msgType,proto3" json:"msg_type,omitempty"`          // 消息类型/标签
-	Payload       []byte                 `protobuf:"bytes,3,opt,name=payload,proto3" json:"payload,omitempty"`                          // 业务数据
-	ClientType    int32                  `protobuf:"varint,4,opt,name=client_type,json=clientType,proto3" json:"client_type,omitempty"` // 客户端类型 1.android/2.ios/3.pc/4.minigame/5.web/6.harmonyOS
-	RoleId        int64                  `protobuf:"varint,5,opt,name=role_id,json=roleId,proto3" json:"role_id,omitempty"`             // 游戏角色id
-	MsgTap        int32                  `protobuf:"varint,6,opt,name=msg_tap,json=msgTap,proto3" json:"msg_tap,omitempty"`             // 消息标签 用于未来业务消息转发
-	GameId        int32                  `protobuf:"varint,7,opt,name=game_id,json=gameId,proto3" json:"game_id,omitempty"`             // 游戏id 用于未来业务消息转发
+	MsgHead       *HeadMessage           `protobuf:"bytes,1,opt,name=msg_head,json=msgHead,proto3" json:"msg_head,omitempty"`  // 存放校验信息
+	MsgType       int32                  `protobuf:"varint,2,opt,name=msg_type,json=msgType,proto3" json:"msg_type,omitempty"` // 消息类型/标签
+	Payload       []byte                 `protobuf:"bytes,3,opt,name=payload,proto3" json:"payload,omitempty"`                 // 业务数据
+	MsgTap        int32                  `protobuf:"varint,4,opt,name=msg_tap,json=msgTap,proto3" json:"msg_tap,omitempty"`    // 消息标签 用于未来业务消息转发
+	GameId        int32                  `protobuf:"varint,5,opt,name=game_id,json=gameId,proto3" json:"game_id,omitempty"`    // 游戏id 用于未来业务消息转发
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *GameMessage) Reset() {
 	*x = GameMessage{}
-	mi := &file_gatesvr_proto_gatesvr_proto_msgTypes[6]
+	mi := &file_proto_gatesvr_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -473,7 +547,7 @@ func (x *GameMessage) String() string {
 func (*GameMessage) ProtoMessage() {}
 
 func (x *GameMessage) ProtoReflect() protoreflect.Message {
-	mi := &file_gatesvr_proto_gatesvr_proto_msgTypes[6]
+	mi := &file_proto_gatesvr_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -486,14 +560,14 @@ func (x *GameMessage) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GameMessage.ProtoReflect.Descriptor instead.
 func (*GameMessage) Descriptor() ([]byte, []int) {
-	return file_gatesvr_proto_gatesvr_proto_rawDescGZIP(), []int{6}
+	return file_proto_gatesvr_proto_rawDescGZIP(), []int{7}
 }
 
-func (x *GameMessage) GetPlayerId() string {
+func (x *GameMessage) GetMsgHead() *HeadMessage {
 	if x != nil {
-		return x.PlayerId
+		return x.MsgHead
 	}
-	return ""
+	return nil
 }
 
 func (x *GameMessage) GetMsgType() int32 {
@@ -508,20 +582,6 @@ func (x *GameMessage) GetPayload() []byte {
 		return x.Payload
 	}
 	return nil
-}
-
-func (x *GameMessage) GetClientType() int32 {
-	if x != nil {
-		return x.ClientType
-	}
-	return 0
-}
-
-func (x *GameMessage) GetRoleId() int64 {
-	if x != nil {
-		return x.RoleId
-	}
-	return 0
 }
 
 func (x *GameMessage) GetMsgTap() int32 {
@@ -553,7 +613,7 @@ type PlayerStatusChanged struct {
 
 func (x *PlayerStatusChanged) Reset() {
 	*x = PlayerStatusChanged{}
-	mi := &file_gatesvr_proto_gatesvr_proto_msgTypes[7]
+	mi := &file_proto_gatesvr_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -565,7 +625,7 @@ func (x *PlayerStatusChanged) String() string {
 func (*PlayerStatusChanged) ProtoMessage() {}
 
 func (x *PlayerStatusChanged) ProtoReflect() protoreflect.Message {
-	mi := &file_gatesvr_proto_gatesvr_proto_msgTypes[7]
+	mi := &file_proto_gatesvr_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -578,7 +638,7 @@ func (x *PlayerStatusChanged) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PlayerStatusChanged.ProtoReflect.Descriptor instead.
 func (*PlayerStatusChanged) Descriptor() ([]byte, []int) {
-	return file_gatesvr_proto_gatesvr_proto_rawDescGZIP(), []int{7}
+	return file_proto_gatesvr_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *PlayerStatusChanged) GetPlayerId() string {
@@ -623,11 +683,11 @@ func (x *PlayerStatusChanged) GetGatesvrIp() string {
 	return ""
 }
 
-var File_gatesvr_proto_gatesvr_proto protoreflect.FileDescriptor
+var File_proto_gatesvr_proto protoreflect.FileDescriptor
 
-const file_gatesvr_proto_gatesvr_proto_rawDesc = "" +
+const file_proto_gatesvr_proto_rawDesc = "" +
 	"\n" +
-	"\x1bgatesvr/proto/gatesvr.proto\x12\agatesvr\"\x9a\x01\n" +
+	"\x13proto/gatesvr.proto\x12\agatesvr\"\x9a\x01\n" +
 	"\vPushRequest\x12\x1b\n" +
 	"\tplayer_id\x18\x01 \x01(\tR\bplayerId\x12\x0e\n" +
 	"\x02ip\x18\x02 \x01(\tR\x02ip\x12.\n" +
@@ -647,16 +707,20 @@ const file_gatesvr_proto_gatesvr_proto_rawDesc = "" +
 	"\apayload\x18\x02 \x01(\fR\apayload\"L\n" +
 	"\x16ForwardMessageResponse\x12\x18\n" +
 	"\asuccess\x18\x01 \x01(\bR\asuccess\x12\x18\n" +
-	"\amessage\x18\x02 \x01(\tR\amessage\"\xcb\x01\n" +
-	"\vGameMessage\x12\x1b\n" +
-	"\tplayer_id\x18\x01 \x01(\tR\bplayerId\x12\x19\n" +
+	"\amessage\x18\x02 \x01(\tR\amessage\"\x97\x01\n" +
+	"\vHeadMessage\x12\x1b\n" +
+	"\tplayer_id\x18\x01 \x01(\tR\bplayerId\x12\x1f\n" +
+	"\vclient_type\x18\x02 \x01(\x05R\n" +
+	"clientType\x12\x1b\n" +
+	"\tclient_id\x18\x03 \x01(\tR\bclientId\x12\x17\n" +
+	"\arole_id\x18\x04 \x01(\x03R\x06roleId\x12\x14\n" +
+	"\x05token\x18\b \x01(\tR\x05token\"\xa5\x01\n" +
+	"\vGameMessage\x12/\n" +
+	"\bmsg_head\x18\x01 \x01(\v2\x14.gatesvr.HeadMessageR\amsgHead\x12\x19\n" +
 	"\bmsg_type\x18\x02 \x01(\x05R\amsgType\x12\x18\n" +
-	"\apayload\x18\x03 \x01(\fR\apayload\x12\x1f\n" +
-	"\vclient_type\x18\x04 \x01(\x05R\n" +
-	"clientType\x12\x17\n" +
-	"\arole_id\x18\x05 \x01(\x03R\x06roleId\x12\x17\n" +
-	"\amsg_tap\x18\x06 \x01(\x05R\x06msgTap\x12\x17\n" +
-	"\agame_id\x18\a \x01(\x05R\x06gameId\"\xd5\x01\n" +
+	"\apayload\x18\x03 \x01(\fR\apayload\x12\x17\n" +
+	"\amsg_tap\x18\x04 \x01(\x05R\x06msgTap\x12\x17\n" +
+	"\agame_id\x18\x05 \x01(\x05R\x06gameId\"\xd5\x01\n" +
 	"\x13PlayerStatusChanged\x12\x1b\n" +
 	"\tplayer_id\x18\x01 \x01(\tR\bplayerId\x12\x0e\n" +
 	"\x02ip\x18\x02 \x01(\tR\x02ip\x124\n" +
@@ -682,20 +746,20 @@ const file_gatesvr_proto_gatesvr_proto_rawDesc = "" +
 	"\fPushToClient\x12\x14.gatesvr.PushRequest\x1a\x15.gatesvr.PushResponseB\x10Z\x0einternal/pb;pbb\x06proto3"
 
 var (
-	file_gatesvr_proto_gatesvr_proto_rawDescOnce sync.Once
-	file_gatesvr_proto_gatesvr_proto_rawDescData []byte
+	file_proto_gatesvr_proto_rawDescOnce sync.Once
+	file_proto_gatesvr_proto_rawDescData []byte
 )
 
-func file_gatesvr_proto_gatesvr_proto_rawDescGZIP() []byte {
-	file_gatesvr_proto_gatesvr_proto_rawDescOnce.Do(func() {
-		file_gatesvr_proto_gatesvr_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_gatesvr_proto_gatesvr_proto_rawDesc), len(file_gatesvr_proto_gatesvr_proto_rawDesc)))
+func file_proto_gatesvr_proto_rawDescGZIP() []byte {
+	file_proto_gatesvr_proto_rawDescOnce.Do(func() {
+		file_proto_gatesvr_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_proto_gatesvr_proto_rawDesc), len(file_proto_gatesvr_proto_rawDesc)))
 	})
-	return file_gatesvr_proto_gatesvr_proto_rawDescData
+	return file_proto_gatesvr_proto_rawDescData
 }
 
-var file_gatesvr_proto_gatesvr_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
-var file_gatesvr_proto_gatesvr_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
-var file_gatesvr_proto_gatesvr_proto_goTypes = []any{
+var file_proto_gatesvr_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
+var file_proto_gatesvr_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
+var file_proto_gatesvr_proto_goTypes = []any{
 	(CallbackType)(0),              // 0: gatesvr.CallbackType
 	(PlayerStatusEventType)(0),     // 1: gatesvr.PlayerStatusEventType
 	(*PushRequest)(nil),            // 2: gatesvr.PushRequest
@@ -704,47 +768,49 @@ var file_gatesvr_proto_gatesvr_proto_goTypes = []any{
 	(*KickPlayerResponse)(nil),     // 5: gatesvr.KickPlayerResponse
 	(*ForwardMessageRequest)(nil),  // 6: gatesvr.ForwardMessageRequest
 	(*ForwardMessageResponse)(nil), // 7: gatesvr.ForwardMessageResponse
-	(*GameMessage)(nil),            // 8: gatesvr.GameMessage
-	(*PlayerStatusChanged)(nil),    // 9: gatesvr.PlayerStatusChanged
+	(*HeadMessage)(nil),            // 8: gatesvr.HeadMessage
+	(*GameMessage)(nil),            // 9: gatesvr.GameMessage
+	(*PlayerStatusChanged)(nil),    // 10: gatesvr.PlayerStatusChanged
 }
-var file_gatesvr_proto_gatesvr_proto_depIdxs = []int32{
+var file_proto_gatesvr_proto_depIdxs = []int32{
 	0, // 0: gatesvr.PushRequest.cb_type:type_name -> gatesvr.CallbackType
-	8, // 1: gatesvr.PushRequest.message:type_name -> gatesvr.GameMessage
-	1, // 2: gatesvr.PlayerStatusChanged.event:type_name -> gatesvr.PlayerStatusEventType
-	4, // 3: gatesvr.GateSvr.KickPlayer:input_type -> gatesvr.KickPlayerRequest
-	6, // 4: gatesvr.GateSvr.ForwardMessage:input_type -> gatesvr.ForwardMessageRequest
-	2, // 5: gatesvr.GateSvr.PushToClient:input_type -> gatesvr.PushRequest
-	5, // 6: gatesvr.GateSvr.KickPlayer:output_type -> gatesvr.KickPlayerResponse
-	7, // 7: gatesvr.GateSvr.ForwardMessage:output_type -> gatesvr.ForwardMessageResponse
-	3, // 8: gatesvr.GateSvr.PushToClient:output_type -> gatesvr.PushResponse
-	6, // [6:9] is the sub-list for method output_type
-	3, // [3:6] is the sub-list for method input_type
-	3, // [3:3] is the sub-list for extension type_name
-	3, // [3:3] is the sub-list for extension extendee
-	0, // [0:3] is the sub-list for field type_name
+	9, // 1: gatesvr.PushRequest.message:type_name -> gatesvr.GameMessage
+	8, // 2: gatesvr.GameMessage.msg_head:type_name -> gatesvr.HeadMessage
+	1, // 3: gatesvr.PlayerStatusChanged.event:type_name -> gatesvr.PlayerStatusEventType
+	4, // 4: gatesvr.GateSvr.KickPlayer:input_type -> gatesvr.KickPlayerRequest
+	6, // 5: gatesvr.GateSvr.ForwardMessage:input_type -> gatesvr.ForwardMessageRequest
+	2, // 6: gatesvr.GateSvr.PushToClient:input_type -> gatesvr.PushRequest
+	5, // 7: gatesvr.GateSvr.KickPlayer:output_type -> gatesvr.KickPlayerResponse
+	7, // 8: gatesvr.GateSvr.ForwardMessage:output_type -> gatesvr.ForwardMessageResponse
+	3, // 9: gatesvr.GateSvr.PushToClient:output_type -> gatesvr.PushResponse
+	7, // [7:10] is the sub-list for method output_type
+	4, // [4:7] is the sub-list for method input_type
+	4, // [4:4] is the sub-list for extension type_name
+	4, // [4:4] is the sub-list for extension extendee
+	0, // [0:4] is the sub-list for field type_name
 }
 
-func init() { file_gatesvr_proto_gatesvr_proto_init() }
-func file_gatesvr_proto_gatesvr_proto_init() {
-	if File_gatesvr_proto_gatesvr_proto != nil {
+func init() { file_proto_gatesvr_proto_init() }
+func file_proto_gatesvr_proto_init() {
+	if File_proto_gatesvr_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_gatesvr_proto_gatesvr_proto_rawDesc), len(file_gatesvr_proto_gatesvr_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_proto_gatesvr_proto_rawDesc), len(file_proto_gatesvr_proto_rawDesc)),
 			NumEnums:      2,
-			NumMessages:   8,
+			NumMessages:   9,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
-		GoTypes:           file_gatesvr_proto_gatesvr_proto_goTypes,
-		DependencyIndexes: file_gatesvr_proto_gatesvr_proto_depIdxs,
-		EnumInfos:         file_gatesvr_proto_gatesvr_proto_enumTypes,
-		MessageInfos:      file_gatesvr_proto_gatesvr_proto_msgTypes,
+		GoTypes:           file_proto_gatesvr_proto_goTypes,
+		DependencyIndexes: file_proto_gatesvr_proto_depIdxs,
+		EnumInfos:         file_proto_gatesvr_proto_enumTypes,
+		MessageInfos:      file_proto_gatesvr_proto_msgTypes,
 	}.Build()
-	File_gatesvr_proto_gatesvr_proto = out.File
-	file_gatesvr_proto_gatesvr_proto_goTypes = nil
-	file_gatesvr_proto_gatesvr_proto_depIdxs = nil
+	File_proto_gatesvr_proto = out.File
+	file_proto_gatesvr_proto_goTypes = nil
+	file_proto_gatesvr_proto_depIdxs = nil
 }

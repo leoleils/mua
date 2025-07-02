@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.5.1
 // - protoc             v5.29.3
-// source: gatesvr/proto/gatesvr.proto
+// source: proto/gatesvr.proto
 
 package pb
 
@@ -199,5 +199,5 @@ var GateSvr_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "gatesvr/proto/gatesvr.proto",
+	Metadata: "proto/gatesvr.proto",
 }

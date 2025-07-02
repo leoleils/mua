@@ -1,22 +1,30 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net"
 
-	"google.golang.org/grpc"
-	"mua/gatesvr/internal/pb"
-	"mua/gatesvr/internal/conn"
 	"context"
-	"mua/gatesvr/internal/session"
+	"mua/gatesvr/config"
+	"mua/gatesvr/internal/auth"
+	"mua/gatesvr/internal/conn"
 	"mua/gatesvr/internal/kafka"
 	"mua/gatesvr/internal/nacos"
+	"mua/gatesvr/internal/pb"
+	"mua/gatesvr/internal/route"
+	"mua/gatesvr/internal/rpc"
+	"mua/gatesvr/internal/session"
 	"strconv"
 	"time"
-	"mua/gatesvr/internal/rpc"
+
+	"google.golang.org/grpc"
 	"google.golang.org/protobuf/proto"
-	"mua/gatesvr/config"
 )
+
+func init() {
+	log.SetFlags(log.LstdFlags | log.Lshortfile)
+}
 
 // 实现gRPC服务
 // 这里只做空实现，后续补充业务逻辑
@@ -24,8 +32,6 @@ import (
 type server struct {
 	pb.UnimplementedGateSvrServer
 }
-
-var playerRouteMap = make(map[string]string) // playerID -> gatesvrID
 
 // 踢下线实现
 func (s *server) KickPlayer(ctx context.Context, req *pb.KickPlayerRequest) (*pb.KickPlayerResponse, error) {
@@ -40,7 +46,7 @@ func (s *server) KickPlayer(ctx context.Context, req *pb.KickPlayerRequest) (*pb
 		}, nil
 	}
 	// 不在本节点，查路由并远程调用（只通过nacos实例遍历）
-	if gatesvrID, ok := playerRouteMap[playerID]; ok {
+	if gatesvrID, ok := route.Get(playerID); ok {
 		addrList := nacos.GetAllInstances()
 		for _, addr := range addrList {
 			if addr == gatesvrID {
@@ -71,7 +77,7 @@ func (s *server) ForwardMessage(ctx context.Context, req *pb.ForwardMessageReque
 		return &pb.ForwardMessageResponse{Success: true, Message: "本节点WS推送成功"}, nil
 	}
 	// 不在本节点，查路由并远程调用
-	if gatesvrID, ok := playerRouteMap[playerID]; ok {
+	if gatesvrID, ok := route.Get(playerID); ok {
 		addrList := nacos.GetAllInstances()
 		for _, addr := range addrList {
 			if addr == gatesvrID {
@@ -117,7 +123,7 @@ func (s *server) PushToClient(ctx context.Context, req *pb.PushRequest) (*pb.Pus
 	}
 
 	// 远程推送
-	if gatesvrID, ok := playerRouteMap[playerID]; ok {
+	if gatesvrID, ok := route.Get(playerID); ok {
 		addrList := nacos.GetAllInstances()
 		for _, addr := range addrList {
 			if addr == gatesvrID {
@@ -140,73 +146,139 @@ func (s *server) PushToClient(ctx context.Context, req *pb.PushRequest) (*pb.Pus
 }
 
 func main() {
-	// 加载配置并启动热更
+	loadAndWatchConfig()
+	initAuth()
+	initKafka()
+	ip, grpcPort := initNacosAndRegister()
+	initRouteTable()
+	registerBusinessHandlers()
+
+	// 启动TCP接入服务
+	go conn.StartTCPServer(":6001")
+	// 启动WebSocket接入服务
+	go conn.StartWSServer(":6002")
+
+	startGRPCServer(ip, grpcPort)
+}
+
+// 初始化配置和热更
+func loadAndWatchConfig() {
 	if err := config.LoadConfig(); err != nil {
 		log.Fatalf("配置加载失败: %v", err)
 	}
 	config.WatchConfig()
+}
 
-	// 初始化Kafka
+// 初始化认证
+func initAuth() {
+	cfg := config.GetConfig()
+	if cfg.EnableIPWhitelist {
+		auth.InitIPWhitelist()
+	}
+	if cfg.EnableTokenCheck {
+		auth.InitTokenManager("") // 使用默认密钥，生产环境应该从配置读取
+	}
+}
+
+// 初始化Kafka
+func initKafka() {
 	kafka.Init()
+}
 
-	// 注册到Nacos
+// 初始化Nacos并注册服务
+func initNacosAndRegister() (ip string, grpcPort uint64) {
 	instanceID := "gatesvr-" + strconv.FormatInt(time.Now().UnixNano(), 10)
 	kafka.SetLocalGateSvrID(instanceID)
-	ip := getLocalIP()
+	ip = getLocalIP()
 	kafka.SetLocalGateSvrIP(ip)
-	grpcPort := uint64(50051)
+	grpcPort = 50051
 	nacos.Register(instanceID, ip, grpcPort)
+	return
+}
 
-	// 订阅Kafka玩家上下线事件
-	kafka.Subscribe(func(event *pb.PlayerStatusChanged) {
-		if event.Event == pb.PlayerStatusEventType_ONLINE {
-			playerRouteMap[event.PlayerId] = event.GatesvrId
-			log.Printf("[路由] 玩家[%s] 上线于 %s (gatesvr: %s)", event.PlayerId, event.Ip, event.GatesvrId)
-		} else if event.Event == pb.PlayerStatusEventType_OFFLINE {
-			if v, ok := playerRouteMap[event.PlayerId]; ok && v == event.GatesvrId {
-				delete(playerRouteMap, event.PlayerId)
-				log.Printf("[路由] 玩家[%s] 从 %s 下线 (gatesvr: %s)", event.PlayerId, event.Ip, event.GatesvrId)
+// 初始化路由表维护逻辑
+func initRouteTable() {
+	// 启动Kafka历史玩家上下线消费，维护route
+	kafka.StartPlayerEventConsumer(
+		config.GetConfig().Kafka.Brokers,
+		config.GetConfig().Kafka.Topic,
+		config.GetConfig().Kafka.GroupID,
+		func(evt *pb.PlayerStatusChanged, gateOnline bool) {
+			switch evt.Event {
+			case pb.PlayerStatusEventType_ONLINE:
+				if gateOnline {
+					route.Set(evt.PlayerId, evt.GatesvrId)
+					session.PlayerOnlineFromKafka(evt.PlayerId, evt.GatesvrId)
+				}
+			case pb.PlayerStatusEventType_OFFLINE:
+				if v, ok := route.Get(evt.PlayerId); ok && v == evt.GatesvrId {
+					route.Delete(evt.PlayerId)
+				}
+				session.PlayerOfflineFromKafka(evt.PlayerId)
 			}
+		},
+	)
+
+	// 监听 gatesvr 实例变更，清理 route
+	nacos.SubscribeServiceChange(func(onlineAddrs []string) {
+		onlineSet := make(map[string]struct{})
+		for _, addr := range onlineAddrs {
+			onlineSet[addr] = struct{}{}
+		}
+		affected := route.CleanByOnlineGates(onlineSet)
+		for _, pid := range affected {
+			// 也可调用 session.PlayerOfflineFromKafka(pid) 做进一步清理
+			log.Printf("[路由] 清理玩家[%s]，因 gatesvr 下线", pid)
 		}
 	})
+}
 
-	// 注册TCP业务分发
+// 注册业务 handler
+func registerBusinessHandlers() {
 	conn.RegisterHandler(1, func(playerID string, msg *pb.GameMessage) {
 		log.Printf("[业务1][TCP] 玩家[%s] 数据: %s", playerID, string(msg.Payload))
 	})
 	conn.RegisterHandler(2, func(playerID string, msg *pb.GameMessage) {
 		log.Printf("[业务2][TCP] 玩家[%s] 数据: %s", playerID, string(msg.Payload))
 	})
-	// 注册WebSocket业务分发
-	conn.RegisterHandlerWS(1, func(playerID string, msg *pb.GameMessage) {
-		log.Printf("[业务1][WS] 玩家[%s] 数据: %s", playerID, string(msg.Payload))
-	})
-	conn.RegisterHandlerWS(2, func(playerID string, msg *pb.GameMessage) {
-		log.Printf("[业务2][WS] 玩家[%s] 数据: %s", playerID, string(msg.Payload))
-	})
-
-	// 启动gRPC服务
-	go func() {
-		lis, err := net.Listen("tcp", ":50051")
-		if err != nil {
-			log.Fatalf("failed to listen: %v", err)
+	conn.RegisterHandler(100, func(playerID string, msg *pb.GameMessage) {
+		token := auth.GenerateTokenFromPayload(playerID, msg.Payload, 24*time.Hour)
+		log.Printf("[认证] 为玩家[%s]生成令牌: %s", playerID, token)
+		response := &pb.GameMessage{
+			MsgHead: &pb.HeadMessage{
+				PlayerId: playerID,
+			},
+			MsgType: 101,
+			Payload: []byte(token),
 		}
-		grpcServer := grpc.NewServer()
-		pb.RegisterGateSvrServer(grpcServer, &server{})
-		log.Println("gRPC服务已启动，监听:50051")
-		if err := grpcServer.Serve(lis); err != nil {
-			log.Fatalf("failed to serve: %v", err)
+		conn.SendToPlayer(playerID, response)
+	})
+	conn.RegisterHandlerWS(100, func(playerID string, msg *pb.GameMessage) {
+		token := auth.GenerateTokenFromPayload(playerID, msg.Payload, 24*time.Hour)
+		log.Printf("[认证] 为玩家[%s]生成WebSocket令牌: %s", playerID, token)
+		response := &pb.GameMessage{
+			MsgHead: &pb.HeadMessage{
+				PlayerId: playerID,
+			},
+			MsgType: 101,
+			Payload: []byte(token),
 		}
-	}()
+		conn.SendToPlayerWS(playerID, response)
+	})
+}
 
-	// 启动TCP接入服务
-	go conn.StartTCPServer(":6001")
-
-	// 启动WebSocket接入服务
-	go conn.StartWSServer(":6002")
-
-	// 阻塞主线程
-	select {}
+// 启动gRPC服务
+func startGRPCServer(ip string, grpcPort uint64) {
+	lis, err := net.Listen("tcp", fmt.Sprintf("%s:%d", ip, grpcPort))
+	if err != nil {
+		log.Fatalf("监听端口失败: %v", err)
+	}
+	grpcServer := grpc.NewServer()
+	pb.RegisterGateSvrServer(grpcServer, &server{})
+	log.Printf("gRPC服务启动: %s:%d", ip, grpcPort)
+	if err := grpcServer.Serve(lis); err != nil {
+		log.Fatalf("gRPC服务启动失败: %v", err)
+	}
 }
 
 func getLocalIP() string {
@@ -220,4 +292,4 @@ func getLocalIP() string {
 		}
 	}
 	return "127.0.0.1"
-} 
+}

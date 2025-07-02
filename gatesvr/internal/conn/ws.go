@@ -7,11 +7,18 @@ import (
 	"sync"
 	"time"
 
-	"github.com/gorilla/websocket"
-	"mua/gatesvr/internal/session"
+	"mua/gatesvr/config"
+	"mua/gatesvr/internal/auth"
 	"mua/gatesvr/internal/pb"
+	"mua/gatesvr/internal/session"
+
+	"github.com/gorilla/websocket"
 	"google.golang.org/protobuf/proto"
 )
+
+func init() {
+	log.SetFlags(log.LstdFlags | log.Lshortfile)
+}
 
 var upgrader = websocket.Upgrader{
 	CheckOrigin: func(r *http.Request) bool { return true },
@@ -59,14 +66,25 @@ func SendToPlayerWS(playerID string, gm *pb.GameMessage) bool {
 }
 
 func wsHandler(w http.ResponseWriter, r *http.Request) {
+	remoteAddr := r.RemoteAddr
+	ip := strings.Split(remoteAddr, ":")[0]
+
+	cfg := config.GetConfig()
+	// IP白名单检查
+	if cfg.EnableIPWhitelist {
+		if !auth.IsIPAllowed(ip) {
+			log.Printf("[认证] IP %s 不在白名单中，拒绝WebSocket连接", ip)
+			http.Error(w, "IP not allowed", http.StatusForbidden)
+			return
+		}
+	}
+
 	conn, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
 		log.Printf("WebSocket升级失败: %v", err)
 		return
 	}
 	defer conn.Close()
-	remoteAddr := r.RemoteAddr
-	ip := strings.Split(remoteAddr, ":")[0]
 	playerID := remoteAddr
 	gatesvrID := "gatesvr-1"
 
@@ -111,6 +129,33 @@ func wsHandler(w http.ResponseWriter, r *http.Request) {
 			log.Printf("收到玩家[%s] WebSocket心跳", playerID)
 			continue
 		}
+		// 认证消息特殊处理
+		if gm.MsgType == 100 {
+			// 为认证消息添加IP信息到payload
+			authPayload := append([]byte(ip+":"), gm.Payload...)
+			authMsg := &pb.GameMessage{
+				MsgHead: gm.MsgHead,
+				MsgType: gm.MsgType,
+				Payload: authPayload,
+				MsgTap:  gm.MsgTap,
+				GameId:  gm.GameId,
+			}
+			if handler, ok := handlersWS[gm.MsgType]; ok {
+				handler(playerID, authMsg)
+			}
+			continue
+		}
+		// 令牌校验（除了心跳和认证消息）
+		if gm.MsgType != 0 && gm.MsgType != 100 && cfg.EnableTokenCheck {
+			if gm.MsgHead == nil || gm.MsgHead.Token == "" {
+				log.Printf("[认证] 玩家[%s] WebSocket消息缺少令牌，拒绝处理", playerID)
+				continue
+			}
+			if !auth.ValidateToken(gm.MsgHead.Token, playerID, ip) {
+				log.Printf("[认证] 玩家[%s] WebSocket令牌验证失败", playerID)
+				continue
+			}
+		}
 		if handler, ok := handlersWS[gm.MsgType]; ok {
 			handler(playerID, &gm)
 		} else {
@@ -120,4 +165,4 @@ func wsHandler(w http.ResponseWriter, r *http.Request) {
 	wsConns.Delete(playerID)
 	session.PlayerOffline(playerID)
 	log.Printf("玩家[%s] WebSocket连接已关闭", playerID)
-} 
+}

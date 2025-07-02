@@ -30,6 +30,8 @@ type KafkaConfig struct {
 type AppConfig struct {
 	Nacos NacosConfig `yaml:"nacos"`
 	Kafka KafkaConfig `yaml:"kafka"`
+	EnableIPWhitelist bool `yaml:"enable_ip_whitelist"`
+	EnableTokenCheck  bool `yaml:"enable_token_check"`
 }
 
 var (

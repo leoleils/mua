@@ -2,17 +2,16 @@ package session
 
 import (
 	"log"
+	"mua/gatesvr/internal/event"
 	"sync"
 	"time"
-	"mua/gatesvr/internal/kafka"
-	"mua/gatesvr/internal/pb"
 )
 
 type Session struct {
 	PlayerID      string
 	IP            string
 	LastHeartbeat time.Time
-	GateSvrID     string // 当前接入的gatesvr实例ID
+	GateSvrID     string              // 当前接入的gatesvr实例ID
 	KickFunc      func(reason string) // 踢下线回调
 }
 
@@ -39,13 +38,7 @@ func PlayerOnline(playerID, ip, gatesvrID string, kickFunc func(string)) (isOthe
 		}
 	}
 	// 广播上线
-	event := &pb.PlayerStatusChanged{
-		PlayerId:  playerID,
-		Ip:        ip,
-		Event:     pb.PlayerStatusEventType_ONLINE,
-		EventTime: time.Now().Unix(),
-	}
-	kafka.BroadcastPlayerStatusChanged(event)
+	event.BroadcastPlayerOnline(playerID, ip)
 	return false, nil
 }
 
@@ -53,13 +46,8 @@ func PlayerOnline(playerID, ip, gatesvrID string, kickFunc func(string)) (isOthe
 func PlayerOffline(playerID string) {
 	if val, ok := sessions.Load(playerID); ok {
 		sess := val.(*Session)
-		event := &pb.PlayerStatusChanged{
-			PlayerId:  playerID,
-			Ip:        sess.IP,
-			Event:     pb.PlayerStatusEventType_OFFLINE,
-			EventTime: time.Now().Unix(),
-		}
-		kafka.BroadcastPlayerStatusChanged(event)
+		// 广播下线
+		event.BroadcastPlayerOffline(playerID, sess.IP)
 		ip2pid.Delete(sess.IP)
 	}
 	sessions.Delete(playerID)
@@ -102,4 +90,17 @@ func GetPlayerIDByIP(ip string) (string, bool) {
 		return "", false
 	}
 	return val.(string), true
-} 
+}
+
+// 供kafka消费玩家上下线历史数据时调用
+func PlayerOnlineFromKafka(playerID, gatesvrID string) {
+	sessions.Store(playerID, &Session{
+		PlayerID:      playerID,
+		GateSvrID:     gatesvrID,
+		LastHeartbeat: time.Now(),
+	})
+}
+
+func PlayerOfflineFromKafka(playerID string) {
+	sessions.Delete(playerID)
+}

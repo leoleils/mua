@@ -7,13 +7,12 @@ import (
 	"io/ioutil"
 	"log"
 	"time"
-	"io"
-	"os"
 
-	"github.com/segmentio/kafka-go"
-	"github.com/golang/protobuf/proto"
-	"mua/gatesvr/internal/pb"
 	"mua/gatesvr/config"
+	"mua/gatesvr/internal/pb"
+
+	"github.com/golang/protobuf/proto"
+	"github.com/segmentio/kafka-go"
 	"github.com/segmentio/kafka-go/sasl/plain"
 )
 
@@ -22,8 +21,8 @@ const (
 )
 
 var (
-	kafkaBrokers []string
-	tlsConfig    *tls.Config
+	kafkaBrokers   []string
+	tlsConfig      *tls.Config
 	localGateSvrID string
 	localGateSvrIP string
 )
@@ -84,7 +83,7 @@ func writeKafka(topic, msg string) {
 	cfg := config.GetConfig().Kafka
 	dialer := &kafka.Dialer{
 		Timeout: 10 * time.Second,
-		TLS: tlsConfig,
+		TLS:     tlsConfig,
 		SASLMechanism: plain.Mechanism{
 			Username: cfg.Username,
 			Password: cfg.Password,
@@ -104,49 +103,6 @@ func writeKafka(topic, msg string) {
 	w.Close()
 }
 
-// 订阅玩家上下线事件
-func Subscribe(handler func(event *pb.PlayerStatusChanged)) {
-	cfg := config.GetConfig().Kafka
-	dialer := &kafka.Dialer{
-		Timeout: 10 * time.Second,
-		TLS: tlsConfig,
-		SASLMechanism: plain.Mechanism{
-			Username: cfg.Username,
-			Password: cfg.Password,
-		},
-	}
-	groupID := cfg.GroupID
-	if envGroup := os.Getenv("KAFKA_GROUP_ID"); envGroup != "" {
-		groupID = envGroup
-	}
-	log.Printf("Kafka订阅 Topic: %s, GroupID: %s", cfg.Topic, groupID)
-	r := kafka.NewReader(kafka.ReaderConfig{
-		Brokers: kafkaBrokers,
-		Topic:   cfg.Topic,
-		GroupID: groupID,
-		Dialer:  dialer,
-	})
-	go func() {
-		for {
-			m, err := r.ReadMessage(context.Background())
-			if err != nil {
-				if err == io.EOF {
-					time.Sleep(100 * time.Millisecond)
-					continue
-				}
-				log.Printf("Kafka读取失败: %v", err)
-				continue
-			}
-			var event pb.PlayerStatusChanged
-			if err := proto.Unmarshal(m.Value, &event); err != nil {
-				log.Printf("PlayerStatusChanged反序列化失败: %v", err)
-				continue
-			}
-			handler(&event)
-		}
-	}()
-}
-
 func split2(s string, sep byte) []string {
 	idx := -1
 	for i := 0; i < len(s); i++ {
@@ -159,4 +115,4 @@ func split2(s string, sep byte) []string {
 		return []string{s}
 	}
 	return []string{s[:idx], s[idx+1:]}
-} 
+}

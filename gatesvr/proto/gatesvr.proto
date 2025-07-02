@@ -52,15 +52,22 @@ message ForwardMessageResponse {
   string message = 2;
 }
 
+message HeadMessage
+{
+  string player_id = 1;
+  int32 client_type = 2; // 客户端类型 1.android/2.ios/3.pc/4.minigame/5.web/6.harmonyOS
+  string client_id = 3; // 客户端id
+  int64 role_id = 4; // 游戏角色id
+  string token = 8; // 会话令牌，用于身份验证
+}
+
 // 游戏通用消息
 message GameMessage {
-  string player_id = 1;
+  HeadMessage msg_head = 1;// 存放校验信息
   int32  msg_type  = 2; // 消息类型/标签
   bytes  payload   = 3; // 业务数据
-  int32  client_type = 4; // 客户端类型 1.android/2.ios/3.pc/4.minigame/5.web/6.harmonyOS
-  int64 role_id = 5; // 游戏角色id
-  int32 msg_tap = 6; // 消息标签 用于未来业务消息转发
-  int32 game_id = 7; // 游戏id 用于未来业务消息转发
+  int32 msg_tap = 4; // 消息标签 用于未来业务消息转发
+  int32 game_id = 5; // 游戏id 用于未来业务消息转发
 }
 
 // 玩家上下线事件类型
@@ -77,4 +84,6 @@ message PlayerStatusChanged {
   int64 event_time = 4;         // 事件时间（时间戳，单位秒或毫秒）
   string gatesvr_id = 5; // 接入服务的id
   string gatesvr_ip = 6; // 接入服务的ip地址
+  string gatesvr_name = 7; // nacos服务名
+  string gatesvr_addr = 8; // nacos注册中心地址
 } 

@@ -16,3 +16,6 @@ kafka:
   username: "alikafka_serverless-cn-0mm42ujh802"
   password: "JbuuPVcos0sAME5LtFLZFzlgrE6E3mGC"
   groupId: gatesvr-group-0
+
+enable_ip_whitelist: true
+enable_token_check: true

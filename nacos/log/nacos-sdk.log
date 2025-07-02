@@ -641,3 +641,1299 @@ runtime.goexit
 2025-06-26T22:02:34.591+0800	INFO	naming_grpc/naming_grpc_proxy.go:95	register instance namespaceId:<public>,serviceName:<gatesvr> with instance:<{"instanceId":"","ip":"192.168.0.107","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"","serviceName":"","metadata":{"instanceID":"gatesvr-1750946554182624000"},"instanceHeartBeatInterval":0,"ipDeleteTimeout":0,"instanceHeartBeatTimeOut":0}>
 2025-06-26T22:02:39.395+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
 2025-06-26T22:02:44.442+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-06-27T14:20:01.488+0800	ERROR	security/security_proxy.go:117	login in err:Post "http://mse-df8d5240-p.nacos-ans.mse.aliyuncs.com:8848/nacos/v1/auth/users/login": context deadline exceeded (Client.Timeout exceeded while awaiting headers)
+2025-06-27T14:20:01.492+0800	INFO	naming_http/push_receiver.go:89	udp server start, port: 55490
+2025-06-27T14:20:01.492+0800	INFO	rpc/rpc_client.go:157	init rpc client for name %!(EXTRA string=09584c46-c5f3-463e-9564-df448dc88400)
+2025-06-27T14:20:01.492+0800	INFO	rpc/rpc_client.go:166	get app conn labels from client config map[] 
+2025-06-27T14:20:01.492+0800	INFO	rpc/rpc_client.go:168	get app conn labels from env map[] 
+2025-06-27T14:20:01.492+0800	INFO	rpc/rpc_client.go:171	final app conn labels : map[] 
+2025-06-27T14:20:01.492+0800	INFO	rpc/rpc_client.go:327	[RpcClient.Start] 09584c46-c5f3-463e-9564-df448dc88400 try to connect to server on start up, server: {serverIp:mse-df8d5240-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848}
+2025-06-27T14:20:01.493+0800	INFO	rpc/grpc_client.go:175	check tls config %!(EXTRA *constant.TLSConfig=&{false false false    })
+2025-06-27T14:20:01.493+0800	INFO	rpc/grpc_client.go:180	try to get tls config from env
+2025-06-27T14:20:01.493+0800	INFO	rpc/grpc_client.go:189	 tls config from env is not enable
+2025-06-27T14:20:01.494+0800	INFO	util/common.go:96	Local IP:192.168.255.254
+2025-06-28T10:04:57.286+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-06-28T10:04:57.288+0800	INFO	naming_http/push_receiver.go:89	udp server start, port: 55509
+2025-06-28T10:04:57.289+0800	INFO	rpc/rpc_client.go:157	init rpc client for name %!(EXTRA string=b8d4d116-2d64-4b71-9bfd-16fc9243cd5c)
+2025-06-28T10:04:57.289+0800	INFO	rpc/rpc_client.go:166	get app conn labels from client config map[] 
+2025-06-28T10:04:57.289+0800	INFO	rpc/rpc_client.go:168	get app conn labels from env map[] 
+2025-06-28T10:04:57.289+0800	INFO	rpc/rpc_client.go:171	final app conn labels : map[] 
+2025-06-28T10:04:57.289+0800	INFO	rpc/rpc_client.go:327	[RpcClient.Start] b8d4d116-2d64-4b71-9bfd-16fc9243cd5c try to connect to server on start up, server: {serverIp:mse-df8d5240-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848}
+2025-06-28T10:04:57.289+0800	INFO	rpc/grpc_client.go:175	check tls config %!(EXTRA *constant.TLSConfig=&{false false false    })
+2025-06-28T10:04:57.289+0800	INFO	rpc/grpc_client.go:180	try to get tls config from env
+2025-06-28T10:04:57.289+0800	INFO	rpc/grpc_client.go:189	 tls config from env is not enable
+2025-06-28T10:04:57.290+0800	INFO	util/common.go:96	Local IP:192.168.255.254
+2025-06-28T10:04:57.529+0800	INFO	rpc/rpc_client.go:337	b8d4d116-2d64-4b71-9bfd-16fc9243cd5c success to connect to server {serverIp:mse-df8d5240-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848} on start up, connectionId=1751076297578_36.101.200.169_57921
+2025-06-28T10:04:57.530+0800	INFO	naming_grpc/naming_grpc_proxy.go:95	register instance namespaceId:<public>,serviceName:<gatesvr> with instance:<{"instanceId":"","ip":"192.168.0.109","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"","serviceName":"","metadata":{"instanceID":"gatesvr-1751076296998387000"},"instanceHeartBeatInterval":0,"ipDeleteTimeout":0,"instanceHeartBeatTimeOut":0}>
+2025-06-28T10:05:02.332+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T16:35:28.120+0800	ERROR	security/security_proxy.go:117	login in err:Post "http://mse-df8d5240-p.nacos-ans.mse.aliyuncs.com:8848/nacos/v1/auth/users/login": dial tcp 47.110.62.174:8848: connect: bad file descriptor
+2025-07-01T16:35:28.122+0800	INFO	naming_http/push_receiver.go:89	udp server start, port: 55518
+2025-07-01T16:35:28.122+0800	INFO	rpc/rpc_client.go:157	init rpc client for name %!(EXTRA string=fc716e75-430a-4467-8052-3634ae56911b)
+2025-07-01T16:35:28.122+0800	INFO	rpc/rpc_client.go:166	get app conn labels from client config map[] 
+2025-07-01T16:35:28.122+0800	INFO	rpc/rpc_client.go:168	get app conn labels from env map[] 
+2025-07-01T16:35:28.122+0800	INFO	rpc/rpc_client.go:171	final app conn labels : map[] 
+2025-07-01T16:35:28.123+0800	INFO	rpc/rpc_client.go:327	[RpcClient.Start] fc716e75-430a-4467-8052-3634ae56911b try to connect to server on start up, server: {serverIp:mse-df8d5240-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848}
+2025-07-01T16:35:28.123+0800	INFO	rpc/grpc_client.go:175	check tls config %!(EXTRA *constant.TLSConfig=&{false false false    })
+2025-07-01T16:35:28.123+0800	INFO	rpc/grpc_client.go:180	try to get tls config from env
+2025-07-01T16:35:28.123+0800	INFO	rpc/grpc_client.go:189	 tls config from env is not enable
+2025-07-01T16:35:28.123+0800	INFO	util/common.go:96	Local IP:30.219.184.135
+2025-07-01T16:35:28.126+0800	WARN	rpc/rpc_client.go:329	[RpcClient.Start] fc716e75-430a-4467-8052-3634ae56911b fail to connect to server on start up, error message=server check request failed , err:rpc error: code = Unavailable desc = connection error: desc = "transport: Error while dialing: dial tcp 47.110.62.174:9848: connect: bad file descriptor", start up retry times left=2
+2025-07-01T16:35:28.126+0800	INFO	rpc/rpc_client.go:327	[RpcClient.Start] fc716e75-430a-4467-8052-3634ae56911b try to connect to server on start up, server: {serverIp:mse-df8d5240-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848}
+2025-07-01T16:35:28.126+0800	INFO	rpc/grpc_client.go:175	check tls config %!(EXTRA *constant.TLSConfig=&{false false false    })
+2025-07-01T16:35:28.126+0800	INFO	rpc/grpc_client.go:180	try to get tls config from env
+2025-07-01T16:35:28.126+0800	INFO	rpc/grpc_client.go:189	 tls config from env is not enable
+2025-07-01T16:35:28.129+0800	WARN	rpc/rpc_client.go:329	[RpcClient.Start] fc716e75-430a-4467-8052-3634ae56911b fail to connect to server on start up, error message=server check request failed , err:rpc error: code = Unavailable desc = connection error: desc = "transport: Error while dialing: dial tcp 47.110.62.174:9848: connect: bad file descriptor", start up retry times left=1
+2025-07-01T16:35:28.130+0800	INFO	rpc/rpc_client.go:327	[RpcClient.Start] fc716e75-430a-4467-8052-3634ae56911b try to connect to server on start up, server: {serverIp:mse-df8d5240-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848}
+2025-07-01T16:35:28.130+0800	INFO	rpc/grpc_client.go:175	check tls config %!(EXTRA *constant.TLSConfig=&{false false false    })
+2025-07-01T16:35:28.130+0800	INFO	rpc/grpc_client.go:180	try to get tls config from env
+2025-07-01T16:35:28.130+0800	INFO	rpc/grpc_client.go:189	 tls config from env is not enable
+2025-07-01T16:35:28.132+0800	WARN	rpc/rpc_client.go:329	[RpcClient.Start] fc716e75-430a-4467-8052-3634ae56911b fail to connect to server on start up, error message=server check request failed , err:rpc error: code = Unavailable desc = connection error: desc = "transport: Error while dialing: dial tcp 47.110.62.174:9848: connect: bad file descriptor", start up retry times left=0
+2025-07-01T16:35:28.132+0800	INFO	rpc/rpc_client.go:426	fc716e75-430a-4467-8052-3634ae56911b try to re connect to a new server, server is not appointed, will choose a random server.
+2025-07-01T16:35:28.132+0800	INFO	rpc/grpc_client.go:175	check tls config %!(EXTRA *constant.TLSConfig=&{false false false    })
+2025-07-01T16:35:28.132+0800	INFO	naming_grpc/naming_grpc_proxy.go:95	register instance namespaceId:<public>,serviceName:<gatesvr> with instance:<{"instanceId":"","ip":"30.219.184.135","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"","serviceName":"","metadata":{"instanceID":"gatesvr-1751358928046218000"},"instanceHeartBeatInterval":0,"ipDeleteTimeout":0,"instanceHeartBeatTimeOut":0}>
+2025-07-01T16:35:28.132+0800	INFO	rpc/grpc_client.go:180	try to get tls config from env
+2025-07-01T16:35:28.132+0800	INFO	rpc/grpc_client.go:189	 tls config from env is not enable
+2025-07-01T16:35:28.133+0800	ERROR	rpc/rpc_client.go:629	Send request fail, request=InstanceRequest, body={"requestId":"","namespace":"public","serviceName":"gatesvr","groupName":"DEFAULT_GROUP","module":"naming","type":"registerInstance","instance":{"instanceId":"","ip":"30.219.184.135","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"","serviceName":"","metadata":{"instanceID":"gatesvr-1751358928046218000"},"instanceHeartBeatInterval":0,"ipDeleteTimeout":0,"instanceHeartBeatTimeOut":0}}, retryTimes=0, error=client not connected, current status:STARTING
+github.com/nacos-group/nacos-sdk-go/v2/common/remote/rpc.(*RpcClient).Request
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/common/remote/rpc/rpc_client.go:591
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client/naming_grpc.(*NamingGrpcProxy).requestToServer
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/clients/naming_client/naming_grpc/naming_grpc_proxy.go:88
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client/naming_grpc.(*NamingGrpcProxy).RegisterInstance
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/clients/naming_client/naming_grpc/naming_grpc_proxy.go:99
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client.(*NamingProxyDelegate).RegisterInstance
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/clients/naming_client/naming_proxy_delegate.go:92
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client.(*NamingClient).RegisterInstance
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/clients/naming_client/naming_client.go:124
+mua/gatesvr/internal/nacos.Register
+	/Users/chenleiyu/go/mua/gatesvr/internal/nacos/nacos.go:48
+main.main
+	/Users/chenleiyu/go/mua/gatesvr/cmd/main.go:167
+runtime.main
+	/opt/homebrew/Cellar/go/1.24.3/libexec/src/runtime/proc.go:283
+runtime.goexit
+	/opt/homebrew/Cellar/go/1.24.3/libexec/src/runtime/asm_arm64.s:1223
+2025-07-01T16:35:28.135+0800	INFO	rpc/grpc_client.go:175	check tls config %!(EXTRA *constant.TLSConfig=&{false false false    })
+2025-07-01T16:35:28.135+0800	INFO	rpc/grpc_client.go:180	try to get tls config from env
+2025-07-01T16:35:28.135+0800	INFO	rpc/grpc_client.go:189	 tls config from env is not enable
+2025-07-01T16:35:28.137+0800	WARN	rpc/rpc_client.go:457	fc716e75-430a-4467-8052-3634ae56911b fail to connect server, after trying 1 times, last try server is {serverIp:mse-df8d5240-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848}, error=server check request failed , err:rpc error: code = Unavailable desc = connection error: desc = "transport: Error while dialing: dial tcp 47.110.62.174:9848: connect: bad file descriptor"
+2025-07-01T16:35:28.234+0800	ERROR	rpc/rpc_client.go:629	Send request fail, request=InstanceRequest, body={"requestId":"","namespace":"public","serviceName":"gatesvr","groupName":"DEFAULT_GROUP","module":"naming","type":"registerInstance","instance":{"instanceId":"","ip":"30.219.184.135","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"","serviceName":"","metadata":{"instanceID":"gatesvr-1751358928046218000"},"instanceHeartBeatInterval":0,"ipDeleteTimeout":0,"instanceHeartBeatTimeOut":0}}, retryTimes=1, error=client not connected, current status:STARTING
+github.com/nacos-group/nacos-sdk-go/v2/common/remote/rpc.(*RpcClient).Request
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/common/remote/rpc/rpc_client.go:591
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client/naming_grpc.(*NamingGrpcProxy).requestToServer
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/clients/naming_client/naming_grpc/naming_grpc_proxy.go:88
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client/naming_grpc.(*NamingGrpcProxy).RegisterInstance
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/clients/naming_client/naming_grpc/naming_grpc_proxy.go:99
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client.(*NamingProxyDelegate).RegisterInstance
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/clients/naming_client/naming_proxy_delegate.go:92
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client.(*NamingClient).RegisterInstance
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/clients/naming_client/naming_client.go:124
+mua/gatesvr/internal/nacos.Register
+	/Users/chenleiyu/go/mua/gatesvr/internal/nacos/nacos.go:48
+main.main
+	/Users/chenleiyu/go/mua/gatesvr/cmd/main.go:167
+runtime.main
+	/opt/homebrew/Cellar/go/1.24.3/libexec/src/runtime/proc.go:283
+runtime.goexit
+	/opt/homebrew/Cellar/go/1.24.3/libexec/src/runtime/asm_arm64.s:1223
+2025-07-01T16:35:28.238+0800	INFO	rpc/grpc_client.go:175	check tls config %!(EXTRA *constant.TLSConfig=&{false false false    })
+2025-07-01T16:35:28.238+0800	INFO	rpc/grpc_client.go:180	try to get tls config from env
+2025-07-01T16:35:28.238+0800	INFO	rpc/grpc_client.go:189	 tls config from env is not enable
+2025-07-01T16:35:28.335+0800	ERROR	rpc/rpc_client.go:629	Send request fail, request=InstanceRequest, body={"requestId":"","namespace":"public","serviceName":"gatesvr","groupName":"DEFAULT_GROUP","module":"naming","type":"registerInstance","instance":{"instanceId":"","ip":"30.219.184.135","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"","serviceName":"","metadata":{"instanceID":"gatesvr-1751358928046218000"},"instanceHeartBeatInterval":0,"ipDeleteTimeout":0,"instanceHeartBeatTimeOut":0}}, retryTimes=2, error=client not connected, current status:STARTING
+github.com/nacos-group/nacos-sdk-go/v2/common/remote/rpc.(*RpcClient).Request
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/common/remote/rpc/rpc_client.go:591
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client/naming_grpc.(*NamingGrpcProxy).requestToServer
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/clients/naming_client/naming_grpc/naming_grpc_proxy.go:88
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client/naming_grpc.(*NamingGrpcProxy).RegisterInstance
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/clients/naming_client/naming_grpc/naming_grpc_proxy.go:99
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client.(*NamingProxyDelegate).RegisterInstance
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/clients/naming_client/naming_proxy_delegate.go:92
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client.(*NamingClient).RegisterInstance
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/clients/naming_client/naming_client.go:124
+mua/gatesvr/internal/nacos.Register
+	/Users/chenleiyu/go/mua/gatesvr/internal/nacos/nacos.go:48
+main.main
+	/Users/chenleiyu/go/mua/gatesvr/cmd/main.go:167
+runtime.main
+	/opt/homebrew/Cellar/go/1.24.3/libexec/src/runtime/proc.go:283
+runtime.goexit
+	/opt/homebrew/Cellar/go/1.24.3/libexec/src/runtime/asm_arm64.s:1223
+2025-07-01T16:35:43.651+0800	ERROR	security/security_proxy.go:117	login in err:Post "http://mse-df8d5240-p.nacos-ans.mse.aliyuncs.com:8848/nacos/v1/auth/users/login": context deadline exceeded (Client.Timeout exceeded while awaiting headers)
+2025-07-01T16:35:43.653+0800	INFO	naming_http/push_receiver.go:89	udp server start, port: 55286
+2025-07-01T16:35:43.653+0800	INFO	rpc/rpc_client.go:157	init rpc client for name %!(EXTRA string=1da8ae63-2330-4290-aabe-f9d392a29e96)
+2025-07-01T16:35:43.653+0800	INFO	rpc/rpc_client.go:166	get app conn labels from client config map[] 
+2025-07-01T16:35:43.653+0800	INFO	rpc/rpc_client.go:168	get app conn labels from env map[] 
+2025-07-01T16:35:43.653+0800	INFO	rpc/rpc_client.go:171	final app conn labels : map[] 
+2025-07-01T16:35:43.653+0800	INFO	rpc/rpc_client.go:327	[RpcClient.Start] 1da8ae63-2330-4290-aabe-f9d392a29e96 try to connect to server on start up, server: {serverIp:mse-df8d5240-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848}
+2025-07-01T16:35:43.653+0800	INFO	rpc/grpc_client.go:175	check tls config %!(EXTRA *constant.TLSConfig=&{false false false    })
+2025-07-01T16:35:43.653+0800	INFO	rpc/grpc_client.go:180	try to get tls config from env
+2025-07-01T16:35:43.653+0800	INFO	rpc/grpc_client.go:189	 tls config from env is not enable
+2025-07-01T16:35:43.654+0800	INFO	util/common.go:96	Local IP:30.219.184.135
+2025-07-01T16:35:46.655+0800	WARN	rpc/rpc_client.go:329	[RpcClient.Start] 1da8ae63-2330-4290-aabe-f9d392a29e96 fail to connect to server on start up, error message=server check request failed , err:rpc error: code = DeadlineExceeded desc = context deadline exceeded while waiting for connections to become ready, start up retry times left=2
+2025-07-01T16:35:46.655+0800	INFO	rpc/rpc_client.go:327	[RpcClient.Start] 1da8ae63-2330-4290-aabe-f9d392a29e96 try to connect to server on start up, server: {serverIp:mse-df8d5240-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848}
+2025-07-01T16:35:46.655+0800	INFO	rpc/grpc_client.go:175	check tls config %!(EXTRA *constant.TLSConfig=&{false false false    })
+2025-07-01T16:35:46.655+0800	INFO	rpc/grpc_client.go:180	try to get tls config from env
+2025-07-01T16:35:46.655+0800	INFO	rpc/grpc_client.go:189	 tls config from env is not enable
+2025-07-01T16:35:49.657+0800	WARN	rpc/rpc_client.go:329	[RpcClient.Start] 1da8ae63-2330-4290-aabe-f9d392a29e96 fail to connect to server on start up, error message=server check request failed , err:rpc error: code = DeadlineExceeded desc = context deadline exceeded while waiting for connections to become ready, start up retry times left=1
+2025-07-01T16:35:49.657+0800	INFO	rpc/rpc_client.go:327	[RpcClient.Start] 1da8ae63-2330-4290-aabe-f9d392a29e96 try to connect to server on start up, server: {serverIp:mse-df8d5240-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848}
+2025-07-01T16:35:49.657+0800	INFO	rpc/grpc_client.go:175	check tls config %!(EXTRA *constant.TLSConfig=&{false false false    })
+2025-07-01T16:35:49.657+0800	INFO	rpc/grpc_client.go:180	try to get tls config from env
+2025-07-01T16:35:49.657+0800	INFO	rpc/grpc_client.go:189	 tls config from env is not enable
+2025-07-01T16:35:52.659+0800	WARN	rpc/rpc_client.go:329	[RpcClient.Start] 1da8ae63-2330-4290-aabe-f9d392a29e96 fail to connect to server on start up, error message=server check request failed , err:rpc error: code = DeadlineExceeded desc = context deadline exceeded while waiting for connections to become ready, start up retry times left=0
+2025-07-01T16:35:52.660+0800	INFO	rpc/rpc_client.go:426	1da8ae63-2330-4290-aabe-f9d392a29e96 try to re connect to a new server, server is not appointed, will choose a random server.
+2025-07-01T16:35:52.660+0800	INFO	naming_grpc/naming_grpc_proxy.go:95	register instance namespaceId:<public>,serviceName:<gatesvr> with instance:<{"instanceId":"","ip":"30.219.184.135","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"","serviceName":"","metadata":{"instanceID":"gatesvr-1751358938650188000"},"instanceHeartBeatInterval":0,"ipDeleteTimeout":0,"instanceHeartBeatTimeOut":0}>
+2025-07-01T16:35:52.660+0800	INFO	rpc/grpc_client.go:175	check tls config %!(EXTRA *constant.TLSConfig=&{false false false    })
+2025-07-01T16:35:52.660+0800	INFO	rpc/grpc_client.go:180	try to get tls config from env
+2025-07-01T16:35:52.660+0800	INFO	rpc/grpc_client.go:189	 tls config from env is not enable
+2025-07-01T16:35:52.660+0800	ERROR	rpc/rpc_client.go:629	Send request fail, request=InstanceRequest, body={"requestId":"","namespace":"public","serviceName":"gatesvr","groupName":"DEFAULT_GROUP","module":"naming","type":"registerInstance","instance":{"instanceId":"","ip":"30.219.184.135","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"","serviceName":"","metadata":{"instanceID":"gatesvr-1751358938650188000"},"instanceHeartBeatInterval":0,"ipDeleteTimeout":0,"instanceHeartBeatTimeOut":0}}, retryTimes=0, error=client not connected, current status:STARTING
+github.com/nacos-group/nacos-sdk-go/v2/common/remote/rpc.(*RpcClient).Request
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/common/remote/rpc/rpc_client.go:591
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client/naming_grpc.(*NamingGrpcProxy).requestToServer
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/clients/naming_client/naming_grpc/naming_grpc_proxy.go:88
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client/naming_grpc.(*NamingGrpcProxy).RegisterInstance
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/clients/naming_client/naming_grpc/naming_grpc_proxy.go:99
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client.(*NamingProxyDelegate).RegisterInstance
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/clients/naming_client/naming_proxy_delegate.go:92
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client.(*NamingClient).RegisterInstance
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/clients/naming_client/naming_client.go:124
+mua/gatesvr/internal/nacos.Register
+	/Users/chenleiyu/go/mua/gatesvr/internal/nacos/nacos.go:48
+main.main
+	/Users/chenleiyu/go/mua/gatesvr/cmd/main.go:167
+runtime.main
+	/opt/homebrew/Cellar/go/1.24.3/libexec/src/runtime/proc.go:283
+runtime.goexit
+	/opt/homebrew/Cellar/go/1.24.3/libexec/src/runtime/asm_arm64.s:1223
+2025-07-01T16:35:52.763+0800	ERROR	rpc/rpc_client.go:629	Send request fail, request=InstanceRequest, body={"requestId":"","namespace":"public","serviceName":"gatesvr","groupName":"DEFAULT_GROUP","module":"naming","type":"registerInstance","instance":{"instanceId":"","ip":"30.219.184.135","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"","serviceName":"","metadata":{"instanceID":"gatesvr-1751358938650188000"},"instanceHeartBeatInterval":0,"ipDeleteTimeout":0,"instanceHeartBeatTimeOut":0}}, retryTimes=1, error=client not connected, current status:STARTING
+github.com/nacos-group/nacos-sdk-go/v2/common/remote/rpc.(*RpcClient).Request
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/common/remote/rpc/rpc_client.go:591
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client/naming_grpc.(*NamingGrpcProxy).requestToServer
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/clients/naming_client/naming_grpc/naming_grpc_proxy.go:88
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client/naming_grpc.(*NamingGrpcProxy).RegisterInstance
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/clients/naming_client/naming_grpc/naming_grpc_proxy.go:99
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client.(*NamingProxyDelegate).RegisterInstance
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/clients/naming_client/naming_proxy_delegate.go:92
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client.(*NamingClient).RegisterInstance
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/clients/naming_client/naming_client.go:124
+mua/gatesvr/internal/nacos.Register
+	/Users/chenleiyu/go/mua/gatesvr/internal/nacos/nacos.go:48
+main.main
+	/Users/chenleiyu/go/mua/gatesvr/cmd/main.go:167
+runtime.main
+	/opt/homebrew/Cellar/go/1.24.3/libexec/src/runtime/proc.go:283
+runtime.goexit
+	/opt/homebrew/Cellar/go/1.24.3/libexec/src/runtime/asm_arm64.s:1223
+2025-07-01T16:35:52.864+0800	ERROR	rpc/rpc_client.go:629	Send request fail, request=InstanceRequest, body={"requestId":"","namespace":"public","serviceName":"gatesvr","groupName":"DEFAULT_GROUP","module":"naming","type":"registerInstance","instance":{"instanceId":"","ip":"30.219.184.135","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"","serviceName":"","metadata":{"instanceID":"gatesvr-1751358938650188000"},"instanceHeartBeatInterval":0,"ipDeleteTimeout":0,"instanceHeartBeatTimeOut":0}}, retryTimes=2, error=client not connected, current status:STARTING
+github.com/nacos-group/nacos-sdk-go/v2/common/remote/rpc.(*RpcClient).Request
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/common/remote/rpc/rpc_client.go:591
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client/naming_grpc.(*NamingGrpcProxy).requestToServer
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/clients/naming_client/naming_grpc/naming_grpc_proxy.go:88
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client/naming_grpc.(*NamingGrpcProxy).RegisterInstance
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/clients/naming_client/naming_grpc/naming_grpc_proxy.go:99
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client.(*NamingProxyDelegate).RegisterInstance
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/clients/naming_client/naming_proxy_delegate.go:92
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client.(*NamingClient).RegisterInstance
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/clients/naming_client/naming_client.go:124
+mua/gatesvr/internal/nacos.Register
+	/Users/chenleiyu/go/mua/gatesvr/internal/nacos/nacos.go:48
+main.main
+	/Users/chenleiyu/go/mua/gatesvr/cmd/main.go:167
+runtime.main
+	/opt/homebrew/Cellar/go/1.24.3/libexec/src/runtime/proc.go:283
+runtime.goexit
+	/opt/homebrew/Cellar/go/1.24.3/libexec/src/runtime/asm_arm64.s:1223
+2025-07-01T16:36:54.453+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T16:36:54.454+0800	INFO	naming_http/push_receiver.go:89	udp server start, port: 54997
+2025-07-01T16:36:54.455+0800	INFO	rpc/rpc_client.go:157	init rpc client for name %!(EXTRA string=2dad8ee6-23d5-47a1-ad87-6e1a75d24b69)
+2025-07-01T16:36:54.455+0800	INFO	rpc/rpc_client.go:166	get app conn labels from client config map[] 
+2025-07-01T16:36:54.455+0800	INFO	rpc/rpc_client.go:168	get app conn labels from env map[] 
+2025-07-01T16:36:54.455+0800	INFO	rpc/rpc_client.go:171	final app conn labels : map[] 
+2025-07-01T16:36:54.455+0800	INFO	rpc/rpc_client.go:327	[RpcClient.Start] 2dad8ee6-23d5-47a1-ad87-6e1a75d24b69 try to connect to server on start up, server: {serverIp:mse-df8d5240-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848}
+2025-07-01T16:36:54.455+0800	INFO	rpc/grpc_client.go:175	check tls config %!(EXTRA *constant.TLSConfig=&{false false false    })
+2025-07-01T16:36:54.455+0800	INFO	rpc/grpc_client.go:180	try to get tls config from env
+2025-07-01T16:36:54.455+0800	INFO	rpc/grpc_client.go:189	 tls config from env is not enable
+2025-07-01T16:36:54.455+0800	INFO	util/common.go:96	Local IP:30.219.184.135
+2025-07-01T16:36:54.752+0800	INFO	rpc/rpc_client.go:337	2dad8ee6-23d5-47a1-ad87-6e1a75d24b69 success to connect to server {serverIp:mse-df8d5240-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848} on start up, connectionId=1751359014620_106.11.31.218_59864
+2025-07-01T16:36:54.753+0800	INFO	naming_grpc/naming_grpc_proxy.go:95	register instance namespaceId:<public>,serviceName:<gatesvr> with instance:<{"instanceId":"","ip":"30.219.184.135","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"","serviceName":"","metadata":{"instanceID":"gatesvr-1751359014245901000"},"instanceHeartBeatInterval":0,"ipDeleteTimeout":0,"instanceHeartBeatTimeOut":0}>
+2025-07-01T16:36:59.506+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T16:37:04.618+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T16:37:09.656+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T16:37:14.697+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T16:37:19.739+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T16:37:24.815+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T16:37:29.853+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T16:37:34.894+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T16:37:39.970+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T16:37:45.007+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T16:37:50.093+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T16:37:55.126+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T16:38:00.166+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T16:38:05.224+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T16:38:10.260+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T16:38:15.293+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T16:38:20.331+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T16:38:25.390+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T16:38:30.424+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T16:38:35.522+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T16:38:40.557+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T16:38:45.688+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T16:38:50.829+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T16:38:55.920+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T16:39:00.955+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T16:39:05.991+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T16:39:11.025+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T16:39:16.060+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T16:39:21.094+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T16:39:26.134+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T16:39:31.196+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T16:39:36.262+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T16:39:41.299+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T16:39:46.410+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T16:39:51.474+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T16:39:56.509+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T16:40:01.543+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T16:40:06.612+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T16:40:11.647+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T16:40:16.719+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T16:40:21.752+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T16:40:26.844+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T16:40:31.915+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T16:40:37.027+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T16:40:42.063+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T16:40:47.100+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T16:40:52.134+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T16:40:57.203+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T16:41:02.246+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T16:41:07.322+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T16:41:12.392+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T16:41:17.457+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T16:41:22.491+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T16:41:27.526+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T16:41:32.607+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T16:41:37.650+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T16:41:42.688+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T16:41:47.751+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T16:41:52.792+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T16:41:57.827+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T16:42:02.937+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T16:42:08.019+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T16:42:13.052+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T16:42:18.094+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T16:42:23.150+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T16:42:28.223+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T16:42:33.302+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T16:42:38.444+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T19:23:25.986+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T19:23:25.988+0800	INFO	naming_http/push_receiver.go:89	udp server start, port: 55273
+2025-07-01T19:23:25.989+0800	INFO	rpc/rpc_client.go:157	init rpc client for name %!(EXTRA string=1685fe4c-12d5-4e4f-aefb-359f11e1e85a)
+2025-07-01T19:23:25.989+0800	INFO	rpc/rpc_client.go:166	get app conn labels from client config map[] 
+2025-07-01T19:23:25.989+0800	INFO	rpc/rpc_client.go:168	get app conn labels from env map[] 
+2025-07-01T19:23:25.989+0800	INFO	rpc/rpc_client.go:171	final app conn labels : map[] 
+2025-07-01T19:23:25.989+0800	INFO	rpc/rpc_client.go:327	[RpcClient.Start] 1685fe4c-12d5-4e4f-aefb-359f11e1e85a try to connect to server on start up, server: {serverIp:mse-df8d5240-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848}
+2025-07-01T19:23:25.989+0800	INFO	rpc/grpc_client.go:175	check tls config %!(EXTRA *constant.TLSConfig=&{false false false    })
+2025-07-01T19:23:25.989+0800	INFO	rpc/grpc_client.go:180	try to get tls config from env
+2025-07-01T19:23:25.989+0800	INFO	rpc/grpc_client.go:189	 tls config from env is not enable
+2025-07-01T19:23:25.990+0800	INFO	util/common.go:96	Local IP:30.219.184.135
+2025-07-01T19:23:26.191+0800	INFO	rpc/rpc_client.go:337	1685fe4c-12d5-4e4f-aefb-359f11e1e85a success to connect to server {serverIp:mse-df8d5240-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848} on start up, connectionId=1751369006053_106.11.31.218_62823
+2025-07-01T19:23:26.191+0800	INFO	naming_grpc/naming_grpc_proxy.go:95	register instance namespaceId:<public>,serviceName:<gatesvr> with instance:<{"instanceId":"","ip":"30.219.184.135","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"","serviceName":"","metadata":{"instanceID":"gatesvr-1751369005829503000"},"instanceHeartBeatInterval":0,"ipDeleteTimeout":0,"instanceHeartBeatTimeOut":0}>
+2025-07-01T19:23:31.021+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T19:32:31.932+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T19:32:31.933+0800	INFO	naming_http/push_receiver.go:89	udp server start, port: 55413
+2025-07-01T19:32:31.933+0800	INFO	rpc/rpc_client.go:157	init rpc client for name %!(EXTRA string=d5ad0a3c-e76a-41ab-8017-ee07daf837ce)
+2025-07-01T19:32:31.933+0800	INFO	rpc/rpc_client.go:166	get app conn labels from client config map[] 
+2025-07-01T19:32:31.933+0800	INFO	rpc/rpc_client.go:168	get app conn labels from env map[] 
+2025-07-01T19:32:31.933+0800	INFO	rpc/rpc_client.go:171	final app conn labels : map[] 
+2025-07-01T19:32:31.933+0800	INFO	rpc/rpc_client.go:327	[RpcClient.Start] d5ad0a3c-e76a-41ab-8017-ee07daf837ce try to connect to server on start up, server: {serverIp:mse-df8d5240-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848}
+2025-07-01T19:32:31.933+0800	INFO	rpc/grpc_client.go:175	check tls config %!(EXTRA *constant.TLSConfig=&{false false false    })
+2025-07-01T19:32:31.933+0800	INFO	rpc/grpc_client.go:180	try to get tls config from env
+2025-07-01T19:32:31.933+0800	INFO	rpc/grpc_client.go:189	 tls config from env is not enable
+2025-07-01T19:32:31.935+0800	INFO	util/common.go:96	Local IP:30.219.184.135
+2025-07-01T19:32:32.133+0800	INFO	rpc/rpc_client.go:337	d5ad0a3c-e76a-41ab-8017-ee07daf837ce success to connect to server {serverIp:mse-df8d5240-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848} on start up, connectionId=1751369551994_106.11.31.218_63968
+2025-07-01T19:32:32.133+0800	INFO	naming_grpc/naming_grpc_proxy.go:95	register instance namespaceId:<public>,serviceName:<gatesvr> with instance:<{"instanceId":"","ip":"30.219.184.135","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"","serviceName":"","metadata":{"instanceID":"gatesvr-1751369551764881000"},"instanceHeartBeatInterval":0,"ipDeleteTimeout":0,"instanceHeartBeatTimeOut":0}>
+2025-07-01T19:32:32.166+0800	INFO	naming_grpc/naming_grpc_proxy.go:177	Subscribe Service namespaceId:<public>, serviceName:<gatesvr>, groupName:<DEFAULT_GROUP>, clusters:<>
+2025-07-01T19:32:32.213+0800	INFO	naming_cache/service_info_holder.go:96	service key:DEFAULT_GROUP@@gatesvr was updated to:{"cacheMillis":10000,"hosts":[{"instanceId":"30.219.184.135#50051##DEFAULT_GROUP@@gatesvr","ip":"30.219.184.135","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@gatesvr","metadata":{"instanceID":"gatesvr-1751369551764881000"},"instanceHeartBeatInterval":5000,"ipDeleteTimeout":30000,"instanceHeartBeatTimeOut":15000}],"checksum":"","lastRefTime":1751369552208,"clusters":"","name":"gatesvr","groupName":"DEFAULT_GROUP","valid":true,"allIPs":false,"reachProtectionThreshold":false}
+2025-07-01T19:34:49.143+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T19:34:49.146+0800	INFO	naming_http/push_receiver.go:89	udp server start, port: 55947
+2025-07-01T19:34:49.146+0800	INFO	rpc/rpc_client.go:157	init rpc client for name %!(EXTRA string=aa717541-3491-44cd-8b50-9d8aad70d8f6)
+2025-07-01T19:34:49.146+0800	INFO	rpc/rpc_client.go:166	get app conn labels from client config map[] 
+2025-07-01T19:34:49.146+0800	INFO	rpc/rpc_client.go:168	get app conn labels from env map[] 
+2025-07-01T19:34:49.146+0800	INFO	rpc/rpc_client.go:171	final app conn labels : map[] 
+2025-07-01T19:34:49.146+0800	INFO	rpc/rpc_client.go:327	[RpcClient.Start] aa717541-3491-44cd-8b50-9d8aad70d8f6 try to connect to server on start up, server: {serverIp:mse-df8d5240-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848}
+2025-07-01T19:34:49.146+0800	INFO	rpc/grpc_client.go:175	check tls config %!(EXTRA *constant.TLSConfig=&{false false false    })
+2025-07-01T19:34:49.146+0800	INFO	rpc/grpc_client.go:180	try to get tls config from env
+2025-07-01T19:34:49.146+0800	INFO	rpc/grpc_client.go:189	 tls config from env is not enable
+2025-07-01T19:34:49.147+0800	INFO	util/common.go:96	Local IP:30.219.184.135
+2025-07-01T19:34:49.346+0800	INFO	rpc/rpc_client.go:337	aa717541-3491-44cd-8b50-9d8aad70d8f6 success to connect to server {serverIp:mse-df8d5240-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848} on start up, connectionId=1751369689209_106.11.31.218_64348
+2025-07-01T19:34:49.349+0800	INFO	naming_grpc/naming_grpc_proxy.go:95	register instance namespaceId:<public>,serviceName:<gatesvr> with instance:<{"instanceId":"","ip":"30.219.184.135","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"","serviceName":"","metadata":{"instanceID":"gatesvr-1751369688983280000"},"instanceHeartBeatInterval":0,"ipDeleteTimeout":0,"instanceHeartBeatTimeOut":0}>
+2025-07-01T19:34:49.381+0800	INFO	naming_grpc/naming_grpc_proxy.go:177	Subscribe Service namespaceId:<public>, serviceName:<gatesvr>, groupName:<DEFAULT_GROUP>, clusters:<>
+2025-07-01T19:34:49.423+0800	INFO	naming_cache/service_info_holder.go:96	service key:DEFAULT_GROUP@@gatesvr was updated to:{"cacheMillis":10000,"hosts":[{"instanceId":"30.219.184.135#50051##DEFAULT_GROUP@@gatesvr","ip":"30.219.184.135","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@gatesvr","metadata":{"instanceID":"gatesvr-1751369688983280000"},"instanceHeartBeatInterval":5000,"ipDeleteTimeout":30000,"instanceHeartBeatTimeOut":15000}],"checksum":"","lastRefTime":1751369689418,"clusters":"","name":"gatesvr","groupName":"DEFAULT_GROUP","valid":true,"allIPs":false,"reachProtectionThreshold":false}
+2025-07-01T19:34:54.181+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T19:34:59.217+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T19:35:04.252+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T19:35:09.289+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T19:35:14.325+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T19:37:36.617+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T19:37:36.619+0800	INFO	naming_http/push_receiver.go:89	udp server start, port: 55775
+2025-07-01T19:37:36.620+0800	INFO	rpc/rpc_client.go:157	init rpc client for name %!(EXTRA string=c84ab57b-2ed3-4457-b5e5-68de4ecb8f68)
+2025-07-01T19:37:36.620+0800	INFO	rpc/rpc_client.go:166	get app conn labels from client config map[] 
+2025-07-01T19:37:36.620+0800	INFO	rpc/rpc_client.go:168	get app conn labels from env map[] 
+2025-07-01T19:37:36.620+0800	INFO	rpc/rpc_client.go:171	final app conn labels : map[] 
+2025-07-01T19:37:36.620+0800	INFO	rpc/rpc_client.go:327	[RpcClient.Start] c84ab57b-2ed3-4457-b5e5-68de4ecb8f68 try to connect to server on start up, server: {serverIp:mse-df8d5240-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848}
+2025-07-01T19:37:36.620+0800	INFO	rpc/grpc_client.go:175	check tls config %!(EXTRA *constant.TLSConfig=&{false false false    })
+2025-07-01T19:37:36.620+0800	INFO	rpc/grpc_client.go:180	try to get tls config from env
+2025-07-01T19:37:36.620+0800	INFO	rpc/grpc_client.go:189	 tls config from env is not enable
+2025-07-01T19:37:36.621+0800	INFO	util/common.go:96	Local IP:30.219.184.135
+2025-07-01T19:37:36.827+0800	INFO	rpc/rpc_client.go:337	c84ab57b-2ed3-4457-b5e5-68de4ecb8f68 success to connect to server {serverIp:mse-df8d5240-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848} on start up, connectionId=1751369856682_106.11.31.218_64726
+2025-07-01T19:37:36.827+0800	INFO	naming_grpc/naming_grpc_proxy.go:95	register instance namespaceId:<public>,serviceName:<gatesvr> with instance:<{"instanceId":"","ip":"30.219.184.135","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"","serviceName":"","metadata":{"instanceID":"gatesvr-1751369856465621000"},"instanceHeartBeatInterval":0,"ipDeleteTimeout":0,"instanceHeartBeatTimeOut":0}>
+2025-07-01T19:37:36.861+0800	INFO	naming_grpc/naming_grpc_proxy.go:177	Subscribe Service namespaceId:<public>, serviceName:<gatesvr>, groupName:<DEFAULT_GROUP>, clusters:<>
+2025-07-01T19:37:36.895+0800	INFO	naming_cache/service_info_holder.go:96	service key:DEFAULT_GROUP@@gatesvr was updated to:{"cacheMillis":10000,"hosts":[{"instanceId":"30.219.184.135#50051##DEFAULT_GROUP@@gatesvr","ip":"30.219.184.135","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@gatesvr","metadata":{"instanceID":"gatesvr-1751369856465621000"},"instanceHeartBeatInterval":5000,"ipDeleteTimeout":30000,"instanceHeartBeatTimeOut":15000}],"checksum":"","lastRefTime":1751369856888,"clusters":"","name":"gatesvr","groupName":"DEFAULT_GROUP","valid":true,"allIPs":false,"reachProtectionThreshold":false}
+2025-07-01T19:37:41.657+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T19:38:03.571+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T19:38:03.572+0800	INFO	naming_http/push_receiver.go:89	udp server start, port: 55579
+2025-07-01T19:38:03.572+0800	INFO	rpc/rpc_client.go:157	init rpc client for name %!(EXTRA string=5b6e94c9-3219-43a5-996f-4a0d33fc3eb1)
+2025-07-01T19:38:03.572+0800	INFO	rpc/rpc_client.go:166	get app conn labels from client config map[] 
+2025-07-01T19:38:03.572+0800	INFO	rpc/rpc_client.go:168	get app conn labels from env map[] 
+2025-07-01T19:38:03.572+0800	INFO	rpc/rpc_client.go:171	final app conn labels : map[] 
+2025-07-01T19:38:03.572+0800	INFO	rpc/rpc_client.go:327	[RpcClient.Start] 5b6e94c9-3219-43a5-996f-4a0d33fc3eb1 try to connect to server on start up, server: {serverIp:mse-df8d5240-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848}
+2025-07-01T19:38:03.572+0800	INFO	rpc/grpc_client.go:175	check tls config %!(EXTRA *constant.TLSConfig=&{false false false    })
+2025-07-01T19:38:03.572+0800	INFO	rpc/grpc_client.go:180	try to get tls config from env
+2025-07-01T19:38:03.572+0800	INFO	rpc/grpc_client.go:189	 tls config from env is not enable
+2025-07-01T19:38:03.573+0800	INFO	util/common.go:96	Local IP:30.219.184.135
+2025-07-01T19:38:03.775+0800	INFO	rpc/rpc_client.go:337	5b6e94c9-3219-43a5-996f-4a0d33fc3eb1 success to connect to server {serverIp:mse-df8d5240-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848} on start up, connectionId=1751369883633_106.11.31.218_64783
+2025-07-01T19:38:03.776+0800	INFO	naming_grpc/naming_grpc_proxy.go:95	register instance namespaceId:<public>,serviceName:<gatesvr> with instance:<{"instanceId":"","ip":"30.219.184.135","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"","serviceName":"","metadata":{"instanceID":"gatesvr-1751369883500514000"},"instanceHeartBeatInterval":0,"ipDeleteTimeout":0,"instanceHeartBeatTimeOut":0}>
+2025-07-01T19:38:03.810+0800	INFO	naming_grpc/naming_grpc_proxy.go:177	Subscribe Service namespaceId:<public>, serviceName:<gatesvr>, groupName:<DEFAULT_GROUP>, clusters:<>
+2025-07-01T19:38:03.859+0800	WARN	naming_cache/service_info_holder.go:81	instance list is empty, updateCacheWhenEmpty is set to false, callback is not triggered. service name:gatesvr
+2025-07-01T19:38:04.415+0800	INFO	naming_cache/service_info_holder.go:96	service key:DEFAULT_GROUP@@gatesvr was updated to:{"cacheMillis":10000,"hosts":[{"instanceId":"30.219.184.135#50051##DEFAULT_GROUP@@gatesvr","ip":"30.219.184.135","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@gatesvr","metadata":{"instanceID":"gatesvr-1751369883500514000"},"instanceHeartBeatInterval":5000,"ipDeleteTimeout":30000,"instanceHeartBeatTimeOut":15000}],"checksum":"","lastRefTime":1751369884392,"clusters":"","name":"gatesvr","groupName":"DEFAULT_GROUP","valid":true,"allIPs":false,"reachProtectionThreshold":false}
+2025-07-01T19:38:08.613+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T19:38:13.648+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T19:38:18.685+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T19:39:23.435+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T19:39:23.436+0800	INFO	naming_http/push_receiver.go:89	udp server start, port: 55189
+2025-07-01T19:39:23.436+0800	INFO	rpc/rpc_client.go:157	init rpc client for name %!(EXTRA string=0c385cf6-8b3c-4869-a2be-cbaf13d2acc2)
+2025-07-01T19:39:23.436+0800	INFO	rpc/rpc_client.go:166	get app conn labels from client config map[] 
+2025-07-01T19:39:23.436+0800	INFO	rpc/rpc_client.go:168	get app conn labels from env map[] 
+2025-07-01T19:39:23.436+0800	INFO	rpc/rpc_client.go:171	final app conn labels : map[] 
+2025-07-01T19:39:23.436+0800	INFO	rpc/rpc_client.go:327	[RpcClient.Start] 0c385cf6-8b3c-4869-a2be-cbaf13d2acc2 try to connect to server on start up, server: {serverIp:mse-df8d5240-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848}
+2025-07-01T19:39:23.436+0800	INFO	rpc/grpc_client.go:175	check tls config %!(EXTRA *constant.TLSConfig=&{false false false    })
+2025-07-01T19:39:23.436+0800	INFO	rpc/grpc_client.go:180	try to get tls config from env
+2025-07-01T19:39:23.436+0800	INFO	rpc/grpc_client.go:189	 tls config from env is not enable
+2025-07-01T19:39:23.436+0800	INFO	util/common.go:96	Local IP:30.219.184.135
+2025-07-01T19:39:23.635+0800	INFO	rpc/rpc_client.go:337	0c385cf6-8b3c-4869-a2be-cbaf13d2acc2 success to connect to server {serverIp:mse-df8d5240-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848} on start up, connectionId=1751369963495_106.11.31.218_64937
+2025-07-01T19:39:23.636+0800	INFO	naming_grpc/naming_grpc_proxy.go:95	register instance namespaceId:<public>,serviceName:<gatesvr> with instance:<{"instanceId":"","ip":"30.219.184.135","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"","serviceName":"","metadata":{"instanceID":"gatesvr-1751369963336992000"},"instanceHeartBeatInterval":0,"ipDeleteTimeout":0,"instanceHeartBeatTimeOut":0}>
+2025-07-01T19:39:23.670+0800	INFO	naming_grpc/naming_grpc_proxy.go:177	Subscribe Service namespaceId:<public>, serviceName:<gatesvr>, groupName:<DEFAULT_GROUP>, clusters:<>
+2025-07-01T19:39:23.704+0800	WARN	naming_cache/service_info_holder.go:81	instance list is empty, updateCacheWhenEmpty is set to false, callback is not triggered. service name:gatesvr
+2025-07-01T19:39:24.186+0800	INFO	naming_cache/service_info_holder.go:96	service key:DEFAULT_GROUP@@gatesvr was updated to:{"cacheMillis":10000,"hosts":[{"instanceId":"30.219.184.135#50051##DEFAULT_GROUP@@gatesvr","ip":"30.219.184.135","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@gatesvr","metadata":{"instanceID":"gatesvr-1751369963336992000"},"instanceHeartBeatInterval":5000,"ipDeleteTimeout":30000,"instanceHeartBeatTimeOut":15000}],"checksum":"","lastRefTime":1751369964180,"clusters":"","name":"gatesvr","groupName":"DEFAULT_GROUP","valid":true,"allIPs":false,"reachProtectionThreshold":false}
+2025-07-01T19:39:28.468+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T19:39:33.500+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T19:39:38.533+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T19:39:43.565+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T19:39:48.597+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T19:39:53.629+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T19:39:58.662+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T19:40:03.696+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T19:42:30.220+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T19:42:30.222+0800	INFO	naming_http/push_receiver.go:89	udp server start, port: 55650
+2025-07-01T19:42:30.222+0800	INFO	rpc/rpc_client.go:157	init rpc client for name %!(EXTRA string=424ed22b-58e2-489e-97ef-daade99f1849)
+2025-07-01T19:42:30.222+0800	INFO	rpc/rpc_client.go:166	get app conn labels from client config map[] 
+2025-07-01T19:42:30.222+0800	INFO	rpc/rpc_client.go:168	get app conn labels from env map[] 
+2025-07-01T19:42:30.222+0800	INFO	rpc/rpc_client.go:171	final app conn labels : map[] 
+2025-07-01T19:42:30.222+0800	INFO	rpc/rpc_client.go:327	[RpcClient.Start] 424ed22b-58e2-489e-97ef-daade99f1849 try to connect to server on start up, server: {serverIp:mse-df8d5240-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848}
+2025-07-01T19:42:30.223+0800	INFO	rpc/grpc_client.go:175	check tls config %!(EXTRA *constant.TLSConfig=&{false false false    })
+2025-07-01T19:42:30.223+0800	INFO	rpc/grpc_client.go:180	try to get tls config from env
+2025-07-01T19:42:30.223+0800	INFO	rpc/grpc_client.go:189	 tls config from env is not enable
+2025-07-01T19:42:30.224+0800	INFO	util/common.go:96	Local IP:30.219.184.135
+2025-07-01T19:42:30.424+0800	INFO	rpc/rpc_client.go:337	424ed22b-58e2-489e-97ef-daade99f1849 success to connect to server {serverIp:mse-df8d5240-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848} on start up, connectionId=1751370150283_106.11.31.218_65290
+2025-07-01T19:42:30.425+0800	INFO	rpc/rpc_client.go:486	424ed22b-58e2-489e-97ef-daade99f1849 notify connected event to listeners , connectionId=1751370150283_106.11.31.218_65290
+2025-07-01T19:42:30.425+0800	INFO	naming_grpc/naming_grpc_proxy.go:95	register instance namespaceId:<public>,serviceName:<gatesvr> with instance:<{"instanceId":"","ip":"30.219.184.135","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"","serviceName":"","metadata":{"instanceID":"gatesvr-1751370150099574000"},"instanceHeartBeatInterval":0,"ipDeleteTimeout":0,"instanceHeartBeatTimeOut":0}>
+2025-07-01T19:42:30.426+0800	INFO	naming_grpc/naming_grpc_proxy.go:95	register instance namespaceId:<public>,serviceName:<gatesvr> with instance:<{"instanceId":"","ip":"30.219.184.135","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"","serviceName":"","metadata":{"instanceID":"gatesvr-1751370150099574000"},"instanceHeartBeatInterval":0,"ipDeleteTimeout":0,"instanceHeartBeatTimeOut":0}>
+2025-07-01T19:42:30.459+0800	INFO	naming_grpc/naming_grpc_proxy.go:177	Subscribe Service namespaceId:<public>, serviceName:<gatesvr>, groupName:<DEFAULT_GROUP>, clusters:<>
+2025-07-01T19:42:30.491+0800	INFO	naming_cache/service_info_holder.go:96	service key:DEFAULT_GROUP@@gatesvr was updated to:{"cacheMillis":10000,"hosts":[{"instanceId":"30.219.184.135#50051##DEFAULT_GROUP@@gatesvr","ip":"30.219.184.135","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@gatesvr","metadata":{"instanceID":"gatesvr-1751370150099574000"},"instanceHeartBeatInterval":5000,"ipDeleteTimeout":30000,"instanceHeartBeatTimeOut":15000}],"checksum":"","lastRefTime":1751370150485,"clusters":"","name":"gatesvr","groupName":"DEFAULT_GROUP","valid":true,"allIPs":false,"reachProtectionThreshold":false}
+2025-07-01T19:42:35.256+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T19:42:40.289+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T19:42:45.323+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T19:42:50.357+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T19:42:55.404+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T19:43:00.438+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T19:43:05.474+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T19:43:10.508+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T19:43:15.542+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T19:43:20.578+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T19:43:25.612+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T19:43:30.648+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T19:43:35.683+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T19:43:40.717+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T19:43:45.751+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T19:45:14.294+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T19:45:14.296+0800	INFO	naming_http/push_receiver.go:89	udp server start, port: 55487
+2025-07-01T19:45:14.296+0800	INFO	rpc/rpc_client.go:157	init rpc client for name %!(EXTRA string=6048a6ae-0cfb-4178-a2ad-ad693db21a25)
+2025-07-01T19:45:14.296+0800	INFO	rpc/rpc_client.go:166	get app conn labels from client config map[] 
+2025-07-01T19:45:14.296+0800	INFO	rpc/rpc_client.go:168	get app conn labels from env map[] 
+2025-07-01T19:45:14.296+0800	INFO	rpc/rpc_client.go:171	final app conn labels : map[] 
+2025-07-01T19:45:14.297+0800	INFO	rpc/rpc_client.go:327	[RpcClient.Start] 6048a6ae-0cfb-4178-a2ad-ad693db21a25 try to connect to server on start up, server: {serverIp:mse-df8d5240-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848}
+2025-07-01T19:45:14.297+0800	INFO	rpc/grpc_client.go:175	check tls config %!(EXTRA *constant.TLSConfig=&{false false false    })
+2025-07-01T19:45:14.297+0800	INFO	rpc/grpc_client.go:180	try to get tls config from env
+2025-07-01T19:45:14.297+0800	INFO	rpc/grpc_client.go:189	 tls config from env is not enable
+2025-07-01T19:45:14.298+0800	INFO	util/common.go:96	Local IP:30.219.184.135
+2025-07-01T19:45:14.495+0800	INFO	rpc/rpc_client.go:337	6048a6ae-0cfb-4178-a2ad-ad693db21a25 success to connect to server {serverIp:mse-df8d5240-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848} on start up, connectionId=1751370314354_106.11.31.218_49382
+2025-07-01T19:45:14.495+0800	INFO	rpc/rpc_client.go:486	6048a6ae-0cfb-4178-a2ad-ad693db21a25 notify connected event to listeners , connectionId=1751370314354_106.11.31.218_49382
+2025-07-01T19:45:14.496+0800	INFO	naming_grpc/naming_grpc_proxy.go:95	register instance namespaceId:<public>,serviceName:<gatesvr> with instance:<{"instanceId":"","ip":"30.219.184.135","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"","serviceName":"","metadata":{"instanceID":"gatesvr-1751370314159639000"},"instanceHeartBeatInterval":0,"ipDeleteTimeout":0,"instanceHeartBeatTimeOut":0}>
+2025-07-01T19:45:14.497+0800	INFO	naming_grpc/naming_grpc_proxy.go:95	register instance namespaceId:<public>,serviceName:<gatesvr> with instance:<{"instanceId":"","ip":"30.219.184.135","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"","serviceName":"","metadata":{"instanceID":"gatesvr-1751370314159639000"},"instanceHeartBeatInterval":0,"ipDeleteTimeout":0,"instanceHeartBeatTimeOut":0}>
+2025-07-01T19:45:14.528+0800	INFO	naming_grpc/naming_grpc_proxy.go:177	Subscribe Service namespaceId:<public>, serviceName:<gatesvr>, groupName:<DEFAULT_GROUP>, clusters:<>
+2025-07-01T19:45:14.560+0800	WARN	naming_cache/service_info_holder.go:81	instance list is empty, updateCacheWhenEmpty is set to false, callback is not triggered. service name:gatesvr
+2025-07-01T19:45:15.039+0800	INFO	naming_cache/service_info_holder.go:96	service key:DEFAULT_GROUP@@gatesvr was updated to:{"cacheMillis":10000,"hosts":[{"instanceId":"30.219.184.135#50051##DEFAULT_GROUP@@gatesvr","ip":"30.219.184.135","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@gatesvr","metadata":{"instanceID":"gatesvr-1751370314159639000"},"instanceHeartBeatInterval":5000,"ipDeleteTimeout":30000,"instanceHeartBeatTimeOut":15000}],"checksum":"","lastRefTime":1751370315032,"clusters":"","name":"gatesvr","groupName":"DEFAULT_GROUP","valid":true,"allIPs":false,"reachProtectionThreshold":false}
+2025-07-01T19:45:19.329+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T19:45:24.361+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T19:45:29.393+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T19:47:57.983+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T19:47:57.983+0800	INFO	naming_http/push_receiver.go:89	udp server start, port: 55059
+2025-07-01T19:47:57.984+0800	INFO	rpc/rpc_client.go:157	init rpc client for name %!(EXTRA string=cee35f56-a06f-418d-9c6a-969ae21057e3)
+2025-07-01T19:47:57.984+0800	INFO	rpc/rpc_client.go:166	get app conn labels from client config map[] 
+2025-07-01T19:47:57.984+0800	INFO	rpc/rpc_client.go:168	get app conn labels from env map[] 
+2025-07-01T19:47:57.984+0800	INFO	rpc/rpc_client.go:171	final app conn labels : map[] 
+2025-07-01T19:47:57.984+0800	INFO	rpc/rpc_client.go:327	[RpcClient.Start] cee35f56-a06f-418d-9c6a-969ae21057e3 try to connect to server on start up, server: {serverIp:mse-df8d5240-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848}
+2025-07-01T19:47:57.984+0800	INFO	rpc/grpc_client.go:175	check tls config %!(EXTRA *constant.TLSConfig=&{false false false    })
+2025-07-01T19:47:57.984+0800	INFO	rpc/grpc_client.go:180	try to get tls config from env
+2025-07-01T19:47:57.984+0800	INFO	rpc/grpc_client.go:189	 tls config from env is not enable
+2025-07-01T19:47:57.985+0800	INFO	util/common.go:96	Local IP:30.219.184.135
+2025-07-01T19:47:58.184+0800	INFO	rpc/rpc_client.go:337	cee35f56-a06f-418d-9c6a-969ae21057e3 success to connect to server {serverIp:mse-df8d5240-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848} on start up, connectionId=1751370478043_106.11.31.218_49774
+2025-07-01T19:47:58.185+0800	INFO	naming_grpc/naming_grpc_proxy.go:95	register instance namespaceId:<public>,serviceName:<gatesvr> with instance:<{"instanceId":"","ip":"30.219.184.135","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"","serviceName":"","metadata":{"instanceID":"gatesvr-1751370477855928000"},"instanceHeartBeatInterval":0,"ipDeleteTimeout":0,"instanceHeartBeatTimeOut":0}>
+2025-07-01T19:47:58.219+0800	INFO	naming_grpc/naming_grpc_proxy.go:177	Subscribe Service namespaceId:<public>, serviceName:<gatesvr>, groupName:<DEFAULT_GROUP>, clusters:<>
+2025-07-01T19:47:58.251+0800	INFO	naming_cache/service_info_holder.go:96	service key:DEFAULT_GROUP@@gatesvr was updated to:{"cacheMillis":10000,"hosts":[{"instanceId":"30.219.184.135#50051##DEFAULT_GROUP@@gatesvr","ip":"30.219.184.135","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@gatesvr","metadata":{"instanceID":"gatesvr-1751370477855928000"},"instanceHeartBeatInterval":5000,"ipDeleteTimeout":30000,"instanceHeartBeatTimeOut":15000}],"checksum":"","lastRefTime":1751370478244,"clusters":"","name":"gatesvr","groupName":"DEFAULT_GROUP","valid":true,"allIPs":false,"reachProtectionThreshold":false}
+2025-07-01T19:48:03.022+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T19:48:08.054+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T19:51:36.557+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T19:51:36.559+0800	INFO	naming_http/push_receiver.go:89	udp server start, port: 55831
+2025-07-01T19:51:36.559+0800	INFO	rpc/rpc_client.go:157	init rpc client for name %!(EXTRA string=70ab9cb6-59a2-4d54-beb5-da6a84e97e08)
+2025-07-01T19:51:36.559+0800	INFO	rpc/rpc_client.go:166	get app conn labels from client config map[] 
+2025-07-01T19:51:36.559+0800	INFO	rpc/rpc_client.go:168	get app conn labels from env map[] 
+2025-07-01T19:51:36.559+0800	INFO	rpc/rpc_client.go:171	final app conn labels : map[] 
+2025-07-01T19:51:36.559+0800	INFO	rpc/rpc_client.go:327	[RpcClient.Start] 70ab9cb6-59a2-4d54-beb5-da6a84e97e08 try to connect to server on start up, server: {serverIp:mse-df8d5240-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848}
+2025-07-01T19:51:36.559+0800	INFO	rpc/grpc_client.go:175	check tls config %!(EXTRA *constant.TLSConfig=&{false false false    })
+2025-07-01T19:51:36.559+0800	INFO	rpc/grpc_client.go:180	try to get tls config from env
+2025-07-01T19:51:36.559+0800	INFO	rpc/grpc_client.go:189	 tls config from env is not enable
+2025-07-01T19:51:36.560+0800	INFO	util/common.go:96	Local IP:30.219.184.135
+2025-07-01T19:51:36.764+0800	INFO	rpc/rpc_client.go:337	70ab9cb6-59a2-4d54-beb5-da6a84e97e08 success to connect to server {serverIp:mse-df8d5240-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848} on start up, connectionId=1751370696617_106.11.31.218_50240
+2025-07-01T19:51:36.764+0800	INFO	naming_grpc/naming_grpc_proxy.go:95	register instance namespaceId:<public>,serviceName:<gatesvr> with instance:<{"instanceId":"","ip":"30.219.184.135","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"","serviceName":"","metadata":{"instanceID":"gatesvr-1751370696449347000"},"instanceHeartBeatInterval":0,"ipDeleteTimeout":0,"instanceHeartBeatTimeOut":0}>
+2025-07-01T19:51:36.800+0800	INFO	naming_grpc/naming_grpc_proxy.go:177	Subscribe Service namespaceId:<public>, serviceName:<gatesvr>, groupName:<DEFAULT_GROUP>, clusters:<>
+2025-07-01T19:51:36.835+0800	INFO	naming_cache/service_info_holder.go:96	service key:DEFAULT_GROUP@@gatesvr was updated to:{"cacheMillis":10000,"hosts":[{"instanceId":"30.219.184.135#50051##DEFAULT_GROUP@@gatesvr","ip":"30.219.184.135","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@gatesvr","metadata":{"instanceID":"gatesvr-1751370696449347000"},"instanceHeartBeatInterval":5000,"ipDeleteTimeout":30000,"instanceHeartBeatTimeOut":15000}],"checksum":"","lastRefTime":1751370696824,"clusters":"","name":"gatesvr","groupName":"DEFAULT_GROUP","valid":true,"allIPs":false,"reachProtectionThreshold":false}
+2025-07-01T19:51:41.593+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T19:51:46.626+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T19:51:51.662+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T19:51:56.696+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:00:13.285+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:00:13.286+0800	INFO	naming_http/push_receiver.go:89	udp server start, port: 55756
+2025-07-01T20:00:13.286+0800	INFO	rpc/rpc_client.go:157	init rpc client for name %!(EXTRA string=4496c18f-37dc-43da-8a14-24f75691bbae)
+2025-07-01T20:00:13.286+0800	INFO	rpc/rpc_client.go:166	get app conn labels from client config map[] 
+2025-07-01T20:00:13.286+0800	INFO	rpc/rpc_client.go:168	get app conn labels from env map[] 
+2025-07-01T20:00:13.286+0800	INFO	rpc/rpc_client.go:171	final app conn labels : map[] 
+2025-07-01T20:00:13.286+0800	INFO	rpc/rpc_client.go:327	[RpcClient.Start] 4496c18f-37dc-43da-8a14-24f75691bbae try to connect to server on start up, server: {serverIp:mse-df8d5240-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848}
+2025-07-01T20:00:13.286+0800	INFO	rpc/grpc_client.go:175	check tls config %!(EXTRA *constant.TLSConfig=&{false false false    })
+2025-07-01T20:00:13.286+0800	INFO	rpc/grpc_client.go:180	try to get tls config from env
+2025-07-01T20:00:13.286+0800	INFO	rpc/grpc_client.go:189	 tls config from env is not enable
+2025-07-01T20:00:13.286+0800	INFO	util/common.go:96	Local IP:30.219.184.135
+2025-07-01T20:00:13.483+0800	INFO	rpc/rpc_client.go:337	4496c18f-37dc-43da-8a14-24f75691bbae success to connect to server {serverIp:mse-df8d5240-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848} on start up, connectionId=1751371213339_106.11.31.218_51332
+2025-07-01T20:00:13.484+0800	INFO	rpc/rpc_client.go:486	4496c18f-37dc-43da-8a14-24f75691bbae notify connected event to listeners , connectionId=1751371213339_106.11.31.218_51332
+2025-07-01T20:00:13.484+0800	INFO	naming_grpc/naming_grpc_proxy.go:95	register instance namespaceId:<public>,serviceName:<gatesvr> with instance:<{"instanceId":"","ip":"30.219.184.135","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"","serviceName":"","metadata":{"instanceID":"gatesvr-1751371213137604000"},"instanceHeartBeatInterval":0,"ipDeleteTimeout":0,"instanceHeartBeatTimeOut":0}>
+2025-07-01T20:00:13.486+0800	INFO	naming_grpc/naming_grpc_proxy.go:95	register instance namespaceId:<public>,serviceName:<gatesvr> with instance:<{"instanceId":"","ip":"30.219.184.135","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"","serviceName":"","metadata":{"instanceID":"gatesvr-1751371213137604000"},"instanceHeartBeatInterval":0,"ipDeleteTimeout":0,"instanceHeartBeatTimeOut":0}>
+2025-07-01T20:00:13.518+0800	INFO	naming_grpc/naming_grpc_proxy.go:177	Subscribe Service namespaceId:<public>, serviceName:<gatesvr>, groupName:<DEFAULT_GROUP>, clusters:<>
+2025-07-01T20:00:13.550+0800	INFO	naming_cache/service_info_holder.go:96	service key:DEFAULT_GROUP@@gatesvr was updated to:{"cacheMillis":10000,"hosts":[{"instanceId":"30.219.184.135#50051##DEFAULT_GROUP@@gatesvr","ip":"30.219.184.135","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@gatesvr","metadata":{"instanceID":"gatesvr-1751371213137604000"},"instanceHeartBeatInterval":5000,"ipDeleteTimeout":30000,"instanceHeartBeatTimeOut":15000}],"checksum":"","lastRefTime":1751371213541,"clusters":"","name":"gatesvr","groupName":"DEFAULT_GROUP","valid":true,"allIPs":false,"reachProtectionThreshold":false}
+2025-07-01T20:00:18.323+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:00:23.358+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:00:28.391+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:00:33.425+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:02:15.258+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:02:15.259+0800	INFO	naming_http/push_receiver.go:89	udp server start, port: 55057
+2025-07-01T20:02:15.260+0800	INFO	rpc/rpc_client.go:157	init rpc client for name %!(EXTRA string=82a845a8-a816-4086-9ec3-6d9059937801)
+2025-07-01T20:02:15.260+0800	INFO	rpc/rpc_client.go:166	get app conn labels from client config map[] 
+2025-07-01T20:02:15.260+0800	INFO	rpc/rpc_client.go:168	get app conn labels from env map[] 
+2025-07-01T20:02:15.260+0800	INFO	rpc/rpc_client.go:171	final app conn labels : map[] 
+2025-07-01T20:02:15.260+0800	INFO	rpc/rpc_client.go:327	[RpcClient.Start] 82a845a8-a816-4086-9ec3-6d9059937801 try to connect to server on start up, server: {serverIp:mse-df8d5240-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848}
+2025-07-01T20:02:15.260+0800	INFO	rpc/grpc_client.go:175	check tls config %!(EXTRA *constant.TLSConfig=&{false false false    })
+2025-07-01T20:02:15.260+0800	INFO	rpc/grpc_client.go:180	try to get tls config from env
+2025-07-01T20:02:15.260+0800	INFO	rpc/grpc_client.go:189	 tls config from env is not enable
+2025-07-01T20:02:15.261+0800	INFO	util/common.go:96	Local IP:30.219.184.135
+2025-07-01T20:02:15.459+0800	INFO	rpc/rpc_client.go:337	82a845a8-a816-4086-9ec3-6d9059937801 success to connect to server {serverIp:mse-df8d5240-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848} on start up, connectionId=1751371335314_106.11.31.218_51523
+2025-07-01T20:02:15.460+0800	INFO	naming_grpc/naming_grpc_proxy.go:95	register instance namespaceId:<public>,serviceName:<gatesvr> with instance:<{"instanceId":"","ip":"30.219.184.135","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"","serviceName":"","metadata":{"instanceID":"gatesvr-1751371335099722000"},"instanceHeartBeatInterval":0,"ipDeleteTimeout":0,"instanceHeartBeatTimeOut":0}>
+2025-07-01T20:02:15.492+0800	INFO	naming_grpc/naming_grpc_proxy.go:177	Subscribe Service namespaceId:<public>, serviceName:<gatesvr>, groupName:<DEFAULT_GROUP>, clusters:<>
+2025-07-01T20:02:15.523+0800	INFO	naming_cache/service_info_holder.go:96	service key:DEFAULT_GROUP@@gatesvr was updated to:{"cacheMillis":10000,"hosts":[{"instanceId":"30.219.184.135#50051##DEFAULT_GROUP@@gatesvr","ip":"30.219.184.135","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@gatesvr","metadata":{"instanceID":"gatesvr-1751371335099722000"},"instanceHeartBeatInterval":5000,"ipDeleteTimeout":30000,"instanceHeartBeatTimeOut":15000}],"checksum":"","lastRefTime":1751371335513,"clusters":"","name":"gatesvr","groupName":"DEFAULT_GROUP","valid":true,"allIPs":false,"reachProtectionThreshold":false}
+2025-07-01T20:02:20.296+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:02:25.330+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:05:53.972+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:05:53.974+0800	INFO	naming_http/push_receiver.go:89	udp server start, port: 55623
+2025-07-01T20:05:53.974+0800	INFO	rpc/rpc_client.go:157	init rpc client for name %!(EXTRA string=3537cca6-81bc-40d7-ab37-ae206b190cd5)
+2025-07-01T20:05:53.974+0800	INFO	rpc/rpc_client.go:166	get app conn labels from client config map[] 
+2025-07-01T20:05:53.974+0800	INFO	rpc/rpc_client.go:168	get app conn labels from env map[] 
+2025-07-01T20:05:53.974+0800	INFO	rpc/rpc_client.go:171	final app conn labels : map[] 
+2025-07-01T20:05:53.974+0800	INFO	rpc/rpc_client.go:327	[RpcClient.Start] 3537cca6-81bc-40d7-ab37-ae206b190cd5 try to connect to server on start up, server: {serverIp:mse-df8d5240-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848}
+2025-07-01T20:05:53.974+0800	INFO	rpc/grpc_client.go:175	check tls config %!(EXTRA *constant.TLSConfig=&{false false false    })
+2025-07-01T20:05:53.974+0800	INFO	rpc/grpc_client.go:180	try to get tls config from env
+2025-07-01T20:05:53.974+0800	INFO	rpc/grpc_client.go:189	 tls config from env is not enable
+2025-07-01T20:05:53.975+0800	INFO	util/common.go:96	Local IP:30.219.184.135
+2025-07-01T20:05:54.182+0800	INFO	rpc/rpc_client.go:337	3537cca6-81bc-40d7-ab37-ae206b190cd5 success to connect to server {serverIp:mse-df8d5240-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848} on start up, connectionId=1751371554031_106.11.31.218_51846
+2025-07-01T20:05:54.182+0800	INFO	naming_grpc/naming_grpc_proxy.go:95	register instance namespaceId:<public>,serviceName:<gatesvr> with instance:<{"instanceId":"","ip":"30.219.184.135","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"","serviceName":"","metadata":{"instanceID":"gatesvr-1751371553829481000"},"instanceHeartBeatInterval":0,"ipDeleteTimeout":0,"instanceHeartBeatTimeOut":0}>
+2025-07-01T20:05:54.217+0800	INFO	naming_grpc/naming_grpc_proxy.go:177	Subscribe Service namespaceId:<public>, serviceName:<gatesvr>, groupName:<DEFAULT_GROUP>, clusters:<>
+2025-07-01T20:05:54.251+0800	INFO	naming_cache/service_info_holder.go:96	service key:DEFAULT_GROUP@@gatesvr was updated to:{"cacheMillis":10000,"hosts":[{"instanceId":"30.219.184.135#50051##DEFAULT_GROUP@@gatesvr","ip":"30.219.184.135","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@gatesvr","metadata":{"instanceID":"gatesvr-1751371553829481000"},"instanceHeartBeatInterval":5000,"ipDeleteTimeout":30000,"instanceHeartBeatTimeOut":15000}],"checksum":"","lastRefTime":1751371554239,"clusters":"","name":"gatesvr","groupName":"DEFAULT_GROUP","valid":true,"allIPs":false,"reachProtectionThreshold":false}
+2025-07-01T20:05:59.007+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:06:04.039+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:06:09.072+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:06:14.104+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:06:19.138+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:06:24.171+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:06:29.203+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:06:34.236+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:06:39.269+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:06:44.302+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:06:49.340+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:06:54.373+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:06:59.409+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:07:04.442+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:07:09.473+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:07:14.513+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:07:19.550+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:07:24.583+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:07:29.616+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:07:34.648+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:07:39.680+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:07:44.713+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:07:49.745+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:07:54.777+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:07:59.810+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:08:04.842+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:08:09.876+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:08:14.908+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:08:19.941+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:08:24.979+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:08:30.016+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:08:35.049+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:08:40.082+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:08:45.116+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:08:50.149+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:08:55.186+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:09:00.219+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:09:05.256+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:09:10.292+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:09:15.326+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:09:20.364+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:09:25.399+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:09:30.433+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:09:35.470+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:09:40.509+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:09:45.540+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:09:50.577+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:09:55.609+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:10:00.643+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:10:05.675+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:12:27.001+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:12:27.003+0800	INFO	naming_http/push_receiver.go:89	udp server start, port: 55836
+2025-07-01T20:12:27.003+0800	INFO	rpc/rpc_client.go:157	init rpc client for name %!(EXTRA string=92932d29-579d-49fa-bb59-f8d75e458e68)
+2025-07-01T20:12:27.003+0800	INFO	rpc/rpc_client.go:166	get app conn labels from client config map[] 
+2025-07-01T20:12:27.003+0800	INFO	rpc/rpc_client.go:168	get app conn labels from env map[] 
+2025-07-01T20:12:27.003+0800	INFO	rpc/rpc_client.go:171	final app conn labels : map[] 
+2025-07-01T20:12:27.003+0800	INFO	rpc/rpc_client.go:327	[RpcClient.Start] 92932d29-579d-49fa-bb59-f8d75e458e68 try to connect to server on start up, server: {serverIp:mse-df8d5240-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848}
+2025-07-01T20:12:27.003+0800	INFO	rpc/grpc_client.go:175	check tls config %!(EXTRA *constant.TLSConfig=&{false false false    })
+2025-07-01T20:12:27.003+0800	INFO	rpc/grpc_client.go:180	try to get tls config from env
+2025-07-01T20:12:27.003+0800	INFO	rpc/grpc_client.go:189	 tls config from env is not enable
+2025-07-01T20:12:27.004+0800	INFO	util/common.go:96	Local IP:30.219.184.135
+2025-07-01T20:12:27.211+0800	INFO	rpc/rpc_client.go:337	92932d29-579d-49fa-bb59-f8d75e458e68 success to connect to server {serverIp:mse-df8d5240-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848} on start up, connectionId=1751371947060_106.11.31.218_52522
+2025-07-01T20:12:27.212+0800	INFO	rpc/rpc_client.go:486	92932d29-579d-49fa-bb59-f8d75e458e68 notify connected event to listeners , connectionId=1751371947060_106.11.31.218_52522
+2025-07-01T20:12:27.212+0800	INFO	naming_grpc/naming_grpc_proxy.go:95	register instance namespaceId:<public>,serviceName:<gatesvr> with instance:<{"instanceId":"","ip":"30.219.184.135","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"","serviceName":"","metadata":{"instanceID":"gatesvr-1751371946862264000"},"instanceHeartBeatInterval":0,"ipDeleteTimeout":0,"instanceHeartBeatTimeOut":0}>
+2025-07-01T20:12:27.213+0800	INFO	naming_grpc/naming_grpc_proxy.go:95	register instance namespaceId:<public>,serviceName:<gatesvr> with instance:<{"instanceId":"","ip":"30.219.184.135","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"","serviceName":"","metadata":{"instanceID":"gatesvr-1751371946862264000"},"instanceHeartBeatInterval":0,"ipDeleteTimeout":0,"instanceHeartBeatTimeOut":0}>
+2025-07-01T20:12:27.248+0800	INFO	naming_grpc/naming_grpc_proxy.go:177	Subscribe Service namespaceId:<public>, serviceName:<gatesvr>, groupName:<DEFAULT_GROUP>, clusters:<>
+2025-07-01T20:12:27.286+0800	INFO	naming_cache/service_info_holder.go:96	service key:DEFAULT_GROUP@@gatesvr was updated to:{"cacheMillis":10000,"hosts":[{"instanceId":"30.219.184.135#50051##DEFAULT_GROUP@@gatesvr","ip":"30.219.184.135","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@gatesvr","metadata":{"instanceID":"gatesvr-1751371946862264000"},"instanceHeartBeatInterval":5000,"ipDeleteTimeout":30000,"instanceHeartBeatTimeOut":15000}],"checksum":"","lastRefTime":1751371947271,"clusters":"","name":"gatesvr","groupName":"DEFAULT_GROUP","valid":true,"allIPs":false,"reachProtectionThreshold":false}
+2025-07-01T20:12:32.036+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:12:37.071+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:12:42.105+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:12:47.139+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:19:59.370+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:19:59.371+0800	INFO	naming_http/push_receiver.go:89	udp server start, port: 55473
+2025-07-01T20:19:59.371+0800	INFO	rpc/rpc_client.go:157	init rpc client for name %!(EXTRA string=1c5cb535-ae2f-4536-a093-86ae8b85e6a3)
+2025-07-01T20:19:59.372+0800	INFO	rpc/rpc_client.go:166	get app conn labels from client config map[] 
+2025-07-01T20:19:59.372+0800	INFO	rpc/rpc_client.go:168	get app conn labels from env map[] 
+2025-07-01T20:19:59.372+0800	INFO	rpc/rpc_client.go:171	final app conn labels : map[] 
+2025-07-01T20:19:59.372+0800	INFO	rpc/rpc_client.go:327	[RpcClient.Start] 1c5cb535-ae2f-4536-a093-86ae8b85e6a3 try to connect to server on start up, server: {serverIp:mse-df8d5240-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848}
+2025-07-01T20:19:59.372+0800	INFO	rpc/grpc_client.go:175	check tls config %!(EXTRA *constant.TLSConfig=&{false false false    })
+2025-07-01T20:19:59.372+0800	INFO	rpc/grpc_client.go:180	try to get tls config from env
+2025-07-01T20:19:59.372+0800	INFO	rpc/grpc_client.go:189	 tls config from env is not enable
+2025-07-01T20:19:59.372+0800	INFO	util/common.go:96	Local IP:30.219.184.135
+2025-07-01T20:19:59.573+0800	INFO	rpc/rpc_client.go:337	1c5cb535-ae2f-4536-a093-86ae8b85e6a3 success to connect to server {serverIp:mse-df8d5240-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848} on start up, connectionId=1751372399424_106.11.31.218_53328
+2025-07-01T20:19:59.573+0800	INFO	naming_grpc/naming_grpc_proxy.go:95	register instance namespaceId:<public>,serviceName:<gatesvr> with instance:<{"instanceId":"","ip":"30.219.184.135","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"","serviceName":"","metadata":{"instanceID":"gatesvr-1751372399262797000"},"instanceHeartBeatInterval":0,"ipDeleteTimeout":0,"instanceHeartBeatTimeOut":0}>
+2025-07-01T20:19:59.607+0800	INFO	naming_grpc/naming_grpc_proxy.go:177	Subscribe Service namespaceId:<public>, serviceName:<gatesvr>, groupName:<DEFAULT_GROUP>, clusters:<>
+2025-07-01T20:19:59.641+0800	INFO	naming_cache/service_info_holder.go:96	service key:DEFAULT_GROUP@@gatesvr was updated to:{"cacheMillis":10000,"hosts":[{"instanceId":"30.219.184.135#50051##DEFAULT_GROUP@@gatesvr","ip":"30.219.184.135","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@gatesvr","metadata":{"instanceID":"gatesvr-1751372399262797000"},"instanceHeartBeatInterval":5000,"ipDeleteTimeout":30000,"instanceHeartBeatTimeOut":15000}],"checksum":"","lastRefTime":1751372399624,"clusters":"","name":"gatesvr","groupName":"DEFAULT_GROUP","valid":true,"allIPs":false,"reachProtectionThreshold":false}
+2025-07-01T20:20:04.407+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:20:09.441+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:20:14.476+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:20:19.510+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:20:24.545+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:20:29.579+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:20:34.614+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:20:39.650+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:20:44.686+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:20:49.723+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:20:54.758+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:20:59.795+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:21:04.831+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:21:09.867+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:25:22.842+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:25:22.843+0800	INFO	naming_http/push_receiver.go:89	udp server start, port: 55050
+2025-07-01T20:25:22.843+0800	INFO	rpc/rpc_client.go:157	init rpc client for name %!(EXTRA string=59aef738-7577-458f-9125-215032f5694b)
+2025-07-01T20:25:22.843+0800	INFO	rpc/rpc_client.go:166	get app conn labels from client config map[] 
+2025-07-01T20:25:22.843+0800	INFO	rpc/rpc_client.go:168	get app conn labels from env map[] 
+2025-07-01T20:25:22.843+0800	INFO	rpc/rpc_client.go:171	final app conn labels : map[] 
+2025-07-01T20:25:22.843+0800	INFO	rpc/rpc_client.go:327	[RpcClient.Start] 59aef738-7577-458f-9125-215032f5694b try to connect to server on start up, server: {serverIp:mse-df8d5240-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848}
+2025-07-01T20:25:22.843+0800	INFO	rpc/grpc_client.go:175	check tls config %!(EXTRA *constant.TLSConfig=&{false false false    })
+2025-07-01T20:25:22.843+0800	INFO	rpc/grpc_client.go:180	try to get tls config from env
+2025-07-01T20:25:22.843+0800	INFO	rpc/grpc_client.go:189	 tls config from env is not enable
+2025-07-01T20:25:22.844+0800	INFO	util/common.go:96	Local IP:30.219.184.135
+2025-07-01T20:25:23.041+0800	INFO	rpc/rpc_client.go:337	59aef738-7577-458f-9125-215032f5694b success to connect to server {serverIp:mse-df8d5240-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848} on start up, connectionId=1751372722891_106.11.31.218_53948
+2025-07-01T20:25:23.041+0800	INFO	rpc/rpc_client.go:486	59aef738-7577-458f-9125-215032f5694b notify connected event to listeners , connectionId=1751372722891_106.11.31.218_53948
+2025-07-01T20:25:23.041+0800	INFO	naming_grpc/naming_grpc_proxy.go:95	register instance namespaceId:<public>,serviceName:<gatesvr> with instance:<{"instanceId":"","ip":"30.219.184.135","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"","serviceName":"","metadata":{"instanceID":"gatesvr-1751372722746029000"},"instanceHeartBeatInterval":0,"ipDeleteTimeout":0,"instanceHeartBeatTimeOut":0}>
+2025-07-01T20:25:23.042+0800	INFO	naming_grpc/naming_grpc_proxy.go:95	register instance namespaceId:<public>,serviceName:<gatesvr> with instance:<{"instanceId":"","ip":"30.219.184.135","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"","serviceName":"","metadata":{"instanceID":"gatesvr-1751372722746029000"},"instanceHeartBeatInterval":0,"ipDeleteTimeout":0,"instanceHeartBeatTimeOut":0}>
+2025-07-01T20:25:23.074+0800	INFO	naming_grpc/naming_grpc_proxy.go:177	Subscribe Service namespaceId:<public>, serviceName:<gatesvr>, groupName:<DEFAULT_GROUP>, clusters:<>
+2025-07-01T20:25:23.105+0800	INFO	naming_cache/service_info_holder.go:96	service key:DEFAULT_GROUP@@gatesvr was updated to:{"cacheMillis":10000,"hosts":[{"instanceId":"30.219.184.135#50051##DEFAULT_GROUP@@gatesvr","ip":"30.219.184.135","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@gatesvr","metadata":{"instanceID":"gatesvr-1751372722746029000"},"instanceHeartBeatInterval":5000,"ipDeleteTimeout":30000,"instanceHeartBeatTimeOut":15000}],"checksum":"","lastRefTime":1751372723090,"clusters":"","name":"gatesvr","groupName":"DEFAULT_GROUP","valid":true,"allIPs":false,"reachProtectionThreshold":false}
+2025-07-01T20:25:27.877+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:25:32.911+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:26:05.942+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:26:05.943+0800	INFO	naming_http/push_receiver.go:89	udp server start, port: 55656
+2025-07-01T20:26:05.943+0800	INFO	rpc/rpc_client.go:157	init rpc client for name %!(EXTRA string=da6be9da-4734-435e-b40f-3754b3cd2e19)
+2025-07-01T20:26:05.943+0800	INFO	rpc/rpc_client.go:166	get app conn labels from client config map[] 
+2025-07-01T20:26:05.943+0800	INFO	rpc/rpc_client.go:168	get app conn labels from env map[] 
+2025-07-01T20:26:05.943+0800	INFO	rpc/rpc_client.go:171	final app conn labels : map[] 
+2025-07-01T20:26:05.943+0800	INFO	rpc/rpc_client.go:327	[RpcClient.Start] da6be9da-4734-435e-b40f-3754b3cd2e19 try to connect to server on start up, server: {serverIp:mse-df8d5240-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848}
+2025-07-01T20:26:05.943+0800	INFO	rpc/grpc_client.go:175	check tls config %!(EXTRA *constant.TLSConfig=&{false false false    })
+2025-07-01T20:26:05.943+0800	INFO	rpc/grpc_client.go:180	try to get tls config from env
+2025-07-01T20:26:05.944+0800	INFO	rpc/grpc_client.go:189	 tls config from env is not enable
+2025-07-01T20:26:05.944+0800	INFO	util/common.go:96	Local IP:30.219.184.135
+2025-07-01T20:26:06.145+0800	INFO	rpc/rpc_client.go:337	da6be9da-4734-435e-b40f-3754b3cd2e19 success to connect to server {serverIp:mse-df8d5240-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848} on start up, connectionId=1751372765994_106.11.31.218_54030
+2025-07-01T20:26:06.146+0800	INFO	naming_grpc/naming_grpc_proxy.go:95	register instance namespaceId:<public>,serviceName:<gatesvr> with instance:<{"instanceId":"","ip":"30.219.184.135","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"","serviceName":"","metadata":{"instanceID":"gatesvr-1751372765872202000"},"instanceHeartBeatInterval":0,"ipDeleteTimeout":0,"instanceHeartBeatTimeOut":0}>
+2025-07-01T20:26:06.195+0800	INFO	naming_grpc/naming_grpc_proxy.go:177	Subscribe Service namespaceId:<public>, serviceName:<gatesvr>, groupName:<DEFAULT_GROUP>, clusters:<>
+2025-07-01T20:26:06.230+0800	WARN	naming_cache/service_info_holder.go:81	instance list is empty, updateCacheWhenEmpty is set to false, callback is not triggered. service name:gatesvr
+2025-07-01T20:26:06.780+0800	INFO	naming_cache/service_info_holder.go:96	service key:DEFAULT_GROUP@@gatesvr was updated to:{"cacheMillis":10000,"hosts":[{"instanceId":"30.219.184.135#50051##DEFAULT_GROUP@@gatesvr","ip":"30.219.184.135","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@gatesvr","metadata":{"instanceID":"gatesvr-1751372765872202000"},"instanceHeartBeatInterval":5000,"ipDeleteTimeout":30000,"instanceHeartBeatTimeOut":15000}],"checksum":"","lastRefTime":1751372766764,"clusters":"","name":"gatesvr","groupName":"DEFAULT_GROUP","valid":true,"allIPs":false,"reachProtectionThreshold":false}
+2025-07-01T20:26:10.979+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:26:16.012+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:26:21.047+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:26:26.093+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:26:31.142+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:26:36.177+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:26:41.213+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:26:46.248+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:26:51.283+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:26:56.318+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:27:01.354+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:27:06.397+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:27:11.432+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:27:16.466+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:27:21.502+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:27:26.536+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:27:31.571+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:27:36.606+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:27:41.642+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:27:46.677+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:27:51.713+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-01T20:27:56.749+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T09:49:33.833+0800	ERROR	security/security_proxy.go:117	login in err:Post "http://mse-df8d5240-p.nacos-ans.mse.aliyuncs.com:8848/nacos/v1/auth/users/login": context deadline exceeded (Client.Timeout exceeded while awaiting headers)
+2025-07-02T09:49:33.836+0800	INFO	naming_http/push_receiver.go:89	udp server start, port: 55877
+2025-07-02T09:49:33.836+0800	INFO	rpc/rpc_client.go:157	init rpc client for name %!(EXTRA string=d3af1506-6c79-476f-9d1c-979a6b7d064f)
+2025-07-02T09:49:33.836+0800	INFO	rpc/rpc_client.go:166	get app conn labels from client config map[] 
+2025-07-02T09:49:33.836+0800	INFO	rpc/rpc_client.go:168	get app conn labels from env map[] 
+2025-07-02T09:49:33.836+0800	INFO	rpc/rpc_client.go:171	final app conn labels : map[] 
+2025-07-02T09:49:33.836+0800	INFO	rpc/rpc_client.go:327	[RpcClient.Start] d3af1506-6c79-476f-9d1c-979a6b7d064f try to connect to server on start up, server: {serverIp:mse-df8d5240-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848}
+2025-07-02T09:49:33.836+0800	INFO	rpc/grpc_client.go:175	check tls config %!(EXTRA *constant.TLSConfig=&{false false false    })
+2025-07-02T09:49:33.836+0800	INFO	rpc/grpc_client.go:180	try to get tls config from env
+2025-07-02T09:49:33.836+0800	INFO	rpc/grpc_client.go:189	 tls config from env is not enable
+2025-07-02T09:49:33.837+0800	INFO	util/common.go:96	Local IP:30.219.184.70
+2025-07-02T13:30:57.544+0800	ERROR	security/security_proxy.go:117	login in err:Post "http://mse-df8d5240-p.nacos-ans.mse.aliyuncs.com:8848/nacos/v1/auth/users/login": context deadline exceeded (Client.Timeout exceeded while awaiting headers)
+2025-07-02T13:30:57.547+0800	INFO	naming_http/push_receiver.go:89	udp server start, port: 55101
+2025-07-02T13:30:57.548+0800	INFO	rpc/rpc_client.go:157	init rpc client for name %!(EXTRA string=61eb9d5e-bf92-4da2-b8d7-161aa0b93fd5)
+2025-07-02T13:30:57.548+0800	INFO	rpc/rpc_client.go:166	get app conn labels from client config map[] 
+2025-07-02T13:30:57.548+0800	INFO	rpc/rpc_client.go:168	get app conn labels from env map[] 
+2025-07-02T13:30:57.548+0800	INFO	rpc/rpc_client.go:171	final app conn labels : map[] 
+2025-07-02T13:30:57.548+0800	INFO	rpc/rpc_client.go:327	[RpcClient.Start] 61eb9d5e-bf92-4da2-b8d7-161aa0b93fd5 try to connect to server on start up, server: {serverIp:mse-df8d5240-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848}
+2025-07-02T13:30:57.548+0800	INFO	rpc/grpc_client.go:175	check tls config %!(EXTRA *constant.TLSConfig=&{false false false    })
+2025-07-02T13:30:57.548+0800	INFO	rpc/grpc_client.go:180	try to get tls config from env
+2025-07-02T13:30:57.548+0800	INFO	rpc/grpc_client.go:189	 tls config from env is not enable
+2025-07-02T13:30:57.550+0800	INFO	util/common.go:96	Local IP:30.219.184.70
+2025-07-02T13:31:00.550+0800	WARN	rpc/rpc_client.go:329	[RpcClient.Start] 61eb9d5e-bf92-4da2-b8d7-161aa0b93fd5 fail to connect to server on start up, error message=server check request failed , err:rpc error: code = DeadlineExceeded desc = context deadline exceeded while waiting for connections to become ready, start up retry times left=2
+2025-07-02T13:31:00.551+0800	INFO	rpc/rpc_client.go:327	[RpcClient.Start] 61eb9d5e-bf92-4da2-b8d7-161aa0b93fd5 try to connect to server on start up, server: {serverIp:mse-df8d5240-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848}
+2025-07-02T13:31:00.551+0800	INFO	rpc/grpc_client.go:175	check tls config %!(EXTRA *constant.TLSConfig=&{false false false    })
+2025-07-02T13:31:00.551+0800	INFO	rpc/grpc_client.go:180	try to get tls config from env
+2025-07-02T13:31:00.551+0800	INFO	rpc/grpc_client.go:189	 tls config from env is not enable
+2025-07-02T13:31:03.553+0800	WARN	rpc/rpc_client.go:329	[RpcClient.Start] 61eb9d5e-bf92-4da2-b8d7-161aa0b93fd5 fail to connect to server on start up, error message=server check request failed , err:rpc error: code = DeadlineExceeded desc = context deadline exceeded while waiting for connections to become ready, start up retry times left=1
+2025-07-02T13:31:03.553+0800	INFO	rpc/rpc_client.go:327	[RpcClient.Start] 61eb9d5e-bf92-4da2-b8d7-161aa0b93fd5 try to connect to server on start up, server: {serverIp:mse-df8d5240-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848}
+2025-07-02T13:31:03.553+0800	INFO	rpc/grpc_client.go:175	check tls config %!(EXTRA *constant.TLSConfig=&{false false false    })
+2025-07-02T13:31:03.553+0800	INFO	rpc/grpc_client.go:180	try to get tls config from env
+2025-07-02T13:31:03.553+0800	INFO	rpc/grpc_client.go:189	 tls config from env is not enable
+2025-07-02T13:31:06.555+0800	WARN	rpc/rpc_client.go:329	[RpcClient.Start] 61eb9d5e-bf92-4da2-b8d7-161aa0b93fd5 fail to connect to server on start up, error message=server check request failed , err:rpc error: code = DeadlineExceeded desc = context deadline exceeded while waiting for connections to become ready, start up retry times left=0
+2025-07-02T13:31:06.556+0800	INFO	rpc/rpc_client.go:426	61eb9d5e-bf92-4da2-b8d7-161aa0b93fd5 try to re connect to a new server, server is not appointed, will choose a random server.
+2025-07-02T13:31:06.556+0800	INFO	naming_grpc/naming_grpc_proxy.go:95	register instance namespaceId:<public>,serviceName:<gatesvr> with instance:<{"instanceId":"","ip":"30.219.184.70","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"","serviceName":"","metadata":{"instanceID":"gatesvr-1751434252542664000"},"instanceHeartBeatInterval":0,"ipDeleteTimeout":0,"instanceHeartBeatTimeOut":0}>
+2025-07-02T13:31:06.556+0800	INFO	rpc/grpc_client.go:175	check tls config %!(EXTRA *constant.TLSConfig=&{false false false    })
+2025-07-02T13:31:06.556+0800	INFO	rpc/grpc_client.go:180	try to get tls config from env
+2025-07-02T13:31:06.556+0800	INFO	rpc/grpc_client.go:189	 tls config from env is not enable
+2025-07-02T13:31:06.556+0800	ERROR	rpc/rpc_client.go:629	Send request fail, request=InstanceRequest, body={"requestId":"","namespace":"public","serviceName":"gatesvr","groupName":"DEFAULT_GROUP","module":"naming","type":"registerInstance","instance":{"instanceId":"","ip":"30.219.184.70","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"","serviceName":"","metadata":{"instanceID":"gatesvr-1751434252542664000"},"instanceHeartBeatInterval":0,"ipDeleteTimeout":0,"instanceHeartBeatTimeOut":0}}, retryTimes=0, error=client not connected, current status:STARTING
+github.com/nacos-group/nacos-sdk-go/v2/common/remote/rpc.(*RpcClient).Request
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/common/remote/rpc/rpc_client.go:591
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client/naming_grpc.(*NamingGrpcProxy).requestToServer
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/clients/naming_client/naming_grpc/naming_grpc_proxy.go:88
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client/naming_grpc.(*NamingGrpcProxy).RegisterInstance
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/clients/naming_client/naming_grpc/naming_grpc_proxy.go:99
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client.(*NamingProxyDelegate).RegisterInstance
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/clients/naming_client/naming_proxy_delegate.go:92
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client.(*NamingClient).RegisterInstance
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/clients/naming_client/naming_client.go:124
+mua/gatesvr/internal/nacos.Register
+	/Users/chenleiyu/go/mua/gatesvr/internal/nacos/nacos.go:50
+main.initNacosAndRegister
+	/Users/chenleiyu/go/mua/gatesvr/cmd/main.go:191
+main.main
+	/Users/chenleiyu/go/mua/gatesvr/cmd/main.go:148
+runtime.main
+	/opt/homebrew/Cellar/go/1.24.3/libexec/src/runtime/proc.go:283
+runtime.goexit
+	/opt/homebrew/Cellar/go/1.24.3/libexec/src/runtime/asm_arm64.s:1223
+2025-07-02T13:31:06.658+0800	ERROR	rpc/rpc_client.go:629	Send request fail, request=InstanceRequest, body={"requestId":"","namespace":"public","serviceName":"gatesvr","groupName":"DEFAULT_GROUP","module":"naming","type":"registerInstance","instance":{"instanceId":"","ip":"30.219.184.70","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"","serviceName":"","metadata":{"instanceID":"gatesvr-1751434252542664000"},"instanceHeartBeatInterval":0,"ipDeleteTimeout":0,"instanceHeartBeatTimeOut":0}}, retryTimes=1, error=client not connected, current status:STARTING
+github.com/nacos-group/nacos-sdk-go/v2/common/remote/rpc.(*RpcClient).Request
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/common/remote/rpc/rpc_client.go:591
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client/naming_grpc.(*NamingGrpcProxy).requestToServer
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/clients/naming_client/naming_grpc/naming_grpc_proxy.go:88
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client/naming_grpc.(*NamingGrpcProxy).RegisterInstance
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/clients/naming_client/naming_grpc/naming_grpc_proxy.go:99
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client.(*NamingProxyDelegate).RegisterInstance
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/clients/naming_client/naming_proxy_delegate.go:92
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client.(*NamingClient).RegisterInstance
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/clients/naming_client/naming_client.go:124
+mua/gatesvr/internal/nacos.Register
+	/Users/chenleiyu/go/mua/gatesvr/internal/nacos/nacos.go:50
+main.initNacosAndRegister
+	/Users/chenleiyu/go/mua/gatesvr/cmd/main.go:191
+main.main
+	/Users/chenleiyu/go/mua/gatesvr/cmd/main.go:148
+runtime.main
+	/opt/homebrew/Cellar/go/1.24.3/libexec/src/runtime/proc.go:283
+runtime.goexit
+	/opt/homebrew/Cellar/go/1.24.3/libexec/src/runtime/asm_arm64.s:1223
+2025-07-02T13:31:06.760+0800	ERROR	rpc/rpc_client.go:629	Send request fail, request=InstanceRequest, body={"requestId":"","namespace":"public","serviceName":"gatesvr","groupName":"DEFAULT_GROUP","module":"naming","type":"registerInstance","instance":{"instanceId":"","ip":"30.219.184.70","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"","serviceName":"","metadata":{"instanceID":"gatesvr-1751434252542664000"},"instanceHeartBeatInterval":0,"ipDeleteTimeout":0,"instanceHeartBeatTimeOut":0}}, retryTimes=2, error=client not connected, current status:STARTING
+github.com/nacos-group/nacos-sdk-go/v2/common/remote/rpc.(*RpcClient).Request
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/common/remote/rpc/rpc_client.go:591
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client/naming_grpc.(*NamingGrpcProxy).requestToServer
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/clients/naming_client/naming_grpc/naming_grpc_proxy.go:88
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client/naming_grpc.(*NamingGrpcProxy).RegisterInstance
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/clients/naming_client/naming_grpc/naming_grpc_proxy.go:99
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client.(*NamingProxyDelegate).RegisterInstance
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/clients/naming_client/naming_proxy_delegate.go:92
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client.(*NamingClient).RegisterInstance
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/clients/naming_client/naming_client.go:124
+mua/gatesvr/internal/nacos.Register
+	/Users/chenleiyu/go/mua/gatesvr/internal/nacos/nacos.go:50
+main.initNacosAndRegister
+	/Users/chenleiyu/go/mua/gatesvr/cmd/main.go:191
+main.main
+	/Users/chenleiyu/go/mua/gatesvr/cmd/main.go:148
+runtime.main
+	/opt/homebrew/Cellar/go/1.24.3/libexec/src/runtime/proc.go:283
+runtime.goexit
+	/opt/homebrew/Cellar/go/1.24.3/libexec/src/runtime/asm_arm64.s:1223
+2025-07-02T13:33:07.046+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T13:33:07.048+0800	INFO	naming_http/push_receiver.go:89	udp server start, port: 55402
+2025-07-02T13:33:07.048+0800	INFO	rpc/rpc_client.go:157	init rpc client for name %!(EXTRA string=e0a0dde4-34d9-4c90-8b81-dfab3a23eb9c)
+2025-07-02T13:33:07.048+0800	INFO	rpc/rpc_client.go:166	get app conn labels from client config map[] 
+2025-07-02T13:33:07.048+0800	INFO	rpc/rpc_client.go:168	get app conn labels from env map[] 
+2025-07-02T13:33:07.048+0800	INFO	rpc/rpc_client.go:171	final app conn labels : map[] 
+2025-07-02T13:33:07.048+0800	INFO	rpc/rpc_client.go:327	[RpcClient.Start] e0a0dde4-34d9-4c90-8b81-dfab3a23eb9c try to connect to server on start up, server: {serverIp:mse-df8d5240-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848}
+2025-07-02T13:33:07.048+0800	INFO	rpc/grpc_client.go:175	check tls config %!(EXTRA *constant.TLSConfig=&{false false false    })
+2025-07-02T13:33:07.048+0800	INFO	rpc/grpc_client.go:180	try to get tls config from env
+2025-07-02T13:33:07.048+0800	INFO	rpc/grpc_client.go:189	 tls config from env is not enable
+2025-07-02T13:33:07.050+0800	INFO	util/common.go:96	Local IP:30.219.184.70
+2025-07-02T13:33:07.249+0800	INFO	rpc/rpc_client.go:337	e0a0dde4-34d9-4c90-8b81-dfab3a23eb9c success to connect to server {serverIp:mse-df8d5240-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848} on start up, connectionId=1751434387107_106.11.31.209_58878
+2025-07-02T13:33:07.249+0800	INFO	rpc/rpc_client.go:486	e0a0dde4-34d9-4c90-8b81-dfab3a23eb9c notify connected event to listeners , connectionId=1751434387107_106.11.31.209_58878
+2025-07-02T13:33:07.249+0800	INFO	naming_grpc/naming_grpc_proxy.go:95	register instance namespaceId:<public>,serviceName:<gatesvr> with instance:<{"instanceId":"","ip":"30.219.184.70","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"","serviceName":"","metadata":{"instanceID":"gatesvr-1751434386931236000"},"instanceHeartBeatInterval":0,"ipDeleteTimeout":0,"instanceHeartBeatTimeOut":0}>
+2025-07-02T13:33:07.249+0800	INFO	naming_grpc/naming_grpc_proxy.go:95	register instance namespaceId:<public>,serviceName:<gatesvr> with instance:<{"instanceId":"","ip":"30.219.184.70","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"","serviceName":"","metadata":{"instanceID":"gatesvr-1751434386931236000"},"instanceHeartBeatInterval":0,"ipDeleteTimeout":0,"instanceHeartBeatTimeOut":0}>
+2025-07-02T13:33:07.290+0800	INFO	naming_grpc/naming_grpc_proxy.go:177	Subscribe Service namespaceId:<public>, serviceName:<gatesvr>, groupName:<DEFAULT_GROUP>, clusters:<>
+2025-07-02T13:33:07.325+0800	INFO	naming_cache/service_info_holder.go:96	service key:DEFAULT_GROUP@@gatesvr was updated to:{"cacheMillis":10000,"hosts":[{"instanceId":"30.219.184.70#50051##DEFAULT_GROUP@@gatesvr","ip":"30.219.184.70","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@gatesvr","metadata":{"instanceID":"gatesvr-1751434386931236000"},"instanceHeartBeatInterval":5000,"ipDeleteTimeout":30000,"instanceHeartBeatTimeOut":15000}],"checksum":"","lastRefTime":1751434387317,"clusters":"","name":"gatesvr","groupName":"DEFAULT_GROUP","valid":true,"allIPs":false,"reachProtectionThreshold":false}
+2025-07-02T13:33:12.080+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T13:33:17.111+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T13:33:22.143+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T13:36:09.126+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T13:36:09.127+0800	INFO	naming_http/push_receiver.go:89	udp server start, port: 55307
+2025-07-02T13:36:09.128+0800	INFO	rpc/rpc_client.go:157	init rpc client for name %!(EXTRA string=d1b704ee-b9b4-4166-8806-1b07b29a3442)
+2025-07-02T13:36:09.128+0800	INFO	rpc/rpc_client.go:166	get app conn labels from client config map[] 
+2025-07-02T13:36:09.128+0800	INFO	rpc/rpc_client.go:168	get app conn labels from env map[] 
+2025-07-02T13:36:09.128+0800	INFO	rpc/rpc_client.go:171	final app conn labels : map[] 
+2025-07-02T13:36:09.128+0800	INFO	rpc/rpc_client.go:327	[RpcClient.Start] d1b704ee-b9b4-4166-8806-1b07b29a3442 try to connect to server on start up, server: {serverIp:mse-df8d5240-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848}
+2025-07-02T13:36:09.128+0800	INFO	rpc/grpc_client.go:175	check tls config %!(EXTRA *constant.TLSConfig=&{false false false    })
+2025-07-02T13:36:09.128+0800	INFO	rpc/grpc_client.go:180	try to get tls config from env
+2025-07-02T13:36:09.128+0800	INFO	rpc/grpc_client.go:189	 tls config from env is not enable
+2025-07-02T13:36:09.129+0800	INFO	util/common.go:96	Local IP:30.219.184.70
+2025-07-02T13:36:09.328+0800	INFO	rpc/rpc_client.go:337	d1b704ee-b9b4-4166-8806-1b07b29a3442 success to connect to server {serverIp:mse-df8d5240-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848} on start up, connectionId=1751434569188_106.11.31.209_59350
+2025-07-02T13:36:09.328+0800	INFO	naming_grpc/naming_grpc_proxy.go:95	register instance namespaceId:<public>,serviceName:<gatesvr> with instance:<{"instanceId":"","ip":"30.219.184.70","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"","serviceName":"","metadata":{"instanceID":"gatesvr-1751434568993214000"},"instanceHeartBeatInterval":0,"ipDeleteTimeout":0,"instanceHeartBeatTimeOut":0}>
+2025-07-02T13:36:09.362+0800	INFO	naming_grpc/naming_grpc_proxy.go:177	Subscribe Service namespaceId:<public>, serviceName:<gatesvr>, groupName:<DEFAULT_GROUP>, clusters:<>
+2025-07-02T13:36:09.395+0800	INFO	naming_cache/service_info_holder.go:96	service key:DEFAULT_GROUP@@gatesvr was updated to:{"cacheMillis":10000,"hosts":[{"instanceId":"30.219.184.70#50051##DEFAULT_GROUP@@gatesvr","ip":"30.219.184.70","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@gatesvr","metadata":{"instanceID":"gatesvr-1751434568993214000"},"instanceHeartBeatInterval":5000,"ipDeleteTimeout":30000,"instanceHeartBeatTimeOut":15000}],"checksum":"","lastRefTime":1751434569389,"clusters":"","name":"gatesvr","groupName":"DEFAULT_GROUP","valid":true,"allIPs":false,"reachProtectionThreshold":false}
+2025-07-02T13:36:14.153+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T13:36:19.180+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T13:36:24.210+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T13:36:29.240+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T13:36:34.272+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T13:36:39.303+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T13:37:29.075+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T13:37:29.075+0800	INFO	naming_http/push_receiver.go:89	udp server start, port: 55744
+2025-07-02T13:37:29.075+0800	INFO	rpc/rpc_client.go:157	init rpc client for name %!(EXTRA string=1f41d382-e7d8-4c0f-ae23-2d01e3e86cbf)
+2025-07-02T13:37:29.076+0800	INFO	rpc/rpc_client.go:166	get app conn labels from client config map[] 
+2025-07-02T13:37:29.076+0800	INFO	rpc/rpc_client.go:168	get app conn labels from env map[] 
+2025-07-02T13:37:29.076+0800	INFO	rpc/rpc_client.go:171	final app conn labels : map[] 
+2025-07-02T13:37:29.076+0800	INFO	rpc/rpc_client.go:327	[RpcClient.Start] 1f41d382-e7d8-4c0f-ae23-2d01e3e86cbf try to connect to server on start up, server: {serverIp:mse-df8d5240-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848}
+2025-07-02T13:37:29.076+0800	INFO	rpc/grpc_client.go:175	check tls config %!(EXTRA *constant.TLSConfig=&{false false false    })
+2025-07-02T13:37:29.076+0800	INFO	rpc/grpc_client.go:180	try to get tls config from env
+2025-07-02T13:37:29.076+0800	INFO	rpc/grpc_client.go:189	 tls config from env is not enable
+2025-07-02T13:37:29.076+0800	INFO	util/common.go:96	Local IP:30.219.184.70
+2025-07-02T13:37:29.271+0800	INFO	rpc/rpc_client.go:337	1f41d382-e7d8-4c0f-ae23-2d01e3e86cbf success to connect to server {serverIp:mse-df8d5240-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848} on start up, connectionId=1751434649164_106.11.31.209_59567
+2025-07-02T13:37:29.271+0800	INFO	naming_grpc/naming_grpc_proxy.go:95	register instance namespaceId:<public>,serviceName:<gatesvr> with instance:<{"instanceId":"","ip":"30.219.184.70","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"","serviceName":"","metadata":{"instanceID":"gatesvr-1751434648939006000"},"instanceHeartBeatInterval":0,"ipDeleteTimeout":0,"instanceHeartBeatTimeOut":0}>
+2025-07-02T13:37:29.305+0800	INFO	naming_grpc/naming_grpc_proxy.go:177	Subscribe Service namespaceId:<public>, serviceName:<gatesvr>, groupName:<DEFAULT_GROUP>, clusters:<>
+2025-07-02T13:37:29.337+0800	WARN	naming_cache/service_info_holder.go:81	instance list is empty, updateCacheWhenEmpty is set to false, callback is not triggered. service name:gatesvr
+2025-07-02T13:37:29.856+0800	INFO	naming_cache/service_info_holder.go:96	service key:DEFAULT_GROUP@@gatesvr was updated to:{"cacheMillis":10000,"hosts":[{"instanceId":"30.219.184.70#50051##DEFAULT_GROUP@@gatesvr","ip":"30.219.184.70","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@gatesvr","metadata":{"instanceID":"gatesvr-1751434648939006000"},"instanceHeartBeatInterval":5000,"ipDeleteTimeout":30000,"instanceHeartBeatTimeOut":15000}],"checksum":"","lastRefTime":1751434649882,"clusters":"","name":"gatesvr","groupName":"DEFAULT_GROUP","valid":true,"allIPs":false,"reachProtectionThreshold":false}
+2025-07-02T13:37:34.110+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T13:37:39.142+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T13:37:44.174+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T13:37:49.211+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T13:45:06.396+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T13:45:06.398+0800	INFO	naming_http/push_receiver.go:89	udp server start, port: 55250
+2025-07-02T13:45:06.399+0800	INFO	rpc/rpc_client.go:157	init rpc client for name %!(EXTRA string=a5329d2e-9c70-4e68-b543-6de7c4d928a0)
+2025-07-02T13:45:06.399+0800	INFO	rpc/rpc_client.go:166	get app conn labels from client config map[] 
+2025-07-02T13:45:06.399+0800	INFO	rpc/rpc_client.go:168	get app conn labels from env map[] 
+2025-07-02T13:45:06.399+0800	INFO	rpc/rpc_client.go:171	final app conn labels : map[] 
+2025-07-02T13:45:06.399+0800	INFO	rpc/rpc_client.go:327	[RpcClient.Start] a5329d2e-9c70-4e68-b543-6de7c4d928a0 try to connect to server on start up, server: {serverIp:mse-df8d5240-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848}
+2025-07-02T13:45:06.399+0800	INFO	rpc/grpc_client.go:175	check tls config %!(EXTRA *constant.TLSConfig=&{false false false    })
+2025-07-02T13:45:06.399+0800	INFO	rpc/grpc_client.go:180	try to get tls config from env
+2025-07-02T13:45:06.399+0800	INFO	rpc/grpc_client.go:189	 tls config from env is not enable
+2025-07-02T13:45:06.400+0800	INFO	util/common.go:96	Local IP:30.219.184.70
+2025-07-02T13:45:06.601+0800	INFO	rpc/rpc_client.go:337	a5329d2e-9c70-4e68-b543-6de7c4d928a0 success to connect to server {serverIp:mse-df8d5240-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848} on start up, connectionId=1751435106493_106.11.31.209_60597
+2025-07-02T13:45:06.601+0800	INFO	rpc/rpc_client.go:486	a5329d2e-9c70-4e68-b543-6de7c4d928a0 notify connected event to listeners , connectionId=1751435106493_106.11.31.209_60597
+2025-07-02T13:45:06.601+0800	INFO	naming_grpc/naming_grpc_proxy.go:95	register instance namespaceId:<public>,serviceName:<gatesvr> with instance:<{"instanceId":"","ip":"30.219.184.70","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"","serviceName":"","metadata":{"instanceID":"gatesvr-1751435106256888000"},"instanceHeartBeatInterval":0,"ipDeleteTimeout":0,"instanceHeartBeatTimeOut":0}>
+2025-07-02T13:45:06.602+0800	INFO	naming_grpc/naming_grpc_proxy.go:95	register instance namespaceId:<public>,serviceName:<gatesvr> with instance:<{"instanceId":"","ip":"30.219.184.70","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"","serviceName":"","metadata":{"instanceID":"gatesvr-1751435106256888000"},"instanceHeartBeatInterval":0,"ipDeleteTimeout":0,"instanceHeartBeatTimeOut":0}>
+2025-07-02T13:45:06.638+0800	INFO	naming_grpc/naming_grpc_proxy.go:177	Subscribe Service namespaceId:<public>, serviceName:<gatesvr>, groupName:<DEFAULT_GROUP>, clusters:<>
+2025-07-02T13:45:06.673+0800	INFO	naming_cache/service_info_holder.go:96	service key:DEFAULT_GROUP@@gatesvr was updated to:{"cacheMillis":10000,"hosts":[{"instanceId":"30.219.184.70#50051##DEFAULT_GROUP@@gatesvr","ip":"30.219.184.70","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@gatesvr","metadata":{"instanceID":"gatesvr-1751435106256888000"},"instanceHeartBeatInterval":5000,"ipDeleteTimeout":30000,"instanceHeartBeatTimeOut":15000}],"checksum":"","lastRefTime":1751435106700,"clusters":"","name":"gatesvr","groupName":"DEFAULT_GROUP","valid":true,"allIPs":false,"reachProtectionThreshold":false}
+2025-07-02T13:45:11.436+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T13:45:16.469+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T13:45:21.501+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T13:45:26.535+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T13:45:31.569+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T13:45:36.603+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T13:45:41.636+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T13:49:06.200+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T13:49:06.200+0800	INFO	naming_http/push_receiver.go:89	udp server start, port: 55899
+2025-07-02T13:49:06.201+0800	INFO	rpc/rpc_client.go:157	init rpc client for name %!(EXTRA string=e58a96fe-e886-43e7-8932-ed7dda55d701)
+2025-07-02T13:49:06.201+0800	INFO	rpc/rpc_client.go:166	get app conn labels from client config map[] 
+2025-07-02T13:49:06.201+0800	INFO	rpc/rpc_client.go:168	get app conn labels from env map[] 
+2025-07-02T13:49:06.201+0800	INFO	rpc/rpc_client.go:171	final app conn labels : map[] 
+2025-07-02T13:49:06.201+0800	INFO	rpc/rpc_client.go:327	[RpcClient.Start] e58a96fe-e886-43e7-8932-ed7dda55d701 try to connect to server on start up, server: {serverIp:mse-df8d5240-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848}
+2025-07-02T13:49:06.201+0800	INFO	rpc/grpc_client.go:175	check tls config %!(EXTRA *constant.TLSConfig=&{false false false    })
+2025-07-02T13:49:06.201+0800	INFO	rpc/grpc_client.go:180	try to get tls config from env
+2025-07-02T13:49:06.201+0800	INFO	rpc/grpc_client.go:189	 tls config from env is not enable
+2025-07-02T13:49:06.201+0800	INFO	util/common.go:96	Local IP:30.219.184.70
+2025-07-02T13:49:06.404+0800	INFO	rpc/rpc_client.go:337	e58a96fe-e886-43e7-8932-ed7dda55d701 success to connect to server {serverIp:mse-df8d5240-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848} on start up, connectionId=1751435346296_106.11.31.209_61138
+2025-07-02T13:49:06.405+0800	INFO	rpc/rpc_client.go:486	e58a96fe-e886-43e7-8932-ed7dda55d701 notify connected event to listeners , connectionId=1751435346296_106.11.31.209_61138
+2025-07-02T13:49:06.405+0800	INFO	naming_grpc/naming_grpc_proxy.go:95	register instance namespaceId:<public>,serviceName:<gatesvr> with instance:<{"instanceId":"","ip":"30.219.184.70","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"","serviceName":"","metadata":{"instanceID":"gatesvr-1751435346067755000"},"instanceHeartBeatInterval":0,"ipDeleteTimeout":0,"instanceHeartBeatTimeOut":0}>
+2025-07-02T13:49:06.406+0800	INFO	naming_grpc/naming_grpc_proxy.go:95	register instance namespaceId:<public>,serviceName:<gatesvr> with instance:<{"instanceId":"","ip":"30.219.184.70","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"","serviceName":"","metadata":{"instanceID":"gatesvr-1751435346067755000"},"instanceHeartBeatInterval":0,"ipDeleteTimeout":0,"instanceHeartBeatTimeOut":0}>
+2025-07-02T13:49:06.443+0800	INFO	naming_grpc/naming_grpc_proxy.go:177	Subscribe Service namespaceId:<public>, serviceName:<gatesvr>, groupName:<DEFAULT_GROUP>, clusters:<>
+2025-07-02T13:49:06.476+0800	INFO	naming_cache/service_info_holder.go:96	service key:DEFAULT_GROUP@@gatesvr was updated to:{"cacheMillis":10000,"hosts":[{"instanceId":"30.219.184.70#50051##DEFAULT_GROUP@@gatesvr","ip":"30.219.184.70","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@gatesvr","metadata":{"instanceID":"gatesvr-1751435346067755000"},"instanceHeartBeatInterval":5000,"ipDeleteTimeout":30000,"instanceHeartBeatTimeOut":15000}],"checksum":"","lastRefTime":1751435346504,"clusters":"","name":"gatesvr","groupName":"DEFAULT_GROUP","valid":true,"allIPs":false,"reachProtectionThreshold":false}
+2025-07-02T13:49:11.236+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T13:49:16.269+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T13:49:21.303+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T13:49:26.337+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T13:49:31.371+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T13:49:36.406+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T13:49:41.440+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T13:49:50.920+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T13:49:50.921+0800	INFO	naming_http/push_receiver.go:89	udp server start, port: 55476
+2025-07-02T13:49:50.921+0800	INFO	rpc/rpc_client.go:157	init rpc client for name %!(EXTRA string=fe594213-4fe7-4e7b-93aa-4793531554c5)
+2025-07-02T13:49:50.921+0800	INFO	rpc/rpc_client.go:166	get app conn labels from client config map[] 
+2025-07-02T13:49:50.921+0800	INFO	rpc/rpc_client.go:168	get app conn labels from env map[] 
+2025-07-02T13:49:50.921+0800	INFO	rpc/rpc_client.go:171	final app conn labels : map[] 
+2025-07-02T13:49:50.922+0800	INFO	rpc/rpc_client.go:327	[RpcClient.Start] fe594213-4fe7-4e7b-93aa-4793531554c5 try to connect to server on start up, server: {serverIp:mse-df8d5240-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848}
+2025-07-02T13:49:50.922+0800	INFO	rpc/grpc_client.go:175	check tls config %!(EXTRA *constant.TLSConfig=&{false false false    })
+2025-07-02T13:49:50.922+0800	INFO	rpc/grpc_client.go:180	try to get tls config from env
+2025-07-02T13:49:50.922+0800	INFO	rpc/grpc_client.go:189	 tls config from env is not enable
+2025-07-02T13:49:50.923+0800	INFO	util/common.go:96	Local IP:30.219.184.70
+2025-07-02T13:49:51.126+0800	INFO	rpc/rpc_client.go:337	fe594213-4fe7-4e7b-93aa-4793531554c5 success to connect to server {serverIp:mse-df8d5240-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848} on start up, connectionId=1751435391017_106.11.31.209_61238
+2025-07-02T13:49:51.127+0800	INFO	naming_grpc/naming_grpc_proxy.go:95	register instance namespaceId:<public>,serviceName:<gatesvr> with instance:<{"instanceId":"","ip":"30.219.184.70","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"","serviceName":"","metadata":{"instanceID":"gatesvr-1751435390850134000"},"instanceHeartBeatInterval":0,"ipDeleteTimeout":0,"instanceHeartBeatTimeOut":0}>
+2025-07-02T13:49:51.172+0800	INFO	naming_grpc/naming_grpc_proxy.go:177	Subscribe Service namespaceId:<public>, serviceName:<gatesvr>, groupName:<DEFAULT_GROUP>, clusters:<>
+2025-07-02T13:49:51.208+0800	WARN	naming_cache/service_info_holder.go:81	instance list is empty, updateCacheWhenEmpty is set to false, callback is not triggered. service name:gatesvr
+2025-07-02T13:49:51.735+0800	INFO	naming_cache/service_info_holder.go:96	service key:DEFAULT_GROUP@@gatesvr was updated to:{"cacheMillis":10000,"hosts":[{"instanceId":"30.219.184.70#50051##DEFAULT_GROUP@@gatesvr","ip":"30.219.184.70","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@gatesvr","metadata":{"instanceID":"gatesvr-1751435390850134000"},"instanceHeartBeatInterval":5000,"ipDeleteTimeout":30000,"instanceHeartBeatTimeOut":15000}],"checksum":"","lastRefTime":1751435391760,"clusters":"","name":"gatesvr","groupName":"DEFAULT_GROUP","valid":true,"allIPs":false,"reachProtectionThreshold":false}
+2025-07-02T13:49:55.955+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T13:50:00.989+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T13:50:06.024+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T13:50:11.059+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T13:50:16.094+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T13:57:00.816+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T13:57:00.818+0800	INFO	naming_http/push_receiver.go:89	udp server start, port: 55577
+2025-07-02T13:57:00.818+0800	INFO	rpc/rpc_client.go:157	init rpc client for name %!(EXTRA string=4ec715c5-e519-4e1a-867a-86ecc60b80d6)
+2025-07-02T13:57:00.819+0800	INFO	rpc/rpc_client.go:166	get app conn labels from client config map[] 
+2025-07-02T13:57:00.819+0800	INFO	rpc/rpc_client.go:168	get app conn labels from env map[] 
+2025-07-02T13:57:00.819+0800	INFO	rpc/rpc_client.go:171	final app conn labels : map[] 
+2025-07-02T13:57:00.819+0800	INFO	rpc/rpc_client.go:327	[RpcClient.Start] 4ec715c5-e519-4e1a-867a-86ecc60b80d6 try to connect to server on start up, server: {serverIp:mse-df8d5240-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848}
+2025-07-02T13:57:00.819+0800	INFO	rpc/grpc_client.go:175	check tls config %!(EXTRA *constant.TLSConfig=&{false false false    })
+2025-07-02T13:57:00.819+0800	INFO	rpc/grpc_client.go:180	try to get tls config from env
+2025-07-02T13:57:00.819+0800	INFO	rpc/grpc_client.go:189	 tls config from env is not enable
+2025-07-02T13:57:00.820+0800	INFO	util/common.go:96	Local IP:30.219.184.70
+2025-07-02T13:57:01.027+0800	INFO	rpc/rpc_client.go:337	4ec715c5-e519-4e1a-867a-86ecc60b80d6 success to connect to server {serverIp:mse-df8d5240-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848} on start up, connectionId=1751435820917_106.11.31.209_61943
+2025-07-02T13:57:01.027+0800	INFO	naming_grpc/naming_grpc_proxy.go:95	register instance namespaceId:<public>,serviceName:<gatesvr> with instance:<{"instanceId":"","ip":"30.219.184.70","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"","serviceName":"","metadata":{"instanceID":"gatesvr-1751435820665919000"},"instanceHeartBeatInterval":0,"ipDeleteTimeout":0,"instanceHeartBeatTimeOut":0}>
+2025-07-02T13:57:01.065+0800	INFO	naming_grpc/naming_grpc_proxy.go:177	Subscribe Service namespaceId:<public>, serviceName:<gatesvr>, groupName:<DEFAULT_GROUP>, clusters:<>
+2025-07-02T13:57:01.100+0800	INFO	naming_cache/service_info_holder.go:96	service key:DEFAULT_GROUP@@gatesvr was updated to:{"cacheMillis":10000,"hosts":[{"instanceId":"30.219.184.70#50051##DEFAULT_GROUP@@gatesvr","ip":"30.219.184.70","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@gatesvr","metadata":{"instanceID":"gatesvr-1751435820665919000"},"instanceHeartBeatInterval":5000,"ipDeleteTimeout":30000,"instanceHeartBeatTimeOut":15000}],"checksum":"","lastRefTime":1751435821126,"clusters":"","name":"gatesvr","groupName":"DEFAULT_GROUP","valid":true,"allIPs":false,"reachProtectionThreshold":false}
+2025-07-02T13:57:05.854+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T13:57:10.887+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T13:57:15.922+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T13:57:20.957+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T13:57:25.994+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T13:57:31.030+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T13:57:36.065+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:04:36.344+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:04:36.346+0800	INFO	naming_http/push_receiver.go:89	udp server start, port: 55530
+2025-07-02T14:04:36.346+0800	INFO	rpc/rpc_client.go:157	init rpc client for name %!(EXTRA string=ebccab11-da8e-4b24-b5b2-7945b777196a)
+2025-07-02T14:04:36.346+0800	INFO	rpc/rpc_client.go:166	get app conn labels from client config map[] 
+2025-07-02T14:04:36.346+0800	INFO	rpc/rpc_client.go:168	get app conn labels from env map[] 
+2025-07-02T14:04:36.346+0800	INFO	rpc/rpc_client.go:171	final app conn labels : map[] 
+2025-07-02T14:04:36.346+0800	INFO	rpc/rpc_client.go:327	[RpcClient.Start] ebccab11-da8e-4b24-b5b2-7945b777196a try to connect to server on start up, server: {serverIp:mse-df8d5240-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848}
+2025-07-02T14:04:36.346+0800	INFO	rpc/grpc_client.go:175	check tls config %!(EXTRA *constant.TLSConfig=&{false false false    })
+2025-07-02T14:04:36.346+0800	INFO	rpc/grpc_client.go:180	try to get tls config from env
+2025-07-02T14:04:36.347+0800	INFO	rpc/grpc_client.go:189	 tls config from env is not enable
+2025-07-02T14:04:36.348+0800	INFO	util/common.go:96	Local IP:30.219.184.70
+2025-07-02T14:04:36.548+0800	INFO	rpc/rpc_client.go:337	ebccab11-da8e-4b24-b5b2-7945b777196a success to connect to server {serverIp:mse-df8d5240-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848} on start up, connectionId=1751436276443_106.11.31.209_62709
+2025-07-02T14:04:36.548+0800	INFO	rpc/rpc_client.go:486	ebccab11-da8e-4b24-b5b2-7945b777196a notify connected event to listeners , connectionId=1751436276443_106.11.31.209_62709
+2025-07-02T14:04:36.548+0800	INFO	naming_grpc/naming_grpc_proxy.go:95	register instance namespaceId:<public>,serviceName:<gatesvr> with instance:<{"instanceId":"","ip":"30.219.184.70","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"","serviceName":"","metadata":{"instanceID":"gatesvr-1751436276198199000"},"instanceHeartBeatInterval":0,"ipDeleteTimeout":0,"instanceHeartBeatTimeOut":0}>
+2025-07-02T14:04:36.549+0800	INFO	naming_grpc/naming_grpc_proxy.go:95	register instance namespaceId:<public>,serviceName:<gatesvr> with instance:<{"instanceId":"","ip":"30.219.184.70","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"","serviceName":"","metadata":{"instanceID":"gatesvr-1751436276198199000"},"instanceHeartBeatInterval":0,"ipDeleteTimeout":0,"instanceHeartBeatTimeOut":0}>
+2025-07-02T14:04:36.581+0800	INFO	naming_grpc/naming_grpc_proxy.go:177	Subscribe Service namespaceId:<public>, serviceName:<gatesvr>, groupName:<DEFAULT_GROUP>, clusters:<>
+2025-07-02T14:04:36.614+0800	INFO	naming_cache/service_info_holder.go:96	service key:DEFAULT_GROUP@@gatesvr was updated to:{"cacheMillis":10000,"hosts":[{"instanceId":"30.219.184.70#50051##DEFAULT_GROUP@@gatesvr","ip":"30.219.184.70","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@gatesvr","metadata":{"instanceID":"gatesvr-1751436276198199000"},"instanceHeartBeatInterval":5000,"ipDeleteTimeout":30000,"instanceHeartBeatTimeOut":15000}],"checksum":"","lastRefTime":1751436276644,"clusters":"","name":"gatesvr","groupName":"DEFAULT_GROUP","valid":true,"allIPs":false,"reachProtectionThreshold":false}
+2025-07-02T14:05:32.217+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:05:32.219+0800	INFO	naming_http/push_receiver.go:89	udp server start, port: 54952
+2025-07-02T14:05:32.219+0800	INFO	rpc/rpc_client.go:157	init rpc client for name %!(EXTRA string=efb77bc1-9d25-4a7e-8732-2f7fe995c36d)
+2025-07-02T14:05:32.219+0800	INFO	rpc/rpc_client.go:166	get app conn labels from client config map[] 
+2025-07-02T14:05:32.219+0800	INFO	rpc/rpc_client.go:168	get app conn labels from env map[] 
+2025-07-02T14:05:32.219+0800	INFO	rpc/rpc_client.go:171	final app conn labels : map[] 
+2025-07-02T14:05:32.219+0800	INFO	rpc/rpc_client.go:327	[RpcClient.Start] efb77bc1-9d25-4a7e-8732-2f7fe995c36d try to connect to server on start up, server: {serverIp:mse-df8d5240-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848}
+2025-07-02T14:05:32.219+0800	INFO	rpc/grpc_client.go:175	check tls config %!(EXTRA *constant.TLSConfig=&{false false false    })
+2025-07-02T14:05:32.219+0800	INFO	rpc/grpc_client.go:180	try to get tls config from env
+2025-07-02T14:05:32.219+0800	INFO	rpc/grpc_client.go:189	 tls config from env is not enable
+2025-07-02T14:05:32.220+0800	INFO	util/common.go:96	Local IP:30.219.184.70
+2025-07-02T14:05:32.422+0800	INFO	rpc/rpc_client.go:337	efb77bc1-9d25-4a7e-8732-2f7fe995c36d success to connect to server {serverIp:mse-df8d5240-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848} on start up, connectionId=1751436332316_106.11.31.209_62896
+2025-07-02T14:05:32.422+0800	INFO	rpc/rpc_client.go:486	efb77bc1-9d25-4a7e-8732-2f7fe995c36d notify connected event to listeners , connectionId=1751436332316_106.11.31.209_62896
+2025-07-02T14:05:32.422+0800	INFO	naming_grpc/naming_grpc_proxy.go:95	register instance namespaceId:<public>,serviceName:<gatesvr> with instance:<{"instanceId":"","ip":"30.219.184.70","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"","serviceName":"","metadata":{"instanceID":"gatesvr-1751436332146113000"},"instanceHeartBeatInterval":0,"ipDeleteTimeout":0,"instanceHeartBeatTimeOut":0}>
+2025-07-02T14:05:32.424+0800	INFO	naming_grpc/naming_grpc_proxy.go:95	register instance namespaceId:<public>,serviceName:<gatesvr> with instance:<{"instanceId":"","ip":"30.219.184.70","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"","serviceName":"","metadata":{"instanceID":"gatesvr-1751436332146113000"},"instanceHeartBeatInterval":0,"ipDeleteTimeout":0,"instanceHeartBeatTimeOut":0}>
+2025-07-02T14:05:32.457+0800	INFO	naming_grpc/naming_grpc_proxy.go:177	Subscribe Service namespaceId:<public>, serviceName:<gatesvr>, groupName:<DEFAULT_GROUP>, clusters:<>
+2025-07-02T14:05:32.489+0800	INFO	naming_cache/service_info_holder.go:96	service key:DEFAULT_GROUP@@gatesvr was updated to:{"cacheMillis":10000,"hosts":[{"instanceId":"30.219.184.70#50051##DEFAULT_GROUP@@gatesvr","ip":"30.219.184.70","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@gatesvr","metadata":{"instanceID":"gatesvr-1751436332146113000"},"instanceHeartBeatInterval":5000,"ipDeleteTimeout":30000,"instanceHeartBeatTimeOut":15000}],"checksum":"","lastRefTime":1751436332520,"clusters":"","name":"gatesvr","groupName":"DEFAULT_GROUP","valid":true,"allIPs":false,"reachProtectionThreshold":false}
+2025-07-02T14:05:37.258+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:05:42.294+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:05:47.330+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:05:52.365+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:05:57.401+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:06:02.435+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:06:07.471+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:51:04.156+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:51:04.159+0800	INFO	naming_http/push_receiver.go:89	udp server start, port: 55037
+2025-07-02T14:51:04.159+0800	INFO	rpc/rpc_client.go:157	init rpc client for name %!(EXTRA string=1161b4f3-21ab-4718-a02c-4790fd3123e5)
+2025-07-02T14:51:04.159+0800	INFO	rpc/rpc_client.go:166	get app conn labels from client config map[] 
+2025-07-02T14:51:04.159+0800	INFO	rpc/rpc_client.go:168	get app conn labels from env map[] 
+2025-07-02T14:51:04.159+0800	INFO	rpc/rpc_client.go:171	final app conn labels : map[] 
+2025-07-02T14:51:04.159+0800	INFO	rpc/rpc_client.go:327	[RpcClient.Start] 1161b4f3-21ab-4718-a02c-4790fd3123e5 try to connect to server on start up, server: {serverIp:mse-df8d5240-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848}
+2025-07-02T14:51:04.159+0800	INFO	rpc/grpc_client.go:175	check tls config %!(EXTRA *constant.TLSConfig=&{false false false    })
+2025-07-02T14:51:04.159+0800	INFO	rpc/grpc_client.go:180	try to get tls config from env
+2025-07-02T14:51:04.159+0800	INFO	rpc/grpc_client.go:189	 tls config from env is not enable
+2025-07-02T14:51:04.160+0800	INFO	util/common.go:96	Local IP:30.219.184.70
+2025-07-02T14:51:04.363+0800	INFO	rpc/rpc_client.go:337	1161b4f3-21ab-4718-a02c-4790fd3123e5 success to connect to server {serverIp:mse-df8d5240-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848} on start up, connectionId=1751439064308_106.11.31.209_50933
+2025-07-02T14:51:04.363+0800	INFO	naming_grpc/naming_grpc_proxy.go:95	register instance namespaceId:<public>,serviceName:<gatesvr> with instance:<{"instanceId":"","ip":"30.219.184.70","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"","serviceName":"","metadata":{"instanceID":"gatesvr-1751439064010729000"},"instanceHeartBeatInterval":0,"ipDeleteTimeout":0,"instanceHeartBeatTimeOut":0}>
+2025-07-02T14:51:04.397+0800	INFO	naming_grpc/naming_grpc_proxy.go:177	Subscribe Service namespaceId:<public>, serviceName:<gatesvr>, groupName:<DEFAULT_GROUP>, clusters:<>
+2025-07-02T14:51:04.430+0800	INFO	naming_cache/service_info_holder.go:96	service key:DEFAULT_GROUP@@gatesvr was updated to:{"cacheMillis":10000,"hosts":[{"instanceId":"30.219.184.70#50051##DEFAULT_GROUP@@gatesvr","ip":"30.219.184.70","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@gatesvr","metadata":{"instanceID":"gatesvr-1751439064010729000"},"instanceHeartBeatInterval":5000,"ipDeleteTimeout":30000,"instanceHeartBeatTimeOut":15000}],"checksum":"","lastRefTime":1751439064513,"clusters":"","name":"gatesvr","groupName":"DEFAULT_GROUP","valid":true,"allIPs":false,"reachProtectionThreshold":false}
+2025-07-02T14:51:09.195+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:51:14.228+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:51:19.259+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:51:24.292+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:51:29.324+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:51:34.369+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:51:39.404+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:51:44.437+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:51:49.471+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:51:54.504+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:51:59.537+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:52:04.572+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:52:09.605+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:52:14.638+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:52:19.671+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:52:24.703+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:52:29.735+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:52:34.769+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:52:39.801+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:52:44.834+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:52:49.867+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:52:54.899+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:52:59.931+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:53:04.968+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:53:10.000+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:53:15.035+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:53:20.069+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:53:25.102+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:53:30.135+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:53:35.170+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:53:40.203+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:53:45.238+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:53:50.272+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:53:55.305+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:54:00.341+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:54:05.375+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:54:10.407+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:54:15.439+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:54:20.472+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:54:25.505+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:54:30.538+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:54:35.570+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:54:40.602+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:54:45.636+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:54:50.673+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:54:55.716+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:55:00.751+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:55:05.783+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:55:10.814+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:55:15.847+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:55:20.882+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:55:25.916+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:55:30.949+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:55:35.982+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:55:41.013+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:55:46.046+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:55:51.078+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:55:56.115+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:56:01.147+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:56:06.180+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:56:11.212+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:56:16.246+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:56:21.276+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:56:26.310+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:56:31.342+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:56:36.376+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:56:41.409+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:56:46.442+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:56:51.480+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:56:56.515+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:57:01.552+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:57:06.589+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:57:11.626+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:57:16.659+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:57:21.695+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:57:26.732+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:57:31.765+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:57:36.798+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:57:41.831+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:57:46.865+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:57:51.901+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:57:56.936+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:58:01.970+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:58:07.002+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:58:12.039+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:58:17.077+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:58:22.109+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:58:27.142+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:58:32.173+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:58:37.207+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:58:42.248+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:58:47.289+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:58:52.322+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:58:57.355+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:59:02.388+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:59:07.419+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:59:12.453+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:59:17.487+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:59:22.519+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:59:27.666+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:59:32.697+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:59:37.730+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:59:42.763+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:59:47.795+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:59:52.829+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T14:59:57.862+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:00:02.895+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:00:07.928+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:00:12.960+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:00:17.994+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:00:23.028+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:00:28.061+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:00:33.092+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:00:38.125+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:00:43.158+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:00:48.190+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:00:53.222+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:00:58.257+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:01:03.290+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:01:08.323+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:01:13.356+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:01:18.389+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:01:23.423+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:01:28.456+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:01:33.488+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:01:38.521+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:01:43.553+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:01:48.585+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:01:53.618+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:01:58.650+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:02:03.682+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:02:08.714+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:02:13.747+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:02:18.780+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:02:23.812+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:02:28.843+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:02:33.877+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:02:38.909+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:02:43.941+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:02:48.974+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:02:54.009+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:02:59.047+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:03:04.080+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:03:09.113+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:03:14.146+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:03:19.179+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:03:24.209+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:03:29.245+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:03:34.282+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:03:39.320+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:03:44.356+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:03:49.388+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:03:54.422+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:03:59.455+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:04:04.487+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:04:09.525+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:04:14.561+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:04:19.592+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:04:24.629+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:04:29.666+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:04:34.701+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:04:39.734+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:04:44.766+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:04:49.799+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:04:54.830+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:04:59.862+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:05:04.895+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:05:09.928+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:05:14.963+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:05:20.000+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:05:25.038+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:05:30.070+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:05:35.103+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:05:40.140+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:05:45.172+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:05:50.206+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:05:55.239+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:06:00.271+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:06:05.307+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:06:10.340+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:06:15.377+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:06:20.410+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:06:25.446+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:06:30.480+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:06:35.516+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:06:40.549+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:06:45.597+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:06:50.642+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:06:55.682+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:07:00.725+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:07:05.761+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:07:10.797+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:07:15.836+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:07:20.874+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:07:25.907+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:22:48.293+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:22:48.295+0800	INFO	naming_http/push_receiver.go:89	udp server start, port: 55145
+2025-07-02T15:22:48.295+0800	INFO	rpc/rpc_client.go:157	init rpc client for name %!(EXTRA string=6f5560c6-8407-4673-a733-1d2f0450723b)
+2025-07-02T15:22:48.295+0800	INFO	rpc/rpc_client.go:166	get app conn labels from client config map[] 
+2025-07-02T15:22:48.295+0800	INFO	rpc/rpc_client.go:168	get app conn labels from env map[] 
+2025-07-02T15:22:48.295+0800	INFO	rpc/rpc_client.go:171	final app conn labels : map[] 
+2025-07-02T15:22:48.295+0800	INFO	rpc/rpc_client.go:327	[RpcClient.Start] 6f5560c6-8407-4673-a733-1d2f0450723b try to connect to server on start up, server: {serverIp:mse-df8d5240-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848}
+2025-07-02T15:22:48.295+0800	INFO	rpc/grpc_client.go:175	check tls config %!(EXTRA *constant.TLSConfig=&{false false false    })
+2025-07-02T15:22:48.295+0800	INFO	rpc/grpc_client.go:180	try to get tls config from env
+2025-07-02T15:22:48.295+0800	INFO	rpc/grpc_client.go:189	 tls config from env is not enable
+2025-07-02T15:22:48.296+0800	INFO	util/common.go:96	Local IP:30.219.184.70
+2025-07-02T15:22:48.496+0800	INFO	rpc/rpc_client.go:337	6f5560c6-8407-4673-a733-1d2f0450723b success to connect to server {serverIp:mse-df8d5240-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848} on start up, connectionId=1751440968404_106.11.31.209_54528
+2025-07-02T15:22:48.497+0800	INFO	naming_grpc/naming_grpc_proxy.go:95	register instance namespaceId:<public>,serviceName:<gatesvr> with instance:<{"instanceId":"","ip":"30.219.184.70","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"","serviceName":"","metadata":{"instanceID":"gatesvr-1751440968149108000"},"instanceHeartBeatInterval":0,"ipDeleteTimeout":0,"instanceHeartBeatTimeOut":0}>
+2025-07-02T15:22:48.528+0800	INFO	naming_grpc/naming_grpc_proxy.go:177	Subscribe Service namespaceId:<public>, serviceName:<gatesvr>, groupName:<DEFAULT_GROUP>, clusters:<>
+2025-07-02T15:22:48.562+0800	INFO	naming_cache/service_info_holder.go:96	service key:DEFAULT_GROUP@@gatesvr was updated to:{"cacheMillis":10000,"hosts":[{"instanceId":"30.219.184.70#50051##DEFAULT_GROUP@@gatesvr","ip":"30.219.184.70","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@gatesvr","metadata":{"instanceID":"gatesvr-1751440968149108000"},"instanceHeartBeatInterval":5000,"ipDeleteTimeout":30000,"instanceHeartBeatTimeOut":15000}],"checksum":"","lastRefTime":1751440968604,"clusters":"","name":"gatesvr","groupName":"DEFAULT_GROUP","valid":true,"allIPs":false,"reachProtectionThreshold":false}
+2025-07-02T15:22:53.329+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:22:58.361+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:23:03.396+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:23:08.428+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:23:13.462+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:23:18.496+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:23:23.531+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:23:28.566+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:23:33.600+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:23:38.635+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:23:43.668+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:23:48.704+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:23:53.744+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:23:58.779+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:24:03.814+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:24:08.849+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:24:13.881+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:24:18.916+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:24:23.949+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:24:28.983+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:24:34.017+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:24:39.052+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:24:44.086+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:24:49.120+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:24:54.154+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:24:59.187+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:25:04.220+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T15:25:09.253+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T17:11:13.098+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T17:11:13.100+0800	INFO	naming_http/push_receiver.go:89	udp server start, port: 55189
+2025-07-02T17:11:13.100+0800	INFO	rpc/rpc_client.go:157	init rpc client for name %!(EXTRA string=1f8084a0-7008-45a8-9cbd-6d9e5fd0b8c6)
+2025-07-02T17:11:13.100+0800	INFO	rpc/rpc_client.go:166	get app conn labels from client config map[] 
+2025-07-02T17:11:13.100+0800	INFO	rpc/rpc_client.go:168	get app conn labels from env map[] 
+2025-07-02T17:11:13.100+0800	INFO	rpc/rpc_client.go:171	final app conn labels : map[] 
+2025-07-02T17:11:13.100+0800	INFO	rpc/rpc_client.go:327	[RpcClient.Start] 1f8084a0-7008-45a8-9cbd-6d9e5fd0b8c6 try to connect to server on start up, server: {serverIp:mse-df8d5240-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848}
+2025-07-02T17:11:13.100+0800	INFO	rpc/grpc_client.go:175	check tls config %!(EXTRA *constant.TLSConfig=&{false false false    })
+2025-07-02T17:11:13.100+0800	INFO	rpc/grpc_client.go:180	try to get tls config from env
+2025-07-02T17:11:13.100+0800	INFO	rpc/grpc_client.go:189	 tls config from env is not enable
+2025-07-02T17:11:13.101+0800	INFO	util/common.go:96	Local IP:169.254.12.238
+2025-07-02T17:11:13.301+0800	INFO	rpc/rpc_client.go:337	1f8084a0-7008-45a8-9cbd-6d9e5fd0b8c6 success to connect to server {serverIp:mse-df8d5240-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848} on start up, connectionId=1751447473199_106.11.31.209_49231
+2025-07-02T17:11:13.302+0800	INFO	naming_grpc/naming_grpc_proxy.go:95	register instance namespaceId:<public>,serviceName:<gatesvr> with instance:<{"instanceId":"","ip":"30.219.184.70","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"","serviceName":"","metadata":{"instanceID":"gatesvr-1751447472957210000"},"instanceHeartBeatInterval":0,"ipDeleteTimeout":0,"instanceHeartBeatTimeOut":0}>
+2025-07-02T17:11:13.335+0800	INFO	naming_grpc/naming_grpc_proxy.go:177	Subscribe Service namespaceId:<public>, serviceName:<gatesvr>, groupName:<DEFAULT_GROUP>, clusters:<>
+2025-07-02T17:11:13.367+0800	INFO	naming_cache/service_info_holder.go:96	service key:DEFAULT_GROUP@@gatesvr was updated to:{"cacheMillis":10000,"hosts":[{"instanceId":"30.219.184.70#50051##DEFAULT_GROUP@@gatesvr","ip":"30.219.184.70","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@gatesvr","metadata":{"instanceID":"gatesvr-1751447472957210000"},"instanceHeartBeatInterval":5000,"ipDeleteTimeout":30000,"instanceHeartBeatTimeOut":15000}],"checksum":"","lastRefTime":1751447473400,"clusters":"","name":"gatesvr","groupName":"DEFAULT_GROUP","valid":true,"allIPs":false,"reachProtectionThreshold":false}
+2025-07-02T17:11:18.133+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T17:11:30.957+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T17:11:30.958+0800	INFO	naming_http/push_receiver.go:89	udp server start, port: 55018
+2025-07-02T17:11:30.958+0800	INFO	rpc/rpc_client.go:157	init rpc client for name %!(EXTRA string=14783fbf-3a83-4754-805a-557fcb807384)
+2025-07-02T17:11:30.958+0800	INFO	rpc/rpc_client.go:166	get app conn labels from client config map[] 
+2025-07-02T17:11:30.958+0800	INFO	rpc/rpc_client.go:168	get app conn labels from env map[] 
+2025-07-02T17:11:30.958+0800	INFO	rpc/rpc_client.go:171	final app conn labels : map[] 
+2025-07-02T17:11:30.959+0800	INFO	rpc/rpc_client.go:327	[RpcClient.Start] 14783fbf-3a83-4754-805a-557fcb807384 try to connect to server on start up, server: {serverIp:mse-df8d5240-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848}
+2025-07-02T17:11:30.959+0800	INFO	rpc/grpc_client.go:175	check tls config %!(EXTRA *constant.TLSConfig=&{false false false    })
+2025-07-02T17:11:30.959+0800	INFO	rpc/grpc_client.go:180	try to get tls config from env
+2025-07-02T17:11:30.959+0800	INFO	rpc/grpc_client.go:189	 tls config from env is not enable
+2025-07-02T17:11:30.959+0800	INFO	util/common.go:96	Local IP:169.254.12.238
+2025-07-02T17:11:31.163+0800	INFO	rpc/rpc_client.go:337	14783fbf-3a83-4754-805a-557fcb807384 success to connect to server {serverIp:mse-df8d5240-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848} on start up, connectionId=1751447491058_106.11.31.209_49294
+2025-07-02T17:11:31.165+0800	INFO	naming_grpc/naming_grpc_proxy.go:95	register instance namespaceId:<public>,serviceName:<gatesvr> with instance:<{"instanceId":"","ip":"30.219.184.70","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"","serviceName":"","metadata":{"instanceID":"gatesvr-1751447490887601000"},"instanceHeartBeatInterval":0,"ipDeleteTimeout":0,"instanceHeartBeatTimeOut":0}>
+2025-07-02T17:11:31.200+0800	INFO	naming_grpc/naming_grpc_proxy.go:177	Subscribe Service namespaceId:<public>, serviceName:<gatesvr>, groupName:<DEFAULT_GROUP>, clusters:<>
+2025-07-02T17:11:31.234+0800	WARN	naming_cache/service_info_holder.go:81	instance list is empty, updateCacheWhenEmpty is set to false, callback is not triggered. service name:gatesvr
+2025-07-02T17:11:31.759+0800	INFO	naming_cache/service_info_holder.go:96	service key:DEFAULT_GROUP@@gatesvr was updated to:{"cacheMillis":10000,"hosts":[{"instanceId":"30.219.184.70#50051##DEFAULT_GROUP@@gatesvr","ip":"30.219.184.70","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@gatesvr","metadata":{"instanceID":"gatesvr-1751447490887601000"},"instanceHeartBeatInterval":5000,"ipDeleteTimeout":30000,"instanceHeartBeatTimeOut":15000}],"checksum":"","lastRefTime":1751447491789,"clusters":"","name":"gatesvr","groupName":"DEFAULT_GROUP","valid":true,"allIPs":false,"reachProtectionThreshold":false}
+2025-07-02T17:11:35.997+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T17:11:41.032+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T17:11:46.066+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T17:11:51.102+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T17:11:56.137+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T17:12:01.171+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T17:12:06.206+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T17:12:11.242+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T17:12:16.278+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T17:12:21.313+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T17:12:26.348+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T17:12:31.383+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T17:12:36.418+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T17:12:41.453+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T17:12:46.488+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T17:12:51.522+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T17:12:56.556+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T17:13:01.591+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T17:13:06.626+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T17:13:11.660+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T17:13:16.694+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T17:13:21.730+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T17:13:26.765+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T17:13:31.799+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T17:13:36.834+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T17:13:41.877+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T17:13:46.911+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T17:13:51.945+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-02T17:13:56.986+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found

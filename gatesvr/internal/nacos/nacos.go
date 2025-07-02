@@ -4,11 +4,13 @@ import (
 	"fmt"
 	"log"
 
+	"mua/gatesvr/config"
+
 	"github.com/nacos-group/nacos-sdk-go/v2/clients"
 	"github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client"
 	"github.com/nacos-group/nacos-sdk-go/v2/common/constant"
+	"github.com/nacos-group/nacos-sdk-go/v2/model"
 	"github.com/nacos-group/nacos-sdk-go/v2/vo"
-	"mua/gatesvr/config"
 )
 
 var (
@@ -24,7 +26,7 @@ func Register(instanceID, ip string, port uint64) {
 	cfg := config.GetConfig().Nacos
 	serverConfigs := []constant.ServerConfig{{
 		IpAddr: cfg.Addr,
-		Port:  cfg.Port,
+		Port:   cfg.Port,
 	}}
 	clientConfig := constant.ClientConfig{
 		TimeoutMs:           5000,
@@ -77,4 +79,44 @@ func GetAllInstances() []string {
 		addrs = append(addrs, fmt.Sprintf("%s:%d", inst.Ip, inst.Port))
 	}
 	return addrs
-} 
+}
+
+// 获取所有gatesvr实例ID（从metadata.instanceID获取）
+func GetAllInstanceIDs() []string {
+	res, err := client.SelectAllInstances(vo.SelectAllInstancesParam{
+		ServiceName: ServiceName,
+		GroupName:   GroupName,
+	})
+	if err != nil {
+		log.Printf("Nacos获取实例失败: %v", err)
+		return nil
+	}
+	var ids []string
+	for _, inst := range res {
+		if id, ok := inst.Metadata["instanceID"]; ok {
+			ids = append(ids, id)
+		}
+	}
+	return ids
+}
+
+// 监听 gatesvr 服务变更
+func SubscribeServiceChange(callback func(onlineAddrs []string)) {
+	go func() {
+		_ = client.Subscribe(&vo.SubscribeParam{
+			ServiceName: ServiceName,
+			GroupName:   GroupName,
+			SubscribeCallback: func(services []model.Instance, err error) {
+				if err != nil {
+					log.Printf("Nacos订阅回调错误: %v", err)
+					return
+				}
+				var addrs []string
+				for _, inst := range services {
+					addrs = append(addrs, fmt.Sprintf("%s:%d", inst.Ip, inst.Port))
+				}
+				callback(addrs)
+			},
+		})
+	}()
+}
