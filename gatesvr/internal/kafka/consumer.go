@@ -74,7 +74,7 @@ func StartPlayerEventConsumer(brokers []string, topic string, groupID string, ha
 				log.Printf("Kafka 读取消息失败: %v", err)
 				continue
 			}
-			log.Printf("Kafka 历史消息 offset=%d key=%s value=%s", m.Offset, string(m.Key), string(m.Value))
+			log.Printf("Kafka消息 offset=%d key=%s value=%s", m.Offset, string(m.Key), string(m.Value))
 
 			var evt pb.PlayerStatusChanged
 			if err := proto.Unmarshal(m.Value, &evt); err != nil {
@@ -82,14 +82,7 @@ func StartPlayerEventConsumer(brokers []string, topic string, groupID string, ha
 				continue
 			}
 
-			onlineGates := nacos.GetAllInstanceIDs() // []string, 形如 instanceID
-			gateOnline := false
-			for _, g := range onlineGates {
-				if g == evt.GatesvrId {
-					gateOnline = true
-					break
-				}
-			}
+			gateOnline := nacos.IsInstanceOnline(evt.GatesvrId)
 
 			handler(&evt, gateOnline)
 		}

@@ -26,22 +26,51 @@ var upgrader = websocket.Upgrader{
 // 可与TCP共用PlayerConn结构
 
 // 业务分发函数类型
-type HandlerFuncWS func(playerID string, msg *pb.GameMessage)
+// type HandlerFuncWS func(playerID string, msg *pb.GameMessage)
 
-var handlersWS = make(map[int32]HandlerFuncWS)
+// var handlersWS = make(map[int32]HandlerFuncWS)
 
-// 注册业务分发
-func RegisterHandlerWS(msgType int32, handler HandlerFuncWS) {
-	handlersWS[msgType] = handler
-}
+// // 注册业务分发
+// func RegisterHandlerWS(msgType int32, handler HandlerFuncWS) {
+// 	handlersWS[msgType] = handler
+// }
 
 // 启动WebSocket服务
 func StartWSServer(addr string) {
-	http.HandleFunc("/ws", wsHandler)
+	http.HandleFunc("/ws", wsUpgradeHandler)
 	log.Printf("WebSocket服务已启动，监听: %s/ws", addr)
 	if err := http.ListenAndServe(addr, nil); err != nil {
 		log.Fatalf("WebSocket监听失败: %v", err)
 	}
+}
+
+// 只负责升级协议和适配器创建
+func wsUpgradeHandler(w http.ResponseWriter, r *http.Request) {
+	conn, err := upgrader.Upgrade(w, r, nil)
+	if err != nil {
+		log.Printf("WebSocket升级失败: %v", err)
+		return
+	}
+	adapter := NewWSConnAdapter(conn, r)
+	go HandleConnection(
+		adapter,
+		wsHandlerRegistry{},
+		config.GetConfig().EnableTokenCheck,
+		config.GetConfig().EnableIPWhitelist,
+	)
+}
+
+// WS消息分发注册表
+var handlersWS = make(map[int32]HandlerFuncGeneric)
+
+func RegisterHandlerWS(msgType int32, handler HandlerFuncGeneric) {
+	handlersWS[msgType] = handler
+}
+
+type wsHandlerRegistry struct{}
+
+func (wsHandlerRegistry) GetHandler(msgType int32) HandlerFuncGeneric {
+	return handlersWS[msgType]
 }
 
 func wsHandler(w http.ResponseWriter, r *http.Request) {

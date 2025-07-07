@@ -46,17 +46,13 @@ func (s *server) KickPlayer(ctx context.Context, req *pb.KickPlayerRequest) (*pb
 	}
 	// 不在本节点，查路由并远程调用（只通过nacos实例遍历）
 	if gatesvrID, ok := route.Get(playerID); ok {
-		addrList := nacos.GetAllInstances()
-		for _, addr := range addrList {
-			if addr == gatesvrID {
-				err := rpc.KickPlayerRemote(addr, playerID, reason)
-				if err == nil {
-					return &pb.KickPlayerResponse{Success: true, Message: "远程踢下线成功"}, nil
-				}
-			}
+		addr := nacos.GetAddrByInstanceID(gatesvrID)
+		err := rpc.KickPlayerRemote(addr, playerID, reason)
+		if err == nil {
+			return &pb.KickPlayerResponse{Success: true, Message: "远程踢下线成功"}, nil
 		}
 	}
-	return &pb.KickPlayerResponse{Success: false, Message: "未找到目标玩家"}, nil
+	return &pb.KickPlayerResponse{Success: false, Message: "未找到目标玩家路由"}, nil
 }
 
 // 消息转发实现
@@ -199,18 +195,18 @@ func initRouteTable() {
 			case pb.PlayerStatusEventType_ONLINE:
 				if gateOnline {
 					// 如果是本地接入的消息，则忽略
-					if evt.GatesvrId == config.GetGatesvrID() {
+					if evt.GatesvrId == nacos.GetLocalInstanceID() {
 						return
 					}
 					route.Set(evt.PlayerId, evt.GatesvrId)
-					session.PlayerOnlineFromKafka(evt.PlayerId, evt.GatesvrId, evt.Ip)
 					log.Printf("[路由] 玩家[%s] 上线，路由到[%s]", evt.PlayerId, evt.GatesvrId)
+				} else {
+
 				}
 			case pb.PlayerStatusEventType_OFFLINE:
 				if v, ok := route.Get(evt.PlayerId); ok && v == evt.GatesvrId {
 					route.Delete(evt.PlayerId)
 				}
-				session.PlayerOfflineFromKafka(evt.PlayerId)
 			}
 		},
 	)
