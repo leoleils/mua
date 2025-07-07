@@ -3,15 +3,10 @@ package conn
 import (
 	"log"
 	"net/http"
-	"strings"
-	"time"
 
 	"mua/gatesvr/config"
-	"mua/gatesvr/internal/pb"
-	"mua/gatesvr/internal/session"
 
 	"github.com/gorilla/websocket"
-	"google.golang.org/protobuf/proto"
 )
 
 func init() {
@@ -71,112 +66,4 @@ type wsHandlerRegistry struct{}
 
 func (wsHandlerRegistry) GetHandler(msgType int32) HandlerFuncGeneric {
 	return handlersWS[msgType]
-}
-
-func wsHandler(w http.ResponseWriter, r *http.Request) {
-	remoteAddr := r.RemoteAddr
-	ip := strings.Split(remoteAddr, ":")[0]
-
-	cfg := config.GetConfig()
-	// IP白名单检查
-	if cfg.EnableIPWhitelist {
-		// 已移除auth依赖
-	}
-
-	conn, err := upgrader.Upgrade(w, r, nil)
-	if err != nil {
-		log.Printf("WebSocket升级失败: %v", err)
-		return
-	}
-	defer conn.Close()
-
-	// 1. 连接建立后，等待5秒内收到心跳或认证消息
-	conn.SetReadDeadline(time.Now().Add(5 * time.Second))
-	msgType, data, err := conn.ReadMessage()
-	if err != nil {
-		log.Printf("WebSocket连接建立后未及时收到首条消息: %v", err)
-		return
-	}
-	if msgType != websocket.BinaryMessage {
-		log.Printf("WebSocket首条消息类型非法: %d", msgType)
-		return
-	}
-	var gm pb.GameMessage
-	if err := proto.Unmarshal(data, &gm); err != nil {
-		log.Printf("WebSocket首条消息反序列化失败: %v", err)
-		return
-	}
-	if gm.MsgType != 0 && gm.MsgType != 100 {
-		log.Printf("WebSocket首条消息类型非法: %d", gm.MsgType)
-		return
-	}
-	if gm.MsgHead == nil || gm.MsgHead.PlayerId == "" {
-		log.Printf("WebSocket首条消息缺少player_id")
-		return
-	}
-	playerID := gm.MsgHead.PlayerId
-	gatesvrID := config.GetGatesvrID()
-
-	kickCh := make(chan string, 1)
-	kickFunc := func(reason string) {
-		kickCh <- reason
-	}
-	isOtherPlace, oldSession := session.PlayerOnline(playerID, ip, gatesvrID, kickFunc)
-	if isOtherPlace && oldSession != nil {
-		if oldSession.KickFunc != nil {
-			oldSession.KickFunc("异地登录")
-		}
-	}
-	log.Printf("玩家[%s] WebSocket上线，IP: %s", playerID, ip)
-
-	// 处理首条消息（心跳/认证）
-	if gm.MsgType == 0 {
-		session.UpdateHeartbeat(playerID)
-		log.Printf("收到玩家[%s] WebSocket心跳", playerID)
-	} else if gm.MsgType == 100 {
-		// 已移除auth依赖
-	}
-
-	// 进入正常消息循环
-	for {
-		conn.SetReadDeadline(time.Now().Add(HeartbeatTimeout))
-		select {
-		case reason := <-kickCh:
-			log.Printf("玩家[%s] WebSocket被踢下线: %s", playerID, reason)
-			return
-		default:
-		}
-		msgType, data, err := conn.ReadMessage()
-		if err != nil {
-			log.Printf("玩家[%s] WebSocket断开: %v", playerID, err)
-			break
-		}
-		if msgType != websocket.BinaryMessage {
-			log.Printf("玩家[%s] 非法消息类型: %d", playerID, msgType)
-			continue
-		}
-		var gm pb.GameMessage
-		if err := proto.Unmarshal(data, &gm); err != nil {
-			log.Printf("玩家[%s] WebSocket消息反序列化失败: %v", playerID, err)
-			continue
-		}
-		if gm.MsgType == 0 {
-			session.UpdateHeartbeat(playerID)
-			log.Printf("收到玩家[%s] WebSocket心跳", playerID)
-			continue
-		}
-		if gm.MsgType == 100 {
-			// 已移除auth依赖
-		}
-		if gm.MsgType != 0 && gm.MsgType != 100 && cfg.EnableTokenCheck {
-			// 已移除auth依赖
-		}
-		if handler, ok := handlersWS[gm.MsgType]; ok {
-			handler(playerID, &gm)
-		} else {
-			log.Printf("收到玩家[%s] WebSocket未知类型消息: %d", playerID, gm.MsgType)
-		}
-	}
-	session.PlayerOffline(playerID)
-	log.Printf("玩家[%s] WebSocket连接已关闭", playerID)
 }
