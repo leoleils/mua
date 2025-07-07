@@ -3,12 +3,11 @@ package conn
 import (
 	"log"
 	"mua/gatesvr/config"
-	"mua/gatesvr/internal/auth"
 	"mua/gatesvr/internal/pb"
+	"mua/gatesvr/internal/route"
 	"mua/gatesvr/internal/session"
 	"net"
 	"strings"
-	"sync"
 	"time"
 
 	"google.golang.org/protobuf/proto"
@@ -23,24 +22,20 @@ const (
 	HeartbeatTimeout  = 60 * time.Second
 )
 
-type PlayerConn struct {
-	Conn          net.Conn
-	PlayerID      string
-	LastHeartbeat time.Time
-	IP            string
-}
-
-var (
-	playerConns sync.Map // playerID -> *PlayerConn
-)
-
 // 业务分发函数类型
 type HandlerFunc func(playerID string, msg *pb.GameMessage)
 
-var handlers = make(map[int32]HandlerFunc)
+// 新增：通用 handler 注册表实现
+var handlers = make(map[int32]HandlerFuncGeneric)
+
+type tcpHandlerRegistry struct{}
+
+func (tcpHandlerRegistry) GetHandler(msgType int32) HandlerFuncGeneric {
+	return handlers[msgType]
+}
 
 // 注册业务分发
-func RegisterHandler(msgType int32, handler HandlerFunc) {
+func RegisterHandler(msgType int32, handler HandlerFuncGeneric) {
 	handlers[msgType] = handler
 }
 
@@ -57,25 +52,11 @@ func StartTCPServer(addr string) {
 			log.Printf("接受连接失败: %v", err)
 			continue
 		}
-		go handleTCPConn(conn)
+		go func(c net.Conn) {
+			adapter := NewTCPConnAdapter(c)
+			HandleConnection(adapter, tcpHandlerRegistry{}, config.GetConfig().EnableTokenCheck, config.GetConfig().EnableIPWhitelist)
+		}(conn)
 	}
-}
-
-// 向指定玩家推送消息
-func SendToPlayer(playerID string, gm *pb.GameMessage) bool {
-	val, ok := playerConns.Load(playerID)
-	if !ok {
-		return false
-	}
-	pc := val.(*PlayerConn)
-	data, err := proto.Marshal(gm)
-	if err != nil {
-		return false
-	}
-	// 发送长度前缀+数据
-	lenBuf := []byte{byte(len(data)), byte(len(data) >> 8), byte(len(data) >> 16), byte(len(data) >> 24)}
-	_, err = pc.Conn.Write(append(lenBuf, data...))
-	return err == nil
 }
 
 func handleTCPConn(conn net.Conn) {
@@ -86,14 +67,43 @@ func handleTCPConn(conn net.Conn) {
 	cfg := config.GetConfig()
 	// IP白名单检查
 	if cfg.EnableIPWhitelist {
-		if !auth.IsIPAllowed(ip) {
-			log.Printf("[认证] IP %s 不在白名单中，拒绝连接", ip)
-			return
-		}
+		// 已移除auth依赖
 	}
 
-	playerID := remoteAddr
-	gatesvrID := "gatesvr-1"
+	// 1. 连接建立后，等待5秒内收到心跳或认证消息
+	conn.SetReadDeadline(time.Now().Add(5 * time.Second))
+	lenBuf := make([]byte, 4)
+	_, err := conn.Read(lenBuf)
+	if err != nil {
+		log.Printf("连接建立后未及时收到首条消息: %v", err)
+		return
+	}
+	msgLen := int(lenBuf[0]) | int(lenBuf[1])<<8 | int(lenBuf[2])<<16 | int(lenBuf[3])<<24
+	if msgLen <= 0 || msgLen > 10*1024 {
+		log.Printf("首条消息长度非法: %d", msgLen)
+		return
+	}
+	data := make([]byte, msgLen)
+	_, err = conn.Read(data)
+	if err != nil {
+		log.Printf("首条消息读取失败: %v", err)
+		return
+	}
+	var gm pb.GameMessage
+	if err := proto.Unmarshal(data, &gm); err != nil {
+		log.Printf("首条消息反序列化失败: %v", err)
+		return
+	}
+	if gm.MsgType != 0 && gm.MsgType != 100 {
+		log.Printf("首条消息类型非法: %d", gm.MsgType)
+		return
+	}
+	if gm.MsgHead == nil || gm.MsgHead.PlayerId == "" {
+		log.Printf("首条消息缺少player_id")
+		return
+	}
+	playerID := gm.MsgHead.PlayerId
+	gatesvrID := config.GetGatesvrID()
 
 	kickCh := make(chan string, 1)
 	kickFunc := func(reason string) {
@@ -107,14 +117,16 @@ func handleTCPConn(conn net.Conn) {
 	}
 	log.Printf("玩家[%s]上线，IP: %s", playerID, ip)
 
-	pc := &PlayerConn{
-		Conn:          conn,
-		PlayerID:      playerID,
-		LastHeartbeat: time.Now(),
-		IP:            ip,
+	// 处理首条消息（心跳/认证）
+	if gm.MsgType == 0 {
+		session.UpdateHeartbeat(playerID)
+		log.Printf("收到玩家[%s]心跳", playerID)
+		log.Printf("[路由] 当前路由表: %+v", route.GetAll())
+	} else if gm.MsgType == 100 {
+		// 已移除auth依赖
 	}
-	playerConns.Store(playerID, pc)
 
+	// 进入正常消息循环
 	for {
 		conn.SetReadDeadline(time.Now().Add(HeartbeatTimeout))
 		select {
@@ -123,7 +135,6 @@ func handleTCPConn(conn net.Conn) {
 			return
 		default:
 		}
-		// 读取长度前缀+protobuf二进制
 		lenBuf := make([]byte, 4)
 		_, err := conn.Read(lenBuf)
 		if err != nil {
@@ -147,37 +158,16 @@ func handleTCPConn(conn net.Conn) {
 			continue
 		}
 		if gm.MsgType == 0 {
-			// 心跳
 			session.UpdateHeartbeat(playerID)
 			log.Printf("收到玩家[%s]心跳", playerID)
+			log.Printf("[路由] 当前路由表: %+v", route.GetAll())
 			continue
 		}
-		// 认证消息特殊处理
 		if gm.MsgType == 100 {
-			// 为认证消息添加IP信息到payload
-			authPayload := append([]byte(ip+":"), gm.Payload...)
-			authMsg := &pb.GameMessage{
-				MsgHead: gm.MsgHead,
-				MsgType: gm.MsgType,
-				Payload: authPayload,
-				MsgTap:  gm.MsgTap,
-				GameId:  gm.GameId,
-			}
-			if handler, ok := handlers[gm.MsgType]; ok {
-				handler(playerID, authMsg)
-			}
-			continue
+			// 已移除auth依赖
 		}
-		// 令牌校验（除了心跳和认证消息）
 		if gm.MsgType != 0 && gm.MsgType != 100 && cfg.EnableTokenCheck {
-			if gm.MsgHead == nil || gm.MsgHead.Token == "" {
-				log.Printf("[认证] 玩家[%s]消息缺少令牌，拒绝处理", playerID)
-				continue
-			}
-			if !auth.ValidateToken(gm.MsgHead.Token, playerID, ip) {
-				log.Printf("[认证] 玩家[%s]令牌验证失败", playerID)
-				continue
-			}
+			// 已移除auth依赖
 		}
 		if handler, ok := handlers[gm.MsgType]; ok {
 			handler(playerID, &gm)
@@ -185,7 +175,6 @@ func handleTCPConn(conn net.Conn) {
 			log.Printf("收到玩家[%s]未知类型消息: %d", playerID, gm.MsgType)
 		}
 	}
-	playerConns.Delete(playerID)
 	session.PlayerOffline(playerID)
 	log.Printf("玩家[%s]连接已关闭", playerID)
 }

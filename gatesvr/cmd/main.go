@@ -7,7 +7,6 @@ import (
 
 	"context"
 	"mua/gatesvr/config"
-	"mua/gatesvr/internal/auth"
 	"mua/gatesvr/internal/conn"
 	"mua/gatesvr/internal/kafka"
 	"mua/gatesvr/internal/nacos"
@@ -72,7 +71,7 @@ func (s *server) ForwardMessage(ctx context.Context, req *pb.ForwardMessageReque
 		log.Printf("[本节点-TCP] 推送消息到玩家: %s", playerID)
 		return &pb.ForwardMessageResponse{Success: true, Message: "本节点TCP推送成功"}, nil
 	}
-	if conn.SendToPlayerWS(playerID, &gm) {
+	if conn.SendToPlayer(playerID, &gm) {
 		log.Printf("[本节点-WS] 推送消息到玩家: %s", playerID)
 		return &pb.ForwardMessageResponse{Success: true, Message: "本节点WS推送成功"}, nil
 	}
@@ -111,7 +110,7 @@ func (s *server) PushToClient(ctx context.Context, req *pb.PushRequest) (*pb.Pus
 	}
 
 	// 本地推送
-	if conn.SendToPlayer(playerID, gm) || conn.SendToPlayerWS(playerID, gm) {
+	if conn.SendToPlayer(playerID, gm) || conn.SendToPlayer(playerID, gm) {
 		log.Printf("[PushToClient] 本节点推送成功: %s", playerID)
 		if cbType == pb.CallbackType_SYNC {
 			return &pb.PushResponse{Success: true, Message: "本节点推送成功"}, nil
@@ -170,15 +169,7 @@ func loadAndWatchConfig() {
 }
 
 // 初始化认证
-func initAuth() {
-	cfg := config.GetConfig()
-	if cfg.EnableIPWhitelist {
-		auth.InitIPWhitelist()
-	}
-	if cfg.EnableTokenCheck {
-		auth.InitTokenManager("") // 使用默认密钥，生产环境应该从配置读取
-	}
-}
+func initAuth() {}
 
 // 初始化Kafka
 func initKafka() {
@@ -207,8 +198,13 @@ func initRouteTable() {
 			switch evt.Event {
 			case pb.PlayerStatusEventType_ONLINE:
 				if gateOnline {
+					// 如果是本地接入的消息，则忽略
+					if evt.GatesvrId == config.GetGatesvrID() {
+						return
+					}
 					route.Set(evt.PlayerId, evt.GatesvrId)
-					session.PlayerOnlineFromKafka(evt.PlayerId, evt.GatesvrId)
+					session.PlayerOnlineFromKafka(evt.PlayerId, evt.GatesvrId, evt.Ip)
+					log.Printf("[路由] 玩家[%s] 上线，路由到[%s]", evt.PlayerId, evt.GatesvrId)
 				}
 			case pb.PlayerStatusEventType_OFFLINE:
 				if v, ok := route.Get(evt.PlayerId); ok && v == evt.GatesvrId {
@@ -240,30 +236,6 @@ func registerBusinessHandlers() {
 	})
 	conn.RegisterHandler(2, func(playerID string, msg *pb.GameMessage) {
 		log.Printf("[业务2][TCP] 玩家[%s] 数据: %s", playerID, string(msg.Payload))
-	})
-	conn.RegisterHandler(100, func(playerID string, msg *pb.GameMessage) {
-		token := auth.GenerateTokenFromPayload(playerID, msg.Payload, 24*time.Hour)
-		log.Printf("[认证] 为玩家[%s]生成令牌: %s", playerID, token)
-		response := &pb.GameMessage{
-			MsgHead: &pb.HeadMessage{
-				PlayerId: playerID,
-			},
-			MsgType: 101,
-			Payload: []byte(token),
-		}
-		conn.SendToPlayer(playerID, response)
-	})
-	conn.RegisterHandlerWS(100, func(playerID string, msg *pb.GameMessage) {
-		token := auth.GenerateTokenFromPayload(playerID, msg.Payload, 24*time.Hour)
-		log.Printf("[认证] 为玩家[%s]生成WebSocket令牌: %s", playerID, token)
-		response := &pb.GameMessage{
-			MsgHead: &pb.HeadMessage{
-				PlayerId: playerID,
-			},
-			MsgType: 101,
-			Payload: []byte(token),
-		}
-		conn.SendToPlayerWS(playerID, response)
 	})
 }
 

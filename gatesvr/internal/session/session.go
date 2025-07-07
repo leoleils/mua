@@ -8,9 +8,9 @@ import (
 )
 
 type Session struct {
-	PlayerID      string
-	IP            string
-	LastHeartbeat time.Time
+	PlayerID      string              // 玩家ID
+	IP            string              // ip地址（含端口）
+	LastHeartbeat time.Time           // 最后心跳时间
 	GateSvrID     string              // 当前接入的gatesvr实例ID
 	KickFunc      func(reason string) // 踢下线回调
 }
@@ -20,9 +20,35 @@ var (
 	ip2pid   sync.Map // ip -> playerID
 )
 
-// 玩家上线，返回是否为异地登录
-func PlayerOnline(playerID, ip, gatesvrID string, kickFunc func(string)) (isOtherPlace bool, oldSession *Session) {
-	val, loaded := sessions.LoadOrStore(playerID, &Session{
+// 判断是否异地登录，返回是否异地登录和旧session
+func IsOtherPlaceLogin(playerID, ip, gatesvrID string) (bool, *Session) {
+	val, loaded := sessions.Load(playerID)
+	// 如果session存在，则判断是否异地登录
+	if loaded {
+		sess := val.(*Session)
+		if sess.IP != ip || sess.GateSvrID != gatesvrID {
+			return true, sess
+		}
+	}
+	return false, nil
+}
+
+// 踢人操作（本地或远程）
+func KickSession(sess *Session, reason string) {
+	if sess == nil {
+		return
+	}
+	if sess.KickFunc != nil {
+		sess.KickFunc(reason)
+	}
+	ip := sess.IP
+	ip2pid.Delete(ip)
+	sessions.Delete(sess.PlayerID)
+}
+
+// 存储/更新 session
+func StoreSession(playerID, ip, gatesvrID string, kickFunc func(string)) {
+	sessions.Store(playerID, &Session{
 		PlayerID:      playerID,
 		IP:            ip,
 		LastHeartbeat: time.Now(),
@@ -30,16 +56,23 @@ func PlayerOnline(playerID, ip, gatesvrID string, kickFunc func(string)) (isOthe
 		KickFunc:      kickFunc,
 	})
 	ip2pid.Store(ip, playerID)
-	if loaded {
-		sess := val.(*Session)
-		if sess.IP != ip || sess.GateSvrID != gatesvrID {
-			// 异地登录
-			return true, sess
-		}
-	}
-	// 广播上线
+}
+
+// 广播上线事件
+func BroadcastPlayerOnline(playerID, ip string) {
 	event.BroadcastPlayerOnline(playerID, ip)
-	return false, nil
+}
+
+// 玩家上线，返回是否为异地登录
+// Deprecated: 请使用 IsOtherPlaceLogin + KickSession + StoreSession + BroadcastPlayerOnline
+func PlayerOnline(playerID, ip, gatesvrID string, kickFunc func(string)) (isOtherPlace bool, oldSession *Session) {
+	isOtherPlace, oldSession = IsOtherPlaceLogin(playerID, ip, gatesvrID)
+	if isOtherPlace {
+		KickSession(oldSession, "异地登录")
+	}
+	StoreSession(playerID, ip, gatesvrID, kickFunc)
+	BroadcastPlayerOnline(playerID, ip)
+	return
 }
 
 // 玩家下线
@@ -49,9 +82,9 @@ func PlayerOffline(playerID string) {
 		// 广播下线
 		event.BroadcastPlayerOffline(playerID, sess.IP)
 		ip2pid.Delete(sess.IP)
+		log.Printf("玩家[%s]下线, ip=%s, gatesvrID=%s", playerID, sess.IP, sess.GateSvrID)
 	}
 	sessions.Delete(playerID)
-	log.Printf("玩家[%s]下线", playerID)
 }
 
 // 心跳更新
@@ -68,9 +101,12 @@ func KickPlayer(playerID, reason string) {
 		sess := val.(*Session)
 		if sess.KickFunc != nil {
 			sess.KickFunc(reason)
+			ip := sess.IP
+			ip2pid.Delete(ip)
 		}
+
 		sessions.Delete(playerID)
-		log.Printf("玩家[%s]被踢下线: %s", playerID, reason)
+		log.Printf("玩家[%s]会话下线: %s, 客户端ip=%s, gatesvrID=%s", playerID, reason, sess.IP, sess.GateSvrID)
 	}
 }
 
@@ -93,14 +129,9 @@ func GetPlayerIDByIP(ip string) (string, bool) {
 }
 
 // 供kafka消费玩家上下线历史数据时调用
-func PlayerOnlineFromKafka(playerID, gatesvrID string) {
-	sessions.Store(playerID, &Session{
-		PlayerID:      playerID,
-		GateSvrID:     gatesvrID,
-		LastHeartbeat: time.Now(),
-	})
+func PlayerOnlineFromKafka(playerID, gatesvrID, ip string) {
+
 }
 
 func PlayerOfflineFromKafka(playerID string) {
-	sessions.Delete(playerID)
 }

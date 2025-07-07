@@ -3,9 +3,10 @@ package config
 import (
 	"io/ioutil"
 	"log"
+	"os"
 	"sync"
 	"time"
-	"os"
+
 	"gopkg.in/yaml.v2"
 )
 
@@ -19,25 +20,26 @@ type NacosConfig struct {
 }
 
 type KafkaConfig struct {
-	Brokers []string `yaml:"brokers"`
-	CaCert  string   `yaml:"caCert"`
-	Topic   string   `yaml:"topic"`
-	Username string  `yaml:"username"`
-	Password string  `yaml:"password"`
-	GroupID  string  `yaml:"groupId"`
+	Brokers  []string `yaml:"brokers"`
+	CaCert   string   `yaml:"caCert"`
+	Topic    string   `yaml:"topic"`
+	Username string   `yaml:"username"`
+	Password string   `yaml:"password"`
+	GroupID  string   `yaml:"groupId"`
 }
 
 type AppConfig struct {
-	Nacos NacosConfig `yaml:"nacos"`
-	Kafka KafkaConfig `yaml:"kafka"`
-	EnableIPWhitelist bool `yaml:"enable_ip_whitelist"`
-	EnableTokenCheck  bool `yaml:"enable_token_check"`
+	Nacos             NacosConfig `yaml:"nacos"`
+	Kafka             KafkaConfig `yaml:"kafka"`
+	EnableIPWhitelist bool        `yaml:"enable_ip_whitelist"`
+	EnableTokenCheck  bool        `yaml:"enable_token_check"`
 }
 
 var (
-	Global AppConfig
+	Global     AppConfig
 	configPath = "./config.yaml"
-	mu sync.RWMutex
+	mu         sync.RWMutex
+	GatesvrID  string
 )
 
 // 加载配置
@@ -78,4 +80,12 @@ func GetConfig() AppConfig {
 	mu.RLock()
 	defer mu.RUnlock()
 	return Global
-} 
+}
+
+func SetGatesvrID(id string) {
+	GatesvrID = id
+}
+
+func GetGatesvrID() string {
+	return GatesvrID
+}

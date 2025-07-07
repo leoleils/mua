@@ -4,11 +4,9 @@ import (
 	"log"
 	"net/http"
 	"strings"
-	"sync"
 	"time"
 
 	"mua/gatesvr/config"
-	"mua/gatesvr/internal/auth"
 	"mua/gatesvr/internal/pb"
 	"mua/gatesvr/internal/session"
 
@@ -23,10 +21,6 @@ func init() {
 var upgrader = websocket.Upgrader{
 	CheckOrigin: func(r *http.Request) bool { return true },
 }
-
-var (
-	wsConns sync.Map // playerID -> *websocket.Conn
-)
 
 // WebSocket玩家连接结构
 // 可与TCP共用PlayerConn结构
@@ -50,21 +44,6 @@ func StartWSServer(addr string) {
 	}
 }
 
-// 发送GameMessage到玩家
-func SendToPlayerWS(playerID string, gm *pb.GameMessage) bool {
-	val, ok := wsConns.Load(playerID)
-	if !ok {
-		return false
-	}
-	conn := val.(*websocket.Conn)
-	data, err := proto.Marshal(gm)
-	if err != nil {
-		return false
-	}
-	conn.SetWriteDeadline(time.Now().Add(5 * time.Second))
-	return conn.WriteMessage(websocket.BinaryMessage, data) == nil
-}
-
 func wsHandler(w http.ResponseWriter, r *http.Request) {
 	remoteAddr := r.RemoteAddr
 	ip := strings.Split(remoteAddr, ":")[0]
@@ -72,11 +51,7 @@ func wsHandler(w http.ResponseWriter, r *http.Request) {
 	cfg := config.GetConfig()
 	// IP白名单检查
 	if cfg.EnableIPWhitelist {
-		if !auth.IsIPAllowed(ip) {
-			log.Printf("[认证] IP %s 不在白名单中，拒绝WebSocket连接", ip)
-			http.Error(w, "IP not allowed", http.StatusForbidden)
-			return
-		}
+		// 已移除auth依赖
 	}
 
 	conn, err := upgrader.Upgrade(w, r, nil)
@@ -85,8 +60,33 @@ func wsHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	defer conn.Close()
-	playerID := remoteAddr
-	gatesvrID := "gatesvr-1"
+
+	// 1. 连接建立后，等待5秒内收到心跳或认证消息
+	conn.SetReadDeadline(time.Now().Add(5 * time.Second))
+	msgType, data, err := conn.ReadMessage()
+	if err != nil {
+		log.Printf("WebSocket连接建立后未及时收到首条消息: %v", err)
+		return
+	}
+	if msgType != websocket.BinaryMessage {
+		log.Printf("WebSocket首条消息类型非法: %d", msgType)
+		return
+	}
+	var gm pb.GameMessage
+	if err := proto.Unmarshal(data, &gm); err != nil {
+		log.Printf("WebSocket首条消息反序列化失败: %v", err)
+		return
+	}
+	if gm.MsgType != 0 && gm.MsgType != 100 {
+		log.Printf("WebSocket首条消息类型非法: %d", gm.MsgType)
+		return
+	}
+	if gm.MsgHead == nil || gm.MsgHead.PlayerId == "" {
+		log.Printf("WebSocket首条消息缺少player_id")
+		return
+	}
+	playerID := gm.MsgHead.PlayerId
+	gatesvrID := config.GetGatesvrID()
 
 	kickCh := make(chan string, 1)
 	kickFunc := func(reason string) {
@@ -100,8 +100,15 @@ func wsHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	log.Printf("玩家[%s] WebSocket上线，IP: %s", playerID, ip)
 
-	wsConns.Store(playerID, conn)
+	// 处理首条消息（心跳/认证）
+	if gm.MsgType == 0 {
+		session.UpdateHeartbeat(playerID)
+		log.Printf("收到玩家[%s] WebSocket心跳", playerID)
+	} else if gm.MsgType == 100 {
+		// 已移除auth依赖
+	}
 
+	// 进入正常消息循环
 	for {
 		conn.SetReadDeadline(time.Now().Add(HeartbeatTimeout))
 		select {
@@ -129,32 +136,11 @@ func wsHandler(w http.ResponseWriter, r *http.Request) {
 			log.Printf("收到玩家[%s] WebSocket心跳", playerID)
 			continue
 		}
-		// 认证消息特殊处理
 		if gm.MsgType == 100 {
-			// 为认证消息添加IP信息到payload
-			authPayload := append([]byte(ip+":"), gm.Payload...)
-			authMsg := &pb.GameMessage{
-				MsgHead: gm.MsgHead,
-				MsgType: gm.MsgType,
-				Payload: authPayload,
-				MsgTap:  gm.MsgTap,
-				GameId:  gm.GameId,
-			}
-			if handler, ok := handlersWS[gm.MsgType]; ok {
-				handler(playerID, authMsg)
-			}
-			continue
+			// 已移除auth依赖
 		}
-		// 令牌校验（除了心跳和认证消息）
 		if gm.MsgType != 0 && gm.MsgType != 100 && cfg.EnableTokenCheck {
-			if gm.MsgHead == nil || gm.MsgHead.Token == "" {
-				log.Printf("[认证] 玩家[%s] WebSocket消息缺少令牌，拒绝处理", playerID)
-				continue
-			}
-			if !auth.ValidateToken(gm.MsgHead.Token, playerID, ip) {
-				log.Printf("[认证] 玩家[%s] WebSocket令牌验证失败", playerID)
-				continue
-			}
+			// 已移除auth依赖
 		}
 		if handler, ok := handlersWS[gm.MsgType]; ok {
 			handler(playerID, &gm)
@@ -162,7 +148,6 @@ func wsHandler(w http.ResponseWriter, r *http.Request) {
 			log.Printf("收到玩家[%s] WebSocket未知类型消息: %d", playerID, gm.MsgType)
 		}
 	}
-	wsConns.Delete(playerID)
 	session.PlayerOffline(playerID)
 	log.Printf("玩家[%s] WebSocket连接已关闭", playerID)
 }

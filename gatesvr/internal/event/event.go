@@ -23,6 +23,7 @@ func BroadcastPlayerOnline(playerID, ip string) {
 }
 
 func BroadcastPlayerOffline(playerID, ip string) {
+	log.Printf("[事件] 广播玩家下线: playerID=%s, ip=%s", playerID, ip)
 	event := &pb.PlayerStatusChanged{
 		PlayerId:  playerID,
 		Ip:        ip,
