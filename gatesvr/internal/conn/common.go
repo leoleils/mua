@@ -3,7 +3,7 @@ package conn
 import (
 	"log"
 	"mua/gatesvr/internal/nacos"
-	"mua/gatesvr/internal/pb"
+	commonpb "mua/gatesvr/internal/pb"
 	"mua/gatesvr/internal/route"
 	"mua/gatesvr/internal/rpc"
 	"mua/gatesvr/internal/session"
@@ -13,7 +13,7 @@ import (
 	"google.golang.org/protobuf/proto"
 )
 
-type HandlerFuncGeneric func(playerID string, msg *pb.GameMessage)
+type HandlerFuncGeneric func(playerID string, msg *commonpb.GameMessage)
 
 type HandlerRegistry interface {
 	GetHandler(msgType int32) HandlerFuncGeneric
@@ -39,7 +39,7 @@ func HandleConnection(
 		log.Printf("首条消息连接类型非法: %d", msgType)
 		return
 	}
-	var gm pb.GameMessage
+	var gm commonpb.GameMessage
 	if err := proto.Unmarshal(data, &gm); err != nil {
 		log.Printf("首条消息反序列化失败: %v", err)
 		return
@@ -83,7 +83,7 @@ func HandleConnection(
 	// 存储session 本地session
 	session.StoreSession(playerID, ip, localInstancID, kickFunc)
 	// 广播上线事件
-	session.BroadcastPlayerOnline(playerID, ip)
+	session.BroadcastPlayerOnline(playerID, ip, localInstancID, nacos.GetLocalIP())
 	log.Printf("玩家[%s]上线，客户端IP: %s", playerID, ip)
 
 	// 处理首条消息（心跳）
@@ -110,7 +110,7 @@ func HandleConnection(
 			log.Printf("玩家[%s]非法消息类型: %d", playerID, msgType)
 			continue
 		}
-		var gm pb.GameMessage
+		var gm commonpb.GameMessage
 		if err := proto.Unmarshal(data, &gm); err != nil {
 			log.Printf("玩家[%s]消息反序列化失败: %v", playerID, err)
 			continue
@@ -141,7 +141,7 @@ type PlayerConnWrapper struct {
 var playerConnMap sync.Map // playerID -> *PlayerConnWrapper
 
 // 统一推送接口
-func SendToPlayer(playerID string, gm *pb.GameMessage) bool {
+func SendToPlayer(playerID string, gm *commonpb.GameMessage) bool {
 	val, ok := playerConnMap.Load(playerID)
 	if !ok {
 		return false

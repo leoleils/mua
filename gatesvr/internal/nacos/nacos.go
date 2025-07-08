@@ -20,11 +20,13 @@ var (
 	GroupName       = "DEFAULT_GROUP"
 	client          naming_client.INamingClient
 	localInstanceID string // 新增本服务实例ID变量
+	localIP         string // 新增本服务实例IP变量
 )
 
 // 初始化Nacos客户端并注册服务
 func Register(instanceID, ip string, port uint64) {
 	localInstanceID = instanceID // 注册时赋值
+	localIP = ip                 // 注册时赋值
 	cfg := config.GetConfig().Nacos
 	serverConfigs := []constant.ServerConfig{{
 		IpAddr: cfg.Addr,
@@ -192,4 +194,9 @@ func IsInstanceOnline(instanceID string) bool {
 // 获取本服务实例ID
 func GetLocalInstanceID() string {
 	return localInstanceID
+}
+
+// 获取本服务实例IP
+func GetLocalIP() string {
+	return localIP
 }

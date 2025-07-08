@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+package common;
+
+option go_package = "mua/gatesvr/internal/pb";
+
+// 通用消息头
+message HeadMessage {
+  string player_id = 1;
+  int32 client_type = 2;
+  string client_id = 3;
+  int64 role_id = 4;
+  string service_name = 5;
+  string group = 6;
+  string instance_id = 7;
+  string token = 8;
+  string request_id = 9;
+}
+
+// 通用消息体
+message GameMessage {
+  HeadMessage msg_head = 1;
+  int32  msg_type  = 2;
+  bytes  payload   = 3;
+  string msg_tap = 4;
+  int32 game_id = 5;
+}
+
+// 通用回包
+message GameMessageResponse {
+  HeadMessage msg_head = 1;
+  int32 ret = 2;
+  oneof payload {
+    string reason = 3;
+    bytes  data = 4;
+  }
+}
+
+// 通用服务接口
+service CommonService {
+  rpc SendMessage(GameMessage) returns (GameMessageResponse);
+} 

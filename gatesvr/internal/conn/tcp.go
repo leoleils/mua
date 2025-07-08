@@ -3,7 +3,6 @@ package conn
 import (
 	"log"
 	"mua/gatesvr/config"
-	"mua/gatesvr/internal/pb"
 	"net"
 	"time"
 )
@@ -16,9 +15,6 @@ const (
 	HeartbeatInterval = 30 * time.Second
 	HeartbeatTimeout  = 60 * time.Second
 )
-
-// 业务分发函数类型
-type HandlerFunc func(playerID string, msg *pb.GameMessage)
 
 // 新增：通用 handler 注册表实现
 var handlers = make(map[int32]HandlerFuncGeneric)

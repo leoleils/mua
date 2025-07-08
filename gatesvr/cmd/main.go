@@ -10,7 +10,7 @@ import (
 	"mua/gatesvr/internal/conn"
 	"mua/gatesvr/internal/kafka"
 	"mua/gatesvr/internal/nacos"
-	"mua/gatesvr/internal/pb"
+	pb "mua/gatesvr/internal/pb"
 	"mua/gatesvr/internal/route"
 	"mua/gatesvr/internal/rpc"
 	"mua/gatesvr/internal/session"
@@ -30,6 +30,12 @@ func init() {
 
 type server struct {
 	pb.UnimplementedGateSvrServer
+}
+
+// 新增通用服务实现
+
+type commonServiceServer struct {
+	pb.UnimplementedCommonServiceServer
 }
 
 // 踢下线实现
@@ -140,6 +146,16 @@ func (s *server) PushToClient(ctx context.Context, req *pb.PushRequest) (*pb.Pus
 	return &pb.PushResponse{Success: false, Message: "玩家不在线，消息丢弃"}, nil
 }
 
+// 通用的发送消息接口实现
+func (s *commonServiceServer) SendMessage(ctx context.Context, req *pb.GameMessage) (*pb.GameMessageResponse, error) {
+	resp := &pb.GameMessageResponse{
+		MsgHead: req.MsgHead,
+		Ret:     0,
+		Payload: &pb.GameMessageResponse_Reason{Reason: "OK"},
+	}
+	return resp, nil
+}
+
 func main() {
 	loadAndWatchConfig()
 	initAuth()
@@ -243,6 +259,7 @@ func startGRPCServer(ip string, grpcPort uint64) {
 	}
 	grpcServer := grpc.NewServer()
 	pb.RegisterGateSvrServer(grpcServer, &server{})
+	pb.RegisterCommonServiceServer(grpcServer, &commonServiceServer{})
 	log.Printf("gRPC服务启动: %s:%d", ip, grpcPort)
 	if err := grpcServer.Serve(lis); err != nil {
 		log.Fatalf("gRPC服务启动失败: %v", err)

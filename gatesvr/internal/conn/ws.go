@@ -20,16 +20,6 @@ var upgrader = websocket.Upgrader{
 // WebSocket玩家连接结构
 // 可与TCP共用PlayerConn结构
 
-// 业务分发函数类型
-// type HandlerFuncWS func(playerID string, msg *pb.GameMessage)
-
-// var handlersWS = make(map[int32]HandlerFuncWS)
-
-// // 注册业务分发
-// func RegisterHandlerWS(msgType int32, handler HandlerFuncWS) {
-// 	handlersWS[msgType] = handler
-// }
-
 // 启动WebSocket服务
 func StartWSServer(addr string) {
 	http.HandleFunc("/ws", wsUpgradeHandler)

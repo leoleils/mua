@@ -59,19 +59,19 @@ func StoreSession(playerID, ip, gatesvrID string, kickFunc func(string)) {
 }
 
 // 广播上线事件
-func BroadcastPlayerOnline(playerID, ip string) {
-	event.BroadcastPlayerOnline(playerID, ip)
+func BroadcastPlayerOnline(playerID, ip, gatesvrID, gatesvrIP string) {
+	event.BroadcastPlayerOnline(playerID, ip, gatesvrID, gatesvrIP)
 }
 
 // 玩家上线，返回是否为异地登录
 // Deprecated: 请使用 IsOtherPlaceLogin + KickSession + StoreSession + BroadcastPlayerOnline
-func PlayerOnline(playerID, ip, gatesvrID string, kickFunc func(string)) (isOtherPlace bool, oldSession *Session) {
+func PlayerOnline(playerID, ip, gatesvrID, gatesvrIP string, kickFunc func(string)) (isOtherPlace bool, oldSession *Session) {
 	isOtherPlace, oldSession = IsOtherPlaceLogin(playerID, ip, gatesvrID)
 	if isOtherPlace {
 		KickSession(oldSession, "异地登录")
 	}
 	StoreSession(playerID, ip, gatesvrID, kickFunc)
-	BroadcastPlayerOnline(playerID, ip)
+	BroadcastPlayerOnline(playerID, ip, gatesvrID, gatesvrIP)
 	return
 }
 
