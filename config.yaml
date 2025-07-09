@@ -1,5 +1,5 @@
 nacos:
-  addr: mse-df8d5240-p.nacos-ans.mse.aliyuncs.com
+  addr: mse-3cb9ef30-p.nacos-ans.mse.aliyuncs.com
   port: 8848
   username: "${NACOS_USERNAME}"
   password: "${NACOS_PASSWORD}"

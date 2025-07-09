@@ -45,7 +45,7 @@ func StartTCPServer(addr string) {
 		}
 		go func(c net.Conn) {
 			adapter := NewTCPConnAdapter(c)
-			HandleConnection(adapter, tcpHandlerRegistry{}, config.GetConfig().EnableTokenCheck, config.GetConfig().EnableIPWhitelist)
+			HandleConnectionWithProto(adapter, tcpHandlerRegistry{}, "tcp", config.GetConfig().EnableTokenCheck, config.GetConfig().EnableIPWhitelist)
 		}(conn)
 	}
 }

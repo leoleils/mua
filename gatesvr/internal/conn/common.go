@@ -19,14 +19,36 @@ type HandlerRegistry interface {
 	GetHandler(msgType int32) HandlerFuncGeneric
 }
 
+// HandleConnection 保持向后兼容
 func HandleConnection(
 	adapter ConnAdapter,
 	registry HandlerRegistry,
 	enableTokenCheck bool,
 	enableIPWhitelist bool,
 ) {
+	HandleConnectionWithProto(adapter, registry, "tcp", enableTokenCheck, enableIPWhitelist)
+}
+
+// HandleConnectionWithProto 处理连接，支持指定协议类型
+func HandleConnectionWithProto(
+	adapter ConnAdapter,
+	registry HandlerRegistry,
+	protocol string,
+	enableTokenCheck bool,
+	enableIPWhitelist bool,
+) {
 	defer adapter.Close()
 	ip := adapter.RemoteIP()
+	var playerID string // 声明 playerID 变量，在整个函数中使用
+
+	// 确保在函数退出时清理连接
+	defer func() {
+		if playerID != "" {
+			playerConnMap.Delete(playerID)
+			session.PlayerOffline(playerID)
+			log.Printf("玩家[%s]连接已关闭并清理", playerID)
+		}
+	}()
 
 	// 1. 连接建立后，等待5秒内收到心跳
 	adapter.SetReadDeadline(time.Now().Add(5 * time.Second))
@@ -52,15 +74,16 @@ func HandleConnection(
 		log.Printf("首条消息缺少player_id")
 		return
 	}
-	playerID := gm.MsgHead.PlayerId
+	playerID = gm.MsgHead.PlayerId // 设置 playerID
 	localInstancID := nacos.GetLocalInstanceID()
 
 	//如果路由存在，则判断是否异地登录
 	routeGateSvrID, ok := route.Get(playerID)
 	if ok && routeGateSvrID != localInstancID {
 		// 是其他实例已经登录了 发起远程rpc踢人
-		err = rpc.KickPlayerRemote(nacos.GetAddrByInstanceID(localInstancID), playerID, "异地远程登录")
+		err = rpc.KickPlayerRemote(nacos.GetAddrByInstanceID(routeGateSvrID), playerID, "异地远程登录")
 		if err != nil {
+			log.Printf("远程踢人失败: %v", err)
 			return
 		}
 		// 删除当前路由
@@ -80,11 +103,18 @@ func HandleConnection(
 		adapter.Close() // 立即关闭底层连接，实现踢人立即生效
 	}
 
+	// 存储连接到 playerConnMap（关键修复）
+	connWrapper := &PlayerConnWrapper{
+		Adapter: adapter,
+		Proto:   protocol, // 使用传入的协议类型
+	}
+	playerConnMap.Store(playerID, connWrapper)
+
 	// 存储session 本地session
 	session.StoreSession(playerID, ip, localInstancID, kickFunc)
 	// 广播上线事件
 	session.BroadcastPlayerOnline(playerID, ip, localInstancID, nacos.GetLocalIP())
-	log.Printf("玩家[%s]上线，客户端IP: %s", playerID, ip)
+	log.Printf("玩家[%s]上线，客户端IP: %s, 协议: %s", playerID, ip, protocol)
 
 	// 处理首条消息（心跳）
 	if gm.MsgType == 0 {
@@ -127,8 +157,6 @@ func HandleConnection(
 			log.Printf("收到玩家[%s]未知类型消息: %d", playerID, gm.MsgType)
 		}
 	}
-	session.PlayerOffline(playerID)
-	log.Printf("玩家[%s]连接已关闭", playerID)
 }
 
 // 统一的连接包装
@@ -149,7 +177,22 @@ func SendToPlayer(playerID string, gm *commonpb.GameMessage) bool {
 	wrapper := val.(*PlayerConnWrapper)
 	data, err := proto.Marshal(gm)
 	if err != nil {
+		log.Printf("SendToPlayer 消息序列化失败: %v", err)
 		return false
 	}
-	return wrapper.Adapter.WriteMessage(2, data) == nil
+
+	// 根据协议类型选择正确的消息类型
+	var msgType int
+	if wrapper.Proto == "ws" {
+		msgType = 1 // WebSocket BinaryMessage
+	} else {
+		msgType = 2 // TCP 自定义二进制消息
+	}
+
+	err = wrapper.Adapter.WriteMessage(msgType, data)
+	if err != nil {
+		log.Printf("SendToPlayer 发送失败[%s]: %v", playerID, err)
+		return false
+	}
+	return true
 }

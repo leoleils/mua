@@ -4834,3 +4834,879 @@ runtime.goexit
 2025-07-08T15:52:41.415+0800	INFO	naming_cache/service_info_holder.go:96	service key:DEFAULT_GROUP@@gatesvr was updated to:{"cacheMillis":10000,"hosts":[{"instanceId":"30.219.184.109#50051##DEFAULT_GROUP@@gatesvr","ip":"30.219.184.109","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@gatesvr","metadata":{"instanceID":"gatesvr-1751961160986400000"},"instanceHeartBeatInterval":5000,"ipDeleteTimeout":30000,"instanceHeartBeatTimeOut":15000}],"checksum":"","lastRefTime":1751961161423,"clusters":"","name":"gatesvr","groupName":"DEFAULT_GROUP","valid":true,"allIPs":false,"reachProtectionThreshold":false}
 2025-07-08T15:52:46.170+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
 2025-07-08T15:52:51.204+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T16:56:48.533+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T16:56:48.534+0800	INFO	naming_http/push_receiver.go:89	udp server start, port: 55708
+2025-07-08T16:56:48.534+0800	INFO	rpc/rpc_client.go:157	init rpc client for name %!(EXTRA string=e03c68a4-33d9-47a6-a63b-6514b67ffa06)
+2025-07-08T16:56:48.534+0800	INFO	rpc/rpc_client.go:166	get app conn labels from client config map[] 
+2025-07-08T16:56:48.534+0800	INFO	rpc/rpc_client.go:168	get app conn labels from env map[] 
+2025-07-08T16:56:48.534+0800	INFO	rpc/rpc_client.go:171	final app conn labels : map[] 
+2025-07-08T16:56:48.534+0800	INFO	rpc/rpc_client.go:327	[RpcClient.Start] e03c68a4-33d9-47a6-a63b-6514b67ffa06 try to connect to server on start up, server: {serverIp:mse-df8d5240-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848}
+2025-07-08T16:56:48.534+0800	INFO	rpc/grpc_client.go:175	check tls config %!(EXTRA *constant.TLSConfig=&{false false false    })
+2025-07-08T16:56:48.534+0800	INFO	rpc/grpc_client.go:180	try to get tls config from env
+2025-07-08T16:56:48.534+0800	INFO	rpc/grpc_client.go:189	 tls config from env is not enable
+2025-07-08T16:56:48.534+0800	INFO	util/common.go:96	Local IP:192.168.255.254
+2025-07-08T16:56:48.739+0800	INFO	rpc/rpc_client.go:337	e03c68a4-33d9-47a6-a63b-6514b67ffa06 success to connect to server {serverIp:mse-df8d5240-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848} on start up, connectionId=1751965008608_106.11.31.220_50387
+2025-07-08T16:56:48.740+0800	INFO	naming_grpc/naming_grpc_proxy.go:95	register instance namespaceId:<public>,serviceName:<gatesvr> with instance:<{"instanceId":"","ip":"127.0.0.1","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"","serviceName":"","metadata":{"instanceID":"gatesvr-1751965008405897000"},"instanceHeartBeatInterval":0,"ipDeleteTimeout":0,"instanceHeartBeatTimeOut":0}>
+2025-07-08T16:56:53.570+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T16:56:58.605+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:02:10.353+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:02:10.355+0800	INFO	naming_http/push_receiver.go:89	udp server start, port: 55920
+2025-07-08T17:02:10.355+0800	INFO	rpc/rpc_client.go:157	init rpc client for name %!(EXTRA string=5389aef3-fc65-41fd-bd50-a98036ca6cc5)
+2025-07-08T17:02:10.355+0800	INFO	rpc/rpc_client.go:166	get app conn labels from client config map[] 
+2025-07-08T17:02:10.355+0800	INFO	rpc/rpc_client.go:168	get app conn labels from env map[] 
+2025-07-08T17:02:10.355+0800	INFO	rpc/rpc_client.go:171	final app conn labels : map[] 
+2025-07-08T17:02:10.355+0800	INFO	rpc/rpc_client.go:327	[RpcClient.Start] 5389aef3-fc65-41fd-bd50-a98036ca6cc5 try to connect to server on start up, server: {serverIp:mse-df8d5240-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848}
+2025-07-08T17:02:10.355+0800	INFO	rpc/grpc_client.go:175	check tls config %!(EXTRA *constant.TLSConfig=&{false false false    })
+2025-07-08T17:02:10.355+0800	INFO	rpc/grpc_client.go:180	try to get tls config from env
+2025-07-08T17:02:10.355+0800	INFO	rpc/grpc_client.go:189	 tls config from env is not enable
+2025-07-08T17:02:10.356+0800	INFO	util/common.go:96	Local IP:192.168.255.254
+2025-07-08T17:02:10.559+0800	INFO	rpc/rpc_client.go:337	5389aef3-fc65-41fd-bd50-a98036ca6cc5 success to connect to server {serverIp:mse-df8d5240-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848} on start up, connectionId=1751965330426_106.11.31.220_50817
+2025-07-08T17:02:10.559+0800	INFO	naming_grpc/naming_grpc_proxy.go:95	register instance namespaceId:<public>,serviceName:<gatesvr> with instance:<{"instanceId":"","ip":"127.0.0.1","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"","serviceName":"","metadata":{"instanceID":"gatesvr-1751965330211068000"},"instanceHeartBeatInterval":0,"ipDeleteTimeout":0,"instanceHeartBeatTimeOut":0}>
+2025-07-08T17:02:15.392+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:02:20.431+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:02:25.465+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:02:30.500+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:02:35.546+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:02:40.580+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:02:45.613+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:02:50.648+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:02:55.685+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:03:00.718+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:03:05.751+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:03:10.784+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:03:15.818+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:03:20.859+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:03:25.894+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:03:30.928+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:03:35.961+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:03:40.994+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:03:46.028+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:03:51.062+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:03:56.097+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:04:01.133+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:04:06.166+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:04:11.200+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:04:16.243+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:04:21.338+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:04:26.372+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:04:31.407+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:04:36.440+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:04:41.474+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:04:46.509+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:04:51.544+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:04:56.579+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:05:01.613+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:05:06.647+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:05:11.682+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:05:16.716+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:05:21.750+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:05:26.788+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:05:31.822+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:05:36.858+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:05:41.895+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:05:46.930+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:05:51.966+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:05:57.000+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:06:02.036+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:06:07.072+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:06:12.107+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:06:17.142+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:06:22.179+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:06:27.213+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:06:32.247+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:06:37.281+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:06:42.315+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:06:47.348+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:06:52.382+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:06:57.418+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:07:02.451+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:07:07.487+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:07:12.521+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:07:17.555+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:07:22.589+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:07:27.623+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:07:32.658+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:07:37.700+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:07:42.733+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:07:47.767+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:07:52.801+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:07:57.836+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:08:02.869+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:08:07.904+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:08:12.938+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:08:17.973+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:08:23.006+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:08:28.042+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:08:33.077+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:08:38.112+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:08:43.146+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:08:48.179+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:08:53.214+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:08:58.247+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:09:03.280+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:09:08.313+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:09:13.351+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:09:18.385+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:09:23.421+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:09:28.455+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:09:33.492+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:09:38.526+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:09:43.559+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:09:48.594+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:09:53.629+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:09:58.670+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:10:03.704+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:10:08.739+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:10:13.774+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:10:18.808+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:10:23.844+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:10:28.883+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:10:33.996+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:10:39.030+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:10:44.067+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:10:49.102+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:10:54.139+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:10:59.179+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:11:04.221+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:11:09.256+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:11:14.292+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:11:19.329+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:11:24.364+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:11:29.400+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:11:34.435+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:11:39.470+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:11:44.505+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:11:49.542+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:11:54.578+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:11:59.613+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:12:04.650+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:12:09.687+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:12:14.722+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:12:19.757+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:12:24.793+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:12:29.828+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:12:34.866+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:12:39.902+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:12:44.937+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:12:49.980+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:12:55.015+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:13:00.052+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:13:05.088+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:13:10.122+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:13:15.160+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:13:20.196+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:13:25.233+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:13:30.267+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:13:35.302+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:13:40.338+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:13:45.373+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:13:50.409+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:13:55.446+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:14:00.485+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:14:05.520+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:14:10.555+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:14:15.591+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:14:20.625+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:14:25.663+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:14:30.698+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:14:35.733+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:14:40.769+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:14:45.803+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:14:50.837+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:14:55.874+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:15:00.919+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:15:05.953+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:15:10.988+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:15:16.025+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:15:21.063+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:15:26.100+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:15:31.137+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:15:36.174+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:15:41.211+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:15:46.246+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:15:51.286+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:15:56.320+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:16:01.360+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:16:06.395+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:16:11.431+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:16:16.466+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:16:21.502+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:16:26.538+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:16:31.574+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:16:36.610+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:16:41.645+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:16:46.683+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:16:51.717+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:16:56.753+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:17:01.790+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:17:06.826+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:17:11.861+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:17:16.899+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:17:21.937+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:17:26.976+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:17:32.012+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:17:37.049+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:17:42.084+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:17:47.119+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:17:52.157+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:17:57.190+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:18:02.225+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:18:07.261+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:18:12.295+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:18:17.334+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:18:22.370+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:18:27.407+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:18:32.442+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:18:37.476+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:18:42.512+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:18:47.550+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:18:52.584+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:18:58.727+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:19:03.760+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:19:08.796+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:19:13.833+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:19:18.866+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:19:23.901+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:19:28.933+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:19:33.966+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:19:39.003+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:19:44.036+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:19:49.072+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:19:54.108+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:19:59.146+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:20:04.178+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:20:09.214+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:20:14.248+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:20:19.286+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:20:24.320+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:20:29.354+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:20:34.391+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:20:39.424+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:20:44.463+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:20:49.495+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:20:54.531+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:20:59.564+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:21:04.598+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:21:09.635+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:21:14.677+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:21:19.710+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:21:24.748+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:21:29.782+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:21:34.819+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:21:39.851+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:21:44.891+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:21:49.933+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:21:54.972+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:22:00.005+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:22:05.038+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:22:10.071+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:22:15.103+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:22:20.136+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:22:25.170+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:22:30.202+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:22:35.234+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:22:40.267+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:22:45.298+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:22:50.333+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:22:55.367+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:23:00.404+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:23:05.437+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:23:10.469+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:23:15.505+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:23:20.538+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:23:25.570+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:23:30.604+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:23:35.641+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:23:40.674+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:23:45.706+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:23:50.738+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:23:55.774+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:24:00.807+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:24:05.841+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:24:10.873+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:24:15.906+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:24:20.940+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:24:25.976+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:24:31.009+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:24:36.042+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:24:41.075+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:24:46.108+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:24:51.143+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:24:56.177+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:25:01.210+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:25:06.243+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:25:11.275+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:25:16.309+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:25:21.342+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:25:26.375+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:25:31.408+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:25:36.441+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:25:41.474+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:25:46.507+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-08T17:25:51.539+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T14:46:14.675+0800	ERROR	security/security_proxy.go:117	login in err:Post "http://mse-df8d5240-p.nacos-ans.mse.aliyuncs.com:8848/nacos/v1/auth/users/login": dial tcp: lookup mse-df8d5240-p.nacos-ans.mse.aliyuncs.com: no such host
+2025-07-09T14:46:14.676+0800	INFO	naming_http/push_receiver.go:89	udp server start, port: 55562
+2025-07-09T14:46:14.676+0800	INFO	rpc/rpc_client.go:157	init rpc client for name %!(EXTRA string=0a5a0bce-9f44-4247-a42b-3229c63c1160)
+2025-07-09T14:46:14.676+0800	INFO	rpc/rpc_client.go:166	get app conn labels from client config map[] 
+2025-07-09T14:46:14.676+0800	INFO	rpc/rpc_client.go:168	get app conn labels from env map[] 
+2025-07-09T14:46:14.677+0800	INFO	rpc/rpc_client.go:171	final app conn labels : map[] 
+2025-07-09T14:46:14.677+0800	INFO	rpc/rpc_client.go:327	[RpcClient.Start] 0a5a0bce-9f44-4247-a42b-3229c63c1160 try to connect to server on start up, server: {serverIp:mse-df8d5240-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848}
+2025-07-09T14:46:14.677+0800	INFO	rpc/grpc_client.go:175	check tls config %!(EXTRA *constant.TLSConfig=&{false false false    })
+2025-07-09T14:46:14.677+0800	INFO	rpc/grpc_client.go:180	try to get tls config from env
+2025-07-09T14:46:14.677+0800	INFO	rpc/grpc_client.go:189	 tls config from env is not enable
+2025-07-09T14:46:14.677+0800	INFO	util/common.go:96	Local IP:30.219.184.65
+2025-07-09T14:46:14.678+0800	WARN	rpc/rpc_client.go:329	[RpcClient.Start] 0a5a0bce-9f44-4247-a42b-3229c63c1160 fail to connect to server on start up, error message=server check request failed , err:rpc error: code = Unavailable desc = connection error: desc = "transport: Error while dialing: dial tcp: lookup mse-df8d5240-p.nacos-ans.mse.aliyuncs.com: no such host", start up retry times left=2
+2025-07-09T14:46:14.678+0800	INFO	rpc/rpc_client.go:327	[RpcClient.Start] 0a5a0bce-9f44-4247-a42b-3229c63c1160 try to connect to server on start up, server: {serverIp:mse-df8d5240-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848}
+2025-07-09T14:46:14.678+0800	INFO	rpc/grpc_client.go:175	check tls config %!(EXTRA *constant.TLSConfig=&{false false false    })
+2025-07-09T14:46:14.678+0800	INFO	rpc/grpc_client.go:180	try to get tls config from env
+2025-07-09T14:46:14.678+0800	INFO	rpc/grpc_client.go:189	 tls config from env is not enable
+2025-07-09T14:46:14.679+0800	WARN	rpc/rpc_client.go:329	[RpcClient.Start] 0a5a0bce-9f44-4247-a42b-3229c63c1160 fail to connect to server on start up, error message=server check request failed , err:rpc error: code = Unavailable desc = connection error: desc = "transport: Error while dialing: dial tcp: lookup mse-df8d5240-p.nacos-ans.mse.aliyuncs.com: no such host", start up retry times left=1
+2025-07-09T14:46:14.679+0800	INFO	rpc/rpc_client.go:327	[RpcClient.Start] 0a5a0bce-9f44-4247-a42b-3229c63c1160 try to connect to server on start up, server: {serverIp:mse-df8d5240-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848}
+2025-07-09T14:46:14.679+0800	INFO	rpc/grpc_client.go:175	check tls config %!(EXTRA *constant.TLSConfig=&{false false false    })
+2025-07-09T14:46:14.679+0800	INFO	rpc/grpc_client.go:180	try to get tls config from env
+2025-07-09T14:46:14.679+0800	INFO	rpc/grpc_client.go:189	 tls config from env is not enable
+2025-07-09T14:46:14.680+0800	WARN	rpc/rpc_client.go:329	[RpcClient.Start] 0a5a0bce-9f44-4247-a42b-3229c63c1160 fail to connect to server on start up, error message=server check request failed , err:rpc error: code = Unavailable desc = connection error: desc = "transport: Error while dialing: dial tcp: lookup mse-df8d5240-p.nacos-ans.mse.aliyuncs.com: no such host", start up retry times left=0
+2025-07-09T14:46:14.680+0800	INFO	rpc/rpc_client.go:426	0a5a0bce-9f44-4247-a42b-3229c63c1160 try to re connect to a new server, server is not appointed, will choose a random server.
+2025-07-09T14:46:14.680+0800	INFO	naming_grpc/naming_grpc_proxy.go:95	register instance namespaceId:<public>,serviceName:<gatesvr> with instance:<{"instanceId":"","ip":"30.219.184.65","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"","serviceName":"","metadata":{"instanceID":"gatesvr-1752043574587279000"},"instanceHeartBeatInterval":0,"ipDeleteTimeout":0,"instanceHeartBeatTimeOut":0}>
+2025-07-09T14:46:14.680+0800	INFO	rpc/grpc_client.go:175	check tls config %!(EXTRA *constant.TLSConfig=&{false false false    })
+2025-07-09T14:46:14.680+0800	INFO	rpc/grpc_client.go:180	try to get tls config from env
+2025-07-09T14:46:14.680+0800	INFO	rpc/grpc_client.go:189	 tls config from env is not enable
+2025-07-09T14:46:14.680+0800	ERROR	rpc/rpc_client.go:629	Send request fail, request=InstanceRequest, body={"requestId":"","namespace":"public","serviceName":"gatesvr","groupName":"DEFAULT_GROUP","module":"naming","type":"registerInstance","instance":{"instanceId":"","ip":"30.219.184.65","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"","serviceName":"","metadata":{"instanceID":"gatesvr-1752043574587279000"},"instanceHeartBeatInterval":0,"ipDeleteTimeout":0,"instanceHeartBeatTimeOut":0}}, retryTimes=0, error=client not connected, current status:STARTING
+github.com/nacos-group/nacos-sdk-go/v2/common/remote/rpc.(*RpcClient).Request
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/common/remote/rpc/rpc_client.go:591
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client/naming_grpc.(*NamingGrpcProxy).requestToServer
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/clients/naming_client/naming_grpc/naming_grpc_proxy.go:88
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client/naming_grpc.(*NamingGrpcProxy).RegisterInstance
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/clients/naming_client/naming_grpc/naming_grpc_proxy.go:99
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client.(*NamingProxyDelegate).RegisterInstance
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/clients/naming_client/naming_proxy_delegate.go:92
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client.(*NamingClient).RegisterInstance
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/clients/naming_client/naming_client.go:124
+mua/gatesvr/internal/nacos.Register
+	/Users/chenleiyu/go/mua/gatesvr/internal/nacos/nacos.go:54
+mua/gatesvr/internal/app.initNacosAndRegister
+	/Users/chenleiyu/go/mua/gatesvr/internal/app/app.go:104
+mua/gatesvr/internal/app.(*App).Init
+	/Users/chenleiyu/go/mua/gatesvr/internal/app/app.go:46
+main.main
+	/Users/chenleiyu/go/mua/gatesvr/cmd/main.go:13
+runtime.main
+	/opt/homebrew/Cellar/go/1.24.3/libexec/src/runtime/proc.go:283
+runtime.goexit
+	/opt/homebrew/Cellar/go/1.24.3/libexec/src/runtime/asm_arm64.s:1223
+2025-07-09T14:46:14.681+0800	INFO	rpc/grpc_client.go:175	check tls config %!(EXTRA *constant.TLSConfig=&{false false false    })
+2025-07-09T14:46:14.681+0800	INFO	rpc/grpc_client.go:180	try to get tls config from env
+2025-07-09T14:46:14.681+0800	INFO	rpc/grpc_client.go:189	 tls config from env is not enable
+2025-07-09T14:46:14.683+0800	WARN	rpc/rpc_client.go:457	0a5a0bce-9f44-4247-a42b-3229c63c1160 fail to connect server, after trying 1 times, last try server is {serverIp:mse-df8d5240-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848}, error=server check request failed , err:rpc error: code = Unavailable desc = connection error: desc = "transport: Error while dialing: dial tcp: lookup mse-df8d5240-p.nacos-ans.mse.aliyuncs.com: no such host"
+2025-07-09T14:46:14.782+0800	ERROR	rpc/rpc_client.go:629	Send request fail, request=InstanceRequest, body={"requestId":"","namespace":"public","serviceName":"gatesvr","groupName":"DEFAULT_GROUP","module":"naming","type":"registerInstance","instance":{"instanceId":"","ip":"30.219.184.65","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"","serviceName":"","metadata":{"instanceID":"gatesvr-1752043574587279000"},"instanceHeartBeatInterval":0,"ipDeleteTimeout":0,"instanceHeartBeatTimeOut":0}}, retryTimes=1, error=client not connected, current status:STARTING
+github.com/nacos-group/nacos-sdk-go/v2/common/remote/rpc.(*RpcClient).Request
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/common/remote/rpc/rpc_client.go:591
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client/naming_grpc.(*NamingGrpcProxy).requestToServer
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/clients/naming_client/naming_grpc/naming_grpc_proxy.go:88
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client/naming_grpc.(*NamingGrpcProxy).RegisterInstance
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/clients/naming_client/naming_grpc/naming_grpc_proxy.go:99
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client.(*NamingProxyDelegate).RegisterInstance
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/clients/naming_client/naming_proxy_delegate.go:92
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client.(*NamingClient).RegisterInstance
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/clients/naming_client/naming_client.go:124
+mua/gatesvr/internal/nacos.Register
+	/Users/chenleiyu/go/mua/gatesvr/internal/nacos/nacos.go:54
+mua/gatesvr/internal/app.initNacosAndRegister
+	/Users/chenleiyu/go/mua/gatesvr/internal/app/app.go:104
+mua/gatesvr/internal/app.(*App).Init
+	/Users/chenleiyu/go/mua/gatesvr/internal/app/app.go:46
+main.main
+	/Users/chenleiyu/go/mua/gatesvr/cmd/main.go:13
+runtime.main
+	/opt/homebrew/Cellar/go/1.24.3/libexec/src/runtime/proc.go:283
+runtime.goexit
+	/opt/homebrew/Cellar/go/1.24.3/libexec/src/runtime/asm_arm64.s:1223
+2025-07-09T14:46:14.783+0800	INFO	rpc/grpc_client.go:175	check tls config %!(EXTRA *constant.TLSConfig=&{false false false    })
+2025-07-09T14:46:14.783+0800	INFO	rpc/grpc_client.go:180	try to get tls config from env
+2025-07-09T14:46:14.783+0800	INFO	rpc/grpc_client.go:189	 tls config from env is not enable
+2025-07-09T14:46:14.785+0800	WARN	rpc/rpc_client.go:457	0a5a0bce-9f44-4247-a42b-3229c63c1160 fail to connect server, after trying 2 times, last try server is {serverIp:mse-df8d5240-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848}, error=server check request failed , err:rpc error: code = Unavailable desc = connection error: desc = "transport: Error while dialing: dial tcp: lookup mse-df8d5240-p.nacos-ans.mse.aliyuncs.com: no such host"
+2025-07-09T14:46:14.883+0800	ERROR	rpc/rpc_client.go:629	Send request fail, request=InstanceRequest, body={"requestId":"","namespace":"public","serviceName":"gatesvr","groupName":"DEFAULT_GROUP","module":"naming","type":"registerInstance","instance":{"instanceId":"","ip":"30.219.184.65","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"","serviceName":"","metadata":{"instanceID":"gatesvr-1752043574587279000"},"instanceHeartBeatInterval":0,"ipDeleteTimeout":0,"instanceHeartBeatTimeOut":0}}, retryTimes=2, error=client not connected, current status:STARTING
+github.com/nacos-group/nacos-sdk-go/v2/common/remote/rpc.(*RpcClient).Request
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/common/remote/rpc/rpc_client.go:591
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client/naming_grpc.(*NamingGrpcProxy).requestToServer
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/clients/naming_client/naming_grpc/naming_grpc_proxy.go:88
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client/naming_grpc.(*NamingGrpcProxy).RegisterInstance
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/clients/naming_client/naming_grpc/naming_grpc_proxy.go:99
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client.(*NamingProxyDelegate).RegisterInstance
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/clients/naming_client/naming_proxy_delegate.go:92
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client.(*NamingClient).RegisterInstance
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/clients/naming_client/naming_client.go:124
+mua/gatesvr/internal/nacos.Register
+	/Users/chenleiyu/go/mua/gatesvr/internal/nacos/nacos.go:54
+mua/gatesvr/internal/app.initNacosAndRegister
+	/Users/chenleiyu/go/mua/gatesvr/internal/app/app.go:104
+mua/gatesvr/internal/app.(*App).Init
+	/Users/chenleiyu/go/mua/gatesvr/internal/app/app.go:46
+main.main
+	/Users/chenleiyu/go/mua/gatesvr/cmd/main.go:13
+runtime.main
+	/opt/homebrew/Cellar/go/1.24.3/libexec/src/runtime/proc.go:283
+runtime.goexit
+	/opt/homebrew/Cellar/go/1.24.3/libexec/src/runtime/asm_arm64.s:1223
+2025-07-09T16:02:01.247+0800	ERROR	security/security_proxy.go:117	login in err:Post "http://mse-df8d5240-p.nacos-ans.mse.aliyuncs.com:8848/nacos/v1/auth/users/login": dial tcp: lookup mse-df8d5240-p.nacos-ans.mse.aliyuncs.com: no such host
+2025-07-09T16:02:01.248+0800	INFO	naming_http/push_receiver.go:89	udp server start, port: 55036
+2025-07-09T16:02:01.248+0800	INFO	rpc/rpc_client.go:157	init rpc client for name %!(EXTRA string=06c244ad-aabd-41dc-b7ef-19d03687780a)
+2025-07-09T16:02:01.248+0800	INFO	rpc/rpc_client.go:166	get app conn labels from client config map[] 
+2025-07-09T16:02:01.248+0800	INFO	rpc/rpc_client.go:168	get app conn labels from env map[] 
+2025-07-09T16:02:01.248+0800	INFO	rpc/rpc_client.go:171	final app conn labels : map[] 
+2025-07-09T16:02:01.248+0800	INFO	rpc/rpc_client.go:327	[RpcClient.Start] 06c244ad-aabd-41dc-b7ef-19d03687780a try to connect to server on start up, server: {serverIp:mse-df8d5240-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848}
+2025-07-09T16:02:01.248+0800	INFO	rpc/grpc_client.go:175	check tls config %!(EXTRA *constant.TLSConfig=&{false false false    })
+2025-07-09T16:02:01.248+0800	INFO	rpc/grpc_client.go:180	try to get tls config from env
+2025-07-09T16:02:01.248+0800	INFO	rpc/grpc_client.go:189	 tls config from env is not enable
+2025-07-09T16:02:01.249+0800	INFO	util/common.go:96	Local IP:30.219.184.65
+2025-07-09T16:02:01.250+0800	WARN	rpc/rpc_client.go:329	[RpcClient.Start] 06c244ad-aabd-41dc-b7ef-19d03687780a fail to connect to server on start up, error message=server check request failed , err:rpc error: code = Unavailable desc = connection error: desc = "transport: Error while dialing: dial tcp: lookup mse-df8d5240-p.nacos-ans.mse.aliyuncs.com: no such host", start up retry times left=2
+2025-07-09T16:02:01.250+0800	INFO	rpc/rpc_client.go:327	[RpcClient.Start] 06c244ad-aabd-41dc-b7ef-19d03687780a try to connect to server on start up, server: {serverIp:mse-df8d5240-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848}
+2025-07-09T16:02:01.250+0800	INFO	rpc/grpc_client.go:175	check tls config %!(EXTRA *constant.TLSConfig=&{false false false    })
+2025-07-09T16:02:01.250+0800	INFO	rpc/grpc_client.go:180	try to get tls config from env
+2025-07-09T16:02:01.250+0800	INFO	rpc/grpc_client.go:189	 tls config from env is not enable
+2025-07-09T16:02:01.251+0800	WARN	rpc/rpc_client.go:329	[RpcClient.Start] 06c244ad-aabd-41dc-b7ef-19d03687780a fail to connect to server on start up, error message=server check request failed , err:rpc error: code = Unavailable desc = connection error: desc = "transport: Error while dialing: dial tcp: lookup mse-df8d5240-p.nacos-ans.mse.aliyuncs.com: no such host", start up retry times left=1
+2025-07-09T16:02:01.251+0800	INFO	rpc/rpc_client.go:327	[RpcClient.Start] 06c244ad-aabd-41dc-b7ef-19d03687780a try to connect to server on start up, server: {serverIp:mse-df8d5240-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848}
+2025-07-09T16:02:01.251+0800	INFO	rpc/grpc_client.go:175	check tls config %!(EXTRA *constant.TLSConfig=&{false false false    })
+2025-07-09T16:02:01.251+0800	INFO	rpc/grpc_client.go:180	try to get tls config from env
+2025-07-09T16:02:01.251+0800	INFO	rpc/grpc_client.go:189	 tls config from env is not enable
+2025-07-09T16:02:01.252+0800	WARN	rpc/rpc_client.go:329	[RpcClient.Start] 06c244ad-aabd-41dc-b7ef-19d03687780a fail to connect to server on start up, error message=server check request failed , err:rpc error: code = Unavailable desc = connection error: desc = "transport: Error while dialing: dial tcp: lookup mse-df8d5240-p.nacos-ans.mse.aliyuncs.com: no such host", start up retry times left=0
+2025-07-09T16:02:01.252+0800	INFO	rpc/rpc_client.go:426	06c244ad-aabd-41dc-b7ef-19d03687780a try to re connect to a new server, server is not appointed, will choose a random server.
+2025-07-09T16:02:01.252+0800	INFO	naming_grpc/naming_grpc_proxy.go:95	register instance namespaceId:<public>,serviceName:<gatesvr> with instance:<{"instanceId":"","ip":"30.219.184.65","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"","serviceName":"","metadata":{"instanceID":"gatesvr-1752048121194786000"},"instanceHeartBeatInterval":0,"ipDeleteTimeout":0,"instanceHeartBeatTimeOut":0}>
+2025-07-09T16:02:01.252+0800	INFO	rpc/grpc_client.go:175	check tls config %!(EXTRA *constant.TLSConfig=&{false false false    })
+2025-07-09T16:02:01.252+0800	INFO	rpc/grpc_client.go:180	try to get tls config from env
+2025-07-09T16:02:01.252+0800	INFO	rpc/grpc_client.go:189	 tls config from env is not enable
+2025-07-09T16:02:01.252+0800	ERROR	rpc/rpc_client.go:629	Send request fail, request=InstanceRequest, body={"requestId":"","namespace":"public","serviceName":"gatesvr","groupName":"DEFAULT_GROUP","module":"naming","type":"registerInstance","instance":{"instanceId":"","ip":"30.219.184.65","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"","serviceName":"","metadata":{"instanceID":"gatesvr-1752048121194786000"},"instanceHeartBeatInterval":0,"ipDeleteTimeout":0,"instanceHeartBeatTimeOut":0}}, retryTimes=0, error=client not connected, current status:STARTING
+github.com/nacos-group/nacos-sdk-go/v2/common/remote/rpc.(*RpcClient).Request
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/common/remote/rpc/rpc_client.go:591
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client/naming_grpc.(*NamingGrpcProxy).requestToServer
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/clients/naming_client/naming_grpc/naming_grpc_proxy.go:88
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client/naming_grpc.(*NamingGrpcProxy).RegisterInstance
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/clients/naming_client/naming_grpc/naming_grpc_proxy.go:99
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client.(*NamingProxyDelegate).RegisterInstance
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/clients/naming_client/naming_proxy_delegate.go:92
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client.(*NamingClient).RegisterInstance
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/clients/naming_client/naming_client.go:124
+mua/gatesvr/internal/nacos.Register
+	/Users/chenleiyu/go/mua/gatesvr/internal/nacos/nacos.go:54
+mua/gatesvr/internal/app.initNacosAndRegister
+	/Users/chenleiyu/go/mua/gatesvr/internal/app/app.go:104
+mua/gatesvr/internal/app.(*App).Init
+	/Users/chenleiyu/go/mua/gatesvr/internal/app/app.go:46
+main.main
+	/Users/chenleiyu/go/mua/gatesvr/cmd/main.go:13
+runtime.main
+	/opt/homebrew/Cellar/go/1.24.3/libexec/src/runtime/proc.go:283
+runtime.goexit
+	/opt/homebrew/Cellar/go/1.24.3/libexec/src/runtime/asm_arm64.s:1223
+2025-07-09T16:02:01.253+0800	INFO	rpc/grpc_client.go:175	check tls config %!(EXTRA *constant.TLSConfig=&{false false false    })
+2025-07-09T16:02:01.253+0800	INFO	rpc/grpc_client.go:180	try to get tls config from env
+2025-07-09T16:02:01.253+0800	INFO	rpc/grpc_client.go:189	 tls config from env is not enable
+2025-07-09T16:02:01.254+0800	WARN	rpc/rpc_client.go:457	06c244ad-aabd-41dc-b7ef-19d03687780a fail to connect server, after trying 1 times, last try server is {serverIp:mse-df8d5240-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848}, error=server check request failed , err:rpc error: code = Unavailable desc = connection error: desc = "transport: Error while dialing: dial tcp: lookup mse-df8d5240-p.nacos-ans.mse.aliyuncs.com: no such host"
+2025-07-09T16:02:01.354+0800	ERROR	rpc/rpc_client.go:629	Send request fail, request=InstanceRequest, body={"requestId":"","namespace":"public","serviceName":"gatesvr","groupName":"DEFAULT_GROUP","module":"naming","type":"registerInstance","instance":{"instanceId":"","ip":"30.219.184.65","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"","serviceName":"","metadata":{"instanceID":"gatesvr-1752048121194786000"},"instanceHeartBeatInterval":0,"ipDeleteTimeout":0,"instanceHeartBeatTimeOut":0}}, retryTimes=1, error=client not connected, current status:STARTING
+github.com/nacos-group/nacos-sdk-go/v2/common/remote/rpc.(*RpcClient).Request
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/common/remote/rpc/rpc_client.go:591
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client/naming_grpc.(*NamingGrpcProxy).requestToServer
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/clients/naming_client/naming_grpc/naming_grpc_proxy.go:88
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client/naming_grpc.(*NamingGrpcProxy).RegisterInstance
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/clients/naming_client/naming_grpc/naming_grpc_proxy.go:99
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client.(*NamingProxyDelegate).RegisterInstance
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/clients/naming_client/naming_proxy_delegate.go:92
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client.(*NamingClient).RegisterInstance
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/clients/naming_client/naming_client.go:124
+mua/gatesvr/internal/nacos.Register
+	/Users/chenleiyu/go/mua/gatesvr/internal/nacos/nacos.go:54
+mua/gatesvr/internal/app.initNacosAndRegister
+	/Users/chenleiyu/go/mua/gatesvr/internal/app/app.go:104
+mua/gatesvr/internal/app.(*App).Init
+	/Users/chenleiyu/go/mua/gatesvr/internal/app/app.go:46
+main.main
+	/Users/chenleiyu/go/mua/gatesvr/cmd/main.go:13
+runtime.main
+	/opt/homebrew/Cellar/go/1.24.3/libexec/src/runtime/proc.go:283
+runtime.goexit
+	/opt/homebrew/Cellar/go/1.24.3/libexec/src/runtime/asm_arm64.s:1223
+2025-07-09T16:02:01.355+0800	INFO	rpc/grpc_client.go:175	check tls config %!(EXTRA *constant.TLSConfig=&{false false false    })
+2025-07-09T16:02:01.355+0800	INFO	rpc/grpc_client.go:180	try to get tls config from env
+2025-07-09T16:02:01.355+0800	INFO	rpc/grpc_client.go:189	 tls config from env is not enable
+2025-07-09T16:02:01.358+0800	WARN	rpc/rpc_client.go:457	06c244ad-aabd-41dc-b7ef-19d03687780a fail to connect server, after trying 2 times, last try server is {serverIp:mse-df8d5240-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848}, error=server check request failed , err:rpc error: code = Unavailable desc = connection error: desc = "transport: Error while dialing: dial tcp: lookup mse-df8d5240-p.nacos-ans.mse.aliyuncs.com: no such host"
+2025-07-09T16:02:01.455+0800	ERROR	rpc/rpc_client.go:629	Send request fail, request=InstanceRequest, body={"requestId":"","namespace":"public","serviceName":"gatesvr","groupName":"DEFAULT_GROUP","module":"naming","type":"registerInstance","instance":{"instanceId":"","ip":"30.219.184.65","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"","serviceName":"","metadata":{"instanceID":"gatesvr-1752048121194786000"},"instanceHeartBeatInterval":0,"ipDeleteTimeout":0,"instanceHeartBeatTimeOut":0}}, retryTimes=2, error=client not connected, current status:STARTING
+github.com/nacos-group/nacos-sdk-go/v2/common/remote/rpc.(*RpcClient).Request
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/common/remote/rpc/rpc_client.go:591
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client/naming_grpc.(*NamingGrpcProxy).requestToServer
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/clients/naming_client/naming_grpc/naming_grpc_proxy.go:88
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client/naming_grpc.(*NamingGrpcProxy).RegisterInstance
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/clients/naming_client/naming_grpc/naming_grpc_proxy.go:99
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client.(*NamingProxyDelegate).RegisterInstance
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/clients/naming_client/naming_proxy_delegate.go:92
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client.(*NamingClient).RegisterInstance
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/clients/naming_client/naming_client.go:124
+mua/gatesvr/internal/nacos.Register
+	/Users/chenleiyu/go/mua/gatesvr/internal/nacos/nacos.go:54
+mua/gatesvr/internal/app.initNacosAndRegister
+	/Users/chenleiyu/go/mua/gatesvr/internal/app/app.go:104
+mua/gatesvr/internal/app.(*App).Init
+	/Users/chenleiyu/go/mua/gatesvr/internal/app/app.go:46
+main.main
+	/Users/chenleiyu/go/mua/gatesvr/cmd/main.go:13
+runtime.main
+	/opt/homebrew/Cellar/go/1.24.3/libexec/src/runtime/proc.go:283
+runtime.goexit
+	/opt/homebrew/Cellar/go/1.24.3/libexec/src/runtime/asm_arm64.s:1223
+2025-07-09T16:03:02.706+0800	ERROR	security/security_proxy.go:117	login in err:Post "http://mse-df8d5240-p.nacos-ans.mse.aliyuncs.com:8848/nacos/v1/auth/users/login": dial tcp: lookup mse-df8d5240-p.nacos-ans.mse.aliyuncs.com: no such host
+2025-07-09T16:03:02.707+0800	INFO	naming_http/push_receiver.go:89	udp server start, port: 55108
+2025-07-09T16:03:02.707+0800	INFO	rpc/rpc_client.go:157	init rpc client for name %!(EXTRA string=f4f53fb3-44e4-434e-91fd-558498e3a821)
+2025-07-09T16:03:02.707+0800	INFO	rpc/rpc_client.go:166	get app conn labels from client config map[] 
+2025-07-09T16:03:02.707+0800	INFO	rpc/rpc_client.go:168	get app conn labels from env map[] 
+2025-07-09T16:03:02.707+0800	INFO	rpc/rpc_client.go:171	final app conn labels : map[] 
+2025-07-09T16:03:02.707+0800	INFO	rpc/rpc_client.go:327	[RpcClient.Start] f4f53fb3-44e4-434e-91fd-558498e3a821 try to connect to server on start up, server: {serverIp:mse-df8d5240-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848}
+2025-07-09T16:03:02.707+0800	INFO	rpc/grpc_client.go:175	check tls config %!(EXTRA *constant.TLSConfig=&{false false false    })
+2025-07-09T16:03:02.707+0800	INFO	rpc/grpc_client.go:180	try to get tls config from env
+2025-07-09T16:03:02.707+0800	INFO	rpc/grpc_client.go:189	 tls config from env is not enable
+2025-07-09T16:03:02.708+0800	INFO	util/common.go:96	Local IP:30.219.184.65
+2025-07-09T16:03:02.710+0800	WARN	rpc/rpc_client.go:329	[RpcClient.Start] f4f53fb3-44e4-434e-91fd-558498e3a821 fail to connect to server on start up, error message=server check request failed , err:rpc error: code = Unavailable desc = connection error: desc = "transport: Error while dialing: dial tcp: lookup mse-df8d5240-p.nacos-ans.mse.aliyuncs.com: no such host", start up retry times left=2
+2025-07-09T16:03:02.710+0800	INFO	rpc/rpc_client.go:327	[RpcClient.Start] f4f53fb3-44e4-434e-91fd-558498e3a821 try to connect to server on start up, server: {serverIp:mse-df8d5240-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848}
+2025-07-09T16:03:02.710+0800	INFO	rpc/grpc_client.go:175	check tls config %!(EXTRA *constant.TLSConfig=&{false false false    })
+2025-07-09T16:03:02.710+0800	INFO	rpc/grpc_client.go:180	try to get tls config from env
+2025-07-09T16:03:02.710+0800	INFO	rpc/grpc_client.go:189	 tls config from env is not enable
+2025-07-09T16:03:02.711+0800	WARN	rpc/rpc_client.go:329	[RpcClient.Start] f4f53fb3-44e4-434e-91fd-558498e3a821 fail to connect to server on start up, error message=server check request failed , err:rpc error: code = Unavailable desc = connection error: desc = "transport: Error while dialing: dial tcp: lookup mse-df8d5240-p.nacos-ans.mse.aliyuncs.com: no such host", start up retry times left=1
+2025-07-09T16:03:02.711+0800	INFO	rpc/rpc_client.go:327	[RpcClient.Start] f4f53fb3-44e4-434e-91fd-558498e3a821 try to connect to server on start up, server: {serverIp:mse-df8d5240-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848}
+2025-07-09T16:03:02.712+0800	INFO	rpc/grpc_client.go:175	check tls config %!(EXTRA *constant.TLSConfig=&{false false false    })
+2025-07-09T16:03:02.712+0800	INFO	rpc/grpc_client.go:180	try to get tls config from env
+2025-07-09T16:03:02.712+0800	INFO	rpc/grpc_client.go:189	 tls config from env is not enable
+2025-07-09T16:03:02.712+0800	WARN	rpc/rpc_client.go:329	[RpcClient.Start] f4f53fb3-44e4-434e-91fd-558498e3a821 fail to connect to server on start up, error message=server check request failed , err:rpc error: code = Unavailable desc = connection error: desc = "transport: Error while dialing: dial tcp: lookup mse-df8d5240-p.nacos-ans.mse.aliyuncs.com: no such host", start up retry times left=0
+2025-07-09T16:03:02.712+0800	INFO	rpc/rpc_client.go:426	f4f53fb3-44e4-434e-91fd-558498e3a821 try to re connect to a new server, server is not appointed, will choose a random server.
+2025-07-09T16:03:02.713+0800	INFO	naming_grpc/naming_grpc_proxy.go:95	register instance namespaceId:<public>,serviceName:<gatesvr> with instance:<{"instanceId":"","ip":"30.219.184.65","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"","serviceName":"","metadata":{"instanceID":"gatesvr-1752048182702629000"},"instanceHeartBeatInterval":0,"ipDeleteTimeout":0,"instanceHeartBeatTimeOut":0}>
+2025-07-09T16:03:02.713+0800	INFO	rpc/grpc_client.go:175	check tls config %!(EXTRA *constant.TLSConfig=&{false false false    })
+2025-07-09T16:03:02.713+0800	INFO	rpc/grpc_client.go:180	try to get tls config from env
+2025-07-09T16:03:02.713+0800	ERROR	rpc/rpc_client.go:629	Send request fail, request=InstanceRequest, body={"requestId":"","namespace":"public","serviceName":"gatesvr","groupName":"DEFAULT_GROUP","module":"naming","type":"registerInstance","instance":{"instanceId":"","ip":"30.219.184.65","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"","serviceName":"","metadata":{"instanceID":"gatesvr-1752048182702629000"},"instanceHeartBeatInterval":0,"ipDeleteTimeout":0,"instanceHeartBeatTimeOut":0}}, retryTimes=0, error=client not connected, current status:STARTING
+github.com/nacos-group/nacos-sdk-go/v2/common/remote/rpc.(*RpcClient).Request
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/common/remote/rpc/rpc_client.go:591
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client/naming_grpc.(*NamingGrpcProxy).requestToServer
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/clients/naming_client/naming_grpc/naming_grpc_proxy.go:88
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client/naming_grpc.(*NamingGrpcProxy).RegisterInstance
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/clients/naming_client/naming_grpc/naming_grpc_proxy.go:99
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client.(*NamingProxyDelegate).RegisterInstance
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/clients/naming_client/naming_proxy_delegate.go:92
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client.(*NamingClient).RegisterInstance
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/clients/naming_client/naming_client.go:124
+mua/gatesvr/internal/nacos.Register
+	/Users/chenleiyu/go/mua/gatesvr/internal/nacos/nacos.go:54
+mua/gatesvr/internal/app.initNacosAndRegister
+	/Users/chenleiyu/go/mua/gatesvr/internal/app/app.go:104
+mua/gatesvr/internal/app.(*App).Init
+	/Users/chenleiyu/go/mua/gatesvr/internal/app/app.go:46
+main.main
+	/Users/chenleiyu/go/mua/gatesvr/cmd/main.go:13
+runtime.main
+	/opt/homebrew/Cellar/go/1.24.3/libexec/src/runtime/proc.go:283
+runtime.goexit
+	/opt/homebrew/Cellar/go/1.24.3/libexec/src/runtime/asm_arm64.s:1223
+2025-07-09T16:03:02.713+0800	INFO	rpc/grpc_client.go:189	 tls config from env is not enable
+2025-07-09T16:03:02.714+0800	INFO	rpc/grpc_client.go:175	check tls config %!(EXTRA *constant.TLSConfig=&{false false false    })
+2025-07-09T16:03:02.714+0800	INFO	rpc/grpc_client.go:180	try to get tls config from env
+2025-07-09T16:03:02.714+0800	INFO	rpc/grpc_client.go:189	 tls config from env is not enable
+2025-07-09T16:03:02.715+0800	WARN	rpc/rpc_client.go:457	f4f53fb3-44e4-434e-91fd-558498e3a821 fail to connect server, after trying 1 times, last try server is {serverIp:mse-df8d5240-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848}, error=server check request failed , err:rpc error: code = Unavailable desc = connection error: desc = "transport: Error while dialing: dial tcp: lookup mse-df8d5240-p.nacos-ans.mse.aliyuncs.com: no such host"
+2025-07-09T16:03:02.814+0800	ERROR	rpc/rpc_client.go:629	Send request fail, request=InstanceRequest, body={"requestId":"","namespace":"public","serviceName":"gatesvr","groupName":"DEFAULT_GROUP","module":"naming","type":"registerInstance","instance":{"instanceId":"","ip":"30.219.184.65","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"","serviceName":"","metadata":{"instanceID":"gatesvr-1752048182702629000"},"instanceHeartBeatInterval":0,"ipDeleteTimeout":0,"instanceHeartBeatTimeOut":0}}, retryTimes=1, error=client not connected, current status:STARTING
+github.com/nacos-group/nacos-sdk-go/v2/common/remote/rpc.(*RpcClient).Request
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/common/remote/rpc/rpc_client.go:591
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client/naming_grpc.(*NamingGrpcProxy).requestToServer
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/clients/naming_client/naming_grpc/naming_grpc_proxy.go:88
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client/naming_grpc.(*NamingGrpcProxy).RegisterInstance
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/clients/naming_client/naming_grpc/naming_grpc_proxy.go:99
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client.(*NamingProxyDelegate).RegisterInstance
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/clients/naming_client/naming_proxy_delegate.go:92
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client.(*NamingClient).RegisterInstance
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/clients/naming_client/naming_client.go:124
+mua/gatesvr/internal/nacos.Register
+	/Users/chenleiyu/go/mua/gatesvr/internal/nacos/nacos.go:54
+mua/gatesvr/internal/app.initNacosAndRegister
+	/Users/chenleiyu/go/mua/gatesvr/internal/app/app.go:104
+mua/gatesvr/internal/app.(*App).Init
+	/Users/chenleiyu/go/mua/gatesvr/internal/app/app.go:46
+main.main
+	/Users/chenleiyu/go/mua/gatesvr/cmd/main.go:13
+runtime.main
+	/opt/homebrew/Cellar/go/1.24.3/libexec/src/runtime/proc.go:283
+runtime.goexit
+	/opt/homebrew/Cellar/go/1.24.3/libexec/src/runtime/asm_arm64.s:1223
+2025-07-09T16:03:02.815+0800	INFO	rpc/grpc_client.go:175	check tls config %!(EXTRA *constant.TLSConfig=&{false false false    })
+2025-07-09T16:03:02.815+0800	INFO	rpc/grpc_client.go:180	try to get tls config from env
+2025-07-09T16:03:02.815+0800	INFO	rpc/grpc_client.go:189	 tls config from env is not enable
+2025-07-09T16:03:02.817+0800	WARN	rpc/rpc_client.go:457	f4f53fb3-44e4-434e-91fd-558498e3a821 fail to connect server, after trying 2 times, last try server is {serverIp:mse-df8d5240-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848}, error=server check request failed , err:rpc error: code = Unavailable desc = connection error: desc = "transport: Error while dialing: dial tcp: lookup mse-df8d5240-p.nacos-ans.mse.aliyuncs.com: no such host"
+2025-07-09T16:03:02.916+0800	ERROR	rpc/rpc_client.go:629	Send request fail, request=InstanceRequest, body={"requestId":"","namespace":"public","serviceName":"gatesvr","groupName":"DEFAULT_GROUP","module":"naming","type":"registerInstance","instance":{"instanceId":"","ip":"30.219.184.65","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"","serviceName":"","metadata":{"instanceID":"gatesvr-1752048182702629000"},"instanceHeartBeatInterval":0,"ipDeleteTimeout":0,"instanceHeartBeatTimeOut":0}}, retryTimes=2, error=client not connected, current status:STARTING
+github.com/nacos-group/nacos-sdk-go/v2/common/remote/rpc.(*RpcClient).Request
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/common/remote/rpc/rpc_client.go:591
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client/naming_grpc.(*NamingGrpcProxy).requestToServer
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/clients/naming_client/naming_grpc/naming_grpc_proxy.go:88
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client/naming_grpc.(*NamingGrpcProxy).RegisterInstance
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/clients/naming_client/naming_grpc/naming_grpc_proxy.go:99
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client.(*NamingProxyDelegate).RegisterInstance
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/clients/naming_client/naming_proxy_delegate.go:92
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client.(*NamingClient).RegisterInstance
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/clients/naming_client/naming_client.go:124
+mua/gatesvr/internal/nacos.Register
+	/Users/chenleiyu/go/mua/gatesvr/internal/nacos/nacos.go:54
+mua/gatesvr/internal/app.initNacosAndRegister
+	/Users/chenleiyu/go/mua/gatesvr/internal/app/app.go:104
+mua/gatesvr/internal/app.(*App).Init
+	/Users/chenleiyu/go/mua/gatesvr/internal/app/app.go:46
+main.main
+	/Users/chenleiyu/go/mua/gatesvr/cmd/main.go:13
+runtime.main
+	/opt/homebrew/Cellar/go/1.24.3/libexec/src/runtime/proc.go:283
+runtime.goexit
+	/opt/homebrew/Cellar/go/1.24.3/libexec/src/runtime/asm_arm64.s:1223
+2025-07-09T16:04:34.075+0800	ERROR	security/security_proxy.go:117	login in err:Post "http://mse-3cb9ef30-p.nacos-ans.mse.aliyuncs.com:8848/nacos/v1/auth/users/login": dial tcp 47.111.74.211:8848: connect: bad file descriptor
+2025-07-09T16:04:34.075+0800	INFO	naming_http/push_receiver.go:89	udp server start, port: 55488
+2025-07-09T16:04:34.075+0800	INFO	rpc/rpc_client.go:157	init rpc client for name %!(EXTRA string=ecd2523e-a87f-4be7-a9a2-feb92cf73107)
+2025-07-09T16:04:34.075+0800	INFO	rpc/rpc_client.go:166	get app conn labels from client config map[] 
+2025-07-09T16:04:34.075+0800	INFO	rpc/rpc_client.go:168	get app conn labels from env map[] 
+2025-07-09T16:04:34.075+0800	INFO	rpc/rpc_client.go:171	final app conn labels : map[] 
+2025-07-09T16:04:34.075+0800	INFO	rpc/rpc_client.go:327	[RpcClient.Start] ecd2523e-a87f-4be7-a9a2-feb92cf73107 try to connect to server on start up, server: {serverIp:mse-3cb9ef30-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848}
+2025-07-09T16:04:34.076+0800	INFO	rpc/grpc_client.go:175	check tls config %!(EXTRA *constant.TLSConfig=&{false false false    })
+2025-07-09T16:04:34.076+0800	INFO	rpc/grpc_client.go:180	try to get tls config from env
+2025-07-09T16:04:34.076+0800	INFO	rpc/grpc_client.go:189	 tls config from env is not enable
+2025-07-09T16:04:34.076+0800	INFO	util/common.go:96	Local IP:30.219.184.65
+2025-07-09T16:04:34.077+0800	WARN	rpc/rpc_client.go:329	[RpcClient.Start] ecd2523e-a87f-4be7-a9a2-feb92cf73107 fail to connect to server on start up, error message=server check request failed , err:rpc error: code = Unavailable desc = connection error: desc = "transport: Error while dialing: dial tcp 47.111.74.211:9848: connect: bad file descriptor", start up retry times left=2
+2025-07-09T16:04:34.077+0800	INFO	rpc/rpc_client.go:327	[RpcClient.Start] ecd2523e-a87f-4be7-a9a2-feb92cf73107 try to connect to server on start up, server: {serverIp:mse-3cb9ef30-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848}
+2025-07-09T16:04:34.077+0800	INFO	rpc/grpc_client.go:175	check tls config %!(EXTRA *constant.TLSConfig=&{false false false    })
+2025-07-09T16:04:34.077+0800	INFO	rpc/grpc_client.go:180	try to get tls config from env
+2025-07-09T16:04:34.077+0800	INFO	rpc/grpc_client.go:189	 tls config from env is not enable
+2025-07-09T16:04:34.078+0800	WARN	rpc/rpc_client.go:329	[RpcClient.Start] ecd2523e-a87f-4be7-a9a2-feb92cf73107 fail to connect to server on start up, error message=server check request failed , err:rpc error: code = Unavailable desc = connection error: desc = "transport: Error while dialing: dial tcp 47.111.74.211:9848: connect: bad file descriptor", start up retry times left=1
+2025-07-09T16:04:34.079+0800	INFO	rpc/rpc_client.go:327	[RpcClient.Start] ecd2523e-a87f-4be7-a9a2-feb92cf73107 try to connect to server on start up, server: {serverIp:mse-3cb9ef30-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848}
+2025-07-09T16:04:34.079+0800	INFO	rpc/grpc_client.go:175	check tls config %!(EXTRA *constant.TLSConfig=&{false false false    })
+2025-07-09T16:04:34.079+0800	INFO	rpc/grpc_client.go:180	try to get tls config from env
+2025-07-09T16:04:34.079+0800	INFO	rpc/grpc_client.go:189	 tls config from env is not enable
+2025-07-09T16:04:34.080+0800	WARN	rpc/rpc_client.go:329	[RpcClient.Start] ecd2523e-a87f-4be7-a9a2-feb92cf73107 fail to connect to server on start up, error message=server check request failed , err:rpc error: code = Unavailable desc = connection error: desc = "transport: Error while dialing: dial tcp 47.111.74.211:9848: connect: bad file descriptor", start up retry times left=0
+2025-07-09T16:04:34.080+0800	INFO	rpc/rpc_client.go:426	ecd2523e-a87f-4be7-a9a2-feb92cf73107 try to re connect to a new server, server is not appointed, will choose a random server.
+2025-07-09T16:04:34.080+0800	INFO	naming_grpc/naming_grpc_proxy.go:95	register instance namespaceId:<public>,serviceName:<gatesvr> with instance:<{"instanceId":"","ip":"30.219.184.65","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"","serviceName":"","metadata":{"instanceID":"gatesvr-1752048273983584000"},"instanceHeartBeatInterval":0,"ipDeleteTimeout":0,"instanceHeartBeatTimeOut":0}>
+2025-07-09T16:04:34.080+0800	INFO	rpc/grpc_client.go:175	check tls config %!(EXTRA *constant.TLSConfig=&{false false false    })
+2025-07-09T16:04:34.080+0800	INFO	rpc/grpc_client.go:180	try to get tls config from env
+2025-07-09T16:04:34.080+0800	INFO	rpc/grpc_client.go:189	 tls config from env is not enable
+2025-07-09T16:04:34.080+0800	ERROR	rpc/rpc_client.go:629	Send request fail, request=InstanceRequest, body={"requestId":"","namespace":"public","serviceName":"gatesvr","groupName":"DEFAULT_GROUP","module":"naming","type":"registerInstance","instance":{"instanceId":"","ip":"30.219.184.65","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"","serviceName":"","metadata":{"instanceID":"gatesvr-1752048273983584000"},"instanceHeartBeatInterval":0,"ipDeleteTimeout":0,"instanceHeartBeatTimeOut":0}}, retryTimes=0, error=client not connected, current status:STARTING
+github.com/nacos-group/nacos-sdk-go/v2/common/remote/rpc.(*RpcClient).Request
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/common/remote/rpc/rpc_client.go:591
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client/naming_grpc.(*NamingGrpcProxy).requestToServer
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/clients/naming_client/naming_grpc/naming_grpc_proxy.go:88
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client/naming_grpc.(*NamingGrpcProxy).RegisterInstance
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/clients/naming_client/naming_grpc/naming_grpc_proxy.go:99
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client.(*NamingProxyDelegate).RegisterInstance
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/clients/naming_client/naming_proxy_delegate.go:92
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client.(*NamingClient).RegisterInstance
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/clients/naming_client/naming_client.go:124
+mua/gatesvr/internal/nacos.Register
+	/Users/chenleiyu/go/mua/gatesvr/internal/nacos/nacos.go:54
+mua/gatesvr/internal/app.initNacosAndRegister
+	/Users/chenleiyu/go/mua/gatesvr/internal/app/app.go:104
+mua/gatesvr/internal/app.(*App).Init
+	/Users/chenleiyu/go/mua/gatesvr/internal/app/app.go:46
+main.main
+	/Users/chenleiyu/go/mua/gatesvr/cmd/main.go:13
+runtime.main
+	/opt/homebrew/Cellar/go/1.24.3/libexec/src/runtime/proc.go:283
+runtime.goexit
+	/opt/homebrew/Cellar/go/1.24.3/libexec/src/runtime/asm_arm64.s:1223
+2025-07-09T16:04:34.082+0800	INFO	rpc/grpc_client.go:175	check tls config %!(EXTRA *constant.TLSConfig=&{false false false    })
+2025-07-09T16:04:34.082+0800	INFO	rpc/grpc_client.go:180	try to get tls config from env
+2025-07-09T16:04:34.082+0800	INFO	rpc/grpc_client.go:189	 tls config from env is not enable
+2025-07-09T16:04:34.083+0800	WARN	rpc/rpc_client.go:457	ecd2523e-a87f-4be7-a9a2-feb92cf73107 fail to connect server, after trying 1 times, last try server is {serverIp:mse-3cb9ef30-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848}, error=server check request failed , err:rpc error: code = Unavailable desc = connection error: desc = "transport: Error while dialing: dial tcp 47.111.74.211:9848: connect: bad file descriptor"
+2025-07-09T16:04:34.182+0800	ERROR	rpc/rpc_client.go:629	Send request fail, request=InstanceRequest, body={"requestId":"","namespace":"public","serviceName":"gatesvr","groupName":"DEFAULT_GROUP","module":"naming","type":"registerInstance","instance":{"instanceId":"","ip":"30.219.184.65","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"","serviceName":"","metadata":{"instanceID":"gatesvr-1752048273983584000"},"instanceHeartBeatInterval":0,"ipDeleteTimeout":0,"instanceHeartBeatTimeOut":0}}, retryTimes=1, error=client not connected, current status:STARTING
+github.com/nacos-group/nacos-sdk-go/v2/common/remote/rpc.(*RpcClient).Request
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/common/remote/rpc/rpc_client.go:591
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client/naming_grpc.(*NamingGrpcProxy).requestToServer
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/clients/naming_client/naming_grpc/naming_grpc_proxy.go:88
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client/naming_grpc.(*NamingGrpcProxy).RegisterInstance
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/clients/naming_client/naming_grpc/naming_grpc_proxy.go:99
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client.(*NamingProxyDelegate).RegisterInstance
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/clients/naming_client/naming_proxy_delegate.go:92
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client.(*NamingClient).RegisterInstance
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/clients/naming_client/naming_client.go:124
+mua/gatesvr/internal/nacos.Register
+	/Users/chenleiyu/go/mua/gatesvr/internal/nacos/nacos.go:54
+mua/gatesvr/internal/app.initNacosAndRegister
+	/Users/chenleiyu/go/mua/gatesvr/internal/app/app.go:104
+mua/gatesvr/internal/app.(*App).Init
+	/Users/chenleiyu/go/mua/gatesvr/internal/app/app.go:46
+main.main
+	/Users/chenleiyu/go/mua/gatesvr/cmd/main.go:13
+runtime.main
+	/opt/homebrew/Cellar/go/1.24.3/libexec/src/runtime/proc.go:283
+runtime.goexit
+	/opt/homebrew/Cellar/go/1.24.3/libexec/src/runtime/asm_arm64.s:1223
+2025-07-09T16:04:34.184+0800	INFO	rpc/grpc_client.go:175	check tls config %!(EXTRA *constant.TLSConfig=&{false false false    })
+2025-07-09T16:04:34.184+0800	INFO	rpc/grpc_client.go:180	try to get tls config from env
+2025-07-09T16:04:34.184+0800	INFO	rpc/grpc_client.go:189	 tls config from env is not enable
+2025-07-09T16:04:34.283+0800	ERROR	rpc/rpc_client.go:629	Send request fail, request=InstanceRequest, body={"requestId":"","namespace":"public","serviceName":"gatesvr","groupName":"DEFAULT_GROUP","module":"naming","type":"registerInstance","instance":{"instanceId":"","ip":"30.219.184.65","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"","serviceName":"","metadata":{"instanceID":"gatesvr-1752048273983584000"},"instanceHeartBeatInterval":0,"ipDeleteTimeout":0,"instanceHeartBeatTimeOut":0}}, retryTimes=2, error=client not connected, current status:STARTING
+github.com/nacos-group/nacos-sdk-go/v2/common/remote/rpc.(*RpcClient).Request
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/common/remote/rpc/rpc_client.go:591
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client/naming_grpc.(*NamingGrpcProxy).requestToServer
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/clients/naming_client/naming_grpc/naming_grpc_proxy.go:88
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client/naming_grpc.(*NamingGrpcProxy).RegisterInstance
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/clients/naming_client/naming_grpc/naming_grpc_proxy.go:99
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client.(*NamingProxyDelegate).RegisterInstance
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/clients/naming_client/naming_proxy_delegate.go:92
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client.(*NamingClient).RegisterInstance
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/clients/naming_client/naming_client.go:124
+mua/gatesvr/internal/nacos.Register
+	/Users/chenleiyu/go/mua/gatesvr/internal/nacos/nacos.go:54
+mua/gatesvr/internal/app.initNacosAndRegister
+	/Users/chenleiyu/go/mua/gatesvr/internal/app/app.go:104
+mua/gatesvr/internal/app.(*App).Init
+	/Users/chenleiyu/go/mua/gatesvr/internal/app/app.go:46
+main.main
+	/Users/chenleiyu/go/mua/gatesvr/cmd/main.go:13
+runtime.main
+	/opt/homebrew/Cellar/go/1.24.3/libexec/src/runtime/proc.go:283
+runtime.goexit
+	/opt/homebrew/Cellar/go/1.24.3/libexec/src/runtime/asm_arm64.s:1223
+2025-07-09T16:05:12.483+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:05:12.484+0800	INFO	naming_http/push_receiver.go:89	udp server start, port: 55863
+2025-07-09T16:05:12.484+0800	INFO	rpc/rpc_client.go:157	init rpc client for name %!(EXTRA string=9429ffe1-0335-47fa-a481-7f870bea3f8d)
+2025-07-09T16:05:12.484+0800	INFO	rpc/rpc_client.go:166	get app conn labels from client config map[] 
+2025-07-09T16:05:12.484+0800	INFO	rpc/rpc_client.go:168	get app conn labels from env map[] 
+2025-07-09T16:05:12.484+0800	INFO	rpc/rpc_client.go:171	final app conn labels : map[] 
+2025-07-09T16:05:12.484+0800	INFO	rpc/rpc_client.go:327	[RpcClient.Start] 9429ffe1-0335-47fa-a481-7f870bea3f8d try to connect to server on start up, server: {serverIp:mse-3cb9ef30-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848}
+2025-07-09T16:05:12.484+0800	INFO	rpc/grpc_client.go:175	check tls config %!(EXTRA *constant.TLSConfig=&{false false false    })
+2025-07-09T16:05:12.484+0800	INFO	rpc/grpc_client.go:180	try to get tls config from env
+2025-07-09T16:05:12.484+0800	INFO	rpc/grpc_client.go:189	 tls config from env is not enable
+2025-07-09T16:05:12.484+0800	INFO	util/common.go:96	Local IP:30.219.184.65
+2025-07-09T16:05:12.693+0800	INFO	rpc/rpc_client.go:337	9429ffe1-0335-47fa-a481-7f870bea3f8d success to connect to server {serverIp:mse-3cb9ef30-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848} on start up, connectionId=1752048312582_106.11.31.218_65055
+2025-07-09T16:05:12.693+0800	INFO	naming_grpc/naming_grpc_proxy.go:95	register instance namespaceId:<public>,serviceName:<gatesvr> with instance:<{"instanceId":"","ip":"30.219.184.65","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"","serviceName":"","metadata":{"instanceID":"gatesvr-1752048312407096000"},"instanceHeartBeatInterval":0,"ipDeleteTimeout":0,"instanceHeartBeatTimeOut":0}>
+2025-07-09T16:05:17.522+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:05:26.311+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:05:26.312+0800	INFO	naming_http/push_receiver.go:89	udp server start, port: 55005
+2025-07-09T16:05:26.312+0800	INFO	rpc/rpc_client.go:157	init rpc client for name %!(EXTRA string=2de97190-2cd4-47e2-98be-1e61bcffc780)
+2025-07-09T16:05:26.312+0800	INFO	rpc/rpc_client.go:166	get app conn labels from client config map[] 
+2025-07-09T16:05:26.312+0800	INFO	rpc/rpc_client.go:168	get app conn labels from env map[] 
+2025-07-09T16:05:26.312+0800	INFO	rpc/rpc_client.go:171	final app conn labels : map[] 
+2025-07-09T16:05:26.312+0800	INFO	rpc/rpc_client.go:327	[RpcClient.Start] 2de97190-2cd4-47e2-98be-1e61bcffc780 try to connect to server on start up, server: {serverIp:mse-3cb9ef30-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848}
+2025-07-09T16:05:26.312+0800	INFO	rpc/grpc_client.go:175	check tls config %!(EXTRA *constant.TLSConfig=&{false false false    })
+2025-07-09T16:05:26.312+0800	INFO	rpc/grpc_client.go:180	try to get tls config from env
+2025-07-09T16:05:26.312+0800	INFO	rpc/grpc_client.go:189	 tls config from env is not enable
+2025-07-09T16:05:26.312+0800	INFO	util/common.go:96	Local IP:30.219.184.65
+2025-07-09T16:05:26.532+0800	INFO	rpc/rpc_client.go:337	2de97190-2cd4-47e2-98be-1e61bcffc780 success to connect to server {serverIp:mse-3cb9ef30-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848} on start up, connectionId=1752048326411_106.11.31.218_65088
+2025-07-09T16:05:26.533+0800	INFO	naming_grpc/naming_grpc_proxy.go:95	register instance namespaceId:<public>,serviceName:<gatesvr> with instance:<{"instanceId":"","ip":"30.219.184.65","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"","serviceName":"","metadata":{"instanceID":"gatesvr-1752048326234284000"},"instanceHeartBeatInterval":0,"ipDeleteTimeout":0,"instanceHeartBeatTimeOut":0}>
+2025-07-09T16:05:31.351+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:05:36.387+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:05:41.425+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:05:46.461+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:05:51.497+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:05:56.534+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:06:01.571+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:06:06.608+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:06:11.645+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:06:16.682+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:06:21.718+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:06:26.760+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:06:31.800+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:06:36.838+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:06:41.880+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:06:46.916+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:06:51.958+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:06:56.998+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:07:02.038+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:07:07.075+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:07:12.115+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:07:17.152+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:07:22.193+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:07:27.235+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:07:32.274+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:07:37.312+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:07:42.350+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:07:47.387+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:07:52.425+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:07:57.462+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:08:02.500+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:08:07.541+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:08:12.577+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:08:17.613+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:08:22.655+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:08:27.696+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:08:32.733+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:08:37.772+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:08:42.809+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:08:47.846+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:08:52.888+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:08:57.924+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:09:02.962+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:09:08.002+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:09:13.037+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:09:18.078+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:09:23.115+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:09:28.150+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:09:33.191+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:09:38.229+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:09:43.269+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:09:48.305+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:09:53.344+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:09:58.381+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:10:03.421+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:10:08.462+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:10:13.500+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:10:18.539+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:10:23.583+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:10:28.619+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:10:33.661+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:10:38.702+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:10:43.743+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:10:48.785+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:10:53.826+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:10:58.862+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:11:03.900+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:11:08.937+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:11:13.972+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:11:19.010+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:11:24.047+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:11:29.085+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:11:34.122+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:11:39.163+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:11:44.200+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:11:49.239+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:11:54.330+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:11:59.370+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:12:04.407+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:12:09.443+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:12:14.483+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:12:19.521+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:12:24.557+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:12:29.593+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:12:34.635+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:12:39.676+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:12:44.717+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:12:49.758+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:12:54.796+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:12:59.832+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:13:04.869+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:13:09.906+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:13:14.948+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:13:19.987+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:13:25.026+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:13:30.062+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:13:35.103+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:13:40.144+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:13:45.182+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:13:50.338+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:13:55.380+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:14:00.414+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:14:05.449+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:14:10.484+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:14:15.519+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:14:20.554+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:14:25.588+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:14:30.623+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:14:35.658+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:14:40.708+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:14:45.743+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:14:50.780+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:14:55.816+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:15:00.850+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:15:05.888+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:15:10.922+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:15:15.959+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:15:20.997+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:15:26.038+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:15:31.077+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:15:36.111+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:15:41.151+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:15:46.185+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-09T16:15:51.219+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found

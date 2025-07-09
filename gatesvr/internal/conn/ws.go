@@ -37,9 +37,10 @@ func wsUpgradeHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	adapter := NewWSConnAdapter(conn, r)
-	go HandleConnection(
+	go HandleConnectionWithProto(
 		adapter,
 		wsHandlerRegistry{},
+		"ws",
 		config.GetConfig().EnableTokenCheck,
 		config.GetConfig().EnableIPWhitelist,
 	)
