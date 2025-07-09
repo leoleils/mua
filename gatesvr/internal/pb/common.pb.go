@@ -21,20 +21,123 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+// 消息类型枚举
+type MessageType int32
+
+const (
+	MessageType_HEARTBEAT         MessageType = 0 // 心跳消息
+	MessageType_SERVICE_MESSAGE   MessageType = 1 // 服务消息（需要转发到后端服务处理）
+	MessageType_CLIENT_MESSAGE    MessageType = 2 // 客户端消息（网关内部处理）
+	MessageType_BROADCAST_MESSAGE MessageType = 3 // 广播消息
+)
+
+// Enum value maps for MessageType.
+var (
+	MessageType_name = map[int32]string{
+		0: "HEARTBEAT",
+		1: "SERVICE_MESSAGE",
+		2: "CLIENT_MESSAGE",
+		3: "BROADCAST_MESSAGE",
+	}
+	MessageType_value = map[string]int32{
+		"HEARTBEAT":         0,
+		"SERVICE_MESSAGE":   1,
+		"CLIENT_MESSAGE":    2,
+		"BROADCAST_MESSAGE": 3,
+	}
+)
+
+func (x MessageType) Enum() *MessageType {
+	p := new(MessageType)
+	*p = x
+	return p
+}
+
+func (x MessageType) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (MessageType) Descriptor() protoreflect.EnumDescriptor {
+	return file_common_proto_enumTypes[0].Descriptor()
+}
+
+func (MessageType) Type() protoreflect.EnumType {
+	return &file_common_proto_enumTypes[0]
+}
+
+func (x MessageType) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use MessageType.Descriptor instead.
+func (MessageType) EnumDescriptor() ([]byte, []int) {
+	return file_common_proto_rawDescGZIP(), []int{0}
+}
+
+// 服务消息处理类型
+type ServiceMessageType int32
+
+const (
+	ServiceMessageType_SYNC  ServiceMessageType = 0 // 等待回包类型
+	ServiceMessageType_ASYNC ServiceMessageType = 1 // 不等待回包类型
+)
+
+// Enum value maps for ServiceMessageType.
+var (
+	ServiceMessageType_name = map[int32]string{
+		0: "SYNC",
+		1: "ASYNC",
+	}
+	ServiceMessageType_value = map[string]int32{
+		"SYNC":  0,
+		"ASYNC": 1,
+	}
+)
+
+func (x ServiceMessageType) Enum() *ServiceMessageType {
+	p := new(ServiceMessageType)
+	*p = x
+	return p
+}
+
+func (x ServiceMessageType) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (ServiceMessageType) Descriptor() protoreflect.EnumDescriptor {
+	return file_common_proto_enumTypes[1].Descriptor()
+}
+
+func (ServiceMessageType) Type() protoreflect.EnumType {
+	return &file_common_proto_enumTypes[1]
+}
+
+func (x ServiceMessageType) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use ServiceMessageType.Descriptor instead.
+func (ServiceMessageType) EnumDescriptor() ([]byte, []int) {
+	return file_common_proto_rawDescGZIP(), []int{1}
+}
+
 // 通用消息头
 type HeadMessage struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	PlayerId      string                 `protobuf:"bytes,1,opt,name=player_id,json=playerId,proto3" json:"player_id,omitempty"`
-	ClientType    int32                  `protobuf:"varint,2,opt,name=client_type,json=clientType,proto3" json:"client_type,omitempty"`
-	ClientId      string                 `protobuf:"bytes,3,opt,name=client_id,json=clientId,proto3" json:"client_id,omitempty"`
-	RoleId        int64                  `protobuf:"varint,4,opt,name=role_id,json=roleId,proto3" json:"role_id,omitempty"`
-	ServiceName   string                 `protobuf:"bytes,5,opt,name=service_name,json=serviceName,proto3" json:"service_name,omitempty"`
-	Group         string                 `protobuf:"bytes,6,opt,name=group,proto3" json:"group,omitempty"`
-	InstanceId    string                 `protobuf:"bytes,7,opt,name=instance_id,json=instanceId,proto3" json:"instance_id,omitempty"`
-	Token         string                 `protobuf:"bytes,8,opt,name=token,proto3" json:"token,omitempty"`
-	RequestId     string                 `protobuf:"bytes,9,opt,name=request_id,json=requestId,proto3" json:"request_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state               protoimpl.MessageState `protogen:"open.v1"`
+	PlayerId            string                 `protobuf:"bytes,1,opt,name=player_id,json=playerId,proto3" json:"player_id,omitempty"`
+	ClientType          int32                  `protobuf:"varint,2,opt,name=client_type,json=clientType,proto3" json:"client_type,omitempty"`
+	ClientId            string                 `protobuf:"bytes,3,opt,name=client_id,json=clientId,proto3" json:"client_id,omitempty"`
+	RoleId              int64                  `protobuf:"varint,4,opt,name=role_id,json=roleId,proto3" json:"role_id,omitempty"`
+	ServiceName         string                 `protobuf:"bytes,5,opt,name=service_name,json=serviceName,proto3" json:"service_name,omitempty"` // 目标服务名（转发时使用）
+	Group               string                 `protobuf:"bytes,6,opt,name=group,proto3" json:"group,omitempty"`                                // 目标服务分组（转发时使用）
+	InstanceId          string                 `protobuf:"bytes,7,opt,name=instance_id,json=instanceId,proto3" json:"instance_id,omitempty"`    // 指定实例ID（可选，指定时只转发到该实例）
+	Token               string                 `protobuf:"bytes,8,opt,name=token,proto3" json:"token,omitempty"`
+	RequestId           string                 `protobuf:"bytes,9,opt,name=request_id,json=requestId,proto3" json:"request_id,omitempty"`
+	ServiceMsgType      ServiceMessageType     `protobuf:"varint,10,opt,name=service_msg_type,json=serviceMsgType,proto3,enum=common.ServiceMessageType" json:"service_msg_type,omitempty"` // 服务消息处理类型
+	LoadBalanceStrategy string                 `protobuf:"bytes,11,opt,name=load_balance_strategy,json=loadBalanceStrategy,proto3" json:"load_balance_strategy,omitempty"`                  // 负载均衡策略（"round_robin" 或 "weighted"）
+	Timestamp           int64                  `protobuf:"varint,12,opt,name=timestamp,proto3" json:"timestamp,omitempty"`                                                                  // 消息时间戳
+	unknownFields       protoimpl.UnknownFields
+	sizeCache           protoimpl.SizeCache
 }
 
 func (x *HeadMessage) Reset() {
@@ -130,11 +233,32 @@ func (x *HeadMessage) GetRequestId() string {
 	return ""
 }
 
+func (x *HeadMessage) GetServiceMsgType() ServiceMessageType {
+	if x != nil {
+		return x.ServiceMsgType
+	}
+	return ServiceMessageType_SYNC
+}
+
+func (x *HeadMessage) GetLoadBalanceStrategy() string {
+	if x != nil {
+		return x.LoadBalanceStrategy
+	}
+	return ""
+}
+
+func (x *HeadMessage) GetTimestamp() int64 {
+	if x != nil {
+		return x.Timestamp
+	}
+	return 0
+}
+
 // 通用消息体
 type GameMessage struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	MsgHead       *HeadMessage           `protobuf:"bytes,1,opt,name=msg_head,json=msgHead,proto3" json:"msg_head,omitempty"`
-	MsgType       int32                  `protobuf:"varint,2,opt,name=msg_type,json=msgType,proto3" json:"msg_type,omitempty"`
+	MsgType       MessageType            `protobuf:"varint,2,opt,name=msg_type,json=msgType,proto3,enum=common.MessageType" json:"msg_type,omitempty"` // 使用枚举类型
 	Payload       []byte                 `protobuf:"bytes,3,opt,name=payload,proto3" json:"payload,omitempty"`
 	MsgTap        string                 `protobuf:"bytes,4,opt,name=msg_tap,json=msgTap,proto3" json:"msg_tap,omitempty"`
 	GameId        int32                  `protobuf:"varint,5,opt,name=game_id,json=gameId,proto3" json:"game_id,omitempty"`
@@ -179,11 +303,11 @@ func (x *GameMessage) GetMsgHead() *HeadMessage {
 	return nil
 }
 
-func (x *GameMessage) GetMsgType() int32 {
+func (x *GameMessage) GetMsgType() MessageType {
 	if x != nil {
 		return x.MsgType
 	}
-	return 0
+	return MessageType_HEARTBEAT
 }
 
 func (x *GameMessage) GetPayload() []byte {
@@ -216,9 +340,10 @@ type GameMessageResponse struct {
 	//
 	//	*GameMessageResponse_Reason
 	//	*GameMessageResponse_Data
-	Payload       isGameMessageResponse_Payload `protobuf_oneof:"payload"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Payload           isGameMessageResponse_Payload `protobuf_oneof:"payload"`
+	ResponseTimestamp int64                         `protobuf:"varint,5,opt,name=response_timestamp,json=responseTimestamp,proto3" json:"response_timestamp,omitempty"` // 响应时间戳
+	unknownFields     protoimpl.UnknownFields
+	sizeCache         protoimpl.SizeCache
 }
 
 func (x *GameMessageResponse) Reset() {
@@ -290,6 +415,13 @@ func (x *GameMessageResponse) GetData() []byte {
 	return nil
 }
 
+func (x *GameMessageResponse) GetResponseTimestamp() int64 {
+	if x != nil {
+		return x.ResponseTimestamp
+	}
+	return 0
+}
+
 type isGameMessageResponse_Payload interface {
 	isGameMessageResponse_Payload()
 }
@@ -310,7 +442,7 @@ var File_common_proto protoreflect.FileDescriptor
 
 const file_common_proto_rawDesc = "" +
 	"\n" +
-	"\fcommon.proto\x12\x06common\"\x90\x02\n" +
+	"\fcommon.proto\x12\x06common\"\xa8\x03\n" +
 	"\vHeadMessage\x12\x1b\n" +
 	"\tplayer_id\x18\x01 \x01(\tR\bplayerId\x12\x1f\n" +
 	"\vclient_type\x18\x02 \x01(\x05R\n" +
@@ -323,19 +455,32 @@ const file_common_proto_rawDesc = "" +
 	"instanceId\x12\x14\n" +
 	"\x05token\x18\b \x01(\tR\x05token\x12\x1d\n" +
 	"\n" +
-	"request_id\x18\t \x01(\tR\trequestId\"\xa4\x01\n" +
+	"request_id\x18\t \x01(\tR\trequestId\x12D\n" +
+	"\x10service_msg_type\x18\n" +
+	" \x01(\x0e2\x1a.common.ServiceMessageTypeR\x0eserviceMsgType\x122\n" +
+	"\x15load_balance_strategy\x18\v \x01(\tR\x13loadBalanceStrategy\x12\x1c\n" +
+	"\ttimestamp\x18\f \x01(\x03R\ttimestamp\"\xb9\x01\n" +
 	"\vGameMessage\x12.\n" +
-	"\bmsg_head\x18\x01 \x01(\v2\x13.common.HeadMessageR\amsgHead\x12\x19\n" +
-	"\bmsg_type\x18\x02 \x01(\x05R\amsgType\x12\x18\n" +
+	"\bmsg_head\x18\x01 \x01(\v2\x13.common.HeadMessageR\amsgHead\x12.\n" +
+	"\bmsg_type\x18\x02 \x01(\x0e2\x13.common.MessageTypeR\amsgType\x12\x18\n" +
 	"\apayload\x18\x03 \x01(\fR\apayload\x12\x17\n" +
 	"\amsg_tap\x18\x04 \x01(\tR\x06msgTap\x12\x17\n" +
-	"\agame_id\x18\x05 \x01(\x05R\x06gameId\"\x92\x01\n" +
+	"\agame_id\x18\x05 \x01(\x05R\x06gameId\"\xc1\x01\n" +
 	"\x13GameMessageResponse\x12.\n" +
 	"\bmsg_head\x18\x01 \x01(\v2\x13.common.HeadMessageR\amsgHead\x12\x10\n" +
 	"\x03ret\x18\x02 \x01(\x05R\x03ret\x12\x18\n" +
 	"\x06reason\x18\x03 \x01(\tH\x00R\x06reason\x12\x14\n" +
-	"\x04data\x18\x04 \x01(\fH\x00R\x04dataB\t\n" +
-	"\apayload2P\n" +
+	"\x04data\x18\x04 \x01(\fH\x00R\x04data\x12-\n" +
+	"\x12response_timestamp\x18\x05 \x01(\x03R\x11responseTimestampB\t\n" +
+	"\apayload*\\\n" +
+	"\vMessageType\x12\r\n" +
+	"\tHEARTBEAT\x10\x00\x12\x13\n" +
+	"\x0fSERVICE_MESSAGE\x10\x01\x12\x12\n" +
+	"\x0eCLIENT_MESSAGE\x10\x02\x12\x15\n" +
+	"\x11BROADCAST_MESSAGE\x10\x03*)\n" +
+	"\x12ServiceMessageType\x12\b\n" +
+	"\x04SYNC\x10\x00\x12\t\n" +
+	"\x05ASYNC\x10\x012P\n" +
 	"\rCommonService\x12?\n" +
 	"\vSendMessage\x12\x13.common.GameMessage\x1a\x1b.common.GameMessageResponseB\x19Z\x17mua/gatesvr/internal/pbb\x06proto3"
 
@@ -351,22 +496,27 @@ func file_common_proto_rawDescGZIP() []byte {
 	return file_common_proto_rawDescData
 }
 
+var file_common_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
 var file_common_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
 var file_common_proto_goTypes = []any{
-	(*HeadMessage)(nil),         // 0: common.HeadMessage
-	(*GameMessage)(nil),         // 1: common.GameMessage
-	(*GameMessageResponse)(nil), // 2: common.GameMessageResponse
+	(MessageType)(0),            // 0: common.MessageType
+	(ServiceMessageType)(0),     // 1: common.ServiceMessageType
+	(*HeadMessage)(nil),         // 2: common.HeadMessage
+	(*GameMessage)(nil),         // 3: common.GameMessage
+	(*GameMessageResponse)(nil), // 4: common.GameMessageResponse
 }
 var file_common_proto_depIdxs = []int32{
-	0, // 0: common.GameMessage.msg_head:type_name -> common.HeadMessage
-	0, // 1: common.GameMessageResponse.msg_head:type_name -> common.HeadMessage
-	1, // 2: common.CommonService.SendMessage:input_type -> common.GameMessage
-	2, // 3: common.CommonService.SendMessage:output_type -> common.GameMessageResponse
-	3, // [3:4] is the sub-list for method output_type
-	2, // [2:3] is the sub-list for method input_type
-	2, // [2:2] is the sub-list for extension type_name
-	2, // [2:2] is the sub-list for extension extendee
-	0, // [0:2] is the sub-list for field type_name
+	1, // 0: common.HeadMessage.service_msg_type:type_name -> common.ServiceMessageType
+	2, // 1: common.GameMessage.msg_head:type_name -> common.HeadMessage
+	0, // 2: common.GameMessage.msg_type:type_name -> common.MessageType
+	2, // 3: common.GameMessageResponse.msg_head:type_name -> common.HeadMessage
+	3, // 4: common.CommonService.SendMessage:input_type -> common.GameMessage
+	4, // 5: common.CommonService.SendMessage:output_type -> common.GameMessageResponse
+	5, // [5:6] is the sub-list for method output_type
+	4, // [4:5] is the sub-list for method input_type
+	4, // [4:4] is the sub-list for extension type_name
+	4, // [4:4] is the sub-list for extension extendee
+	0, // [0:4] is the sub-list for field type_name
 }
 
 func init() { file_common_proto_init() }
@@ -383,13 +533,14 @@ func file_common_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_common_proto_rawDesc), len(file_common_proto_rawDesc)),
-			NumEnums:      0,
+			NumEnums:      2,
 			NumMessages:   3,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
 		GoTypes:           file_common_proto_goTypes,
 		DependencyIndexes: file_common_proto_depIdxs,
+		EnumInfos:         file_common_proto_enumTypes,
 		MessageInfos:      file_common_proto_msgTypes,
 	}.Build()
 	File_common_proto = out.File

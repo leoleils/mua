@@ -6,6 +6,7 @@ import (
 	"log"
 	"mua/gatesvr/config"
 	"mua/gatesvr/internal/conn"
+	"mua/gatesvr/internal/forwarder"
 	"mua/gatesvr/internal/kafka"
 	"mua/gatesvr/internal/nacos"
 	"mua/gatesvr/internal/pb"
@@ -46,6 +47,11 @@ func (a *App) Init() error {
 	a.ip, a.grpcPort = initNacosAndRegister()
 	initRouteTable()
 	registerBusinessHandlers()
+
+	// 初始化消息转发器
+	log.Println("初始化消息转发器...")
+	forwarder.Init()
+
 	return nil
 }
 
@@ -148,7 +154,7 @@ func (s *server) KickPlayer(ctx context.Context, req *pb.KickPlayerRequest) (*pb
 		}, nil
 	}
 	if gatesvrID, ok := route.Get(playerID); ok {
-		addr := nacos.GetAddrByInstanceID(gatesvrID)
+		addr := nacos.GetGatesvrAddrByInstanceID(gatesvrID)
 		err := rpc.KickPlayerRemote(addr, playerID, reason)
 		if err == nil {
 			return &pb.KickPlayerResponse{Success: true, Message: "远程踢下线成功"}, nil
@@ -174,7 +180,7 @@ func (s *server) ForwardMessage(ctx context.Context, req *pb.ForwardMessageReque
 			}
 		} else {
 			// 远程节点接入的玩家，根据实例ID获取地址
-			addr := nacos.GetAddrByInstanceID(gatesvrID)
+			addr := nacos.GetGatesvrAddrByInstanceID(gatesvrID)
 			if addr != "" {
 				data, _ := proto.Marshal(&gm)
 				err := rpc.ForwardMessageRemote(addr, playerID, data)
@@ -219,7 +225,7 @@ func (s *server) PushToClient(ctx context.Context, req *pb.PushRequest) (*pb.Pus
 
 	// 本地推送失败，尝试远程推送
 	if gatesvrID, ok := route.Get(playerID); ok {
-		addr := nacos.GetAddrByInstanceID(gatesvrID)
+		addr := nacos.GetGatesvrAddrByInstanceID(gatesvrID)
 		if addr != "" {
 			if cbType == pb.CallbackType_SYNC {
 				err := rpc.PushToClientRemote(addr, req)
@@ -242,13 +248,97 @@ func (s *server) PushToClient(ctx context.Context, req *pb.PushRequest) (*pb.Pus
 }
 
 func (s *commonServiceServer) SendMessage(ctx context.Context, req *pb.GameMessage) (*pb.GameMessageResponse, error) {
+	log.Printf("[SendMessage] 收到消息: 类型=%v, 玩家=%s", req.MsgType, req.MsgHead.GetPlayerId())
 
-	resp := &pb.GameMessageResponse{
-		MsgHead: req.MsgHead,
-		Ret:     0,
-		Payload: &pb.GameMessageResponse_Reason{Reason: "OK"},
+	// 根据消息类型处理
+	switch req.MsgType {
+	case pb.MessageType_HEARTBEAT:
+		return s.handleHeartbeat(ctx, req)
+	case pb.MessageType_SERVICE_MESSAGE:
+		return s.handleServiceMessage(ctx, req)
+	case pb.MessageType_CLIENT_MESSAGE:
+		return s.handleClientMessage(ctx, req)
+	case pb.MessageType_BROADCAST_MESSAGE:
+		return s.handleBroadcastMessage(ctx, req)
+	default:
+		return &pb.GameMessageResponse{
+			MsgHead:           req.MsgHead,
+			Ret:               1,
+			Payload:           &pb.GameMessageResponse_Reason{Reason: "未知的消息类型"},
+			ResponseTimestamp: time.Now().UnixMilli(),
+		}, nil
 	}
-	return resp, nil
+}
+
+// handleHeartbeat 处理心跳消息
+func (s *commonServiceServer) handleHeartbeat(ctx context.Context, req *pb.GameMessage) (*pb.GameMessageResponse, error) {
+	log.Printf("[心跳] 玩家: %s", req.MsgHead.GetPlayerId())
+
+	return &pb.GameMessageResponse{
+		MsgHead:           req.MsgHead,
+		Ret:               0,
+		Payload:           &pb.GameMessageResponse_Reason{Reason: "心跳OK"},
+		ResponseTimestamp: time.Now().UnixMilli(),
+	}, nil
+}
+
+// handleServiceMessage 处理服务消息（转发到后端服务）
+func (s *commonServiceServer) handleServiceMessage(ctx context.Context, req *pb.GameMessage) (*pb.GameMessageResponse, error) {
+	head := req.MsgHead
+	if head == nil {
+		return &pb.GameMessageResponse{
+			MsgHead:           req.MsgHead,
+			Ret:               1,
+			Payload:           &pb.GameMessageResponse_Reason{Reason: "消息头为空"},
+			ResponseTimestamp: time.Now().UnixMilli(),
+		}, nil
+	}
+
+	serviceName := head.ServiceName
+	if serviceName == "" {
+		return &pb.GameMessageResponse{
+			MsgHead:           req.MsgHead,
+			Ret:               1,
+			Payload:           &pb.GameMessageResponse_Reason{Reason: "服务名不能为空"},
+			ResponseTimestamp: time.Now().UnixMilli(),
+		}, nil
+	}
+
+	log.Printf("[服务消息] 玩家=%s, 服务=%s, 分组=%s, 实例=%s, 类型=%v",
+		head.PlayerId, head.ServiceName, head.Group, head.InstanceId, head.ServiceMsgType)
+
+	// 使用转发器转发消息
+	return forwarder.ForwardServiceMessage(req)
+}
+
+// handleClientMessage 处理客户端消息（网关内部处理）
+func (s *commonServiceServer) handleClientMessage(ctx context.Context, req *pb.GameMessage) (*pb.GameMessageResponse, error) {
+	log.Printf("[客户端消息] 玩家: %s", req.MsgHead.GetPlayerId())
+
+	// 这里可以实现网关内部的业务逻辑
+	// 例如：玩家状态查询、连接管理等
+
+	return &pb.GameMessageResponse{
+		MsgHead:           req.MsgHead,
+		Ret:               0,
+		Payload:           &pb.GameMessageResponse_Reason{Reason: "客户端消息处理完成"},
+		ResponseTimestamp: time.Now().UnixMilli(),
+	}, nil
+}
+
+// handleBroadcastMessage 处理广播消息
+func (s *commonServiceServer) handleBroadcastMessage(ctx context.Context, req *pb.GameMessage) (*pb.GameMessageResponse, error) {
+	log.Printf("[广播消息] 玩家: %s", req.MsgHead.GetPlayerId())
+
+	// 这里可以实现广播逻辑
+	// 例如：全服公告、世界聊天等
+
+	return &pb.GameMessageResponse{
+		MsgHead:           req.MsgHead,
+		Ret:               0,
+		Payload:           &pb.GameMessageResponse_Reason{Reason: "广播消息处理完成"},
+		ResponseTimestamp: time.Now().UnixMilli(),
+	}, nil
 }
 
 func New() *App {

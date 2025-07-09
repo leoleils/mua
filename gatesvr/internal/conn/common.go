@@ -19,18 +19,8 @@ type HandlerRegistry interface {
 	GetHandler(msgType int32) HandlerFuncGeneric
 }
 
-// HandleConnection 保持向后兼容
+// HandleConnection 处理连接，支持指定协议类型
 func HandleConnection(
-	adapter ConnAdapter,
-	registry HandlerRegistry,
-	enableTokenCheck bool,
-	enableIPWhitelist bool,
-) {
-	HandleConnectionWithProto(adapter, registry, "tcp", enableTokenCheck, enableIPWhitelist)
-}
-
-// HandleConnectionWithProto 处理连接，支持指定协议类型
-func HandleConnectionWithProto(
 	adapter ConnAdapter,
 	registry HandlerRegistry,
 	protocol string,
@@ -66,8 +56,8 @@ func HandleConnectionWithProto(
 		log.Printf("首条消息反序列化失败: %v", err)
 		return
 	}
-	if gm.MsgType != 0 {
-		log.Printf("首条消息类型非法: %d", gm.MsgType)
+	if gm.MsgType != commonpb.MessageType_HEARTBEAT {
+		log.Printf("首条消息类型非法: %v", gm.MsgType)
 		return
 	}
 	if gm.MsgHead == nil || gm.MsgHead.PlayerId == "" {
@@ -81,7 +71,7 @@ func HandleConnectionWithProto(
 	routeGateSvrID, ok := route.Get(playerID)
 	if ok && routeGateSvrID != localInstancID {
 		// 是其他实例已经登录了 发起远程rpc踢人
-		err = rpc.KickPlayerRemote(nacos.GetAddrByInstanceID(routeGateSvrID), playerID, "异地远程登录")
+		err = rpc.KickPlayerRemote(nacos.GetGatesvrAddrByInstanceID(routeGateSvrID), playerID, "异地远程登录")
 		if err != nil {
 			log.Printf("远程踢人失败: %v", err)
 			return
@@ -117,7 +107,7 @@ func HandleConnectionWithProto(
 	log.Printf("玩家[%s]上线，客户端IP: %s, 协议: %s", playerID, ip, protocol)
 
 	// 处理首条消息（心跳）
-	if gm.MsgType == 0 {
+	if gm.MsgType == commonpb.MessageType_HEARTBEAT {
 		session.UpdateHeartbeat(playerID)
 		log.Printf("收到玩家[%s]心跳，IP: %s", playerID, ip)
 	}
@@ -145,16 +135,16 @@ func HandleConnectionWithProto(
 			log.Printf("玩家[%s]消息反序列化失败: %v", playerID, err)
 			continue
 		}
-		if gm.MsgType == 0 {
+		if gm.MsgType == commonpb.MessageType_HEARTBEAT {
 			session.UpdateHeartbeat(playerID)
 			log.Printf("收到玩家[%s]心跳，IP: %s", playerID, ip)
 			continue
 		}
 
-		if handler := registry.GetHandler(gm.MsgType); handler != nil {
+		if handler := registry.GetHandler(int32(gm.MsgType)); handler != nil {
 			handler(playerID, &gm)
 		} else {
-			log.Printf("收到玩家[%s]未知类型消息: %d", playerID, gm.MsgType)
+			log.Printf("收到玩家[%s]未知类型消息: %v", playerID, gm.MsgType)
 		}
 	}
 }

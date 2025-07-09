@@ -28,11 +28,27 @@ type KafkaConfig struct {
 	GroupID  string   `yaml:"groupId"`
 }
 
+// 服务特定配置
+type ServiceConfig struct {
+	Group       string `yaml:"group"`
+	LoadBalance string `yaml:"load_balance"`
+	TimeoutMs   int    `yaml:"timeout_ms"`
+}
+
+// 服务转发配置
+type ServiceForwardingConfig struct {
+	DefaultLoadBalance string                   `yaml:"default_load_balance"`
+	RequestTimeoutMs   int                      `yaml:"request_timeout_ms"`
+	AsyncTimeoutMs     int                      `yaml:"async_timeout_ms"`
+	Services           map[string]ServiceConfig `yaml:"services"`
+}
+
 type AppConfig struct {
-	Nacos             NacosConfig `yaml:"nacos"`
-	Kafka             KafkaConfig `yaml:"kafka"`
-	EnableIPWhitelist bool        `yaml:"enable_ip_whitelist"`
-	EnableTokenCheck  bool        `yaml:"enable_token_check"`
+	Nacos             NacosConfig             `yaml:"nacos"`
+	Kafka             KafkaConfig             `yaml:"kafka"`
+	EnableIPWhitelist bool                    `yaml:"enable_ip_whitelist"`
+	EnableTokenCheck  bool                    `yaml:"enable_token_check"`
+	ServiceForwarding ServiceForwardingConfig `yaml:"service_forwarding"`
 }
 
 var (
@@ -88,4 +104,18 @@ func SetGatesvrID(id string) {
 
 func GetGatesvrID() string {
 	return GatesvrID
+}
+
+// 获取服务配置，如果没有配置则返回默认值
+func GetServiceConfig(serviceName string) ServiceConfig {
+	cfg := GetConfig()
+	if serviceConfig, exists := cfg.ServiceForwarding.Services[serviceName]; exists {
+		return serviceConfig
+	}
+	// 返回默认配置
+	return ServiceConfig{
+		Group:       "DEFAULT_GROUP",
+		LoadBalance: cfg.ServiceForwarding.DefaultLoadBalance,
+		TimeoutMs:   cfg.ServiceForwarding.RequestTimeoutMs,
+	}
 }

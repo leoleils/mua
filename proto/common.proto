@@ -4,23 +4,40 @@ package common;
 
 option go_package = "mua/gatesvr/internal/pb";
 
+// 消息类型枚举
+enum MessageType {
+  HEARTBEAT = 0;           // 心跳消息
+  SERVICE_MESSAGE = 1;     // 服务消息（需要转发到后端服务处理）
+  CLIENT_MESSAGE = 2;      // 客户端消息（网关内部处理）
+  BROADCAST_MESSAGE = 3;   // 广播消息
+}
+
+// 服务消息处理类型
+enum ServiceMessageType {
+  SYNC = 0;     // 等待回包类型
+  ASYNC = 1;    // 不等待回包类型
+}
+
 // 通用消息头
 message HeadMessage {
   string player_id = 1;
   int32 client_type = 2;
   string client_id = 3;
   int64 role_id = 4;
-  string service_name = 5;
-  string group = 6;
-  string instance_id = 7;
+  string service_name = 5;        // 目标服务名（转发时使用）
+  string group = 6;               // 目标服务分组（转发时使用）
+  string instance_id = 7;         // 指定实例ID（可选，指定时只转发到该实例）
   string token = 8;
   string request_id = 9;
+  ServiceMessageType service_msg_type = 10;  // 服务消息处理类型
+  string load_balance_strategy = 11;         // 负载均衡策略（"round_robin" 或 "weighted"）
+  int64 timestamp = 12;                      // 消息时间戳
 }
 
 // 通用消息体
 message GameMessage {
   HeadMessage msg_head = 1;
-  int32  msg_type  = 2;
+  MessageType msg_type = 2;       // 使用枚举类型
   bytes  payload   = 3;
   string msg_tap = 4;
   int32 game_id = 5;
@@ -34,6 +51,7 @@ message GameMessageResponse {
     string reason = 3;
     bytes  data = 4;
   }
+  int64 response_timestamp = 5;   // 响应时间戳
 }
 
 // 通用服务接口

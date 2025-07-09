@@ -37,7 +37,7 @@ func wsUpgradeHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	adapter := NewWSConnAdapter(conn, r)
-	go HandleConnectionWithProto(
+	go HandleConnection(
 		adapter,
 		wsHandlerRegistry{},
 		"ws",

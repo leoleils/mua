@@ -19,3 +19,30 @@ kafka:
 
 enable_ip_whitelist: true
 enable_token_check: true
+
+# 服务转发配置
+service_forwarding:
+  # 默认负载均衡策略: round_robin 或 weighted
+  default_load_balance: "weighted"
+  # 请求超时时间（毫秒）
+  request_timeout_ms: 5000
+  # 异步请求超时时间（毫秒）
+  async_timeout_ms: 1000
+  # 服务特定配置
+  services:
+    userservice:
+      group: "DEFAULT_GROUP"
+      load_balance: "weighted"
+      timeout_ms: 3000
+    gameservice:
+      group: "DEFAULT_GROUP" 
+      load_balance: "round_robin"
+      timeout_ms: 5000
+    payservice:
+      group: "prod"
+      load_balance: "weighted"
+      timeout_ms: 8000
+    chatservice:
+      group: "DEFAULT_GROUP"
+      load_balance: "round_robin"
+      timeout_ms: 2000

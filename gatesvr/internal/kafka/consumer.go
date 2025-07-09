@@ -82,7 +82,7 @@ func StartPlayerEventConsumer(brokers []string, topic string, groupID string, ha
 				continue
 			}
 
-			gateOnline := nacos.IsInstanceOnline(evt.GatesvrId)
+			gateOnline := nacos.IsGatesvrInstanceOnline(evt.GatesvrId)
 
 			handler(&evt, gateOnline)
 		}
