@@ -16,20 +16,6 @@ const (
 	HeartbeatTimeout  = 60 * time.Second
 )
 
-// 新增：通用 handler 注册表实现
-var handlers = make(map[int32]HandlerFuncGeneric)
-
-type tcpHandlerRegistry struct{}
-
-func (tcpHandlerRegistry) GetHandler(msgType int32) HandlerFuncGeneric {
-	return handlers[msgType]
-}
-
-// RegisterHandler 注册业务分发
-func RegisterHandler(msgType int32, handler HandlerFuncGeneric) {
-	handlers[msgType] = handler
-}
-
 // StartTCPServer 启动TCP监听
 func StartTCPServer(addr string) {
 	ln, err := net.Listen("tcp", addr)
@@ -45,7 +31,7 @@ func StartTCPServer(addr string) {
 		}
 		go func(c net.Conn) {
 			adapter := NewTCPConnAdapter(c)
-			HandleConnection(adapter, tcpHandlerRegistry{}, "tcp", config.GetConfig().EnableTokenCheck, config.GetConfig().EnableIPWhitelist)
+			HandleConnection(adapter, ProtocolTCP, config.GetConfig().EnableTokenCheck)
 		}(conn)
 	}
 }

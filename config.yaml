@@ -17,7 +17,6 @@ kafka:
   password: "JbuuPVcos0sAME5LtFLZFzlgrE6E3mGC"
   groupId: gatesvr-group-0
 
-enable_ip_whitelist: true
 enable_token_check: true
 
 # 服务转发配置
@@ -83,7 +82,27 @@ auth:
     - "version"     # 版本查询服务
   # 单玩家最大Token数量
   max_tokens_per_player: 3
-  # 是否启用自动刷新Token
+  # Token刷新配置
   enable_auto_refresh: true
-  # 自动刷新阈值（分钟，当Token剩余有效期小于此值时自动刷新）
-  refresh_threshold_min: 60
+  refresh_threshold_min: 5
+
+# 连接处理配置
+connection:
+  first_message_timeout_sec: 5     # 首条消息超时(秒)
+  read_timeout_sec: 60             # 读取超时(秒)
+  write_timeout_sec: 10            # 写入超时(秒)
+  enable_structured_log: true      # 启用结构化日志
+  max_message_size: 4194304        # 最大消息大小(4MB)
+  heartbeat_interval_sec: 30       # 心跳间隔(秒)
+
+# Redis缓存配置（用于多gatesvr实例共享Token缓存）
+enable_redis_cache: true              # 是否启用Redis缓存
+redis_addr: "localhost:6379"          # Redis服务器地址
+redis_password: ""                    # Redis密码（无密码留空）
+redis_db: 0                          # Redis数据库索引
+redis_key_prefix: "mua:token:"        # Redis键前缀
+redis_pool_size: 10                  # Redis连接池大小
+redis_min_idle_conns: 5              # Redis最小空闲连接数
+redis_dial_timeout: 5                # Redis连接超时（秒）
+redis_read_timeout: 3                # Redis读超时（秒）
+redis_write_timeout: 3               # Redis写超时（秒）

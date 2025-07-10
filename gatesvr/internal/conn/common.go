@@ -3,6 +3,7 @@ package conn
 import (
 	"fmt"
 	"log"
+	"mua/gatesvr/config"
 	"mua/gatesvr/internal/auth"
 	"mua/gatesvr/internal/forwarder"
 	"mua/gatesvr/internal/nacos"
@@ -16,273 +17,448 @@ import (
 	"google.golang.org/protobuf/proto"
 )
 
-type HandlerFuncGeneric func(playerID string, msg *commonpb.GameMessage)
+// 协议类型常量
+const (
+	ProtocolTCP = "tcp"
+	ProtocolWS  = "ws"
+)
 
-type HandlerRegistry interface {
-	GetHandler(msgType int32) HandlerFuncGeneric
+// 消息类型常量
+const (
+	MessageTypeWebSocket = 1 // WebSocket Binary Message
+	MessageTypeTCP       = 2 // TCP Custom Binary Message
+)
+
+// ConnectionContext 连接上下文
+type ConnectionContext struct {
+	Adapter       ConnAdapter
+	Protocol      string
+	PlayerID      string
+	IP            string
+	Config        config.ConnectionConfig
+	EnableAuth    bool
+	KickCh        chan string
+	LastHeartbeat time.Time
 }
 
-// HandleConnection 处理连接，支持指定协议类型
+// HandleConnection 处理连接 - 现代化版本
 func HandleConnection(
 	adapter ConnAdapter,
-	registry HandlerRegistry,
 	protocol string,
 	enableTokenCheck bool,
-	enableIPWhitelist bool,
 ) {
 	defer adapter.Close()
-	ip := adapter.RemoteIP()
-	var playerID string // 声明 playerID 变量，在整个函数中使用
+
+	// 初始化连接上下文
+	ctx := &ConnectionContext{
+		Adapter:    adapter,
+		Protocol:   protocol,
+		IP:         adapter.RemoteIP(),
+		Config:     config.GetConnectionConfig(),
+		EnableAuth: enableTokenCheck,
+		KickCh:     make(chan string, 1),
+	}
 
 	// 确保在函数退出时清理连接
 	defer func() {
-		if playerID != "" {
-			playerConnMap.Delete(playerID)
-			session.PlayerOffline(playerID)
-			log.Printf("玩家[%s]连接已关闭并清理", playerID)
+		if ctx.PlayerID != "" {
+			cleanupPlayerConnection(ctx.PlayerID)
 		}
 	}()
 
-	// 1. 连接建立后，等待5秒内收到心跳
-	adapter.SetReadDeadline(time.Now().Add(5 * time.Second))
-	msgType, data, err := adapter.ReadMessage()
+	// 处理首条消息（连接建立）
+	if err := handleFirstMessage(ctx); err != nil {
+		logConnectionError(ctx, "首条消息处理失败", err)
+		return
+	}
+
+	// 设置玩家连接和会话
+	if err := setupPlayerSession(ctx); err != nil {
+		logConnectionError(ctx, "会话设置失败", err)
+		return
+	}
+
+	// 进入消息处理循环
+	handleMessageLoop(ctx)
+}
+
+// handleFirstMessage 处理首条消息（连接验证）
+func handleFirstMessage(ctx *ConnectionContext) error {
+	// 设置首条消息超时
+	timeout := time.Duration(ctx.Config.FirstMessageTimeoutSec) * time.Second
+	ctx.Adapter.SetReadDeadline(time.Now().Add(timeout))
+
+	// 读取首条消息
+	msgType, data, err := ctx.Adapter.ReadMessage()
 	if err != nil {
-		log.Printf("连接建立后未及时收到首条消息: %v", err)
-		return
+		return fmt.Errorf("未及时收到首条消息: %v", err)
 	}
-	if msgType != 2 && msgType != 1 { // 2: TCP自定义，1: websocket.BinaryMessage
-		log.Printf("首条消息连接类型非法: %d", msgType)
-		return
+
+	// 验证消息类型
+	if !isValidMessageType(msgType) {
+		return fmt.Errorf("首条消息类型非法: %d", msgType)
 	}
+
+	// 解析消息
 	var gm commonpb.GameMessage
 	if err := proto.Unmarshal(data, &gm); err != nil {
-		log.Printf("首条消息反序列化失败: %v", err)
-		return
+		return fmt.Errorf("首条消息反序列化失败: %v", err)
 	}
-	if gm.MsgType != commonpb.MessageType_HEARTBEAT {
-		log.Printf("首条消息类型非法: %v", gm.MsgType)
-		return
-	}
-	if gm.MsgHead == nil || gm.MsgHead.PlayerId == "" {
-		log.Printf("首条消息缺少player_id")
-		return
-	}
-	playerID = gm.MsgHead.PlayerId // 设置 playerID
 
-	// 2. 连接认证检查（如果启用）
-	if enableTokenCheck {
+	// 验证心跳消息
+	if gm.MsgType != commonpb.MessageType_HEARTBEAT {
+		return fmt.Errorf("首条消息类型非法: %v", gm.MsgType)
+	}
+
+	// 提取玩家ID
+	if gm.MsgHead == nil || gm.MsgHead.PlayerId == "" {
+		return fmt.Errorf("首条消息缺少player_id")
+	}
+	ctx.PlayerID = gm.MsgHead.PlayerId
+
+	// 连接认证
+	if ctx.EnableAuth {
 		token := ""
 		if gm.MsgHead != nil {
 			token = gm.MsgHead.Token
 		}
 
-		authResult := auth.ValidateConnection(playerID, token)
+		authResult := auth.ValidateConnection(ctx.PlayerID, token)
 		if !authResult.Success {
-			log.Printf("连接认证失败 - 玩家: %s, 原因: %s", playerID, authResult.Reason)
-
 			// 发送认证失败响应
-			errorResp := &commonpb.GameMessage{
-				MsgHead: &commonpb.HeadMessage{
-					PlayerId: playerID,
-				},
-				MsgType: commonpb.MessageType_CLIENT_MESSAGE,
-				Payload: []byte(fmt.Sprintf("CONNECTION_AUTH_FAILED:%d:%s", authResult.ErrorCode, authResult.Reason)),
-			}
-
-			respData, _ := proto.Marshal(errorResp)
-			var respMsgType int
-			if protocol == "ws" {
-				respMsgType = 1
-			} else {
-				respMsgType = 2
-			}
-			adapter.WriteMessage(respMsgType, respData)
-			return
+			sendErrorResponse(ctx, "CONNECTION_AUTH_FAILED", authResult.ErrorCode, authResult.Reason)
+			return fmt.Errorf("连接认证失败: %s", authResult.Reason)
 		}
-		log.Printf("连接认证成功 - 玩家: %s", playerID)
+		logStructured("连接认证成功", map[string]interface{}{
+			"player_id": ctx.PlayerID,
+			"ip":        ctx.IP,
+		})
 	}
 
-	localInstancID := nacos.GetLocalInstanceID()
+	ctx.LastHeartbeat = time.Now()
+	return nil
+}
 
-	//如果路由存在，则判断是否异地登录
-	routeGateSvrID, ok := route.Get(playerID)
-	if ok && routeGateSvrID != localInstancID {
-		// 是其他实例已经登录了 发起远程rpc踢人
-		err = rpc.KickPlayerRemote(nacos.GetGatesvrAddrByInstanceID(routeGateSvrID), playerID, "异地远程登录")
-		if err != nil {
-			log.Printf("远程踢人失败: %v", err)
-			return
+// setupPlayerSession 设置玩家连接和会话
+func setupPlayerSession(ctx *ConnectionContext) error {
+	localInstanceID := nacos.GetLocalInstanceID()
+
+	// 处理异地登录
+	if err := handleRemoteLogin(ctx.PlayerID, localInstanceID); err != nil {
+		return fmt.Errorf("处理异地登录失败: %v", err)
+	}
+
+	// 设置路由
+	route.Set(ctx.PlayerID, localInstanceID)
+
+	// 设置踢人函数
+	kickFunc := func(reason string) {
+		select {
+		case ctx.KickCh <- reason:
+		default:
 		}
-		// 删除当前路由
+		ctx.Adapter.Close()
+	}
+
+	// 存储连接
+	connWrapper := &PlayerConnWrapper{
+		Adapter: ctx.Adapter,
+		Proto:   ctx.Protocol,
+	}
+	playerConnMap.Store(ctx.PlayerID, connWrapper)
+
+	// 存储会话
+	session.StoreSession(ctx.PlayerID, ctx.IP, localInstanceID, kickFunc)
+	session.BroadcastPlayerOnline(ctx.PlayerID, ctx.IP, localInstanceID, nacos.GetLocalIP())
+
+	logStructured("玩家上线", map[string]interface{}{
+		"player_id": ctx.PlayerID,
+		"ip":        ctx.IP,
+		"protocol":  ctx.Protocol,
+	})
+
+	return nil
+}
+
+// handleRemoteLogin 处理异地登录
+func handleRemoteLogin(playerID, localInstanceID string) error {
+	routeGateSvrID, exists := route.Get(playerID)
+	if !exists {
+		return nil
+	}
+
+	if routeGateSvrID != localInstanceID {
+		// 远程踢人
+		addr := nacos.GetGatesvrAddrByInstanceID(routeGateSvrID)
+		if err := rpc.KickPlayerRemote(addr, playerID, "异地远程登录"); err != nil {
+			return fmt.Errorf("远程踢人失败: %v", err)
+		}
 		route.Delete(playerID)
-	}
-	if ok && routeGateSvrID == localInstancID {
+	} else {
+		// 本地踢人
 		session.KickPlayer(playerID, "本地重连接")
 	}
 
-	// 设置路由 路由是全网的
-	route.Set(playerID, localInstancID)
+	return nil
+}
 
-	// 踢人通道
-	kickCh := make(chan string, 1)
-	kickFunc := func(reason string) {
-		kickCh <- reason
-		adapter.Close() // 立即关闭底层连接，实现踢人立即生效
-	}
+// handleMessageLoop 消息处理循环
+func handleMessageLoop(ctx *ConnectionContext) {
+	readTimeout := time.Duration(ctx.Config.ReadTimeoutSec) * time.Second
 
-	// 存储连接到 playerConnMap（关键修复）
-	connWrapper := &PlayerConnWrapper{
-		Adapter: adapter,
-		Proto:   protocol, // 使用传入的协议类型
-	}
-	playerConnMap.Store(playerID, connWrapper)
-
-	// 存储session 本地session
-	session.StoreSession(playerID, ip, localInstancID, kickFunc)
-	// 广播上线事件
-	session.BroadcastPlayerOnline(playerID, ip, localInstancID, nacos.GetLocalIP())
-	log.Printf("玩家[%s]上线，客户端IP: %s, 协议: %s", playerID, ip, protocol)
-
-	// 处理首条消息（心跳）
-	if gm.MsgType == commonpb.MessageType_HEARTBEAT {
-		session.UpdateHeartbeat(playerID)
-		log.Printf("收到玩家[%s]心跳，IP: %s", playerID, ip)
-	}
-
-	// 进入正常消息循环
 	for {
-		adapter.SetReadDeadline(time.Now().Add(60 * time.Second))
+		ctx.Adapter.SetReadDeadline(time.Now().Add(readTimeout))
+
+		// 检查踢人信号
 		select {
-		case reason := <-kickCh:
-			log.Printf("玩家[%s]被踢下线: %s", playerID, reason)
+		case reason := <-ctx.KickCh:
+			logStructured("玩家被踢下线", map[string]interface{}{
+				"player_id": ctx.PlayerID,
+				"reason":    reason,
+			})
 			return
 		default:
 		}
-		msgType, data, err := adapter.ReadMessage()
+
+		// 读取消息
+		msgType, data, err := ctx.Adapter.ReadMessage()
 		if err != nil {
-			log.Printf("玩家[%s]连接断开: %v", playerID, err)
+			logStructured("连接断开", map[string]interface{}{
+				"player_id": ctx.PlayerID,
+				"error":     err.Error(),
+			})
 			break
 		}
-		if msgType != 2 && msgType != 1 {
-			log.Printf("玩家[%s]非法消息类型: %d", playerID, msgType)
+
+		// 验证消息类型
+		if !isValidMessageType(msgType) {
+			logStructured("非法消息类型", map[string]interface{}{
+				"player_id":    ctx.PlayerID,
+				"message_type": msgType,
+			})
 			continue
 		}
+
+		// 解析消息
 		var gm commonpb.GameMessage
 		if err := proto.Unmarshal(data, &gm); err != nil {
-			log.Printf("玩家[%s]消息反序列化失败: %v", playerID, err)
+			logStructured("消息反序列化失败", map[string]interface{}{
+				"player_id": ctx.PlayerID,
+				"error":     err.Error(),
+			})
 			continue
 		}
 
-		// 确保消息头包含玩家ID
-		if gm.MsgHead == nil {
-			gm.MsgHead = &commonpb.HeadMessage{
-				PlayerId: playerID,
-			}
-		} else if gm.MsgHead.PlayerId == "" {
-			gm.MsgHead.PlayerId = playerID
-		}
-
-		// 消息认证检查（如果启用）
-		if enableTokenCheck {
-			authResult := auth.AuthenticateGameMessage(&gm)
-			if !authResult.Success {
-				log.Printf("消息认证失败 - 玩家: %s, 消息类型: %v, 原因: %s",
-					playerID, gm.MsgType, authResult.Reason)
-
-				// 发送认证失败响应
-				errorResp := &commonpb.GameMessage{
-					MsgHead: &commonpb.HeadMessage{
-						PlayerId: playerID,
-					},
-					MsgType: commonpb.MessageType_CLIENT_MESSAGE,
-					Payload: []byte(fmt.Sprintf("MSG_AUTH_FAILED:%d:%s", authResult.ErrorCode, authResult.Reason)),
-				}
-
-				if !SendToPlayer(playerID, errorResp) {
-					log.Printf("向玩家[%s]发送认证失败响应失败", playerID)
-				}
-				continue
-			}
-
-			// 处理Token刷新
-			if authResult.NeedRefresh {
-				log.Printf("玩家[%s]需要刷新Token", playerID)
-				// 这里可以触发Token刷新逻辑
-			}
-		}
-
-		// 根据消息类型处理
-		switch gm.MsgType {
-		case commonpb.MessageType_HEARTBEAT:
-			// 处理心跳消息
-			session.UpdateHeartbeat(playerID)
-			log.Printf("收到玩家[%s]心跳，IP: %s", playerID, ip)
-			continue
-
-		case commonpb.MessageType_SERVICE_MESSAGE:
-			// 处理服务消息 - 转发到后端服务
-			log.Printf("收到玩家[%s]服务消息，转发到后端服务: %s", playerID, gm.MsgHead.ServiceName)
-			resp, err := forwarder.ForwardServiceMessage(&gm)
-			if err != nil {
-				log.Printf("玩家[%s]服务消息转发失败: %v", playerID, err)
-				// 发送错误响应给客户端
-				errorResp := &commonpb.GameMessage{
-					MsgHead: gm.MsgHead,
-					MsgType: commonpb.MessageType_SERVICE_MESSAGE,
-					Payload: []byte(err.Error()),
-				}
-				if !SendToPlayer(playerID, errorResp) {
-					log.Printf("向玩家[%s]发送错误响应失败", playerID)
-				}
-			} else {
-				// 将后端服务的响应转换为 GameMessage 并发送给客户端
-				responseMsg := &commonpb.GameMessage{
-					MsgHead: resp.MsgHead,
-					MsgType: commonpb.MessageType_SERVICE_MESSAGE,
-					Payload: func() []byte {
-						if resp.Payload != nil {
-							switch payload := resp.Payload.(type) {
-							case *commonpb.GameMessageResponse_Data:
-								return payload.Data
-							case *commonpb.GameMessageResponse_Reason:
-								return []byte(payload.Reason)
-							default:
-								return []byte("unknown payload type")
-							}
-						}
-						return []byte("success")
-					}(),
-				}
-				if !SendToPlayer(playerID, responseMsg) {
-					log.Printf("向玩家[%s]发送服务响应失败", playerID)
-				}
-			}
-			continue
-
-		case commonpb.MessageType_CLIENT_MESSAGE:
-			// 处理客户端消息 - 网关内部处理
-			log.Printf("收到玩家[%s]客户端消息", playerID)
-			// 这里可以添加客户端消息的处理逻辑
-			// 例如：连接状态查询、用户信息获取等
-
-		case commonpb.MessageType_BROADCAST_MESSAGE:
-			// 处理广播消息
-			log.Printf("收到玩家[%s]广播消息", playerID)
-			// 这里可以添加广播消息的处理逻辑
-
-		default:
-			// 其他消息类型，使用原有的 handler 机制
-			if handler := registry.GetHandler(int32(gm.MsgType)); handler != nil {
-				handler(playerID, &gm)
-			} else {
-				log.Printf("收到玩家[%s]未知类型消息: %v", playerID, gm.MsgType)
-			}
+		// 处理消息
+		if err := processGameMessage(ctx, &gm); err != nil {
+			logStructured("消息处理失败", map[string]interface{}{
+				"player_id": ctx.PlayerID,
+				"msg_type":  gm.MsgType.String(),
+				"error":     err.Error(),
+			})
 		}
 	}
 }
 
-// 统一的连接包装
-// Adapter: 连接适配器，Proto: "tcp" 或 "ws"
+// processGameMessage 处理游戏消息
+func processGameMessage(ctx *ConnectionContext, gm *commonpb.GameMessage) error {
+	// 确保消息头包含玩家ID
+	ensureMessageHeader(gm, ctx.PlayerID)
+
+	// 消息认证
+	if ctx.EnableAuth && !isHeartbeatMessage(gm) {
+		if err := authenticateMessage(ctx, gm); err != nil {
+			return fmt.Errorf("消息认证失败: %v", err)
+		}
+	}
+
+	// 根据消息类型处理
+	return dispatchMessage(ctx, gm)
+}
+
+// authenticateMessage 认证消息
+func authenticateMessage(ctx *ConnectionContext, gm *commonpb.GameMessage) error {
+	authResult := auth.AuthenticateGameMessage(gm)
+	if !authResult.Success {
+		sendErrorResponse(ctx, "MSG_AUTH_FAILED", authResult.ErrorCode, authResult.Reason)
+		return fmt.Errorf("认证失败: %s", authResult.Reason)
+	}
+
+	// 处理Token刷新
+	if authResult.NeedRefresh {
+		logStructured("Token需要刷新", map[string]interface{}{
+			"player_id": ctx.PlayerID,
+		})
+		// 这里可以添加Token刷新逻辑
+	}
+
+	return nil
+}
+
+// dispatchMessage 分发消息
+func dispatchMessage(ctx *ConnectionContext, gm *commonpb.GameMessage) error {
+	switch gm.MsgType {
+	case commonpb.MessageType_HEARTBEAT:
+		return handleHeartbeat(ctx, gm)
+	case commonpb.MessageType_SERVICE_MESSAGE:
+		return handleServiceMessage(ctx, gm)
+	case commonpb.MessageType_CLIENT_MESSAGE:
+		return handleClientMessage(ctx, gm)
+	case commonpb.MessageType_BROADCAST_MESSAGE:
+		return handleBroadcastMessage(ctx, gm)
+	default:
+		return fmt.Errorf("未知消息类型: %v", gm.MsgType)
+	}
+}
+
+// handleHeartbeat 处理心跳消息
+func handleHeartbeat(ctx *ConnectionContext, gm *commonpb.GameMessage) error {
+	session.UpdateHeartbeat(ctx.PlayerID)
+	ctx.LastHeartbeat = time.Now()
+
+	if ctx.Config.EnableStructuredLog {
+		logStructured("收到心跳", map[string]interface{}{
+			"player_id": ctx.PlayerID,
+			"ip":        ctx.IP,
+		})
+	}
+
+	return nil
+}
+
+// handleServiceMessage 处理服务消息
+func handleServiceMessage(ctx *ConnectionContext, gm *commonpb.GameMessage) error {
+	serviceName := "unknown"
+	if gm.MsgHead != nil {
+		serviceName = gm.MsgHead.ServiceName
+	}
+
+	logStructured("转发服务消息", map[string]interface{}{
+		"player_id":    ctx.PlayerID,
+		"service_name": serviceName,
+	})
+
+	resp, err := forwarder.ForwardServiceMessage(gm)
+	if err != nil {
+		sendErrorResponse(ctx, "SERVICE_ERROR", 5001, err.Error())
+		return fmt.Errorf("服务转发失败: %v", err)
+	}
+
+	// 发送响应
+	responseMsg := createServiceResponse(resp)
+	if !SendToPlayer(ctx.PlayerID, responseMsg) {
+		return fmt.Errorf("发送服务响应失败")
+	}
+
+	return nil
+}
+
+// handleClientMessage 处理客户端消息
+func handleClientMessage(ctx *ConnectionContext, gm *commonpb.GameMessage) error {
+	logStructured("收到客户端消息", map[string]interface{}{
+		"player_id": ctx.PlayerID,
+	})
+	// 这里可以添加客户端消息的处理逻辑
+	return nil
+}
+
+// handleBroadcastMessage 处理广播消息
+func handleBroadcastMessage(ctx *ConnectionContext, gm *commonpb.GameMessage) error {
+	logStructured("收到广播消息", map[string]interface{}{
+		"player_id": ctx.PlayerID,
+	})
+	// 这里可以添加广播消息的处理逻辑
+	return nil
+}
+
+// 工具函数
+
+// isValidMessageType 验证消息类型
+func isValidMessageType(msgType int) bool {
+	return msgType == MessageTypeWebSocket || msgType == MessageTypeTCP
+}
+
+// isHeartbeatMessage 判断是否为心跳消息
+func isHeartbeatMessage(gm *commonpb.GameMessage) bool {
+	return gm.MsgType == commonpb.MessageType_HEARTBEAT
+}
+
+// ensureMessageHeader 确保消息头包含玩家ID
+func ensureMessageHeader(gm *commonpb.GameMessage, playerID string) {
+	if gm.MsgHead == nil {
+		gm.MsgHead = &commonpb.HeadMessage{
+			PlayerId: playerID,
+		}
+	} else if gm.MsgHead.PlayerId == "" {
+		gm.MsgHead.PlayerId = playerID
+	}
+}
+
+// sendErrorResponse 发送错误响应
+func sendErrorResponse(ctx *ConnectionContext, errorType string, errorCode int, reason string) {
+	errorResp := &commonpb.GameMessage{
+		MsgHead: &commonpb.HeadMessage{
+			PlayerId: ctx.PlayerID,
+		},
+		MsgType: commonpb.MessageType_CLIENT_MESSAGE,
+		Payload: []byte(fmt.Sprintf("%s:%d:%s", errorType, errorCode, reason)),
+	}
+
+	if !SendToPlayer(ctx.PlayerID, errorResp) {
+		logStructured("发送错误响应失败", map[string]interface{}{
+			"player_id":  ctx.PlayerID,
+			"error_type": errorType,
+			"reason":     reason,
+		})
+	}
+}
+
+// createServiceResponse 创建服务响应
+func createServiceResponse(resp *commonpb.GameMessageResponse) *commonpb.GameMessage {
+	return &commonpb.GameMessage{
+		MsgHead: resp.MsgHead,
+		MsgType: commonpb.MessageType_SERVICE_MESSAGE,
+		Payload: func() []byte {
+			if resp.Payload != nil {
+				switch payload := resp.Payload.(type) {
+				case *commonpb.GameMessageResponse_Data:
+					return payload.Data
+				case *commonpb.GameMessageResponse_Reason:
+					return []byte(payload.Reason)
+				default:
+					return []byte("unknown payload type")
+				}
+			}
+			return []byte("success")
+		}(),
+	}
+}
+
+// logStructured 结构化日志
+func logStructured(message string, fields map[string]interface{}) {
+	log.Printf("[%s] %v", message, fields)
+}
+
+// logConnectionError 记录连接错误
+func logConnectionError(ctx *ConnectionContext, message string, err error) {
+	logStructured(message, map[string]interface{}{
+		"player_id": ctx.PlayerID,
+		"ip":        ctx.IP,
+		"protocol":  ctx.Protocol,
+		"error":     err.Error(),
+	})
+}
+
+// cleanupPlayerConnection 清理玩家连接
+func cleanupPlayerConnection(playerID string) {
+	playerConnMap.Delete(playerID)
+	session.PlayerOffline(playerID)
+	logStructured("连接已清理", map[string]interface{}{
+		"player_id": playerID,
+	})
+}
+
+// PlayerConnWrapper 连接包装器
 type PlayerConnWrapper struct {
 	Adapter ConnAdapter
 	Proto   string
@@ -290,7 +466,7 @@ type PlayerConnWrapper struct {
 
 var playerConnMap sync.Map // playerID -> *PlayerConnWrapper
 
-// 统一推送接口
+// SendToPlayer 向玩家发送消息
 func SendToPlayer(playerID string, gm *commonpb.GameMessage) bool {
 	val, ok := playerConnMap.Load(playerID)
 	if !ok {
@@ -305,10 +481,10 @@ func SendToPlayer(playerID string, gm *commonpb.GameMessage) bool {
 
 	// 根据协议类型选择正确的消息类型
 	var msgType int
-	if wrapper.Proto == "ws" {
-		msgType = 1 // WebSocket BinaryMessage
+	if wrapper.Proto == ProtocolWS {
+		msgType = MessageTypeWebSocket
 	} else {
-		msgType = 2 // TCP 自定义二进制消息
+		msgType = MessageTypeTCP
 	}
 
 	err = wrapper.Adapter.WriteMessage(msgType, data)

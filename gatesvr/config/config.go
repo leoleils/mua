@@ -67,16 +67,38 @@ type AuthConfig struct {
 	MaxTokensPerPlayer  int      `yaml:"max_tokens_per_player"` // 单玩家最大Token数
 	EnableAutoRefresh   bool     `yaml:"enable_auto_refresh"`   // 是否启用自动刷新
 	RefreshThresholdMin int      `yaml:"refresh_threshold_min"` // 自动刷新阈值（分钟）
+
+	// Redis缓存配置
+	EnableRedisCache  bool   `yaml:"enable_redis_cache"`   // 是否启用Redis缓存
+	RedisAddr         string `yaml:"redis_addr"`           // Redis地址 (host:port)
+	RedisPassword     string `yaml:"redis_password"`       // Redis密码
+	RedisDB           int    `yaml:"redis_db"`             // Redis数据库索引
+	RedisKeyPrefix    string `yaml:"redis_key_prefix"`     // Redis键前缀
+	RedisPoolSize     int    `yaml:"redis_pool_size"`      // Redis连接池大小
+	RedisMinIdleConns int    `yaml:"redis_min_idle_conns"` // Redis最小空闲连接数
+	RedisDialTimeout  int    `yaml:"redis_dial_timeout"`   // Redis连接超时(秒)
+	RedisReadTimeout  int    `yaml:"redis_read_timeout"`   // Redis读超时(秒)
+	RedisWriteTimeout int    `yaml:"redis_write_timeout"`  // Redis写超时(秒)
+}
+
+// 连接处理配置
+type ConnectionConfig struct {
+	FirstMessageTimeoutSec int  `yaml:"first_message_timeout_sec"` // 首条消息超时(秒)
+	ReadTimeoutSec         int  `yaml:"read_timeout_sec"`          // 读取超时(秒)
+	WriteTimeoutSec        int  `yaml:"write_timeout_sec"`         // 写入超时(秒)
+	EnableStructuredLog    bool `yaml:"enable_structured_log"`     // 启用结构化日志
+	MaxMessageSize         int  `yaml:"max_message_size"`          // 最大消息大小(字节)
+	HeartbeatIntervalSec   int  `yaml:"heartbeat_interval_sec"`    // 心跳间隔(秒)
 }
 
 type AppConfig struct {
 	Nacos             NacosConfig             `yaml:"nacos"`
 	Kafka             KafkaConfig             `yaml:"kafka"`
-	EnableIPWhitelist bool                    `yaml:"enable_ip_whitelist"`
 	EnableTokenCheck  bool                    `yaml:"enable_token_check"`
 	ServiceForwarding ServiceForwardingConfig `yaml:"service_forwarding"`
 	RateLimit         RateLimitConfig         `yaml:"rate_limit"`
 	Auth              AuthConfig              `yaml:"auth"`
+	Connection        ConnectionConfig        `yaml:"connection"`
 }
 
 var (
@@ -211,5 +233,53 @@ func GetAuthConfig() AuthConfig {
 		authCfg.RequireAuth = []string{"SERVICE_MESSAGE"}
 	}
 
+	// Redis缓存默认配置
+	if authCfg.RedisAddr == "" {
+		authCfg.RedisAddr = "localhost:6379"
+	}
+	if authCfg.RedisKeyPrefix == "" {
+		authCfg.RedisKeyPrefix = "mua:token:"
+	}
+	if authCfg.RedisPoolSize == 0 {
+		authCfg.RedisPoolSize = 10
+	}
+	if authCfg.RedisMinIdleConns == 0 {
+		authCfg.RedisMinIdleConns = 5
+	}
+	if authCfg.RedisDialTimeout == 0 {
+		authCfg.RedisDialTimeout = 5
+	}
+	if authCfg.RedisReadTimeout == 0 {
+		authCfg.RedisReadTimeout = 3
+	}
+	if authCfg.RedisWriteTimeout == 0 {
+		authCfg.RedisWriteTimeout = 3
+	}
+
 	return authCfg
+}
+
+// GetConnectionConfig 获取连接配置，如果没有配置则返回默认值
+func GetConnectionConfig() ConnectionConfig {
+	cfg := GetConfig()
+	connCfg := cfg.Connection
+
+	// 设置默认值
+	if connCfg.FirstMessageTimeoutSec == 0 {
+		connCfg.FirstMessageTimeoutSec = 5
+	}
+	if connCfg.ReadTimeoutSec == 0 {
+		connCfg.ReadTimeoutSec = 60
+	}
+	if connCfg.WriteTimeoutSec == 0 {
+		connCfg.WriteTimeoutSec = 10
+	}
+	if connCfg.MaxMessageSize == 0 {
+		connCfg.MaxMessageSize = 4 * 1024 * 1024 // 4MB
+	}
+	if connCfg.HeartbeatIntervalSec == 0 {
+		connCfg.HeartbeatIntervalSec = 30
+	}
+
+	return connCfg
 }

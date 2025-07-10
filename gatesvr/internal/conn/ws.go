@@ -17,9 +17,6 @@ var upgrader = websocket.Upgrader{
 	CheckOrigin: func(r *http.Request) bool { return true },
 }
 
-// WebSocket玩家连接结构
-// 可与TCP共用PlayerConn结构
-
 // StartWSServer 启动WebSocket服务
 func StartWSServer(addr string) {
 	http.HandleFunc("/ws", wsUpgradeHandler)
@@ -29,7 +26,7 @@ func StartWSServer(addr string) {
 	}
 }
 
-// 只负责升级协议和适配器创建
+// wsUpgradeHandler 处理WebSocket协议升级
 func wsUpgradeHandler(w http.ResponseWriter, r *http.Request) {
 	conn, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
@@ -39,23 +36,7 @@ func wsUpgradeHandler(w http.ResponseWriter, r *http.Request) {
 	adapter := NewWSConnAdapter(conn, r)
 	go HandleConnection(
 		adapter,
-		wsHandlerRegistry{},
-		"ws",
+		ProtocolWS,
 		config.GetConfig().EnableTokenCheck,
-		config.GetConfig().EnableIPWhitelist,
 	)
-}
-
-// WS消息分发注册表
-var handlersWS = make(map[int32]HandlerFuncGeneric)
-
-// RegisterHandlerWS 注册WebSocket业务分发
-func RegisterHandlerWS(msgType int32, handler HandlerFuncGeneric) {
-	handlersWS[msgType] = handler
-}
-
-type wsHandlerRegistry struct{}
-
-func (wsHandlerRegistry) GetHandler(msgType int32) HandlerFuncGeneric {
-	return handlersWS[msgType]
 }
