@@ -46,3 +46,44 @@ service_forwarding:
       group: "DEFAULT_GROUP"
       load_balance: "round_robin"
       timeout_ms: 2000
+
+# 限流配置
+rate_limit:
+  # 是否启用限流保护
+  enabled: true
+  # 全局限流配置（整个网关）
+  global_rate: 500        # 全局每秒最大请求数
+  global_capacity: 1000   # 全局令牌桶容量
+  # 服务级限流配置（单个服务）
+  service_rate: 100       # 单服务每秒最大请求数
+  service_capacity: 200   # 单服务令牌桶容量
+  # 玩家级限流配置（防止单玩家恶意请求）
+  player_rate: 10         # 单玩家每秒最大请求数
+  player_capacity: 20     # 单玩家令牌桶容量
+  # 清理配置
+  cleanup_interval_min: 1 # 令牌桶清理间隔（分钟）
+  bucket_idle_time_min: 5 # 令牌桶空闲超时时间（分钟）
+
+# 认证配置
+auth:
+  # 是否启用认证
+  enabled: true
+  # JWT密钥（生产环境请使用强密钥）
+  secret_key: "mua-gatesvr-jwt-secret-key-2024-production"
+  # Token过期时间（小时）
+  token_expire_hours: 24
+  # Token清理间隔（分钟）
+  cleanup_interval_min: 10
+  # 需要认证的消息类型
+  require_auth:
+    - "SERVICE_MESSAGE"  # 服务消息需要认证
+  # 免认证的服务白名单
+  whitelist_services:
+    - "health"      # 健康检查服务
+    - "version"     # 版本查询服务
+  # 单玩家最大Token数量
+  max_tokens_per_player: 3
+  # 是否启用自动刷新Token
+  enable_auto_refresh: true
+  # 自动刷新阈值（分钟，当Token剩余有效期小于此值时自动刷新）
+  refresh_threshold_min: 60

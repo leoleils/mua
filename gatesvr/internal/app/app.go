@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"mua/gatesvr/config"
+	"mua/gatesvr/internal/auth"
 	"mua/gatesvr/internal/conn"
 	"mua/gatesvr/internal/forwarder"
 	"mua/gatesvr/internal/kafka"
@@ -46,9 +47,17 @@ func (a *App) Init() error {
 	initRouteTable()
 	registerBusinessHandlers()
 
+	// 初始化认证系统
+	log.Println("初始化认证系统...")
+	auth.InitAuth()
+
 	// 初始化消息转发器
 	log.Println("初始化消息转发器...")
 	forwarder.Init()
+
+	// 启动限流监控服务
+	log.Println("启动限流监控服务...")
+	forwarder.InitMonitor()
 
 	return nil
 }

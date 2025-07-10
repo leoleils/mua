@@ -1,7 +1,9 @@
 package conn
 
 import (
+	"fmt"
 	"log"
+	"mua/gatesvr/internal/auth"
 	"mua/gatesvr/internal/forwarder"
 	"mua/gatesvr/internal/nacos"
 	commonpb "mua/gatesvr/internal/pb"
@@ -66,6 +68,40 @@ func HandleConnection(
 		return
 	}
 	playerID = gm.MsgHead.PlayerId // 设置 playerID
+
+	// 2. 连接认证检查（如果启用）
+	if enableTokenCheck {
+		token := ""
+		if gm.MsgHead != nil {
+			token = gm.MsgHead.Token
+		}
+
+		authResult := auth.ValidateConnection(playerID, token)
+		if !authResult.Success {
+			log.Printf("连接认证失败 - 玩家: %s, 原因: %s", playerID, authResult.Reason)
+
+			// 发送认证失败响应
+			errorResp := &commonpb.GameMessage{
+				MsgHead: &commonpb.HeadMessage{
+					PlayerId: playerID,
+				},
+				MsgType: commonpb.MessageType_CLIENT_MESSAGE,
+				Payload: []byte(fmt.Sprintf("CONNECTION_AUTH_FAILED:%d:%s", authResult.ErrorCode, authResult.Reason)),
+			}
+
+			respData, _ := proto.Marshal(errorResp)
+			var respMsgType int
+			if protocol == "ws" {
+				respMsgType = 1
+			} else {
+				respMsgType = 2
+			}
+			adapter.WriteMessage(respMsgType, respData)
+			return
+		}
+		log.Printf("连接认证成功 - 玩家: %s", playerID)
+	}
+
 	localInstancID := nacos.GetLocalInstanceID()
 
 	//如果路由存在，则判断是否异地登录
@@ -144,6 +180,35 @@ func HandleConnection(
 			}
 		} else if gm.MsgHead.PlayerId == "" {
 			gm.MsgHead.PlayerId = playerID
+		}
+
+		// 消息认证检查（如果启用）
+		if enableTokenCheck {
+			authResult := auth.AuthenticateGameMessage(&gm)
+			if !authResult.Success {
+				log.Printf("消息认证失败 - 玩家: %s, 消息类型: %v, 原因: %s",
+					playerID, gm.MsgType, authResult.Reason)
+
+				// 发送认证失败响应
+				errorResp := &commonpb.GameMessage{
+					MsgHead: &commonpb.HeadMessage{
+						PlayerId: playerID,
+					},
+					MsgType: commonpb.MessageType_CLIENT_MESSAGE,
+					Payload: []byte(fmt.Sprintf("MSG_AUTH_FAILED:%d:%s", authResult.ErrorCode, authResult.Reason)),
+				}
+
+				if !SendToPlayer(playerID, errorResp) {
+					log.Printf("向玩家[%s]发送认证失败响应失败", playerID)
+				}
+				continue
+			}
+
+			// 处理Token刷新
+			if authResult.NeedRefresh {
+				log.Printf("玩家[%s]需要刷新Token", playerID)
+				// 这里可以触发Token刷新逻辑
+			}
 		}
 
 		// 根据消息类型处理
