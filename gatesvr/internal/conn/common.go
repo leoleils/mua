@@ -2,6 +2,7 @@ package conn
 
 import (
 	"log"
+	"mua/gatesvr/internal/forwarder"
 	"mua/gatesvr/internal/nacos"
 	commonpb "mua/gatesvr/internal/pb"
 	"mua/gatesvr/internal/route"
@@ -135,16 +136,82 @@ func HandleConnection(
 			log.Printf("玩家[%s]消息反序列化失败: %v", playerID, err)
 			continue
 		}
-		if gm.MsgType == commonpb.MessageType_HEARTBEAT {
+
+		// 确保消息头包含玩家ID
+		if gm.MsgHead == nil {
+			gm.MsgHead = &commonpb.HeadMessage{
+				PlayerId: playerID,
+			}
+		} else if gm.MsgHead.PlayerId == "" {
+			gm.MsgHead.PlayerId = playerID
+		}
+
+		// 根据消息类型处理
+		switch gm.MsgType {
+		case commonpb.MessageType_HEARTBEAT:
+			// 处理心跳消息
 			session.UpdateHeartbeat(playerID)
 			log.Printf("收到玩家[%s]心跳，IP: %s", playerID, ip)
 			continue
-		}
 
-		if handler := registry.GetHandler(int32(gm.MsgType)); handler != nil {
-			handler(playerID, &gm)
-		} else {
-			log.Printf("收到玩家[%s]未知类型消息: %v", playerID, gm.MsgType)
+		case commonpb.MessageType_SERVICE_MESSAGE:
+			// 处理服务消息 - 转发到后端服务
+			log.Printf("收到玩家[%s]服务消息，转发到后端服务: %s", playerID, gm.MsgHead.ServiceName)
+			resp, err := forwarder.ForwardServiceMessage(&gm)
+			if err != nil {
+				log.Printf("玩家[%s]服务消息转发失败: %v", playerID, err)
+				// 发送错误响应给客户端
+				errorResp := &commonpb.GameMessage{
+					MsgHead: gm.MsgHead,
+					MsgType: commonpb.MessageType_SERVICE_MESSAGE,
+					Payload: []byte(err.Error()),
+				}
+				if !SendToPlayer(playerID, errorResp) {
+					log.Printf("向玩家[%s]发送错误响应失败", playerID)
+				}
+			} else {
+				// 将后端服务的响应转换为 GameMessage 并发送给客户端
+				responseMsg := &commonpb.GameMessage{
+					MsgHead: resp.MsgHead,
+					MsgType: commonpb.MessageType_SERVICE_MESSAGE,
+					Payload: func() []byte {
+						if resp.Payload != nil {
+							switch payload := resp.Payload.(type) {
+							case *commonpb.GameMessageResponse_Data:
+								return payload.Data
+							case *commonpb.GameMessageResponse_Reason:
+								return []byte(payload.Reason)
+							default:
+								return []byte("unknown payload type")
+							}
+						}
+						return []byte("success")
+					}(),
+				}
+				if !SendToPlayer(playerID, responseMsg) {
+					log.Printf("向玩家[%s]发送服务响应失败", playerID)
+				}
+			}
+			continue
+
+		case commonpb.MessageType_CLIENT_MESSAGE:
+			// 处理客户端消息 - 网关内部处理
+			log.Printf("收到玩家[%s]客户端消息", playerID)
+			// 这里可以添加客户端消息的处理逻辑
+			// 例如：连接状态查询、用户信息获取等
+
+		case commonpb.MessageType_BROADCAST_MESSAGE:
+			// 处理广播消息
+			log.Printf("收到玩家[%s]广播消息", playerID)
+			// 这里可以添加广播消息的处理逻辑
+
+		default:
+			// 其他消息类型，使用原有的 handler 机制
+			if handler := registry.GetHandler(int32(gm.MsgType)); handler != nil {
+				handler(playerID, &gm)
+			} else {
+				log.Printf("收到玩家[%s]未知类型消息: %v", playerID, gm.MsgType)
+			}
 		}
 	}
 }

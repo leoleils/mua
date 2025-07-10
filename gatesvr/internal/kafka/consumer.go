@@ -29,6 +29,7 @@ type PlayerEvent struct {
 
 type PlayerEventHandler func(event *pb.PlayerStatusChanged, gateOnline bool)
 
+// StartPlayerEventConsumer 启动玩家事件消费者
 func StartPlayerEventConsumer(brokers []string, topic string, groupID string, handler PlayerEventHandler) {
 	log.Printf("---topic: %s, groupID: %s ---", topic, groupID)
 

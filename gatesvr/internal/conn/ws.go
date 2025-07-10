@@ -20,7 +20,7 @@ var upgrader = websocket.Upgrader{
 // WebSocket玩家连接结构
 // 可与TCP共用PlayerConn结构
 
-// 启动WebSocket服务
+// StartWSServer 启动WebSocket服务
 func StartWSServer(addr string) {
 	http.HandleFunc("/ws", wsUpgradeHandler)
 	log.Printf("WebSocket服务已启动，监听: %s/ws", addr)
@@ -49,6 +49,7 @@ func wsUpgradeHandler(w http.ResponseWriter, r *http.Request) {
 // WS消息分发注册表
 var handlersWS = make(map[int32]HandlerFuncGeneric)
 
+// RegisterHandlerWS 注册WebSocket业务分发
 func RegisterHandlerWS(msgType int32, handler HandlerFuncGeneric) {
 	handlersWS[msgType] = handler
 }

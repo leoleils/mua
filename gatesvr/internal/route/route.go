@@ -7,14 +7,14 @@ var (
 	mu             sync.RWMutex
 )
 
-// 设置路由
+// Set 设置路由
 func Set(playerID, gateID string) {
 	mu.Lock()
 	defer mu.Unlock()
 	playerRouteMap[playerID] = gateID
 }
 
-// 获取路由
+// Get 获取路由
 func Get(playerID string) (gateID string, ok bool) {
 	mu.RLock()
 	defer mu.RUnlock()
@@ -22,14 +22,14 @@ func Get(playerID string) (gateID string, ok bool) {
 	return
 }
 
-// 删除路由
+// Delete 删除路由
 func Delete(playerID string) {
 	mu.Lock()
 	defer mu.Unlock()
 	delete(playerRouteMap, playerID)
 }
 
-// 清理所有属于某个gate的玩家
+// DeleteByGate 清理所有属于某个gate的玩家
 func DeleteByGate(gateID string) (affected []string) {
 	mu.Lock()
 	defer mu.Unlock()
@@ -42,7 +42,7 @@ func DeleteByGate(gateID string) (affected []string) {
 	return
 }
 
-// 清理所有不在在线gate列表中的玩家
+// CleanByOnlineGates 清理所有不在在线gate列表中的玩家
 func CleanByOnlineGates(onlineGates map[string]struct{}) (affected []string) {
 	mu.Lock()
 	defer mu.Unlock()
@@ -55,7 +55,7 @@ func CleanByOnlineGates(onlineGates map[string]struct{}) (affected []string) {
 	return
 }
 
-// 获取所有路由表内容（只读副本）
+// GetAll 获取所有路由表内容（只读副本）
 func GetAll() map[string]string {
 	mu.RLock()
 	defer mu.RUnlock()

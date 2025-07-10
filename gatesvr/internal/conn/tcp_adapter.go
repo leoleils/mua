@@ -11,6 +11,7 @@ type TCPConnAdapter struct {
 	ip   string
 }
 
+// NewTCPConnAdapter 创建TCP连接适配器
 func NewTCPConnAdapter(conn net.Conn) *TCPConnAdapter {
 	ip := conn.RemoteAddr().String()
 	return &TCPConnAdapter{conn: conn, ip: ip}

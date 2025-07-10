@@ -12,6 +12,7 @@ type WSConnAdapter struct {
 	ip   string
 }
 
+// NewWSConnAdapter 创建WebSocket连接适配器
 func NewWSConnAdapter(conn *websocket.Conn, r *http.Request) *WSConnAdapter {
 	ip := r.RemoteAddr
 	return &WSConnAdapter{conn: conn, ip: ip}

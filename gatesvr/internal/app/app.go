@@ -21,6 +21,7 @@ import (
 	"google.golang.org/protobuf/proto"
 )
 
+// App 应用程序结构体
 type App struct {
 	ip       string
 	grpcPort uint64
@@ -33,10 +34,7 @@ type server struct {
 	pb.UnimplementedGateSvrServer
 }
 
-type commonServiceServer struct {
-	pb.UnimplementedCommonServiceServer
-}
-
+// Init 初始化应用程序，包括配置加载、各种服务初始化等
 func (a *App) Init() error {
 	if err := config.LoadConfig(); err != nil {
 		log.Fatalf("配置加载失败: %v", err)
@@ -55,6 +53,7 @@ func (a *App) Init() error {
 	return nil
 }
 
+// Run 运行应用程序，启动TCP、WebSocket和gRPC服务
 func (a *App) Run() error {
 	// 启动TCP接入服务
 	go conn.StartTCPServer(":6001")
@@ -69,7 +68,8 @@ func (a *App) Run() error {
 	a.grpcLis = lis
 	a.grpcSrv = grpc.NewServer()
 	pb.RegisterGateSvrServer(a.grpcSrv, &server{})
-	pb.RegisterCommonServiceServer(a.grpcSrv, &commonServiceServer{})
+	// 移除 CommonService 注册，因为不再需要 SendMessage RPC 接口
+	// pb.RegisterCommonServiceServer(a.grpcSrv, &commonServiceServer{})
 	ctx, cancel := context.WithCancel(context.Background())
 	a.cancel = cancel
 	go func() {
@@ -81,6 +81,7 @@ func (a *App) Run() error {
 	return nil
 }
 
+// Stop 停止应用程序，优雅关闭所有服务
 func (a *App) Stop() {
 	if a.cancel != nil {
 		a.cancel()
@@ -94,9 +95,10 @@ func (a *App) Stop() {
 	log.Println("服务已优雅退出")
 }
 
-// 以下为原 main.go 的辅助函数
+// 初始化认证模块
 func initAuth() {}
 
+// 初始化Nacos并注册服务实例
 func initNacosAndRegister() (ip string, grpcPort uint64) {
 	instanceID := "gatesvr-" + strconv.FormatInt(time.Now().UnixNano(), 10)
 
@@ -112,14 +114,17 @@ func initNacosAndRegister() (ip string, grpcPort uint64) {
 	return
 }
 
+// 初始化路由表
 func initRouteTable() {
 	// route.Init() // route 包无初始化方法，如有需要可补充
 }
 
+// 注册业务处理器
 func registerBusinessHandlers() {
 	// 业务 handler 注册
 }
 
+// 获取本地IP地址
 func getLocalIP() string {
 	// 获取本地非回环IP地址
 	addrs, err := net.InterfaceAddrs()
@@ -247,100 +252,7 @@ func (s *server) PushToClient(ctx context.Context, req *pb.PushRequest) (*pb.Pus
 	return &pb.PushResponse{Success: false, Message: "玩家不在线，消息丢弃"}, nil
 }
 
-func (s *commonServiceServer) SendMessage(ctx context.Context, req *pb.GameMessage) (*pb.GameMessageResponse, error) {
-	log.Printf("[SendMessage] 收到消息: 类型=%v, 玩家=%s", req.MsgType, req.MsgHead.GetPlayerId())
-
-	// 根据消息类型处理
-	switch req.MsgType {
-	case pb.MessageType_HEARTBEAT:
-		return s.handleHeartbeat(ctx, req)
-	case pb.MessageType_SERVICE_MESSAGE:
-		return s.handleServiceMessage(ctx, req)
-	case pb.MessageType_CLIENT_MESSAGE:
-		return s.handleClientMessage(ctx, req)
-	case pb.MessageType_BROADCAST_MESSAGE:
-		return s.handleBroadcastMessage(ctx, req)
-	default:
-		return &pb.GameMessageResponse{
-			MsgHead:           req.MsgHead,
-			Ret:               1,
-			Payload:           &pb.GameMessageResponse_Reason{Reason: "未知的消息类型"},
-			ResponseTimestamp: time.Now().UnixMilli(),
-		}, nil
-	}
-}
-
-// handleHeartbeat 处理心跳消息
-func (s *commonServiceServer) handleHeartbeat(ctx context.Context, req *pb.GameMessage) (*pb.GameMessageResponse, error) {
-	log.Printf("[心跳] 玩家: %s", req.MsgHead.GetPlayerId())
-
-	return &pb.GameMessageResponse{
-		MsgHead:           req.MsgHead,
-		Ret:               0,
-		Payload:           &pb.GameMessageResponse_Reason{Reason: "心跳OK"},
-		ResponseTimestamp: time.Now().UnixMilli(),
-	}, nil
-}
-
-// handleServiceMessage 处理服务消息（转发到后端服务）
-func (s *commonServiceServer) handleServiceMessage(ctx context.Context, req *pb.GameMessage) (*pb.GameMessageResponse, error) {
-	head := req.MsgHead
-	if head == nil {
-		return &pb.GameMessageResponse{
-			MsgHead:           req.MsgHead,
-			Ret:               1,
-			Payload:           &pb.GameMessageResponse_Reason{Reason: "消息头为空"},
-			ResponseTimestamp: time.Now().UnixMilli(),
-		}, nil
-	}
-
-	serviceName := head.ServiceName
-	if serviceName == "" {
-		return &pb.GameMessageResponse{
-			MsgHead:           req.MsgHead,
-			Ret:               1,
-			Payload:           &pb.GameMessageResponse_Reason{Reason: "服务名不能为空"},
-			ResponseTimestamp: time.Now().UnixMilli(),
-		}, nil
-	}
-
-	log.Printf("[服务消息] 玩家=%s, 服务=%s, 分组=%s, 实例=%s, 类型=%v",
-		head.PlayerId, head.ServiceName, head.Group, head.InstanceId, head.ServiceMsgType)
-
-	// 使用转发器转发消息
-	return forwarder.ForwardServiceMessage(req)
-}
-
-// handleClientMessage 处理客户端消息（网关内部处理）
-func (s *commonServiceServer) handleClientMessage(ctx context.Context, req *pb.GameMessage) (*pb.GameMessageResponse, error) {
-	log.Printf("[客户端消息] 玩家: %s", req.MsgHead.GetPlayerId())
-
-	// 这里可以实现网关内部的业务逻辑
-	// 例如：玩家状态查询、连接管理等
-
-	return &pb.GameMessageResponse{
-		MsgHead:           req.MsgHead,
-		Ret:               0,
-		Payload:           &pb.GameMessageResponse_Reason{Reason: "客户端消息处理完成"},
-		ResponseTimestamp: time.Now().UnixMilli(),
-	}, nil
-}
-
-// handleBroadcastMessage 处理广播消息
-func (s *commonServiceServer) handleBroadcastMessage(ctx context.Context, req *pb.GameMessage) (*pb.GameMessageResponse, error) {
-	log.Printf("[广播消息] 玩家: %s", req.MsgHead.GetPlayerId())
-
-	// 这里可以实现广播逻辑
-	// 例如：全服公告、世界聊天等
-
-	return &pb.GameMessageResponse{
-		MsgHead:           req.MsgHead,
-		Ret:               0,
-		Payload:           &pb.GameMessageResponse_Reason{Reason: "广播消息处理完成"},
-		ResponseTimestamp: time.Now().UnixMilli(),
-	}, nil
-}
-
+// New 创建新的应用实例
 func New() *App {
 	return &App{}
 }

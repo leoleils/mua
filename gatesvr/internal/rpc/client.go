@@ -11,6 +11,7 @@ import (
 	"mua/gatesvr/internal/pb"
 )
 
+// PushToClientRemote 远程推送消息到客户端
 func PushToClientRemote(addr string, req *pb.PushRequest) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
@@ -32,6 +33,7 @@ func PushToClientRemote(addr string, req *pb.PushRequest) error {
 	return err
 }
 
+// KickPlayerRemote 远程踢玩家下线
 func KickPlayerRemote(addr, playerID, reason string) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
@@ -56,6 +58,7 @@ func KickPlayerRemote(addr, playerID, reason string) error {
 	return err
 }
 
+// ForwardMessageRemote 远程转发消息
 func ForwardMessageRemote(addr, playerID string, payload []byte) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()

@@ -27,7 +27,7 @@ var (
 	localGateSvrIP string
 )
 
-// 初始化Kafka配置，需在配置加载后调用
+// Init 初始化Kafka配置，需在配置加载后调用
 func Init() {
 	cfg := config.GetConfig().Kafka
 	kafkaBrokers = cfg.Brokers
@@ -54,15 +54,17 @@ func newTLSConfig(caFile string) (*tls.Config, error) {
 	}, nil
 }
 
+// SetLocalGateSvrID 设置本地网关服务器ID
 func SetLocalGateSvrID(id string) {
 	localGateSvrID = id
 }
 
+// SetLocalGateSvrIP 设置本地网关服务器IP
 func SetLocalGateSvrIP(ip string) {
 	localGateSvrIP = ip
 }
 
-// 广播玩家上下线事件
+// BroadcastPlayerStatusChanged 广播玩家状态变更事件
 func BroadcastPlayerStatusChanged(event *pb.PlayerStatusChanged) {
 	if event.GatesvrId == "" {
 		event.GatesvrId = localGateSvrID

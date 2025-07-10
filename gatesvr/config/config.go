@@ -58,7 +58,7 @@ var (
 	GatesvrID  string
 )
 
-// 加载配置
+// LoadConfig 加载配置
 func LoadConfig() error {
 	data, err := ioutil.ReadFile(configPath)
 	if err != nil {
@@ -75,7 +75,7 @@ func LoadConfig() error {
 	return nil
 }
 
-// 热更配置（定时检测文件变化）
+// WatchConfig 热更配置（定时检测文件变化）
 func WatchConfig() {
 	go func() {
 		var lastModTime time.Time
@@ -91,22 +91,24 @@ func WatchConfig() {
 	}()
 }
 
-// 获取配置快照
+// GetConfig 获取配置快照
 func GetConfig() AppConfig {
 	mu.RLock()
 	defer mu.RUnlock()
 	return Global
 }
 
+// SetGatesvrID 设置网关服务器ID
 func SetGatesvrID(id string) {
 	GatesvrID = id
 }
 
+// GetGatesvrID 获取网关服务器ID
 func GetGatesvrID() string {
 	return GatesvrID
 }
 
-// 获取服务配置，如果没有配置则返回默认值
+// GetServiceConfig 获取服务配置，如果没有配置则返回默认值
 func GetServiceConfig(serviceName string) ServiceConfig {
 	cfg := GetConfig()
 	if serviceConfig, exists := cfg.ServiceForwarding.Services[serviceName]; exists {

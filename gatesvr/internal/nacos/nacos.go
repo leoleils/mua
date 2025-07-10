@@ -23,7 +23,7 @@ var (
 	localIP         string // 新增本服务实例IP变量
 )
 
-// 初始化Nacos客户端并注册服务
+// 初始化Nacos客户端并注册服务到注册中心
 func Register(instanceID, ip string, port uint64) {
 	localInstanceID = instanceID // 注册时赋值
 	localIP = ip                 // 注册时赋值
@@ -68,7 +68,7 @@ func Register(instanceID, ip string, port uint64) {
 	log.Printf("已注册到Nacos: %s %s:%d", cfg.Service, ip, port)
 }
 
-// 监听 gatesvr 服务变更
+// 监听 gatesvr 服务变更并通过回调函数通知
 func SubscribeGatesvrChange(callback func(onlineAddrs []string)) {
 	go func() {
 		_ = client.Subscribe(&vo.SubscribeParam{
@@ -89,7 +89,7 @@ func SubscribeGatesvrChange(callback func(onlineAddrs []string)) {
 	}()
 }
 
-// 根据服务名称判断是否在线 默认group为DEFAULT_GROUP
+// 根据服务名称判断是否在线（默认group为DEFAULT_GROUP）
 func IsServiceOnline(serviceName string) bool {
 	res, err := client.SelectAllInstances(vo.SelectAllInstancesParam{
 		ServiceName: serviceName,
@@ -102,7 +102,7 @@ func IsServiceOnline(serviceName string) bool {
 	return len(res) > 0
 }
 
-// 根据服务名称获取所有服务地址 默认group为DEFAULT_GROUP
+// 根据服务名称获取所有服务地址（默认group为DEFAULT_GROUP）
 func GetServiceAddrs(serviceName string) []string {
 	res, err := client.SelectAllInstances(vo.SelectAllInstancesParam{
 		ServiceName: serviceName,

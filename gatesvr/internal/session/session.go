@@ -7,6 +7,7 @@ import (
 	"time"
 )
 
+// Session 会话信息结构体
 type Session struct {
 	PlayerID      string              // 玩家ID
 	IP            string              // ip地址（含端口）
@@ -20,7 +21,7 @@ var (
 	ip2pid   sync.Map // ip -> playerID
 )
 
-// 判断是否异地登录，返回是否异地登录和旧session
+// IsOtherPlaceLogin 判断是否异地登录，返回是否异地登录和旧session
 func IsOtherPlaceLogin(playerID, ip, gatesvrID string) (bool, *Session) {
 	val, loaded := sessions.Load(playerID)
 	// 如果session存在，则判断是否异地登录
@@ -33,7 +34,7 @@ func IsOtherPlaceLogin(playerID, ip, gatesvrID string) (bool, *Session) {
 	return false, nil
 }
 
-// 踢人操作（本地或远程）
+// KickSession 踢人操作（本地或远程）
 func KickSession(sess *Session, reason string) {
 	if sess == nil {
 		return
@@ -46,7 +47,7 @@ func KickSession(sess *Session, reason string) {
 	sessions.Delete(sess.PlayerID)
 }
 
-// 存储/更新 session
+// StoreSession 存储/更新 session
 func StoreSession(playerID, ip, gatesvrID string, kickFunc func(string)) {
 	sessions.Store(playerID, &Session{
 		PlayerID:      playerID,
@@ -58,12 +59,12 @@ func StoreSession(playerID, ip, gatesvrID string, kickFunc func(string)) {
 	ip2pid.Store(ip, playerID)
 }
 
-// 广播上线事件
+// BroadcastPlayerOnline 广播上线事件
 func BroadcastPlayerOnline(playerID, ip, gatesvrID, gatesvrIP string) {
 	event.BroadcastPlayerOnline(playerID, ip, gatesvrID, gatesvrIP)
 }
 
-// 玩家下线
+// PlayerOffline 玩家下线
 func PlayerOffline(playerID string) {
 	if val, ok := sessions.Load(playerID); ok {
 		sess := val.(*Session)
@@ -75,7 +76,7 @@ func PlayerOffline(playerID string) {
 	sessions.Delete(playerID)
 }
 
-// 心跳更新
+// UpdateHeartbeat 心跳更新
 func UpdateHeartbeat(playerID string) {
 	if val, ok := sessions.Load(playerID); ok {
 		sess := val.(*Session)
@@ -83,7 +84,7 @@ func UpdateHeartbeat(playerID string) {
 	}
 }
 
-// 踢下线
+// KickPlayer 踢下线
 func KickPlayer(playerID, reason string) {
 	if val, ok := sessions.Load(playerID); ok {
 		sess := val.(*Session)
@@ -98,7 +99,7 @@ func KickPlayer(playerID, reason string) {
 	}
 }
 
-// 获取Session
+// GetSession 获取Session
 func GetSession(playerID string) (*Session, bool) {
 	val, ok := sessions.Load(playerID)
 	if !ok {
@@ -107,7 +108,7 @@ func GetSession(playerID string) (*Session, bool) {
 	return val.(*Session), true
 }
 
-// 通过ip查找playerID
+// GetPlayerIDByIP 通过ip查找playerID
 func GetPlayerIDByIP(ip string) (string, bool) {
 	val, ok := ip2pid.Load(ip)
 	if !ok {
@@ -116,10 +117,11 @@ func GetPlayerIDByIP(ip string) (string, bool) {
 	return val.(string), true
 }
 
-// 供kafka消费玩家上下线历史数据时调用
+// PlayerOnlineFromKafka 供kafka消费玩家上下线历史数据时调用
 func PlayerOnlineFromKafka(playerID, gatesvrID, ip string) {
 
 }
 
+// PlayerOfflineFromKafka 供kafka消费玩家上下线历史数据时调用
 func PlayerOfflineFromKafka(playerID string) {
 }

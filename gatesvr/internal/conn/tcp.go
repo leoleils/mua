@@ -25,12 +25,12 @@ func (tcpHandlerRegistry) GetHandler(msgType int32) HandlerFuncGeneric {
 	return handlers[msgType]
 }
 
-// 注册业务分发
+// RegisterHandler 注册业务分发
 func RegisterHandler(msgType int32, handler HandlerFuncGeneric) {
 	handlers[msgType] = handler
 }
 
-// 启动TCP监听
+// StartTCPServer 启动TCP监听
 func StartTCPServer(addr string) {
 	ln, err := net.Listen("tcp", addr)
 	if err != nil {
