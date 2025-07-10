@@ -446,6 +446,184 @@ func (x *ForwardMessageResponse) GetMessage() string {
 	return ""
 }
 
+// Token生成请求
+type GenerateAuthTokenRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	PlayerId      string                 `protobuf:"bytes,1,opt,name=player_id,json=playerId,proto3" json:"player_id,omitempty"`           // 玩家ID（必须）
+	Username      string                 `protobuf:"bytes,2,opt,name=username,proto3" json:"username,omitempty"`                           // 用户名（可选）
+	Level         int32                  `protobuf:"varint,3,opt,name=level,proto3" json:"level,omitempty"`                                // 玩家等级（可选）
+	IsVip         bool                   `protobuf:"varint,4,opt,name=is_vip,json=isVip,proto3" json:"is_vip,omitempty"`                   // VIP状态（可选）
+	Permissions   []string               `protobuf:"bytes,5,rep,name=permissions,proto3" json:"permissions,omitempty"`                     // 权限列表（可选）
+	Platform      string                 `protobuf:"bytes,6,opt,name=platform,proto3" json:"platform,omitempty"`                           // 平台类型：android/ios/web等（可选）
+	DeviceId      string                 `protobuf:"bytes,7,opt,name=device_id,json=deviceId,proto3" json:"device_id,omitempty"`           // 设备ID（可选）
+	ExpireHours   int64                  `protobuf:"varint,8,opt,name=expire_hours,json=expireHours,proto3" json:"expire_hours,omitempty"` // 过期时间（小时，可选，默认使用配置值）
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GenerateAuthTokenRequest) Reset() {
+	*x = GenerateAuthTokenRequest{}
+	mi := &file_gatesvr_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GenerateAuthTokenRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GenerateAuthTokenRequest) ProtoMessage() {}
+
+func (x *GenerateAuthTokenRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_gatesvr_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GenerateAuthTokenRequest.ProtoReflect.Descriptor instead.
+func (*GenerateAuthTokenRequest) Descriptor() ([]byte, []int) {
+	return file_gatesvr_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *GenerateAuthTokenRequest) GetPlayerId() string {
+	if x != nil {
+		return x.PlayerId
+	}
+	return ""
+}
+
+func (x *GenerateAuthTokenRequest) GetUsername() string {
+	if x != nil {
+		return x.Username
+	}
+	return ""
+}
+
+func (x *GenerateAuthTokenRequest) GetLevel() int32 {
+	if x != nil {
+		return x.Level
+	}
+	return 0
+}
+
+func (x *GenerateAuthTokenRequest) GetIsVip() bool {
+	if x != nil {
+		return x.IsVip
+	}
+	return false
+}
+
+func (x *GenerateAuthTokenRequest) GetPermissions() []string {
+	if x != nil {
+		return x.Permissions
+	}
+	return nil
+}
+
+func (x *GenerateAuthTokenRequest) GetPlatform() string {
+	if x != nil {
+		return x.Platform
+	}
+	return ""
+}
+
+func (x *GenerateAuthTokenRequest) GetDeviceId() string {
+	if x != nil {
+		return x.DeviceId
+	}
+	return ""
+}
+
+func (x *GenerateAuthTokenRequest) GetExpireHours() int64 {
+	if x != nil {
+		return x.ExpireHours
+	}
+	return 0
+}
+
+// Token生成响应
+type GenerateAuthTokenResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Success       bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`                              // 生成是否成功
+	Token         string                 `protobuf:"bytes,2,opt,name=token,proto3" json:"token,omitempty"`                                   // 生成的JWT Token
+	ExpireTime    int64                  `protobuf:"varint,3,opt,name=expire_time,json=expireTime,proto3" json:"expire_time,omitempty"`      // Token过期时间戳（毫秒）
+	ErrorMessage  string                 `protobuf:"bytes,4,opt,name=error_message,json=errorMessage,proto3" json:"error_message,omitempty"` // 错误信息（失败时）
+	ErrorCode     int32                  `protobuf:"varint,5,opt,name=error_code,json=errorCode,proto3" json:"error_code,omitempty"`         // 错误码（失败时）
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GenerateAuthTokenResponse) Reset() {
+	*x = GenerateAuthTokenResponse{}
+	mi := &file_gatesvr_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GenerateAuthTokenResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GenerateAuthTokenResponse) ProtoMessage() {}
+
+func (x *GenerateAuthTokenResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_gatesvr_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GenerateAuthTokenResponse.ProtoReflect.Descriptor instead.
+func (*GenerateAuthTokenResponse) Descriptor() ([]byte, []int) {
+	return file_gatesvr_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *GenerateAuthTokenResponse) GetSuccess() bool {
+	if x != nil {
+		return x.Success
+	}
+	return false
+}
+
+func (x *GenerateAuthTokenResponse) GetToken() string {
+	if x != nil {
+		return x.Token
+	}
+	return ""
+}
+
+func (x *GenerateAuthTokenResponse) GetExpireTime() int64 {
+	if x != nil {
+		return x.ExpireTime
+	}
+	return 0
+}
+
+func (x *GenerateAuthTokenResponse) GetErrorMessage() string {
+	if x != nil {
+		return x.ErrorMessage
+	}
+	return ""
+}
+
+func (x *GenerateAuthTokenResponse) GetErrorCode() int32 {
+	if x != nil {
+		return x.ErrorCode
+	}
+	return 0
+}
+
 // 玩家上下线事件消息
 type PlayerStatusChanged struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
@@ -463,7 +641,7 @@ type PlayerStatusChanged struct {
 
 func (x *PlayerStatusChanged) Reset() {
 	*x = PlayerStatusChanged{}
-	mi := &file_gatesvr_proto_msgTypes[6]
+	mi := &file_gatesvr_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -475,7 +653,7 @@ func (x *PlayerStatusChanged) String() string {
 func (*PlayerStatusChanged) ProtoMessage() {}
 
 func (x *PlayerStatusChanged) ProtoReflect() protoreflect.Message {
-	mi := &file_gatesvr_proto_msgTypes[6]
+	mi := &file_gatesvr_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -488,7 +666,7 @@ func (x *PlayerStatusChanged) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PlayerStatusChanged.ProtoReflect.Descriptor instead.
 func (*PlayerStatusChanged) Descriptor() ([]byte, []int) {
-	return file_gatesvr_proto_rawDescGZIP(), []int{6}
+	return file_gatesvr_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *PlayerStatusChanged) GetPlayerId() string {
@@ -571,7 +749,24 @@ const file_gatesvr_proto_rawDesc = "" +
 	"\apayload\x18\x02 \x01(\fR\apayload\"L\n" +
 	"\x16ForwardMessageResponse\x12\x18\n" +
 	"\asuccess\x18\x01 \x01(\bR\asuccess\x12\x18\n" +
-	"\amessage\x18\x02 \x01(\tR\amessage\"\x9b\x02\n" +
+	"\amessage\x18\x02 \x01(\tR\amessage\"\xfe\x01\n" +
+	"\x18GenerateAuthTokenRequest\x12\x1b\n" +
+	"\tplayer_id\x18\x01 \x01(\tR\bplayerId\x12\x1a\n" +
+	"\busername\x18\x02 \x01(\tR\busername\x12\x14\n" +
+	"\x05level\x18\x03 \x01(\x05R\x05level\x12\x15\n" +
+	"\x06is_vip\x18\x04 \x01(\bR\x05isVip\x12 \n" +
+	"\vpermissions\x18\x05 \x03(\tR\vpermissions\x12\x1a\n" +
+	"\bplatform\x18\x06 \x01(\tR\bplatform\x12\x1b\n" +
+	"\tdevice_id\x18\a \x01(\tR\bdeviceId\x12!\n" +
+	"\fexpire_hours\x18\b \x01(\x03R\vexpireHours\"\xb0\x01\n" +
+	"\x19GenerateAuthTokenResponse\x12\x18\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\x12\x14\n" +
+	"\x05token\x18\x02 \x01(\tR\x05token\x12\x1f\n" +
+	"\vexpire_time\x18\x03 \x01(\x03R\n" +
+	"expireTime\x12#\n" +
+	"\rerror_message\x18\x04 \x01(\tR\ferrorMessage\x12\x1d\n" +
+	"\n" +
+	"error_code\x18\x05 \x01(\x05R\terrorCode\"\x9b\x02\n" +
 	"\x13PlayerStatusChanged\x12\x1b\n" +
 	"\tplayer_id\x18\x01 \x01(\tR\bplayerId\x12\x0e\n" +
 	"\x02ip\x18\x02 \x01(\tR\x02ip\x124\n" +
@@ -591,12 +786,13 @@ const file_gatesvr_proto_rawDesc = "" +
 	"\x15PlayerStatusEventType\x12\n" +
 	"\n" +
 	"\x06ONLINE\x10\x00\x12\v\n" +
-	"\aOFFLINE\x10\x012\xe0\x01\n" +
+	"\aOFFLINE\x10\x012\xbc\x02\n" +
 	"\aGateSvr\x12E\n" +
 	"\n" +
 	"KickPlayer\x12\x1a.gatesvr.KickPlayerRequest\x1a\x1b.gatesvr.KickPlayerResponse\x12Q\n" +
 	"\x0eForwardMessage\x12\x1e.gatesvr.ForwardMessageRequest\x1a\x1f.gatesvr.ForwardMessageResponse\x12;\n" +
-	"\fPushToClient\x12\x14.gatesvr.PushRequest\x1a\x15.gatesvr.PushResponseB\x19Z\x17mua/gatesvr/internal/pbb\x06proto3"
+	"\fPushToClient\x12\x14.gatesvr.PushRequest\x1a\x15.gatesvr.PushResponse\x12Z\n" +
+	"\x11GenerateAuthToken\x12!.gatesvr.GenerateAuthTokenRequest\x1a\".gatesvr.GenerateAuthTokenResponseB\x19Z\x17mua/gatesvr/internal/pbb\x06proto3"
 
 var (
 	file_gatesvr_proto_rawDescOnce sync.Once
@@ -611,34 +807,38 @@ func file_gatesvr_proto_rawDescGZIP() []byte {
 }
 
 var file_gatesvr_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
-var file_gatesvr_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
+var file_gatesvr_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
 var file_gatesvr_proto_goTypes = []any{
-	(CallbackType)(0),              // 0: gatesvr.CallbackType
-	(PlayerStatusEventType)(0),     // 1: gatesvr.PlayerStatusEventType
-	(*PushRequest)(nil),            // 2: gatesvr.PushRequest
-	(*PushResponse)(nil),           // 3: gatesvr.PushResponse
-	(*KickPlayerRequest)(nil),      // 4: gatesvr.KickPlayerRequest
-	(*KickPlayerResponse)(nil),     // 5: gatesvr.KickPlayerResponse
-	(*ForwardMessageRequest)(nil),  // 6: gatesvr.ForwardMessageRequest
-	(*ForwardMessageResponse)(nil), // 7: gatesvr.ForwardMessageResponse
-	(*PlayerStatusChanged)(nil),    // 8: gatesvr.PlayerStatusChanged
-	(*GameMessage)(nil),            // 9: common.GameMessage
+	(CallbackType)(0),                 // 0: gatesvr.CallbackType
+	(PlayerStatusEventType)(0),        // 1: gatesvr.PlayerStatusEventType
+	(*PushRequest)(nil),               // 2: gatesvr.PushRequest
+	(*PushResponse)(nil),              // 3: gatesvr.PushResponse
+	(*KickPlayerRequest)(nil),         // 4: gatesvr.KickPlayerRequest
+	(*KickPlayerResponse)(nil),        // 5: gatesvr.KickPlayerResponse
+	(*ForwardMessageRequest)(nil),     // 6: gatesvr.ForwardMessageRequest
+	(*ForwardMessageResponse)(nil),    // 7: gatesvr.ForwardMessageResponse
+	(*GenerateAuthTokenRequest)(nil),  // 8: gatesvr.GenerateAuthTokenRequest
+	(*GenerateAuthTokenResponse)(nil), // 9: gatesvr.GenerateAuthTokenResponse
+	(*PlayerStatusChanged)(nil),       // 10: gatesvr.PlayerStatusChanged
+	(*GameMessage)(nil),               // 11: common.GameMessage
 }
 var file_gatesvr_proto_depIdxs = []int32{
-	0, // 0: gatesvr.PushRequest.cb_type:type_name -> gatesvr.CallbackType
-	9, // 1: gatesvr.PushRequest.message:type_name -> common.GameMessage
-	1, // 2: gatesvr.PlayerStatusChanged.event:type_name -> gatesvr.PlayerStatusEventType
-	4, // 3: gatesvr.GateSvr.KickPlayer:input_type -> gatesvr.KickPlayerRequest
-	6, // 4: gatesvr.GateSvr.ForwardMessage:input_type -> gatesvr.ForwardMessageRequest
-	2, // 5: gatesvr.GateSvr.PushToClient:input_type -> gatesvr.PushRequest
-	5, // 6: gatesvr.GateSvr.KickPlayer:output_type -> gatesvr.KickPlayerResponse
-	7, // 7: gatesvr.GateSvr.ForwardMessage:output_type -> gatesvr.ForwardMessageResponse
-	3, // 8: gatesvr.GateSvr.PushToClient:output_type -> gatesvr.PushResponse
-	6, // [6:9] is the sub-list for method output_type
-	3, // [3:6] is the sub-list for method input_type
-	3, // [3:3] is the sub-list for extension type_name
-	3, // [3:3] is the sub-list for extension extendee
-	0, // [0:3] is the sub-list for field type_name
+	0,  // 0: gatesvr.PushRequest.cb_type:type_name -> gatesvr.CallbackType
+	11, // 1: gatesvr.PushRequest.message:type_name -> common.GameMessage
+	1,  // 2: gatesvr.PlayerStatusChanged.event:type_name -> gatesvr.PlayerStatusEventType
+	4,  // 3: gatesvr.GateSvr.KickPlayer:input_type -> gatesvr.KickPlayerRequest
+	6,  // 4: gatesvr.GateSvr.ForwardMessage:input_type -> gatesvr.ForwardMessageRequest
+	2,  // 5: gatesvr.GateSvr.PushToClient:input_type -> gatesvr.PushRequest
+	8,  // 6: gatesvr.GateSvr.GenerateAuthToken:input_type -> gatesvr.GenerateAuthTokenRequest
+	5,  // 7: gatesvr.GateSvr.KickPlayer:output_type -> gatesvr.KickPlayerResponse
+	7,  // 8: gatesvr.GateSvr.ForwardMessage:output_type -> gatesvr.ForwardMessageResponse
+	3,  // 9: gatesvr.GateSvr.PushToClient:output_type -> gatesvr.PushResponse
+	9,  // 10: gatesvr.GateSvr.GenerateAuthToken:output_type -> gatesvr.GenerateAuthTokenResponse
+	7,  // [7:11] is the sub-list for method output_type
+	3,  // [3:7] is the sub-list for method input_type
+	3,  // [3:3] is the sub-list for extension type_name
+	3,  // [3:3] is the sub-list for extension extendee
+	0,  // [0:3] is the sub-list for field type_name
 }
 
 func init() { file_gatesvr_proto_init() }
@@ -653,7 +853,7 @@ func file_gatesvr_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_gatesvr_proto_rawDesc), len(file_gatesvr_proto_rawDesc)),
 			NumEnums:      2,
-			NumMessages:   7,
+			NumMessages:   9,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

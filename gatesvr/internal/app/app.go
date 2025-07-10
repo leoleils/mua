@@ -261,6 +261,59 @@ func (s *server) PushToClient(ctx context.Context, req *pb.PushRequest) (*pb.Pus
 	return &pb.PushResponse{Success: false, Message: "玩家不在线，消息丢弃"}, nil
 }
 
+// GenerateAuthToken 生成鉴权Token
+func (s *server) GenerateAuthToken(ctx context.Context, req *pb.GenerateAuthTokenRequest) (*pb.GenerateAuthTokenResponse, error) {
+	playerID := req.GetPlayerId()
+	if playerID == "" {
+		return &pb.GenerateAuthTokenResponse{
+			Success:      false,
+			ErrorMessage: "玩家ID不能为空",
+			ErrorCode:    1001,
+		}, nil
+	}
+
+	// 构建Token载荷信息
+	claims := &auth.TokenClaims{
+		PlayerID:    playerID,
+		Username:    req.GetUsername(),
+		Level:       int(req.GetLevel()),
+		VIP:         0, // 将布尔值is_vip转换为VIP等级，这里简化处理
+		Permissions: req.GetPermissions(),
+		Platform:    req.GetPlatform(),
+		DeviceID:    req.GetDeviceId(),
+	}
+
+	// 处理VIP状态转换
+	if req.GetIsVip() {
+		claims.VIP = 1 // VIP等级1
+	}
+
+	// 设置过期时间（如果指定了）
+	if req.GetExpireHours() > 0 {
+		claims.ExpireTime = time.Now().Add(time.Duration(req.GetExpireHours()) * time.Hour).Unix()
+	}
+
+	// 生成Token
+	token, err := auth.GenerateToken(claims)
+	if err != nil {
+		log.Printf("[GenerateAuthToken] Token生成失败 - 玩家: %s, 错误: %v", playerID, err)
+		return &pb.GenerateAuthTokenResponse{
+			Success:      false,
+			ErrorMessage: fmt.Sprintf("Token生成失败: %v", err),
+			ErrorCode:    1002,
+		}, nil
+	}
+
+	log.Printf("[GenerateAuthToken] Token生成成功 - 玩家: %s, 用户名: %s, 平台: %s",
+		playerID, req.GetUsername(), req.GetPlatform())
+
+	return &pb.GenerateAuthTokenResponse{
+		Success:    true,
+		Token:      token,
+		ExpireTime: claims.ExpireTime * 1000, // 转换为毫秒
+	}, nil
+}
+
 // New 创建新的应用实例
 func New() *App {
 	return &App{}

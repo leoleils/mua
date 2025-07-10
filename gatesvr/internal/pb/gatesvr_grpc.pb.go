@@ -19,9 +19,10 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	GateSvr_KickPlayer_FullMethodName     = "/gatesvr.GateSvr/KickPlayer"
-	GateSvr_ForwardMessage_FullMethodName = "/gatesvr.GateSvr/ForwardMessage"
-	GateSvr_PushToClient_FullMethodName   = "/gatesvr.GateSvr/PushToClient"
+	GateSvr_KickPlayer_FullMethodName        = "/gatesvr.GateSvr/KickPlayer"
+	GateSvr_ForwardMessage_FullMethodName    = "/gatesvr.GateSvr/ForwardMessage"
+	GateSvr_PushToClient_FullMethodName      = "/gatesvr.GateSvr/PushToClient"
+	GateSvr_GenerateAuthToken_FullMethodName = "/gatesvr.GateSvr/GenerateAuthToken"
 )
 
 // GateSvrClient is the client API for GateSvr service.
@@ -34,6 +35,8 @@ type GateSvrClient interface {
 	ForwardMessage(ctx context.Context, in *ForwardMessageRequest, opts ...grpc.CallOption) (*ForwardMessageResponse, error)
 	// 通知客户端
 	PushToClient(ctx context.Context, in *PushRequest, opts ...grpc.CallOption) (*PushResponse, error)
+	// 生成鉴权Token
+	GenerateAuthToken(ctx context.Context, in *GenerateAuthTokenRequest, opts ...grpc.CallOption) (*GenerateAuthTokenResponse, error)
 }
 
 type gateSvrClient struct {
@@ -74,6 +77,16 @@ func (c *gateSvrClient) PushToClient(ctx context.Context, in *PushRequest, opts 
 	return out, nil
 }
 
+func (c *gateSvrClient) GenerateAuthToken(ctx context.Context, in *GenerateAuthTokenRequest, opts ...grpc.CallOption) (*GenerateAuthTokenResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GenerateAuthTokenResponse)
+	err := c.cc.Invoke(ctx, GateSvr_GenerateAuthToken_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // GateSvrServer is the server API for GateSvr service.
 // All implementations must embed UnimplementedGateSvrServer
 // for forward compatibility.
@@ -84,6 +97,8 @@ type GateSvrServer interface {
 	ForwardMessage(context.Context, *ForwardMessageRequest) (*ForwardMessageResponse, error)
 	// 通知客户端
 	PushToClient(context.Context, *PushRequest) (*PushResponse, error)
+	// 生成鉴权Token
+	GenerateAuthToken(context.Context, *GenerateAuthTokenRequest) (*GenerateAuthTokenResponse, error)
 	mustEmbedUnimplementedGateSvrServer()
 }
 
@@ -102,6 +117,9 @@ func (UnimplementedGateSvrServer) ForwardMessage(context.Context, *ForwardMessag
 }
 func (UnimplementedGateSvrServer) PushToClient(context.Context, *PushRequest) (*PushResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method PushToClient not implemented")
+}
+func (UnimplementedGateSvrServer) GenerateAuthToken(context.Context, *GenerateAuthTokenRequest) (*GenerateAuthTokenResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GenerateAuthToken not implemented")
 }
 func (UnimplementedGateSvrServer) mustEmbedUnimplementedGateSvrServer() {}
 func (UnimplementedGateSvrServer) testEmbeddedByValue()                 {}
@@ -178,6 +196,24 @@ func _GateSvr_PushToClient_Handler(srv interface{}, ctx context.Context, dec fun
 	return interceptor(ctx, in, info, handler)
 }
 
+func _GateSvr_GenerateAuthToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GenerateAuthTokenRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GateSvrServer).GenerateAuthToken(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: GateSvr_GenerateAuthToken_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GateSvrServer).GenerateAuthToken(ctx, req.(*GenerateAuthTokenRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // GateSvr_ServiceDesc is the grpc.ServiceDesc for GateSvr service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -196,6 +232,10 @@ var GateSvr_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "PushToClient",
 			Handler:    _GateSvr_PushToClient_Handler,
+		},
+		{
+			MethodName: "GenerateAuthToken",
+			Handler:    _GateSvr_GenerateAuthToken_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

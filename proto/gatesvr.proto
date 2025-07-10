@@ -31,6 +31,8 @@ service GateSvr {
   rpc ForwardMessage(ForwardMessageRequest) returns (ForwardMessageResponse);
   // 通知客户端
   rpc PushToClient(PushRequest) returns (PushResponse);
+  // 生成鉴权Token
+  rpc GenerateAuthToken(GenerateAuthTokenRequest) returns (GenerateAuthTokenResponse);
 }
 
 message KickPlayerRequest {
@@ -51,6 +53,27 @@ message ForwardMessageRequest {
 message ForwardMessageResponse {
   bool success = 1;
   string message = 2;
+}
+
+// Token生成请求
+message GenerateAuthTokenRequest {
+  string player_id = 1;           // 玩家ID（必须）
+  string username = 2;            // 用户名（可选）
+  int32 level = 3;                // 玩家等级（可选）
+  bool is_vip = 4;                // VIP状态（可选）
+  repeated string permissions = 5; // 权限列表（可选）
+  string platform = 6;            // 平台类型：android/ios/web等（可选）
+  string device_id = 7;           // 设备ID（可选）
+  int64 expire_hours = 8;         // 过期时间（小时，可选，默认使用配置值）
+}
+
+// Token生成响应
+message GenerateAuthTokenResponse {
+  bool success = 1;               // 生成是否成功
+  string token = 2;               // 生成的JWT Token
+  int64 expire_time = 3;          // Token过期时间戳（毫秒）
+  string error_message = 4;       // 错误信息（失败时）
+  int32 error_code = 5;           // 错误码（失败时）
 }
 
 // Kafka消息
