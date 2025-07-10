@@ -96,7 +96,7 @@ func GenerateToken(claims *TokenClaims) (string, error) {
 	// 4. 组装Token
 	token := message + "." + signature
 
-	// 5. 缓存Token
+	// 5. 缓存Token到内存
 	tokenInfo := &TokenInfo{
 		Token:    token,
 		Claims:   claims,
@@ -105,6 +105,17 @@ func GenerateToken(claims *TokenClaims) (string, error) {
 	}
 
 	globalTokenCache.cache.Store(claims.PlayerID, tokenInfo)
+
+	// 6. 异步缓存到Redis
+	redisCache := GetRedisTokenCache()
+	if redisCache.IsEnabled() {
+		go func() {
+			if err := redisCache.SetToken(token, claims); err != nil {
+				log.Printf("[Token生成] Redis缓存失败: %v", err)
+			}
+		}()
+	}
+
 	log.Printf("[Token生成] 玩家: %s, 过期时间: %s", claims.PlayerID, time.Unix(claims.ExpireTime, 0).Format("2006-01-02 15:04:05"))
 
 	return token, nil
@@ -153,11 +164,34 @@ func VerifyToken(token string) (*TokenClaims, error) {
 	return &claims, nil
 }
 
-// ValidatePlayerToken 验证玩家Token（带缓存优化）
+// ValidatePlayerToken 验证玩家Token（带Redis和内存双重缓存优化）
 func ValidatePlayerToken(playerID, token string) (*TokenClaims, error) {
 	globalTokenCache.totalCount++
 
-	// 1. 先检查缓存
+	// 1. 优先检查Redis缓存
+	redisCache := GetRedisTokenCache()
+	if redisCache.IsEnabled() {
+		if claims, found := redisCache.GetToken(token); found {
+			// Redis缓存命中，验证PlayerID
+			if claims.PlayerID == playerID {
+				globalTokenCache.hitCount++
+				log.Printf("[Token验证] Redis缓存命中 - 玩家: %s", playerID)
+
+				// 同步到内存缓存
+				tokenInfo := &TokenInfo{
+					Token:    token,
+					Claims:   claims,
+					IsValid:  true,
+					CreateAt: time.Now(),
+				}
+				globalTokenCache.cache.Store(playerID, tokenInfo)
+
+				return claims, nil
+			}
+		}
+	}
+
+	// 2. 检查内存缓存
 	if cachedInfo, exists := globalTokenCache.cache.Load(playerID); exists {
 		tokenInfo := cachedInfo.(*TokenInfo)
 
@@ -166,7 +200,17 @@ func ValidatePlayerToken(playerID, token string) (*TokenClaims, error) {
 			// 检查是否过期
 			if tokenInfo.Claims.ExpireTime >= time.Now().Unix() {
 				globalTokenCache.hitCount++
-				log.Printf("[Token验证] 缓存命中 - 玩家: %s", playerID)
+				log.Printf("[Token验证] 内存缓存命中 - 玩家: %s", playerID)
+
+				// 同步到Redis缓存
+				if redisCache.IsEnabled() {
+					go func() {
+						if err := redisCache.SetToken(token, tokenInfo.Claims); err != nil {
+							log.Printf("[Token缓存] Redis同步失败: %v", err)
+						}
+					}()
+				}
+
 				return tokenInfo.Claims, nil
 			} else {
 				// Token过期，从缓存中移除
@@ -178,7 +222,7 @@ func ValidatePlayerToken(playerID, token string) (*TokenClaims, error) {
 
 	globalTokenCache.missCount++
 
-	// 2. 缓存未命中，进行完整验证
+	// 3. 缓存未命中，进行完整验证
 	claims, err := VerifyToken(token)
 	if err != nil {
 		log.Printf("[Token验证] 验证失败 - 玩家: %s, 错误: %v", playerID, err)
@@ -190,7 +234,7 @@ func ValidatePlayerToken(playerID, token string) (*TokenClaims, error) {
 		return nil, fmt.Errorf("Token中的玩家ID不匹配")
 	}
 
-	// 3. 更新缓存
+	// 4. 更新双重缓存
 	tokenInfo := &TokenInfo{
 		Token:    token,
 		Claims:   claims,
@@ -199,17 +243,48 @@ func ValidatePlayerToken(playerID, token string) (*TokenClaims, error) {
 	}
 	globalTokenCache.cache.Store(playerID, tokenInfo)
 
+	// 异步更新Redis缓存
+	if redisCache.IsEnabled() {
+		go func() {
+			if err := redisCache.SetToken(token, claims); err != nil {
+				log.Printf("[Token缓存] Redis存储失败: %v", err)
+			}
+		}()
+	}
+
 	log.Printf("[Token验证] 验证成功 - 玩家: %s, 平台: %s", playerID, claims.Platform)
 	return claims, nil
 }
 
 // InvalidatePlayerToken 使玩家Token失效
 func InvalidatePlayerToken(playerID string) {
+	// 从内存缓存中移除
 	if cachedInfo, exists := globalTokenCache.cache.Load(playerID); exists {
 		tokenInfo := cachedInfo.(*TokenInfo)
 		tokenInfo.IsValid = false
-		globalTokenCache.cache.Store(playerID, tokenInfo)
+		globalTokenCache.cache.Delete(playerID)
+
+		// 从Redis缓存中删除
+		redisCache := GetRedisTokenCache()
+		if redisCache.IsEnabled() {
+			go func() {
+				if err := redisCache.DeleteToken(tokenInfo.Token); err != nil {
+					log.Printf("[Token失效] Redis删除失败: %v", err)
+				}
+			}()
+		}
+
 		log.Printf("[Token失效] 玩家: %s", playerID)
+	}
+
+	// 如果内存缓存中没有，尝试直接从Redis删除所有该玩家的Token
+	redisCache := GetRedisTokenCache()
+	if redisCache.IsEnabled() {
+		go func() {
+			if err := redisCache.DeletePlayerTokens(playerID); err != nil {
+				log.Printf("[Token失效] Redis批量删除失败: %v", err)
+			}
+		}()
 	}
 }
 
@@ -258,13 +333,46 @@ func GetCacheStats() map[string]interface{} {
 		hitRate = float64(globalTokenCache.hitCount) / float64(globalTokenCache.totalCount) * 100
 	}
 
-	return map[string]interface{}{
-		"total_requests": globalTokenCache.totalCount,
-		"cache_hits":     globalTokenCache.hitCount,
-		"cache_misses":   globalTokenCache.missCount,
-		"hit_rate":       fmt.Sprintf("%.2f%%", hitRate),
-		"cached_tokens":  totalCached,
+	stats := map[string]interface{}{
+		"memory_cache": map[string]interface{}{
+			"total_requests": globalTokenCache.totalCount,
+			"cache_hits":     globalTokenCache.hitCount,
+			"cache_misses":   globalTokenCache.missCount,
+			"hit_rate":       fmt.Sprintf("%.2f%%", hitRate),
+			"cached_tokens":  totalCached,
+		},
 	}
+
+	// 添加Redis缓存统计
+	redisCache := GetRedisTokenCache()
+	if redisCache.IsEnabled() {
+		redisStats := redisCache.GetStats()
+		var redisHitRate float64
+		totalRedisRequests := redisStats.RedisHits + redisStats.RedisMisses
+		if totalRedisRequests > 0 {
+			redisHitRate = float64(redisStats.RedisHits) / float64(totalRedisRequests) * 100
+		}
+
+		stats["redis_cache"] = map[string]interface{}{
+			"hits":            redisStats.RedisHits,
+			"misses":          redisStats.RedisMisses,
+			"errors":          redisStats.RedisErrors,
+			"writes":          redisStats.RedisWrites,
+			"deletes":         redisStats.RedisDeletes,
+			"hit_rate":        fmt.Sprintf("%.2f%%", redisHitRate),
+			"last_error":      redisStats.LastError,
+			"last_error_time": redisStats.LastErrorTime,
+		}
+
+		stats["redis_connection"] = redisCache.GetConnectionInfo()
+	} else {
+		stats["redis_cache"] = map[string]interface{}{
+			"enabled": false,
+			"status":  "disabled",
+		}
+	}
+
+	return stats
 }
 
 // CleanupExpiredTokens 清理过期Token
@@ -275,6 +383,7 @@ func CleanupExpiredTokens() {
 	now := time.Now().Unix()
 	cleanedCount := 0
 
+	// 清理内存缓存
 	globalTokenCache.cache.Range(func(key, value interface{}) bool {
 		tokenInfo := value.(*TokenInfo)
 		if tokenInfo.Claims.ExpireTime < now {
@@ -285,7 +394,17 @@ func CleanupExpiredTokens() {
 	})
 
 	if cleanedCount > 0 {
-		log.Printf("[Token清理] 清理过期Token数量: %d", cleanedCount)
+		log.Printf("[Token清理] 内存缓存清理过期Token数量: %d", cleanedCount)
+	}
+
+	// 异步清理Redis缓存
+	redisCache := GetRedisTokenCache()
+	if redisCache.IsEnabled() {
+		go func() {
+			if err := redisCache.CleanExpiredTokens(); err != nil {
+				log.Printf("[Token清理] Redis清理失败: %v", err)
+			}
+		}()
 	}
 }
 
