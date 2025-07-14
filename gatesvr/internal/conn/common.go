@@ -7,7 +7,7 @@ import (
 	"mua/gatesvr/internal/auth"
 	"mua/gatesvr/internal/forwarder"
 	"mua/gatesvr/internal/nacos"
-	commonpb "mua/gatesvr/internal/pb"
+	commonpb "mua/gatesvr/pb"
 	"mua/gatesvr/internal/route"
 	"mua/gatesvr/internal/rpc"
 	"mua/gatesvr/internal/session"
@@ -415,22 +415,17 @@ func sendErrorResponse(ctx *ConnectionContext, errorType string, errorCode int, 
 
 // createServiceResponse 创建服务响应
 func createServiceResponse(resp *commonpb.GameMessageResponse) *commonpb.GameMessage {
+	// 将完整的GameMessageResponse序列化后放在payload中
+	respData, err := proto.Marshal(resp)
+	if err != nil {
+		log.Printf("序列化服务响应失败: %v", err)
+		respData = []byte("序列化失败")
+	}
+
 	return &commonpb.GameMessage{
 		MsgHead: resp.MsgHead,
 		MsgType: commonpb.MessageType_SERVICE_MESSAGE,
-		Payload: func() []byte {
-			if resp.Payload != nil {
-				switch payload := resp.Payload.(type) {
-				case *commonpb.GameMessageResponse_Data:
-					return payload.Data
-				case *commonpb.GameMessageResponse_Reason:
-					return []byte(payload.Reason)
-				default:
-					return []byte("unknown payload type")
-				}
-			}
-			return []byte("success")
-		}(),
+		Payload: respData,
 	}
 }
 

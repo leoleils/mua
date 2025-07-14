@@ -1,0 +1,171 @@
+2025-07-11T10:50:17.155+0800	INFO	naming_http/push_receiver.go:89	udp server start, port: 55697
+2025-07-11T10:50:17.156+0800	INFO	rpc/rpc_client.go:224	[RpcClient.Start] 596cf8e9-9459-476f-bc4b-1356e004f75a try to connect to server on start up, server: {serverIp:mse-3cb9ef30-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848}
+2025-07-11T10:50:17.156+0800	INFO	util/common.go:96	Local IP:192.168.255.254
+2025-07-11T10:50:17.436+0800	INFO	rpc/rpc_client.go:234	596cf8e9-9459-476f-bc4b-1356e004f75a success to connect to server {serverIp:mse-3cb9ef30-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848} on start up, connectionId=1752202217371_106.11.31.209_56754
+2025-07-11T10:50:17.436+0800	INFO	rpc/rpc_client.go:382	596cf8e9-9459-476f-bc4b-1356e004f75a notify connected event to listeners , connectionId=1752202217371_106.11.31.209_56754
+2025-07-11T10:50:17.437+0800	INFO	naming_grpc/naming_grpc_proxy.go:95	register instance namespaceId:<public>,serviceName:<gomokusvr> with instance:<{"instanceId":"","ip":"30.219.184.70","port":50052,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"default","serviceName":"","metadata":{"version":"1.0.0"},"instanceHeartBeatInterval":0,"ipDeleteTimeout":0,"instanceHeartBeatTimeOut":0}>
+2025-07-11T10:50:17.437+0800	INFO	naming_grpc/naming_grpc_proxy.go:95	register instance namespaceId:<public>,serviceName:<gomokusvr> with instance:<{"instanceId":"","ip":"30.219.184.70","port":50052,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"default","serviceName":"","metadata":{"version":"1.0.0"},"instanceHeartBeatInterval":0,"ipDeleteTimeout":0,"instanceHeartBeatTimeOut":0}>
+2025-07-11T10:51:39.098+0800	INFO	naming_grpc/naming_grpc_proxy.go:121	deregister instance namespaceId:<public>,serviceName:<gomokusvr> with instance:<30.219.184.70:50052@default>
+2025-07-11T11:46:21.079+0800	INFO	naming_http/push_receiver.go:89	udp server start, port: 55700
+2025-07-11T11:46:21.080+0800	INFO	rpc/rpc_client.go:224	[RpcClient.Start] d5452a25-7710-47a4-b2b4-c8e6ec952cde try to connect to server on start up, server: {serverIp:mse-3cb9ef30-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848}
+2025-07-11T11:46:21.081+0800	INFO	util/common.go:96	Local IP:192.168.255.254
+2025-07-11T11:46:21.291+0800	INFO	rpc/rpc_client.go:234	d5452a25-7710-47a4-b2b4-c8e6ec952cde success to connect to server {serverIp:mse-3cb9ef30-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848} on start up, connectionId=1752205581147_106.11.31.209_62230
+2025-07-11T11:46:21.292+0800	INFO	naming_grpc/naming_grpc_proxy.go:95	register instance namespaceId:<public>,serviceName:<gomokusvr> with instance:<{"instanceId":"","ip":"30.219.184.70","port":50052,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"default","serviceName":"","metadata":{"version":"1.0.0"},"instanceHeartBeatInterval":0,"ipDeleteTimeout":0,"instanceHeartBeatTimeOut":0}>
+2025-07-11T11:49:18.690+0800	INFO	naming_grpc/naming_grpc_proxy.go:121	deregister instance namespaceId:<public>,serviceName:<gomokusvr> with instance:<30.219.184.70:50052@default>
+2025-07-11T11:53:58.783+0800	INFO	naming_http/push_receiver.go:89	udp server start, port: 55458
+2025-07-11T11:53:58.784+0800	INFO	rpc/rpc_client.go:224	[RpcClient.Start] ce10686c-01b3-4421-8852-e5e85acc0cc4 try to connect to server on start up, server: {serverIp:mse-3cb9ef30-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848}
+2025-07-11T11:53:58.784+0800	INFO	util/common.go:96	Local IP:192.168.255.254
+2025-07-11T11:53:58.988+0800	INFO	rpc/rpc_client.go:234	ce10686c-01b3-4421-8852-e5e85acc0cc4 success to connect to server {serverIp:mse-3cb9ef30-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848} on start up, connectionId=1752206038850_106.11.31.209_63061
+2025-07-11T11:53:58.989+0800	INFO	naming_grpc/naming_grpc_proxy.go:95	register instance namespaceId:<public>,serviceName:<gomokusvr> with instance:<{"instanceId":"","ip":"30.219.184.70","port":50052,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"default","serviceName":"","metadata":{"version":"1.0.0"},"instanceHeartBeatInterval":0,"ipDeleteTimeout":0,"instanceHeartBeatTimeOut":0}>
+2025-07-11T11:57:34.271+0800	INFO	naming_grpc/naming_grpc_proxy.go:121	deregister instance namespaceId:<public>,serviceName:<gomokusvr> with instance:<30.219.184.70:50052@default>
+2025-07-11T13:37:32.959+0800	INFO	naming_http/push_receiver.go:89	udp server start, port: 55354
+2025-07-11T13:37:32.959+0800	INFO	rpc/rpc_client.go:224	[RpcClient.Start] 7febb4e2-d7c6-4b79-b42c-a50315d02ef8 try to connect to server on start up, server: {serverIp:mse-3cb9ef30-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848}
+2025-07-11T13:37:32.960+0800	INFO	util/common.go:96	Local IP:192.168.255.254
+2025-07-11T13:37:33.167+0800	INFO	rpc/rpc_client.go:234	7febb4e2-d7c6-4b79-b42c-a50315d02ef8 success to connect to server {serverIp:mse-3cb9ef30-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848} on start up, connectionId=1752212253059_106.11.31.209_56475
+2025-07-11T13:37:33.167+0800	INFO	rpc/rpc_client.go:382	7febb4e2-d7c6-4b79-b42c-a50315d02ef8 notify connected event to listeners , connectionId=1752212253059_106.11.31.209_56475
+2025-07-11T13:37:33.167+0800	INFO	naming_grpc/naming_grpc_proxy.go:95	register instance namespaceId:<public>,serviceName:<gomokusvr> with instance:<{"instanceId":"","ip":"30.219.184.70","port":50052,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"default","serviceName":"","metadata":{"version":"1.0.0"},"instanceHeartBeatInterval":0,"ipDeleteTimeout":0,"instanceHeartBeatTimeOut":0}>
+2025-07-11T13:46:57.679+0800	INFO	naming_grpc/naming_grpc_proxy.go:121	deregister instance namespaceId:<public>,serviceName:<gomokusvr> with instance:<30.219.184.70:50052@default>
+2025-07-11T13:58:19.896+0800	INFO	naming_http/push_receiver.go:89	udp server start, port: 55697
+2025-07-11T13:58:19.897+0800	INFO	rpc/rpc_client.go:224	[RpcClient.Start] 83cd3e7c-278c-473e-af30-e81a6f06c11f try to connect to server on start up, server: {serverIp:mse-3cb9ef30-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848}
+2025-07-11T13:58:19.897+0800	INFO	util/common.go:96	Local IP:192.168.255.254
+2025-07-11T13:58:20.177+0800	INFO	rpc/rpc_client.go:234	83cd3e7c-278c-473e-af30-e81a6f06c11f success to connect to server {serverIp:mse-3cb9ef30-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848} on start up, connectionId=1752213500086_106.11.31.209_58991
+2025-07-11T13:58:20.178+0800	INFO	naming_grpc/naming_grpc_proxy.go:95	register instance namespaceId:<public>,serviceName:<gomokusvr> with instance:<{"instanceId":"","ip":"30.219.184.70","port":50052,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"default","serviceName":"","metadata":{"version":"1.0.0"},"instanceHeartBeatInterval":0,"ipDeleteTimeout":0,"instanceHeartBeatTimeOut":0}>
+2025-07-11T14:23:11.543+0800	INFO	naming_grpc/naming_grpc_proxy.go:121	deregister instance namespaceId:<public>,serviceName:<gomokusvr> with instance:<30.219.184.70:50052@default>
+2025-07-11T14:25:54.659+0800	INFO	naming_http/push_receiver.go:89	udp server start, port: 55584
+2025-07-11T14:25:54.659+0800	INFO	rpc/rpc_client.go:224	[RpcClient.Start] 8b4cc109-25f8-4f05-ad64-d4fb9f39a953 try to connect to server on start up, server: {serverIp:localhost serverPort:8848 serverGrpcPort:9848}
+2025-07-11T14:25:54.660+0800	INFO	util/common.go:96	Local IP:192.168.255.254
+2025-07-11T14:25:54.663+0800	WARN	rpc/rpc_client.go:226	[RpcClient.Start] 8b4cc109-25f8-4f05-ad64-d4fb9f39a953 fail to connect to server on start up, error message=server check request failed , err:rpc error: code = Unavailable desc = connection error: desc = "transport: Error while dialing: dial tcp [::1]:9848: connect: connection refused", start up retry times left=2
+2025-07-11T14:25:54.663+0800	INFO	rpc/rpc_client.go:224	[RpcClient.Start] 8b4cc109-25f8-4f05-ad64-d4fb9f39a953 try to connect to server on start up, server: {serverIp:localhost serverPort:8848 serverGrpcPort:9848}
+2025-07-11T14:25:54.666+0800	WARN	rpc/rpc_client.go:226	[RpcClient.Start] 8b4cc109-25f8-4f05-ad64-d4fb9f39a953 fail to connect to server on start up, error message=server check request failed , err:rpc error: code = Unavailable desc = connection error: desc = "transport: Error while dialing: dial tcp [::1]:9848: connect: connection refused", start up retry times left=1
+2025-07-11T14:25:54.666+0800	INFO	rpc/rpc_client.go:224	[RpcClient.Start] 8b4cc109-25f8-4f05-ad64-d4fb9f39a953 try to connect to server on start up, server: {serverIp:localhost serverPort:8848 serverGrpcPort:9848}
+2025-07-11T14:25:54.667+0800	WARN	rpc/rpc_client.go:226	[RpcClient.Start] 8b4cc109-25f8-4f05-ad64-d4fb9f39a953 fail to connect to server on start up, error message=server check request failed , err:rpc error: code = Unavailable desc = connection error: desc = "transport: Error while dialing: dial tcp [::1]:9848: connect: connection refused", start up retry times left=0
+2025-07-11T14:25:54.667+0800	INFO	rpc/rpc_client.go:322	8b4cc109-25f8-4f05-ad64-d4fb9f39a953 try to re connect to a new server, server is not appointed, will choose a random server.
+2025-07-11T14:25:54.667+0800	INFO	naming_grpc/naming_grpc_proxy.go:95	register instance namespaceId:<public>,serviceName:<gomokusvr> with instance:<{"instanceId":"","ip":"30.219.184.70","port":50052,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"default","serviceName":"","metadata":{"version":"1.0.0"},"instanceHeartBeatInterval":0,"ipDeleteTimeout":0,"instanceHeartBeatTimeOut":0}>
+2025-07-11T14:25:54.667+0800	ERROR	rpc/rpc_client.go:525	Send request fail, request=InstanceRequest, body={"requestId":"","namespace":"public","serviceName":"gomokusvr","groupName":"DEFAULT_GROUP","module":"naming","type":"registerInstance","instance":{"instanceId":"","ip":"30.219.184.70","port":50052,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"default","serviceName":"","metadata":{"version":"1.0.0"},"instanceHeartBeatInterval":0,"ipDeleteTimeout":0,"instanceHeartBeatTimeOut":0}}, retryTimes=0, error=client not connected, current status:STARTING
+github.com/nacos-group/nacos-sdk-go/v2/common/remote/rpc.(*RpcClient).Request
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.2.5/common/remote/rpc/rpc_client.go:487
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client/naming_grpc.(*NamingGrpcProxy).requestToServer
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.2.5/clients/naming_client/naming_grpc/naming_grpc_proxy.go:88
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client/naming_grpc.(*NamingGrpcProxy).RegisterInstance
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.2.5/clients/naming_client/naming_grpc/naming_grpc_proxy.go:99
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client.(*NamingProxyDelegate).RegisterInstance
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.2.5/clients/naming_client/naming_proxy_delegate.go:86
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client.(*NamingClient).RegisterInstance
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.2.5/clients/naming_client/naming_client.go:115
+mua/minigame/gomokusvr/internal/nacos.RegisterService
+	/Users/chenleiyu/go/mua/minigame/gomokusvr/internal/nacos/nacos.go:74
+main.main
+	/Users/chenleiyu/go/mua/minigame/gomokusvr/cmd/main.go:37
+runtime.main
+	/opt/homebrew/Cellar/go/1.24.3/libexec/src/runtime/proc.go:283
+runtime.goexit
+	/opt/homebrew/Cellar/go/1.24.3/libexec/src/runtime/asm_arm64.s:1223
+2025-07-11T14:25:54.669+0800	WARN	rpc/rpc_client.go:353	8b4cc109-25f8-4f05-ad64-d4fb9f39a953 fail to connect server, after trying 1 times, last try server is {serverIp:localhost serverPort:8848 serverGrpcPort:9848}, error=server check request failed , err:rpc error: code = Unavailable desc = connection error: desc = "transport: Error while dialing: dial tcp [::1]:9848: connect: connection refused"
+2025-07-11T14:25:54.768+0800	ERROR	rpc/rpc_client.go:525	Send request fail, request=InstanceRequest, body={"requestId":"","namespace":"public","serviceName":"gomokusvr","groupName":"DEFAULT_GROUP","module":"naming","type":"registerInstance","instance":{"instanceId":"","ip":"30.219.184.70","port":50052,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"default","serviceName":"","metadata":{"version":"1.0.0"},"instanceHeartBeatInterval":0,"ipDeleteTimeout":0,"instanceHeartBeatTimeOut":0}}, retryTimes=1, error=client not connected, current status:STARTING
+github.com/nacos-group/nacos-sdk-go/v2/common/remote/rpc.(*RpcClient).Request
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.2.5/common/remote/rpc/rpc_client.go:487
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client/naming_grpc.(*NamingGrpcProxy).requestToServer
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.2.5/clients/naming_client/naming_grpc/naming_grpc_proxy.go:88
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client/naming_grpc.(*NamingGrpcProxy).RegisterInstance
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.2.5/clients/naming_client/naming_grpc/naming_grpc_proxy.go:99
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client.(*NamingProxyDelegate).RegisterInstance
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.2.5/clients/naming_client/naming_proxy_delegate.go:86
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client.(*NamingClient).RegisterInstance
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.2.5/clients/naming_client/naming_client.go:115
+mua/minigame/gomokusvr/internal/nacos.RegisterService
+	/Users/chenleiyu/go/mua/minigame/gomokusvr/internal/nacos/nacos.go:74
+main.main
+	/Users/chenleiyu/go/mua/minigame/gomokusvr/cmd/main.go:37
+runtime.main
+	/opt/homebrew/Cellar/go/1.24.3/libexec/src/runtime/proc.go:283
+runtime.goexit
+	/opt/homebrew/Cellar/go/1.24.3/libexec/src/runtime/asm_arm64.s:1223
+2025-07-11T14:25:54.770+0800	WARN	rpc/rpc_client.go:353	8b4cc109-25f8-4f05-ad64-d4fb9f39a953 fail to connect server, after trying 2 times, last try server is {serverIp:localhost serverPort:8848 serverGrpcPort:9848}, error=server check request failed , err:rpc error: code = Unavailable desc = connection error: desc = "transport: Error while dialing: dial tcp [::1]:9848: connect: connection refused"
+2025-07-11T14:25:54.870+0800	ERROR	rpc/rpc_client.go:525	Send request fail, request=InstanceRequest, body={"requestId":"","namespace":"public","serviceName":"gomokusvr","groupName":"DEFAULT_GROUP","module":"naming","type":"registerInstance","instance":{"instanceId":"","ip":"30.219.184.70","port":50052,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"default","serviceName":"","metadata":{"version":"1.0.0"},"instanceHeartBeatInterval":0,"ipDeleteTimeout":0,"instanceHeartBeatTimeOut":0}}, retryTimes=2, error=client not connected, current status:STARTING
+github.com/nacos-group/nacos-sdk-go/v2/common/remote/rpc.(*RpcClient).Request
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.2.5/common/remote/rpc/rpc_client.go:487
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client/naming_grpc.(*NamingGrpcProxy).requestToServer
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.2.5/clients/naming_client/naming_grpc/naming_grpc_proxy.go:88
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client/naming_grpc.(*NamingGrpcProxy).RegisterInstance
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.2.5/clients/naming_client/naming_grpc/naming_grpc_proxy.go:99
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client.(*NamingProxyDelegate).RegisterInstance
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.2.5/clients/naming_client/naming_proxy_delegate.go:86
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client.(*NamingClient).RegisterInstance
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.2.5/clients/naming_client/naming_client.go:115
+mua/minigame/gomokusvr/internal/nacos.RegisterService
+	/Users/chenleiyu/go/mua/minigame/gomokusvr/internal/nacos/nacos.go:74
+main.main
+	/Users/chenleiyu/go/mua/minigame/gomokusvr/cmd/main.go:37
+runtime.main
+	/opt/homebrew/Cellar/go/1.24.3/libexec/src/runtime/proc.go:283
+runtime.goexit
+	/opt/homebrew/Cellar/go/1.24.3/libexec/src/runtime/asm_arm64.s:1223
+2025-07-11T14:26:39.305+0800	INFO	naming_http/push_receiver.go:89	udp server start, port: 55187
+2025-07-11T14:26:39.305+0800	INFO	rpc/rpc_client.go:224	[RpcClient.Start] 282c0e6e-33d3-40ae-af62-6160eb354af1 try to connect to server on start up, server: {serverIp:localhost serverPort:8848 serverGrpcPort:9848}
+2025-07-11T14:26:39.305+0800	INFO	util/common.go:96	Local IP:192.168.255.254
+2025-07-11T14:26:39.307+0800	WARN	rpc/rpc_client.go:226	[RpcClient.Start] 282c0e6e-33d3-40ae-af62-6160eb354af1 fail to connect to server on start up, error message=server check request failed , err:rpc error: code = Unavailable desc = connection error: desc = "transport: Error while dialing: dial tcp [::1]:9848: connect: connection refused", start up retry times left=2
+2025-07-11T14:26:39.307+0800	INFO	rpc/rpc_client.go:224	[RpcClient.Start] 282c0e6e-33d3-40ae-af62-6160eb354af1 try to connect to server on start up, server: {serverIp:localhost serverPort:8848 serverGrpcPort:9848}
+2025-07-11T14:26:39.308+0800	WARN	rpc/rpc_client.go:226	[RpcClient.Start] 282c0e6e-33d3-40ae-af62-6160eb354af1 fail to connect to server on start up, error message=server check request failed , err:rpc error: code = Unavailable desc = connection error: desc = "transport: Error while dialing: dial tcp [::1]:9848: connect: connection refused", start up retry times left=1
+2025-07-11T14:26:39.308+0800	INFO	rpc/rpc_client.go:224	[RpcClient.Start] 282c0e6e-33d3-40ae-af62-6160eb354af1 try to connect to server on start up, server: {serverIp:localhost serverPort:8848 serverGrpcPort:9848}
+2025-07-11T14:26:39.309+0800	WARN	rpc/rpc_client.go:226	[RpcClient.Start] 282c0e6e-33d3-40ae-af62-6160eb354af1 fail to connect to server on start up, error message=server check request failed , err:rpc error: code = Unavailable desc = connection error: desc = "transport: Error while dialing: dial tcp [::1]:9848: connect: connection refused", start up retry times left=0
+2025-07-11T14:26:39.309+0800	INFO	rpc/rpc_client.go:322	282c0e6e-33d3-40ae-af62-6160eb354af1 try to re connect to a new server, server is not appointed, will choose a random server.
+2025-07-11T14:26:39.309+0800	INFO	naming_grpc/naming_grpc_proxy.go:95	register instance namespaceId:<public>,serviceName:<gomokusvr> with instance:<{"instanceId":"","ip":"30.219.184.70","port":50052,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"default","serviceName":"","metadata":{"version":"1.0.0"},"instanceHeartBeatInterval":0,"ipDeleteTimeout":0,"instanceHeartBeatTimeOut":0}>
+2025-07-11T14:26:39.309+0800	ERROR	rpc/rpc_client.go:525	Send request fail, request=InstanceRequest, body={"requestId":"","namespace":"public","serviceName":"gomokusvr","groupName":"DEFAULT_GROUP","module":"naming","type":"registerInstance","instance":{"instanceId":"","ip":"30.219.184.70","port":50052,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"default","serviceName":"","metadata":{"version":"1.0.0"},"instanceHeartBeatInterval":0,"ipDeleteTimeout":0,"instanceHeartBeatTimeOut":0}}, retryTimes=0, error=client not connected, current status:STARTING
+github.com/nacos-group/nacos-sdk-go/v2/common/remote/rpc.(*RpcClient).Request
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.2.5/common/remote/rpc/rpc_client.go:487
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client/naming_grpc.(*NamingGrpcProxy).requestToServer
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.2.5/clients/naming_client/naming_grpc/naming_grpc_proxy.go:88
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client/naming_grpc.(*NamingGrpcProxy).RegisterInstance
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.2.5/clients/naming_client/naming_grpc/naming_grpc_proxy.go:99
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client.(*NamingProxyDelegate).RegisterInstance
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.2.5/clients/naming_client/naming_proxy_delegate.go:86
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client.(*NamingClient).RegisterInstance
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.2.5/clients/naming_client/naming_client.go:115
+mua/minigame/gomokusvr/internal/nacos.RegisterService
+	/Users/chenleiyu/go/mua/minigame/gomokusvr/internal/nacos/nacos.go:74
+main.main
+	/Users/chenleiyu/go/mua/minigame/gomokusvr/cmd/main.go:37
+runtime.main
+	/opt/homebrew/Cellar/go/1.24.3/libexec/src/runtime/proc.go:283
+runtime.goexit
+	/opt/homebrew/Cellar/go/1.24.3/libexec/src/runtime/asm_arm64.s:1223
+2025-07-11T14:26:39.310+0800	WARN	rpc/rpc_client.go:353	282c0e6e-33d3-40ae-af62-6160eb354af1 fail to connect server, after trying 1 times, last try server is {serverIp:localhost serverPort:8848 serverGrpcPort:9848}, error=server check request failed , err:rpc error: code = Unavailable desc = connection error: desc = "transport: Error while dialing: dial tcp [::1]:9848: connect: connection refused"
+2025-07-11T14:26:39.410+0800	ERROR	rpc/rpc_client.go:525	Send request fail, request=InstanceRequest, body={"requestId":"","namespace":"public","serviceName":"gomokusvr","groupName":"DEFAULT_GROUP","module":"naming","type":"registerInstance","instance":{"instanceId":"","ip":"30.219.184.70","port":50052,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"default","serviceName":"","metadata":{"version":"1.0.0"},"instanceHeartBeatInterval":0,"ipDeleteTimeout":0,"instanceHeartBeatTimeOut":0}}, retryTimes=1, error=client not connected, current status:STARTING
+github.com/nacos-group/nacos-sdk-go/v2/common/remote/rpc.(*RpcClient).Request
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.2.5/common/remote/rpc/rpc_client.go:487
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client/naming_grpc.(*NamingGrpcProxy).requestToServer
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.2.5/clients/naming_client/naming_grpc/naming_grpc_proxy.go:88
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client/naming_grpc.(*NamingGrpcProxy).RegisterInstance
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.2.5/clients/naming_client/naming_grpc/naming_grpc_proxy.go:99
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client.(*NamingProxyDelegate).RegisterInstance
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.2.5/clients/naming_client/naming_proxy_delegate.go:86
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client.(*NamingClient).RegisterInstance
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.2.5/clients/naming_client/naming_client.go:115
+mua/minigame/gomokusvr/internal/nacos.RegisterService
+	/Users/chenleiyu/go/mua/minigame/gomokusvr/internal/nacos/nacos.go:74
+main.main
+	/Users/chenleiyu/go/mua/minigame/gomokusvr/cmd/main.go:37
+runtime.main
+	/opt/homebrew/Cellar/go/1.24.3/libexec/src/runtime/proc.go:283
+runtime.goexit
+	/opt/homebrew/Cellar/go/1.24.3/libexec/src/runtime/asm_arm64.s:1223
+2025-07-11T14:26:39.411+0800	WARN	rpc/rpc_client.go:353	282c0e6e-33d3-40ae-af62-6160eb354af1 fail to connect server, after trying 2 times, last try server is {serverIp:localhost serverPort:8848 serverGrpcPort:9848}, error=server check request failed , err:rpc error: code = Unavailable desc = connection error: desc = "transport: Error while dialing: dial tcp [::1]:9848: connect: connection refused"
+2025-07-11T14:26:39.511+0800	ERROR	rpc/rpc_client.go:525	Send request fail, request=InstanceRequest, body={"requestId":"","namespace":"public","serviceName":"gomokusvr","groupName":"DEFAULT_GROUP","module":"naming","type":"registerInstance","instance":{"instanceId":"","ip":"30.219.184.70","port":50052,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"default","serviceName":"","metadata":{"version":"1.0.0"},"instanceHeartBeatInterval":0,"ipDeleteTimeout":0,"instanceHeartBeatTimeOut":0}}, retryTimes=2, error=client not connected, current status:STARTING
+github.com/nacos-group/nacos-sdk-go/v2/common/remote/rpc.(*RpcClient).Request
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.2.5/common/remote/rpc/rpc_client.go:487
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client/naming_grpc.(*NamingGrpcProxy).requestToServer
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.2.5/clients/naming_client/naming_grpc/naming_grpc_proxy.go:88
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client/naming_grpc.(*NamingGrpcProxy).RegisterInstance
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.2.5/clients/naming_client/naming_grpc/naming_grpc_proxy.go:99
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client.(*NamingProxyDelegate).RegisterInstance
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.2.5/clients/naming_client/naming_proxy_delegate.go:86
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client.(*NamingClient).RegisterInstance
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.2.5/clients/naming_client/naming_client.go:115
+mua/minigame/gomokusvr/internal/nacos.RegisterService
+	/Users/chenleiyu/go/mua/minigame/gomokusvr/internal/nacos/nacos.go:74
+main.main
+	/Users/chenleiyu/go/mua/minigame/gomokusvr/cmd/main.go:37
+runtime.main
+	/opt/homebrew/Cellar/go/1.24.3/libexec/src/runtime/proc.go:283
+runtime.goexit
+	/opt/homebrew/Cellar/go/1.24.3/libexec/src/runtime/asm_arm64.s:1223

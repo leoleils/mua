@@ -9,7 +9,7 @@ import (
 	"time"
 
 	"mua/gatesvr/config"
-	"mua/gatesvr/internal/pb"
+	"mua/gatesvr/pb"
 
 	"github.com/golang/protobuf/proto"
 	"github.com/segmentio/kafka-go"
@@ -32,13 +32,16 @@ func Init() {
 	cfg := config.GetConfig().Kafka
 	kafkaBrokers = cfg.Brokers
 	if cfg.CaCert == "" {
-		log.Fatalf("Kafka配置缺少caCert路径，请检查config.yaml")
+		log.Println("Kafka CA证书路径为空，跳过TLS配置（本地开发模式）")
+		tlsConfig = nil
+		return
 	}
 	var err error
 	tlsConfig, err = newTLSConfig(cfg.CaCert)
 	if err != nil {
 		log.Fatalf("加载Kafka CA证书失败[%s]: %v", cfg.CaCert, err)
 	}
+	log.Println("Kafka TLS配置加载成功")
 }
 
 // 加载CA证书
@@ -82,20 +85,36 @@ func BroadcastPlayerStatusChanged(event *pb.PlayerStatusChanged) {
 }
 
 func writeKafka(topic, msg string) {
+	// 本地开发模式下，如果没有配置Kafka，直接返回
+	if len(kafkaBrokers) == 0 || kafkaBrokers[0] == "localhost:9092" {
+		log.Printf("本地开发模式，跳过Kafka消息发送: %s", topic)
+		return
+	}
+
 	cfg := config.GetConfig().Kafka
 	dialer := &kafka.Dialer{
 		Timeout: 10 * time.Second,
 		TLS:     tlsConfig,
-		SASLMechanism: plain.Mechanism{
+	}
+
+	// 只有在有用户名密码时才设置SASL
+	if cfg.Username != "" && cfg.Password != "" {
+		dialer.SASLMechanism = plain.Mechanism{
 			Username: cfg.Username,
 			Password: cfg.Password,
-		},
+		}
 	}
+
 	w := &kafka.Writer{
-		Addr:      kafka.TCP(kafkaBrokers...),
-		Topic:     topic,
-		Transport: &kafka.Transport{TLS: tlsConfig, SASL: dialer.SASLMechanism},
+		Addr:  kafka.TCP(kafkaBrokers...),
+		Topic: topic,
 	}
+
+	// 只有在有TLS配置和SASL时才设置Transport
+	if tlsConfig != nil || dialer.SASLMechanism != nil {
+		w.Transport = &kafka.Transport{TLS: tlsConfig, SASL: dialer.SASLMechanism}
+	}
+
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 	err := w.WriteMessages(ctx, kafka.Message{Value: []byte(msg)})

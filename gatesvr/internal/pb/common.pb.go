@@ -482,7 +482,7 @@ const file_common_proto_rawDesc = "" +
 	"\x04SYNC\x10\x00\x12\t\n" +
 	"\x05ASYNC\x10\x012P\n" +
 	"\rCommonService\x12?\n" +
-	"\vSendMessage\x12\x13.common.GameMessage\x1a\x1b.common.GameMessageResponseB\x19Z\x17mua/gatesvr/internal/pbb\x06proto3"
+	"\vSendMessage\x12\x13.common.GameMessage\x1a\x1b.common.GameMessageResponseB\x19Z\x17mua/gatesvr/pbb\x06proto3"
 
 var (
 	file_common_proto_rawDescOnce sync.Once

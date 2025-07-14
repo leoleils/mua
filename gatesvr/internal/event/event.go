@@ -3,7 +3,7 @@ package event
 import (
 	"log"
 	"mua/gatesvr/internal/kafka"
-	"mua/gatesvr/internal/pb"
+	"mua/gatesvr/pb"
 	"time"
 )
 

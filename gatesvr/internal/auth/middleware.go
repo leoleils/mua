@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"log"
 	"mua/gatesvr/config"
-	"mua/gatesvr/internal/pb"
+	"mua/gatesvr/pb"
 	"strings"
 	"time"
 )

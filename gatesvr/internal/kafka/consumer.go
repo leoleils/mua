@@ -10,7 +10,7 @@ import (
 	"mua/gatesvr/internal/nacos"
 	"time"
 
-	"mua/gatesvr/internal/pb"
+	"mua/gatesvr/pb"
 
 	"github.com/golang/protobuf/proto"
 	"github.com/segmentio/kafka-go"

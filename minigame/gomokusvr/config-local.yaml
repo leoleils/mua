@@ -1,0 +1,98 @@
+# 五子棋服务本地开发配置文件
+# 服务基本信息
+service:
+  name: "gomokusvr"
+  port: 50052
+  version: "1.0.0"
+
+# Nacos服务注册与发现 - 本地开发禁用
+nacos:
+  addr: localhost
+  port: 8848
+  username: ""
+  password: ""
+  service: gomokusvr
+  group: DEFAULT_GROUP
+  cluster: default
+  weight: 1.0
+  enable_register: false  # 本地开发禁用注册
+  enable_heartbeat: false # 本地开发禁用心跳
+  heartbeat_interval_ms: 5000
+
+# Kafka消息队列配置 - 本地开发禁用
+kafka:
+  brokers:
+    - localhost:9092
+  caCert: ""
+  username: ""
+  password: ""
+  
+  # 生产者配置
+  producer:
+    enabled: false  # 本地开发禁用消息生产
+    topics:
+      game_events: "game_events"
+      room_events: "room_events"
+    
+  # 消费者配置
+  consumer:
+    enabled: false  # 本地开发禁用消息消费
+    group_id: "gomokusvr-group-0"
+    topics:
+      player_status: "player_status_changed"
+    auto_offset_reset: "latest"
+    
+  # 连接配置
+  connection:
+    timeout_ms: 10000
+    retry_times: 3
+    retry_interval_ms: 1000
+
+# 消息推送配置
+notification:
+  enabled: false  # 本地开发禁用消息推送
+  queue_size: 1000
+  workers: 3
+  timeout_sec: 3
+  retry_times: 0
+  
+  # gatesvr发现配置
+  gatesvr:
+    service_name: "gatesvr"
+    group: "DEFAULT_GROUP"
+    load_balance: "round_robin"
+
+# 游戏配置
+game:
+  # 房间配置
+  room:
+    max_rooms: 1000
+    max_players_per_room: 2
+    room_timeout_min: 30
+    auto_cleanup_interval_min: 5
+  
+  # 棋盘配置
+  board:
+    size: 15
+    win_condition: 5
+    enable_forbidden_moves: false
+  
+  # 游戏规则
+  rules:
+    move_timeout_sec: 30
+    game_timeout_min: 60
+    enable_undo: false
+    enable_surrender: true
+
+# 日志配置
+log:
+  level: "info"
+  format: "text"
+  output: "stdout"
+
+# 性能配置
+performance:
+  max_connections: 1000
+  read_timeout_sec: 30
+  write_timeout_sec: 10
+  max_request_size_mb: 4

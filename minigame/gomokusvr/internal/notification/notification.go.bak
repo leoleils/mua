@@ -1,0 +1,339 @@
+package notification
+
+import (
+	"context"
+	"fmt"
+	"log"
+	"sync"
+	"time"
+
+	"mua/minigame/gomokusvr/internal/gateclient"
+	"mua/minigame/gomokusvr/internal/nacos"
+	"mua/minigame/gomokusvr/internal/pb"
+
+	"google.golang.org/protobuf/proto"
+)
+
+// PushNotification 推送通知结构
+type PushNotification struct {
+	PlayerID string      // 目标玩家ID
+	Message  interface{} // 消息内容
+	Method   string      // 方法名
+	Priority int         // 优先级 (1=高, 2=中, 3=低)
+}
+
+// NotificationManager 通知管理器
+type NotificationManager struct {
+	connections map[string]gateclient.GateSvrClient // gatesvr客户端池
+	mu          sync.RWMutex
+
+	// 推送队列
+	pushQueue chan *PushNotification
+	workers   int // 工作协程数
+}
+
+var (
+	globalNotificationManager *NotificationManager
+	once                      sync.Once
+)
+
+// GetNotificationManager 获取全局通知管理器
+func GetNotificationManager() *NotificationManager {
+	once.Do(func() {
+		globalNotificationManager = NewNotificationManager()
+	})
+	return globalNotificationManager
+}
+
+// NewNotificationManager 创建通知管理器
+func NewNotificationManager() *NotificationManager {
+	nm := &NotificationManager{
+		connections: make(map[string]gateclient.GateSvrClient),
+		pushQueue:   make(chan *PushNotification, 1000), // 缓冲1000个通知
+		workers:     3,                                  // 3个工作协程
+	}
+
+	// 启动工作协程
+	for i := 0; i < nm.workers; i++ {
+		go nm.worker()
+	}
+
+	log.Printf("[通知管理器] 启动成功，工作协程数: %d", nm.workers)
+	return nm
+}
+
+// worker 工作协程处理推送队列
+func (nm *NotificationManager) worker() {
+	for notification := range nm.pushQueue {
+		if err := nm.processPushNotification(notification); err != nil {
+			log.Printf("[通知推送失败] 玩家: %s, 方法: %s, 错误: %v",
+				notification.PlayerID, notification.Method, err)
+		}
+	}
+}
+
+// processPushNotification 处理推送通知
+func (nm *NotificationManager) processPushNotification(notification *PushNotification) error {
+	// 构造游戏消息
+	gameMsg, err := nm.buildGameMessage(notification)
+	if err != nil {
+		return fmt.Errorf("构造消息失败: %v", err)
+	}
+
+	// 获取gatesvr客户端
+	client, err := nm.getGateSvrClient()
+	if err != nil {
+		return fmt.Errorf("获取gatesvr客户端失败: %v", err)
+	}
+
+	// 构造推送请求
+	pushReq := &gateclient.PushRequest{
+		PlayerId: notification.PlayerID,
+		Ip:       "", // 通常为空，让gatesvr自动检测
+		CbType:   gateclient.CallbackType_PUSH,
+		Message:  gameMsg,
+	}
+
+	// 发送推送请求
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	defer cancel()
+
+	resp, err := client.PushToClient(ctx, pushReq)
+	if err != nil {
+		return fmt.Errorf("调用PushToClient失败: %v", err)
+	}
+
+	if !resp.Success {
+		return fmt.Errorf("推送失败: %s", resp.Message)
+	}
+
+	log.Printf("[通知推送成功] 玩家: %s, 方法: %s", notification.PlayerID, notification.Method)
+	return nil
+}
+
+// buildGameMessage 构造游戏消息
+func (nm *NotificationManager) buildGameMessage(notification *PushNotification) (*gateclient.GameMessage, error) {
+	// 序列化消息内容
+	var payload []byte
+	var err error
+
+	if protoMsg, ok := notification.Message.(proto.Message); ok {
+		payload, err = proto.Marshal(protoMsg)
+		if err != nil {
+			return nil, fmt.Errorf("序列化protobuf消息失败: %v", err)
+		}
+	} else {
+		// 对于非protobuf消息，序列化为JSON
+		jsonBytes, err := nm.messageToBytes(notification.Message)
+		if err != nil {
+			return nil, fmt.Errorf("序列化JSON消息失败: %v", err)
+		}
+		payload = jsonBytes
+	}
+
+	// 构造消息头
+	msgHead := &gateclient.HeadMessage{
+		PlayerId:    notification.PlayerID,
+		ServiceName: "gomokusvr",
+		Method:      notification.Method,
+		Timestamp:   time.Now().UnixMilli(),
+	}
+
+	// 构造游戏消息
+	gameMsg := &gateclient.GameMessage{
+		MsgHead:   msgHead,
+		MsgType:   gateclient.MessageType_CLIENT_MESSAGE, // 客户端消息类型
+		Payload:   payload,
+		Timestamp: time.Now().UnixMilli(),
+	}
+
+	return gameMsg, nil
+}
+
+// messageToBytes 将消息转换为字节数组
+func (nm *NotificationManager) messageToBytes(message interface{}) ([]byte, error) {
+	// 简单的JSON序列化
+	// 在实际实现中，这里可以根据需要使用不同的序列化方式
+	if str, ok := message.(string); ok {
+		return []byte(str), nil
+	}
+
+	// 对于复杂结构，我们直接转换为字符串
+	return []byte(fmt.Sprintf("%+v", message)), nil
+}
+
+// getGateSvrClient 获取gatesvr客户端
+func (nm *NotificationManager) getGateSvrClient() (gateclient.GateSvrClient, error) {
+	// 获取gatesvr地址
+	addr, err := nm.getGateSvrAddress()
+	if err != nil {
+		return nil, fmt.Errorf("获取gatesvr地址失败: %v", err)
+	}
+
+	nm.mu.RLock()
+	client, exists := nm.connections[addr]
+	nm.mu.RUnlock()
+
+	if exists {
+		return client, nil
+	}
+
+	// 创建新客户端
+	nm.mu.Lock()
+	defer nm.mu.Unlock()
+
+	// 双重检查
+	if client, exists := nm.connections[addr]; exists {
+		return client, nil
+	}
+
+	// 创建gRPC连接
+	conn, err := gateclient.CreateConnection(addr)
+	if err != nil {
+		return nil, fmt.Errorf("创建连接失败: %v", err)
+	}
+
+	client = gateclient.NewGateSvrClient(conn)
+	nm.connections[addr] = client
+
+	log.Printf("[通知管理器] 创建gatesvr客户端: %s", addr)
+	return client, nil
+}
+
+// getGateSvrAddress 获取gatesvr地址
+func (nm *NotificationManager) getGateSvrAddress() (string, error) {
+	// 从Nacos获取gatesvr实例
+	instances, err := nacos.GetServiceInstances("gatesvr")
+	if err != nil {
+		return "", fmt.Errorf("获取gatesvr实例失败: %v", err)
+	}
+
+	if len(instances) == 0 {
+		return "", fmt.Errorf("没有可用的gatesvr实例")
+	}
+
+	// 简单选择第一个实例
+	instance := instances[0]
+	addr := fmt.Sprintf("%s:%d", instance.Ip, instance.Port)
+
+	return addr, nil
+}
+
+// PushToPlayer 异步推送消息给玩家
+func (nm *NotificationManager) PushToPlayer(playerID string, message interface{}, method string) {
+	notification := &PushNotification{
+		PlayerID: playerID,
+		Message:  message,
+		Method:   method,
+		Priority: 2, // 默认中等优先级
+	}
+
+	select {
+	case nm.pushQueue <- notification:
+		// 成功加入队列
+	default:
+		log.Printf("[通知队列满] 丢弃通知 - 玩家: %s, 方法: %s", playerID, method)
+	}
+}
+
+// PushToPlayers 批量推送消息给多个玩家
+func (nm *NotificationManager) PushToPlayers(playerIDs []string, message interface{}, method string) {
+	for _, playerID := range playerIDs {
+		nm.PushToPlayer(playerID, message, method)
+	}
+}
+
+// PushGameNotification 推送游戏通知（使用protobuf消息）
+func (nm *NotificationManager) PushGameNotification(playerID string, protoMsg proto.Message, method string) {
+	nm.PushToPlayer(playerID, protoMsg, method)
+}
+
+// PushGameNotificationToPlayers 批量推送游戏通知
+func (nm *NotificationManager) PushGameNotificationToPlayers(playerIDs []string, protoMsg proto.Message, method string) {
+	for _, playerID := range playerIDs {
+		nm.PushGameNotification(playerID, protoMsg, method)
+	}
+}
+
+// Close 关闭通知管理器
+func (nm *NotificationManager) Close() {
+	close(nm.pushQueue)
+	log.Println("[通知管理器] 已关闭")
+}
+
+// 便捷函数
+
+// PushToPlayer 全局推送函数
+func PushToPlayer(playerID string, message interface{}, method string) {
+	GetNotificationManager().PushToPlayer(playerID, message, method)
+}
+
+// PushToPlayers 全局批量推送函数
+func PushToPlayers(playerIDs []string, message interface{}, method string) {
+	GetNotificationManager().PushToPlayers(playerIDs, message, method)
+}
+
+// PushGameNotification 全局游戏通知推送函数
+func PushGameNotification(playerID string, protoMsg proto.Message, method string) {
+	GetNotificationManager().PushGameNotification(playerID, protoMsg, method)
+}
+
+// PushGameNotificationToPlayers 全局批量游戏通知推送函数
+func PushGameNotificationToPlayers(playerIDs []string, protoMsg proto.Message, method string) {
+	GetNotificationManager().PushGameNotificationToPlayers(playerIDs, protoMsg, method)
+}
+
+// NotifyPiecePlaced 通知棋子已放置（专门用于五子棋下棋通知）
+func NotifyPiecePlaced(playerIDs []string, placedResp *pb.PlacePieceResponse) {
+	// 直接推送protobuf消息
+	PushGameNotificationToPlayers(playerIDs, placedResp, "PiecePlacedNotification")
+}
+
+// NotifyGameStateChanged 通知游戏状态变化
+func NotifyGameStateChanged(playerIDs []string, gameState *pb.GameState) {
+	// 构造游戏状态通知消息
+	notify := &pb.GameStateNotify{
+		GameState:    gameState,
+		EventType:    "GAME_STATE_CHANGED",
+		EventMessage: "游戏状态已更新",
+	}
+
+	PushGameNotificationToPlayers(playerIDs, notify, "GameStateChangedNotification")
+}
+
+// NotifyPlayerJoined 通知玩家加入房间
+func NotifyPlayerJoined(playerIDs []string, roomID string, joinedPlayerID string) {
+	// 构造玩家事件通知
+	notify := &pb.PlayerEventNotify{
+		RoomId:    roomID,
+		PlayerId:  joinedPlayerID,
+		EventType: "JOIN",
+	}
+
+	PushGameNotificationToPlayers(playerIDs, notify, "PlayerJoinedNotification")
+}
+
+// NotifyPlayerLeft 通知玩家离开房间
+func NotifyPlayerLeft(playerIDs []string, roomID string, leftPlayerID string) {
+	// 构造玩家事件通知
+	notify := &pb.PlayerEventNotify{
+		RoomId:    roomID,
+		PlayerId:  leftPlayerID,
+		EventType: "LEAVE",
+	}
+
+	PushGameNotificationToPlayers(playerIDs, notify, "PlayerLeftNotification")
+}
+
+// NotifyPlayerReady 通知玩家准备状态变化
+func NotifyPlayerReady(playerIDs []string, roomID string, readyPlayerID string, playerInfo *pb.PlayerInfo) {
+	// 构造玩家事件通知
+	notify := &pb.PlayerEventNotify{
+		RoomId:     roomID,
+		PlayerId:   readyPlayerID,
+		EventType:  "READY",
+		PlayerInfo: playerInfo,
+	}
+
+	PushGameNotificationToPlayers(playerIDs, notify, "PlayerReadyNotification")
+}

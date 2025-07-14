@@ -266,8 +266,8 @@ func handleHealth(w http.ResponseWriter, r *http.Request) {
 
 // InitMonitor 初始化监控服务
 func InitMonitor() {
-	// 从配置文件读取监控端口，默认8081
-	monitorPort := 8081
+	// 从配置文件读取监控端口，默认8082
+	monitorPort := 8082
 
 	// 这里可以扩展从配置文件读取端口
 	// cfg := config.GetConfig()

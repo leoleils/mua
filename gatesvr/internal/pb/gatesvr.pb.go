@@ -792,7 +792,7 @@ const file_gatesvr_proto_rawDesc = "" +
 	"KickPlayer\x12\x1a.gatesvr.KickPlayerRequest\x1a\x1b.gatesvr.KickPlayerResponse\x12Q\n" +
 	"\x0eForwardMessage\x12\x1e.gatesvr.ForwardMessageRequest\x1a\x1f.gatesvr.ForwardMessageResponse\x12;\n" +
 	"\fPushToClient\x12\x14.gatesvr.PushRequest\x1a\x15.gatesvr.PushResponse\x12Z\n" +
-	"\x11GenerateAuthToken\x12!.gatesvr.GenerateAuthTokenRequest\x1a\".gatesvr.GenerateAuthTokenResponseB\x19Z\x17mua/gatesvr/internal/pbb\x06proto3"
+	"\x11GenerateAuthToken\x12!.gatesvr.GenerateAuthTokenRequest\x1a\".gatesvr.GenerateAuthTokenResponseB\x19Z\x17mua/gatesvr/pbb\x06proto3"
 
 var (
 	file_gatesvr_proto_rawDescOnce sync.Once

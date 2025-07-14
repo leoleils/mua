@@ -10,7 +10,7 @@ import (
 	"mua/gatesvr/internal/forwarder"
 	"mua/gatesvr/internal/kafka"
 	"mua/gatesvr/internal/nacos"
-	"mua/gatesvr/internal/pb"
+	"mua/gatesvr/pb"
 	"mua/gatesvr/internal/route"
 	"mua/gatesvr/internal/rpc"
 	"mua/gatesvr/internal/session"
@@ -118,8 +118,16 @@ func initNacosAndRegister() (ip string, grpcPort uint64) {
 	ip = getLocalIP()
 	kafka.SetLocalGateSvrIP(ip)
 	grpcPort = 50051
-	nacos.Register(instanceID, ip, grpcPort)
-	log.Printf("服务实例ID: %s, IP: %s, gRPC端口: %d", instanceID, ip, grpcPort)
+
+	// 检查是否为本地开发环境（通过配置文件名判断）
+	cfg := config.GetConfig()
+	if cfg.Nacos.Addr == "localhost" {
+		log.Printf("本地开发环境，跳过Nacos注册")
+		log.Printf("服务实例ID: %s, IP: %s, gRPC端口: %d (本地模式)", instanceID, ip, grpcPort)
+	} else {
+		nacos.Register(instanceID, ip, grpcPort)
+		log.Printf("服务实例ID: %s, IP: %s, gRPC端口: %d", instanceID, ip, grpcPort)
+	}
 	return
 }
 

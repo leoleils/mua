@@ -103,7 +103,7 @@ type AppConfig struct {
 
 var (
 	Global     AppConfig
-	configPath = "./config.yaml"
+	configPath = "./config-local.yaml"
 	mu         sync.RWMutex
 	GatesvrID  string
 )

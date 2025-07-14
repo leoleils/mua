@@ -2,7 +2,7 @@ package conn
 
 import (
 	"log"
-	"mua/gatesvr/internal/pb"
+	"mua/gatesvr/pb"
 	"net"
 	"testing"
 	"time"

@@ -1,0 +1,100 @@
+# 五子棋服务配置文件
+# 服务基本信息
+service:
+  name: "gomokusvr"
+  port: 50052
+  version: "1.0.0"
+
+# Nacos服务注册与发现
+nacos:
+  addr: mse-3cb9ef30-p.nacos-ans.mse.aliyuncs.com
+  port: 8848
+  username: "${NACOS_USERNAME}"
+  password: "${NACOS_PASSWORD}"
+  service: gomokusvr
+  group: DEFAULT_GROUP
+  cluster: default
+  weight: 1.0
+  enable_register: true
+  enable_heartbeat: true
+  heartbeat_interval_ms: 5000
+
+# Kafka消息队列配置
+kafka:
+  brokers:
+    - alikafka-serverless-cn-0mm42ujh802-1000.alikafka.aliyuncs.com:9093
+    - alikafka-serverless-cn-0mm42ujh802-2000.alikafka.aliyuncs.com:9093
+    - alikafka-serverless-cn-0mm42ujh802-3000.alikafka.aliyuncs.com:9093
+  caCert: ./only-4096-ca-cert
+  username: "alikafka_serverless-cn-0mm42ujh802"
+  password: "JbuuPVcos0sAME5LtFLZFzlgrE6E3mGC"
+  
+  # 生产者配置 - 发布游戏事件
+  producer:
+    enabled: true                    # 是否启用消息生产
+    topics:
+      game_events: "game_events"     # 游戏事件主题
+      room_events: "room_events"     # 房间事件主题
+    
+  # 消费者配置 - 监听玩家状态
+  consumer:
+    enabled: true                    # 是否启用消息消费
+    group_id: "gomokusvr-group-0"   # 消费者组ID
+    topics:
+      player_status: "player_status_changed"  # 监听玩家状态变更
+    auto_offset_reset: "latest"     # 从最新消息开始消费
+    
+  # 连接配置
+  connection:
+    timeout_ms: 10000               # 连接超时时间（毫秒）
+    retry_times: 3                  # 重试次数
+    retry_interval_ms: 1000         # 重试间隔（毫秒）
+
+# 消息推送配置
+notification:
+  enabled: true                  # 是否启用消息推送
+  queue_size: 1000              # 推送队列大小
+  workers: 3                    # 工作协程数
+  timeout_sec: 3                # 推送超时时间（秒）
+  retry_times: 0                # 重试次数（0表示不重试）
+  
+  # gatesvr发现配置
+  gatesvr:
+    service_name: "gatesvr"     # gatesvr服务名
+    group: "DEFAULT_GROUP"      # gatesvr服务组
+    load_balance: "round_robin" # 负载均衡策略
+
+# 游戏配置
+game:
+  # 房间配置
+  room:
+    max_rooms: 1000              # 最大房间数
+    max_players_per_room: 2      # 每个房间最大玩家数
+    room_timeout_min: 30         # 房间超时时间（分钟）
+    auto_cleanup_interval_min: 5 # 自动清理间隔（分钟）
+  
+  # 棋盘配置
+  board:
+    size: 15                     # 棋盘大小 (15x15)
+    win_condition: 5             # 连子获胜条件
+    enable_forbidden_moves: false # 是否启用禁手规则
+  
+  # 游戏规则
+  rules:
+    move_timeout_sec: 30         # 下棋超时时间（秒）
+    game_timeout_min: 60         # 游戏超时时间（分钟）
+    enable_undo: false           # 是否允许悔棋
+    enable_surrender: true       # 是否允许认输
+
+# 日志配置
+log:
+  level: "info"                  # 日志级别: debug, info, warn, error
+  format: "text"                 # 日志格式: json, text
+  output: "stdout"               # 输出目标: stdout, file
+
+# 性能配置
+performance:
+  max_connections: 1000         # 最大并发连接数
+  read_timeout_sec: 30          # 读取超时时间（秒）
+  write_timeout_sec: 10         # 写入超时时间（秒）
+  max_request_size_mb: 4        # 最大请求大小（MB）

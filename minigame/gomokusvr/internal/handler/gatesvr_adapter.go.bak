@@ -1,0 +1,85 @@
+package handler
+
+import (
+	"context"
+	"log"
+	"time"
+
+	"mua/minigame/gomokusvr/internal/gatesvr_pb"
+	"mua/minigame/gomokusvr/internal/pb"
+)
+
+// GatesvrAdapter 实现gatesvr的common.CommonService接口
+type GatesvrAdapter struct {
+	gatesvr_pb.UnimplementedCommonServiceServer
+	gatewayHandler *GatewayHandler
+}
+
+// NewGatesvrAdapter 创建gatesvr适配器
+func NewGatesvrAdapter(gatewayHandler *GatewayHandler) *GatesvrAdapter {
+	return &GatesvrAdapter{
+		gatewayHandler: gatewayHandler,
+	}
+}
+
+// SendMessage 实现gatesvr的common.CommonService.SendMessage
+func (a *GatesvrAdapter) SendMessage(ctx context.Context, req *gatesvr_pb.GameMessage) (*gatesvr_pb.GameMessageResponse, error) {
+	log.Printf("收到gatesvr消息 - 玩家: %s, 方法: %s", req.MsgHead.PlayerId, req.MsgHead.RequestId)
+
+	// 转换gatesvr格式到gomoku格式
+	gomokuReq := &pb.GameMessage{
+		Head: &pb.MessageHead{
+			MsgId:       req.MsgHead.RequestId,
+			PlayerId:    req.MsgHead.PlayerId,
+			ServiceName: req.MsgHead.ServiceName,
+			Method:      req.MsgHead.RequestId, // 使用RequestId作为Method
+		},
+		MsgType:   convertMessageType(req.MsgType),
+		Payload:   req.Payload,
+		Timestamp: req.MsgHead.Timestamp,
+	}
+
+	// 调用gomoku的gateway handler
+	gomokuResp, err := a.gatewayHandler.SendMessage(ctx, gomokuReq)
+	if err != nil {
+		log.Printf("调用gomoku handler失败: %v", err)
+		return &gatesvr_pb.GameMessageResponse{
+			MsgHead:           req.MsgHead,
+			Ret:               500,
+			Payload:           &gatesvr_pb.GameMessageResponse_Reason{Reason: err.Error()},
+			ResponseTimestamp: time.Now().UnixMilli(),
+		}, nil
+	}
+
+	// 转换gomoku响应回gatesvr格式
+	gatesvrResp := &gatesvr_pb.GameMessageResponse{
+		MsgHead:           req.MsgHead,
+		Ret:               gomokuResp.Code,
+		ResponseTimestamp: gomokuResp.Timestamp,
+	}
+
+	if gomokuResp.Code == 0 {
+		gatesvrResp.Payload = &gatesvr_pb.GameMessageResponse_Data{Data: gomokuResp.Payload}
+	} else {
+		gatesvrResp.Payload = &gatesvr_pb.GameMessageResponse_Reason{Reason: gomokuResp.Message}
+	}
+
+	log.Printf("返回gatesvr响应 - 玩家: %s, 状态: %d, 数据长度: %d", req.MsgHead.PlayerId, gatesvrResp.Ret, len(gomokuResp.Payload))
+	return gatesvrResp, nil
+}
+
+// convertMessageType 转换消息类型
+func convertMessageType(gatesvrType gatesvr_pb.MessageType) pb.MessageType {
+	switch gatesvrType {
+	case gatesvr_pb.MessageType_HEARTBEAT:
+		return pb.MessageType_UNKNOWN
+	case gatesvr_pb.MessageType_SERVICE_MESSAGE:
+		return pb.MessageType_REQUEST
+	case gatesvr_pb.MessageType_CLIENT_MESSAGE:
+		return pb.MessageType_REQUEST
+	case gatesvr_pb.MessageType_BROADCAST_MESSAGE:
+		return pb.MessageType_NOTIFY
+	default:
+		return pb.MessageType_REQUEST
+	}
+}

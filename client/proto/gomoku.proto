@@ -1,0 +1,175 @@
+syntax = "proto3";
+
+import "common.proto";
+
+package gomoku;
+
+option go_package = "mua/client/pb";
+
+// 房间状态
+enum RoomStatus {
+  WAITING = 0;    // 等待玩家
+  PLAYING = 1;    // 游戏中
+  FINISHED = 2;   // 游戏结束
+}
+
+// 玩家颜色
+enum PlayerColor {
+  NONE = 0;
+  BLACK = 1;  // 黑子，先手
+  WHITE = 2;  // 白子，后手
+}
+
+// 游戏结果
+enum GameResult {
+  ONGOING = 0;    // 进行中
+  BLACK_WIN = 1;  // 黑子获胜
+  WHITE_WIN = 2;  // 白子获胜
+  DRAW = 3;       // 平局
+}
+
+// 创建房间请求
+message CreateRoomRequest {
+  string room_name = 1;  // 房间名称
+  string password = 2;   // 房间密码（可选）
+}
+
+// 创建房间响应
+message CreateRoomResponse {
+  bool success = 1;
+  string room_id = 2;
+  string message = 3;
+}
+
+// 进入房间请求
+message JoinRoomRequest {
+  string room_id = 1;    // 房间ID
+  string password = 2;   // 房间密码（如果有）
+}
+
+// 进入房间响应
+message JoinRoomResponse {
+  bool success = 1;
+  string message = 2;
+  RoomInfo room_info = 3;
+}
+
+// 离开房间请求
+message LeaveRoomRequest {
+  string room_id = 1;
+}
+
+// 离开房间响应
+message LeaveRoomResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+// 下棋请求
+message PlacePieceRequest {
+  string room_id = 1;
+  int32 x = 2;          // X坐标（0-14）
+  int32 y = 3;          // Y坐标（0-14）
+}
+
+// 下棋响应
+message PlacePieceResponse {
+  bool success = 1;
+  string message = 2;
+  GameState game_state = 3;
+}
+
+// 房间信息
+message RoomInfo {
+  string room_id = 1;
+  string room_name = 2;
+  RoomStatus status = 3;
+  repeated PlayerInfo players = 4;
+  GameState game_state = 5;
+  string owner_id = 6;      // 房主ID
+  int64 created_time = 7;   // 创建时间
+}
+
+// 玩家信息
+message PlayerInfo {
+  string player_id = 1;
+  string username = 2;
+  PlayerColor color = 3;
+  bool is_ready = 4;
+  int64 join_time = 5;
+}
+
+// 游戏状态
+message GameState {
+  repeated int32 board = 1;           // 15x15棋盘展平为225个元素，0=空，1=黑子，2=白子
+  PlayerColor current_turn = 2;       // 当前该谁下棋
+  GameResult result = 3;              // 游戏结果
+  string winner_id = 4;               // 获胜者ID
+  int32 total_moves = 5;              // 总步数
+  repeated Move move_history = 6;     // 走棋历史
+}
+
+// 走棋记录
+message Move {
+  string player_id = 1;
+  PlayerColor color = 2;
+  int32 x = 3;
+  int32 y = 4;
+  int32 move_number = 5;
+  int64 timestamp = 6;
+}
+
+// 房间列表请求
+message GetRoomListRequest {
+  int32 page = 1;
+  int32 page_size = 2;
+}
+
+// 房间列表响应
+message GetRoomListResponse {
+  bool success = 1;
+  repeated RoomInfo rooms = 2;
+  int32 total_count = 3;
+  string message = 4;
+}
+
+// 开始游戏请求（房主发起）
+message StartGameRequest {
+  string room_id = 1;
+}
+
+// 开始游戏响应
+message StartGameResponse {
+  bool success = 1;
+  string message = 2;
+  GameState game_state = 3;
+}
+
+// 游戏状态通知（广播给房间内玩家）
+message GameStateNotify {
+  string room_id = 1;
+  GameState game_state = 2;
+  string event_type = 3;  // MOVE, WIN, DRAW等
+  string event_message = 4;
+}
+
+// 玩家事件通知
+message PlayerEventNotify {
+  string room_id = 1;
+  string player_id = 2;
+  string event_type = 3;  // JOIN, LEAVE, READY等
+  string event_message = 4;
+}
+
+// 玩家准备请求
+message PlayerReadyRequest {
+  string room_id = 1;
+}
+
+// 玩家准备响应
+message PlayerReadyResponse {
+  bool success = 1;
+  string message = 2;
+  bool is_ready = 3;      // 当前准备状态
+  RoomInfo room_info = 4; // 更新后的房间信息
+}

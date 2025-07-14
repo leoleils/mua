@@ -1,0 +1,53 @@
+2025/07/12 21:40:37 五子棋服务启动中...
+2025/07/12 21:40:37 成功加载配置文件: config-local.yaml
+2025/07/12 21:40:37 配置加载完成: {Service:{Name:gomokusvr Port:50052 Version:1.0.0} Nacos:{Addr:localhost Port:8848 Username: Password: Service:gomokusvr Group:DEFAULT_GROUP Cluster:default Weight:1 EnableRegister:false EnableHeartbeat:false HeartbeatIntervalMs:5000} Kafka:{Brokers:[localhost:9092] CaCert: Username: Password: Producer:{Enabled:false Topics:map[game_events:game_events room_events:room_events]} Consumer:{Enabled:false GroupID:gomokusvr-group-0 Topics:map[player_status:player_status_changed] AutoOffsetReset:latest} Connection:{TimeoutMs:10000 RetryTimes:3 RetryIntervalMs:1000}} Notification:{Enabled:false QueueSize:1000 Workers:3 TimeoutSec:3 RetryTimes:0 Gatesvr:{ServiceName:gatesvr Group:DEFAULT_GROUP LoadBalance:round_robin}} Game:{Room:{MaxRooms:1000 MaxPlayersPerRoom:2 RoomTimeoutMin:30 AutoCleanupIntervalMin:5} Board:{Size:15 WinCondition:5 EnableForbiddenMoves:false} Rules:{MoveTimeoutSec:30 GameTimeoutMin:60 EnableUndo:false EnableSurrender:true}} Log:{Level:info Format:text Output:stdout} Performance:{MaxConnections:1000 ReadTimeoutSec:30 WriteTimeoutSec:10 MaxRequestSizeMb:4}}
+2025/07/12 21:40:37 房间管理器初始化完成
+2025/07/12 21:40:37 Nacos注册已禁用，跳过服务注册
+2025/07/12 21:40:37 已注册 gomoku.CommonService
+2025/07/12 21:40:37 已注册 common.CommonService (gatesvr兼容)
+2025/07/12 21:40:37 五子棋服务已启动，监听端口: 50052
+2025/07/12 21:41:24 收到gatesvr消息 - 玩家: player_876, 方法: CreateRoom
+2025/07/12 21:41:24 转换方法名: CreateRoom -> CreateRoom
+2025/07/12 21:41:24 收到gatesvr消息 - 玩家: player_876, 方法: CreateRoom
+2025/07/12 21:41:24 房间创建成功 - ID: 3686488b, 名称: 123, 房主: player_876
+2025/07/12 21:41:24 返回gatesvr响应 - 玩家: player_876, 状态: 0
+2025/07/12 21:41:24 返回gatesvr响应 - 玩家: player_876, 状态: 0, 数据长度: 32
+2025/07/12 21:41:37 收到gatesvr消息 - 玩家: player_876, 方法: JoinRoom
+2025/07/12 21:41:37 转换方法名: JoinRoom -> JoinRoom
+2025/07/12 21:41:37 收到gatesvr消息 - 玩家: player_876, 方法: JoinRoom
+2025/07/12 21:41:37 返回gatesvr响应 - 玩家: player_876, 状态: 0
+2025/07/12 21:41:37 返回gatesvr响应 - 玩家: player_876, 状态: 0, 数据长度: 329
+2025/07/12 21:41:50 收到gatesvr消息 - 玩家: player_3326, 方法: JoinRoom
+2025/07/12 21:41:50 转换方法名: JoinRoom -> JoinRoom
+2025/07/12 21:41:50 收到gatesvr消息 - 玩家: player_3326, 方法: JoinRoom
+2025/07/12 21:41:50 玩家加入房间 - 玩家: player_3326, 房间: 3686488b
+2025/07/12 21:41:50 返回gatesvr响应 - 玩家: player_3326, 状态: 0
+2025/07/12 21:41:50 返回gatesvr响应 - 玩家: player_3326, 状态: 0, 数据长度: 366
+2025/07/12 21:41:50 [通知管理器] 启动成功，工作协程数: 3
+2025/07/12 21:41:50 推送玩家加入通知给玩家: [player_876], 加入者: player_3326
+2025/07/12 21:41:50 [GateClient] 连接创建成功: localhost:50051
+2025/07/12 21:41:50 [通知管理器] 创建gatesvr客户端: localhost:50051
+2025/07/12 21:41:50 [通知推送失败] 玩家: player_876, 方法: PlayerJoinedNotification, 错误: 调用PushToClient失败: gRPC调用失败: rpc error: code = Unavailable desc = connection error: desc = "transport: Error while dialing: dial tcp [::1]:50051: connect: connection refused"
+2025/07/12 21:41:55 收到gatesvr消息 - 玩家: player_876, 方法: PlayerReady
+2025/07/12 21:41:55 转换方法名: PlayerReady -> PlayerReady
+2025/07/12 21:41:55 收到gatesvr消息 - 玩家: player_876, 方法: PlayerReady
+2025/07/12 21:41:55 玩家切换准备状态 - 玩家: player_876, 房间: 3686488b, 状态: false
+2025/07/12 21:41:55 返回gatesvr响应 - 玩家: player_876, 状态: 0
+2025/07/12 21:41:55 返回gatesvr响应 - 玩家: player_876, 状态: 0, 数据长度: 377
+2025/07/12 21:41:55 推送玩家准备状态通知给玩家: [player_3326], 准备者: player_876, 状态: false
+2025/07/12 21:41:55 [通知推送失败] 玩家: player_3326, 方法: PlayerReadyNotification, 错误: 调用PushToClient失败: gRPC调用失败: rpc error: code = Unavailable desc = connection error: desc = "transport: Error while dialing: dial tcp [::1]:50051: connect: connection refused"
+2025/07/12 21:41:59 收到gatesvr消息 - 玩家: player_3326, 方法: PlayerReady
+2025/07/12 21:41:59 转换方法名: PlayerReady -> PlayerReady
+2025/07/12 21:41:59 收到gatesvr消息 - 玩家: player_3326, 方法: PlayerReady
+2025/07/12 21:41:59 玩家切换准备状态 - 玩家: player_3326, 房间: 3686488b, 状态: true
+2025/07/12 21:41:59 返回gatesvr响应 - 玩家: player_3326, 状态: 0
+2025/07/12 21:41:59 返回gatesvr响应 - 玩家: player_3326, 状态: 0, 数据长度: 380
+2025/07/12 21:41:59 推送玩家准备状态通知给玩家: [player_876], 准备者: player_3326, 状态: true
+2025/07/12 21:41:59 [通知推送失败] 玩家: player_876, 方法: PlayerReadyNotification, 错误: 调用PushToClient失败: gRPC调用失败: rpc error: code = Unavailable desc = connection error: desc = "transport: Error while dialing: dial tcp [::1]:50051: connect: connection refused"
+2025/07/12 21:42:07 收到gatesvr消息 - 玩家: player_876, 方法: StartGame
+2025/07/12 21:42:07 转换方法名: StartGame -> StartGame
+2025/07/12 21:42:07 收到gatesvr消息 - 玩家: player_876, 方法: StartGame
+2025/07/12 21:42:07 处理请求失败: 所有玩家必须准备就绪
+2025/07/12 21:42:07 返回gatesvr响应 - 玩家: player_876, 状态: 500
+2025/07/12 21:42:07 返回gatesvr响应 - 玩家: player_876, 状态: 500, 数据长度: 0
+2025/07/12 22:30:04 清理房间 - 房间: 3686488b, 原因: 房间过期

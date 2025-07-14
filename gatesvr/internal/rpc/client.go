@@ -8,7 +8,7 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 
-	"mua/gatesvr/internal/pb"
+	"mua/gatesvr/pb"
 )
 
 // PushToClientRemote 远程推送消息到客户端

@@ -1,0 +1,90 @@
+# 本地开发配置文件
+nacos:
+  addr: localhost
+  port: 8848
+  username: ""
+  password: ""
+  service: gatesvr
+  group: DEFAULT_GROUP
+
+kafka:
+  brokers:
+    - localhost:9092
+  caCert: ""
+  topic: player_status_changed
+  username: ""
+  password: ""
+  groupId: gatesvr-group-0
+
+enable_token_check: false
+
+# 服务转发配置 - 本地开发环境
+service_forwarding:
+  default_load_balance: "round_robin"
+  request_timeout_ms: 5000
+  async_timeout_ms: 1000
+  services:
+    gomokusvr:
+      group: "DEFAULT_GROUP"
+      load_balance: "round_robin"
+      timeout_ms: 5000
+    userservice:
+      group: "DEFAULT_GROUP"
+      load_balance: "weighted"
+      timeout_ms: 3000
+    gameservice:
+      group: "DEFAULT_GROUP" 
+      load_balance: "round_robin"
+      timeout_ms: 5000
+    payservice:
+      group: "prod"
+      load_balance: "weighted"
+      timeout_ms: 8000
+    chatservice:
+      group: "DEFAULT_GROUP"
+      load_balance: "round_robin"
+      timeout_ms: 2000
+
+# 限流配置
+rate_limit:
+  enabled: false  # 本地开发禁用限流
+  global_rate: 500
+  global_capacity: 1000
+  service_rate: 100
+  service_capacity: 200
+  player_rate: 10
+  player_capacity: 20
+  cleanup_interval_min: 1
+  bucket_idle_time_min: 5
+
+# 认证配置
+auth:
+  enabled: false  # 本地开发禁用认证
+  secret_key: "local-dev-secret-key"
+  token_expire_hours: 24
+  cleanup_interval_min: 10
+  require_auth: []
+  whitelist_services: []
+  max_tokens_per_player: 3
+  enable_auto_refresh: false
+  refresh_threshold_min: 5
+  # 禁用Redis缓存
+  enable_redis_cache: false
+  redis_addr: "localhost:6379"
+  redis_password: ""
+  redis_db: 0
+  redis_key_prefix: "mua:token:"
+  redis_pool_size: 10
+  redis_min_idle_conns: 5
+  redis_dial_timeout: 5
+  redis_read_timeout: 3
+  redis_write_timeout: 3
+
+# 连接处理配置
+connection:
+  first_message_timeout_sec: 5
+  read_timeout_sec: 60
+  write_timeout_sec: 10
+  enable_structured_log: true
+  max_message_size: 4194304
+  heartbeat_interval_sec: 30
