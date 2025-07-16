@@ -166,8 +166,11 @@ func (g *GatewayHandler) handlePlacePiece(req *pb.GameMessage) ([]byte, error) {
 		return nil, fmt.Errorf("参数解析失败: %v", err)
 	}
 
+	log.Printf("玩家 %s 请求在房间 %s 的位置 (%d,%d) 下棋", req.Head.PlayerId, placeReq.RoomId, placeReq.X, placeReq.Y)
+
 	gameInstance, err := g.gameHandler.roomManager.PlacePiece(req.Head.PlayerId, placeReq.RoomId, placeReq.X, placeReq.Y)
 	if err != nil {
+		log.Printf("下棋失败: %v", err)
 		return nil, err
 	}
 
@@ -180,12 +183,19 @@ func (g *GatewayHandler) handlePlacePiece(req *pb.GameMessage) ([]byte, error) {
 		GameState: gameState,
 	}
 
+	log.Printf("玩家 %s 下棋成功，游戏状态: %s", req.Head.PlayerId, gameState.Result.String())
+
 	// 推送通知
 	if room := g.gameHandler.roomManager.GetRoom(placeReq.RoomId); room != nil {
+		log.Printf("开始推送下棋通知给房间 %s 的其他玩家", placeReq.RoomId)
 		go g.gameHandler.notifyOtherPlayers(room, req.Head.PlayerId, placeResp)
+
 		if gameState.Result != pb.GameResult_ONGOING {
+			log.Printf("游戏结束，推送游戏结束通知给房间 %s 的所有玩家", placeReq.RoomId)
 			go g.gameHandler.notifyGameOver(room, gameState)
 		}
+	} else {
+		log.Printf("警告: 未找到房间 %s，无法推送通知", placeReq.RoomId)
 	}
 
 	return proto.Marshal(placeResp)
@@ -239,22 +249,9 @@ func (g *GatewayHandler) handleStartGame(req *pb.GameMessage) ([]byte, error) {
 		GameState: gameState,
 	}
 
-	// 推送通知给房间内其他玩家
+	// 推送通知给房间内所有玩家
 	if room != nil {
-		allPlayers := room.GetAllPlayers()
-		for _, playerID := range allPlayers {
-			if playerID != req.Head.PlayerId {
-				notifyMsg := &pb.GameStateNotify{
-					RoomId:       startReq.RoomId,
-					GameState:    gameState,
-					EventType:    "GAME_START",
-					EventMessage: "游戏开始！",
-				}
-
-				notifyData, _ := proto.Marshal(notifyMsg)
-				log.Printf("推送游戏开始通知给玩家: %s, 数据大小: %d bytes", playerID, len(notifyData))
-			}
-		}
+		go g.gameHandler.notifyGameStarted(room, gameState)
 	}
 
 	return proto.Marshal(startResp)

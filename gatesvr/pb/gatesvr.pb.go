@@ -118,12 +118,13 @@ func (PlayerStatusEventType) EnumDescriptor() ([]byte, []int) {
 	return file_gatesvr_proto_rawDescGZIP(), []int{1}
 }
 
+// 推送请求
 type PushRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	PlayerId      string                 `protobuf:"bytes,1,opt,name=player_id,json=playerId,proto3" json:"player_id,omitempty"`
-	Ip            string                 `protobuf:"bytes,2,opt,name=ip,proto3" json:"ip,omitempty"`
-	CbType        CallbackType           `protobuf:"varint,3,opt,name=cb_type,json=cbType,proto3,enum=gatesvr.CallbackType" json:"cb_type,omitempty"`
-	Message       *GameMessage           `protobuf:"bytes,4,opt,name=message,proto3" json:"message,omitempty"`
+	PlayerId      string                 `protobuf:"bytes,1,opt,name=player_id,json=playerId,proto3" json:"player_id,omitempty"`                      // 目标玩家ID
+	Ip            string                 `protobuf:"bytes,2,opt,name=ip,proto3" json:"ip,omitempty"`                                                  // 目标IP（可选，优先使用player_id）
+	CbType        CallbackType           `protobuf:"varint,3,opt,name=cb_type,json=cbType,proto3,enum=gatesvr.CallbackType" json:"cb_type,omitempty"` // 回调类型
+	Message       *GameMessage           `protobuf:"bytes,4,opt,name=message,proto3" json:"message,omitempty"`                                        // 要推送的消息
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -186,10 +187,12 @@ func (x *PushRequest) GetMessage() *GameMessage {
 	return nil
 }
 
+// 推送响应
 type PushResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Success       bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
-	Message       string                 `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
+	Success       bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`                      // 是否成功
+	Message       string                 `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`                       // 响应消息
+	ErrorCode     int32                  `protobuf:"varint,3,opt,name=error_code,json=errorCode,proto3" json:"error_code,omitempty"` // 错误码（失败时）
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -238,10 +241,19 @@ func (x *PushResponse) GetMessage() string {
 	return ""
 }
 
+func (x *PushResponse) GetErrorCode() int32 {
+	if x != nil {
+		return x.ErrorCode
+	}
+	return 0
+}
+
+// 踢下线请求
 type KickPlayerRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	PlayerId      string                 `protobuf:"bytes,1,opt,name=player_id,json=playerId,proto3" json:"player_id,omitempty"`
-	Reason        string                 `protobuf:"bytes,2,opt,name=reason,proto3" json:"reason,omitempty"`
+	PlayerId      string                 `protobuf:"bytes,1,opt,name=player_id,json=playerId,proto3" json:"player_id,omitempty"` // 玩家ID
+	Reason        string                 `protobuf:"bytes,2,opt,name=reason,proto3" json:"reason,omitempty"`                     // 踢下线原因
+	Force         bool                   `protobuf:"varint,3,opt,name=force,proto3" json:"force,omitempty"`                      // 是否强制踢下线
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -290,10 +302,19 @@ func (x *KickPlayerRequest) GetReason() string {
 	return ""
 }
 
+func (x *KickPlayerRequest) GetForce() bool {
+	if x != nil {
+		return x.Force
+	}
+	return false
+}
+
+// 踢下线响应
 type KickPlayerResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Success       bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
-	Message       string                 `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
+	Success       bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`                      // 是否成功
+	Message       string                 `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`                       // 响应消息
+	ErrorCode     int32                  `protobuf:"varint,3,opt,name=error_code,json=errorCode,proto3" json:"error_code,omitempty"` // 错误码（失败时）
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -342,10 +363,19 @@ func (x *KickPlayerResponse) GetMessage() string {
 	return ""
 }
 
+func (x *KickPlayerResponse) GetErrorCode() int32 {
+	if x != nil {
+		return x.ErrorCode
+	}
+	return 0
+}
+
+// 消息转发请求
 type ForwardMessageRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	PlayerId      string                 `protobuf:"bytes,1,opt,name=player_id,json=playerId,proto3" json:"player_id,omitempty"`
-	Payload       []byte                 `protobuf:"bytes,2,opt,name=payload,proto3" json:"payload,omitempty"`
+	PlayerId      string                 `protobuf:"bytes,1,opt,name=player_id,json=playerId,proto3" json:"player_id,omitempty"`          // 目标玩家ID
+	Payload       []byte                 `protobuf:"bytes,2,opt,name=payload,proto3" json:"payload,omitempty"`                            // 消息负载（序列化后的GameMessage）
+	ServiceName   string                 `protobuf:"bytes,3,opt,name=service_name,json=serviceName,proto3" json:"service_name,omitempty"` // 来源服务名（用于日志追踪）
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -394,10 +424,19 @@ func (x *ForwardMessageRequest) GetPayload() []byte {
 	return nil
 }
 
+func (x *ForwardMessageRequest) GetServiceName() string {
+	if x != nil {
+		return x.ServiceName
+	}
+	return ""
+}
+
+// 消息转发响应
 type ForwardMessageResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Success       bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
-	Message       string                 `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
+	Success       bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`                      // 是否成功
+	Message       string                 `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`                       // 响应消息
+	ErrorCode     int32                  `protobuf:"varint,3,opt,name=error_code,json=errorCode,proto3" json:"error_code,omitempty"` // 错误码（失败时）
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -444,6 +483,13 @@ func (x *ForwardMessageResponse) GetMessage() string {
 		return x.Message
 	}
 	return ""
+}
+
+func (x *ForwardMessageResponse) GetErrorCode() int32 {
+	if x != nil {
+		return x.ErrorCode
+	}
+	return 0
 }
 
 // Token生成请求
@@ -734,22 +780,30 @@ const file_gatesvr_proto_rawDesc = "" +
 	"\tplayer_id\x18\x01 \x01(\tR\bplayerId\x12\x0e\n" +
 	"\x02ip\x18\x02 \x01(\tR\x02ip\x12.\n" +
 	"\acb_type\x18\x03 \x01(\x0e2\x15.gatesvr.CallbackTypeR\x06cbType\x12-\n" +
-	"\amessage\x18\x04 \x01(\v2\x13.common.GameMessageR\amessage\"B\n" +
+	"\amessage\x18\x04 \x01(\v2\x13.common.GameMessageR\amessage\"a\n" +
 	"\fPushResponse\x12\x18\n" +
 	"\asuccess\x18\x01 \x01(\bR\asuccess\x12\x18\n" +
-	"\amessage\x18\x02 \x01(\tR\amessage\"H\n" +
+	"\amessage\x18\x02 \x01(\tR\amessage\x12\x1d\n" +
+	"\n" +
+	"error_code\x18\x03 \x01(\x05R\terrorCode\"^\n" +
 	"\x11KickPlayerRequest\x12\x1b\n" +
 	"\tplayer_id\x18\x01 \x01(\tR\bplayerId\x12\x16\n" +
-	"\x06reason\x18\x02 \x01(\tR\x06reason\"H\n" +
+	"\x06reason\x18\x02 \x01(\tR\x06reason\x12\x14\n" +
+	"\x05force\x18\x03 \x01(\bR\x05force\"g\n" +
 	"\x12KickPlayerResponse\x12\x18\n" +
 	"\asuccess\x18\x01 \x01(\bR\asuccess\x12\x18\n" +
-	"\amessage\x18\x02 \x01(\tR\amessage\"N\n" +
+	"\amessage\x18\x02 \x01(\tR\amessage\x12\x1d\n" +
+	"\n" +
+	"error_code\x18\x03 \x01(\x05R\terrorCode\"q\n" +
 	"\x15ForwardMessageRequest\x12\x1b\n" +
 	"\tplayer_id\x18\x01 \x01(\tR\bplayerId\x12\x18\n" +
-	"\apayload\x18\x02 \x01(\fR\apayload\"L\n" +
+	"\apayload\x18\x02 \x01(\fR\apayload\x12!\n" +
+	"\fservice_name\x18\x03 \x01(\tR\vserviceName\"k\n" +
 	"\x16ForwardMessageResponse\x12\x18\n" +
 	"\asuccess\x18\x01 \x01(\bR\asuccess\x12\x18\n" +
-	"\amessage\x18\x02 \x01(\tR\amessage\"\xfe\x01\n" +
+	"\amessage\x18\x02 \x01(\tR\amessage\x12\x1d\n" +
+	"\n" +
+	"error_code\x18\x03 \x01(\x05R\terrorCode\"\xfe\x01\n" +
 	"\x18GenerateAuthTokenRequest\x12\x1b\n" +
 	"\tplayer_id\x18\x01 \x01(\tR\bplayerId\x12\x1a\n" +
 	"\busername\x18\x02 \x01(\tR\busername\x12\x14\n" +
@@ -789,10 +843,10 @@ const file_gatesvr_proto_rawDesc = "" +
 	"\aOFFLINE\x10\x012\xbc\x02\n" +
 	"\aGateSvr\x12E\n" +
 	"\n" +
-	"KickPlayer\x12\x1a.gatesvr.KickPlayerRequest\x1a\x1b.gatesvr.KickPlayerResponse\x12Q\n" +
-	"\x0eForwardMessage\x12\x1e.gatesvr.ForwardMessageRequest\x1a\x1f.gatesvr.ForwardMessageResponse\x12;\n" +
-	"\fPushToClient\x12\x14.gatesvr.PushRequest\x1a\x15.gatesvr.PushResponse\x12Z\n" +
-	"\x11GenerateAuthToken\x12!.gatesvr.GenerateAuthTokenRequest\x1a\".gatesvr.GenerateAuthTokenResponseB\x19Z\x17mua/gatesvr/internal/pbb\x06proto3"
+	"KickPlayer\x12\x1a.gatesvr.KickPlayerRequest\x1a\x1b.gatesvr.KickPlayerResponse\x12;\n" +
+	"\fPushToClient\x12\x14.gatesvr.PushRequest\x1a\x15.gatesvr.PushResponse\x12Q\n" +
+	"\x0eForwardMessage\x12\x1e.gatesvr.ForwardMessageRequest\x1a\x1f.gatesvr.ForwardMessageResponse\x12Z\n" +
+	"\x11GenerateAuthToken\x12!.gatesvr.GenerateAuthTokenRequest\x1a\".gatesvr.GenerateAuthTokenResponseB\x10Z\x0emua/gatesvr/pbb\x06proto3"
 
 var (
 	file_gatesvr_proto_rawDescOnce sync.Once
@@ -827,12 +881,12 @@ var file_gatesvr_proto_depIdxs = []int32{
 	11, // 1: gatesvr.PushRequest.message:type_name -> common.GameMessage
 	1,  // 2: gatesvr.PlayerStatusChanged.event:type_name -> gatesvr.PlayerStatusEventType
 	4,  // 3: gatesvr.GateSvr.KickPlayer:input_type -> gatesvr.KickPlayerRequest
-	6,  // 4: gatesvr.GateSvr.ForwardMessage:input_type -> gatesvr.ForwardMessageRequest
-	2,  // 5: gatesvr.GateSvr.PushToClient:input_type -> gatesvr.PushRequest
+	2,  // 4: gatesvr.GateSvr.PushToClient:input_type -> gatesvr.PushRequest
+	6,  // 5: gatesvr.GateSvr.ForwardMessage:input_type -> gatesvr.ForwardMessageRequest
 	8,  // 6: gatesvr.GateSvr.GenerateAuthToken:input_type -> gatesvr.GenerateAuthTokenRequest
 	5,  // 7: gatesvr.GateSvr.KickPlayer:output_type -> gatesvr.KickPlayerResponse
-	7,  // 8: gatesvr.GateSvr.ForwardMessage:output_type -> gatesvr.ForwardMessageResponse
-	3,  // 9: gatesvr.GateSvr.PushToClient:output_type -> gatesvr.PushResponse
+	3,  // 8: gatesvr.GateSvr.PushToClient:output_type -> gatesvr.PushResponse
+	7,  // 9: gatesvr.GateSvr.ForwardMessage:output_type -> gatesvr.ForwardMessageResponse
 	9,  // 10: gatesvr.GateSvr.GenerateAuthToken:output_type -> gatesvr.GenerateAuthTokenResponse
 	7,  // [7:11] is the sub-list for method output_type
 	3,  // [3:7] is the sub-list for method input_type

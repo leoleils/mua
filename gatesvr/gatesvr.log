@@ -1,20 +1,27 @@
-2025/07/12 21:40:24 config.go:124: 配置加载成功
-2025/07/12 21:40:24 producer.go:35: Kafka CA证书路径为空，跳过TLS配置（本地开发模式）
-2025/07/12 21:40:24 app.go:157: 检测到本地IP: 192.168.1.2
-2025/07/12 21:40:24 app.go:125: 本地开发环境，跳过Nacos注册
-2025/07/12 21:40:24 app.go:126: 服务实例ID: gatesvr-1752327624641888000, IP: 192.168.1.2, gRPC端口: 50051 (本地模式)
-2025/07/12 21:40:24 app.go:51: 初始化认证系统...
-2025/07/12 21:40:24 token.go:425: [Token管理] 启动清理任务，间隔: 10m0s
-2025/07/12 21:40:24 middleware.go:327: 认证系统初始化完成
-2025/07/12 21:40:24 app.go:55: 初始化消息转发器...
-2025/07/12 21:40:24 forwarder.go:125: [限流器] 已禁用
-2025/07/12 21:40:24 forwarder.go:639: 消息转发器初始化完成
-2025/07/12 21:40:24 app.go:59: 启动限流监控服务...
-2025/07/12 21:40:24 config.go:124: 配置加载成功
-2025/07/12 21:40:24 monitor.go:67: [监控服务] 启动监控服务，端口: 8082
-2025/07/12 21:40:24 monitor.go:68: [监控服务] 限流管理: http://localhost:8082/rate-limit/status
-2025/07/12 21:40:24 monitor.go:69: [监控服务] 认证管理: http://localhost:8082/auth/cache/stats
-2025/07/12 21:40:24 monitor.go:70: [监控服务] Redis状态: http://localhost:8082/auth/redis/status
-2025/07/12 21:40:24 ws.go:23: WebSocket服务已启动，监听: :6002/ws
-2025/07/12 21:40:24 main.go:18: run error: listen tcp 192.168.1.2:50051: bind: address already in use
-exit status 1
+2025/07/15 11:39:38 config.go:124: 配置加载成功
+2025/07/15 11:39:38 producer.go:35: Kafka CA证书路径为空，跳过TLS配置（本地开发模式）
+2025/07/15 11:39:38 app.go:157: 检测到本地IP: 30.93.78.42
+2025/07/15 11:39:38 app.go:125: 本地开发环境，跳过Nacos注册
+2025/07/15 11:39:38 app.go:126: 服务实例ID: gatesvr-1752550778340639000, IP: 30.93.78.42, gRPC端口: 50051 (本地模式)
+2025/07/15 11:39:38 app.go:51: 初始化认证系统...
+2025/07/15 11:39:38 config.go:124: 配置加载成功
+2025/07/15 11:39:38 token.go:425: [Token管理] 启动清理任务，间隔: 10m0s
+2025/07/15 11:39:38 middleware.go:327: 认证系统初始化完成
+2025/07/15 11:39:38 app.go:55: 初始化消息转发器...
+2025/07/15 11:39:38 forwarder.go:125: [限流器] 已禁用
+2025/07/15 11:39:38 forwarder.go:639: 消息转发器初始化完成
+2025/07/15 11:39:38 app.go:59: 启动限流监控服务...
+2025/07/15 11:39:38 monitor.go:67: [监控服务] 启动监控服务，端口: 8082
+2025/07/15 11:39:38 monitor.go:68: [监控服务] 限流管理: http://localhost:8082/rate-limit/status
+2025/07/15 11:39:38 monitor.go:69: [监控服务] 认证管理: http://localhost:8082/auth/cache/stats
+2025/07/15 11:39:38 monitor.go:70: [监控服务] Redis状态: http://localhost:8082/auth/redis/status
+2025/07/15 11:39:38 ws.go:23: WebSocket服务已启动，监听: :6002/ws
+2025/07/15 11:39:38 tcp.go:25: TCP服务已启动，监听: :6001
+2025/07/15 11:40:28 event.go:16: [事件] 广播玩家上线: playerID=test_player_123, ip=127.0.0.1:52123, gatesvrID=, gatesvrIP=
+2025/07/15 11:40:28 producer.go:90: 本地开发模式，跳过Kafka消息发送: player_status_changed
+2025/07/15 11:40:28 common.go:439: [玩家上线] map[ip:127.0.0.1:52123 player_id:test_player_123 protocol:tcp]
+2025/07/15 11:41:03 common.go:439: [连接断开] map[error:EOF player_id:test_player_123]
+2025/07/15 11:41:03 event.go:30: [事件] 广播玩家下线: playerID=test_player_123, ip=127.0.0.1:52123
+2025/07/15 11:41:03 producer.go:90: 本地开发模式，跳过Kafka消息发送: player_status_changed
+2025/07/15 11:41:03 session.go:74: 玩家[test_player_123]下线, ip=127.0.0.1:52123, gatesvrID=
+2025/07/15 11:41:03 common.go:439: [连接已清理] map[player_id:test_player_123]

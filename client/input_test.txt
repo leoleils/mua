@@ -1,5 +1,0 @@
-test_player
-localhost:6001
-status
-rooms
-quit

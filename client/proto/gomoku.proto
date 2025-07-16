@@ -1,10 +1,46 @@
 syntax = "proto3";
 
-import "common.proto";
-
 package gomoku;
 
-option go_package = "mua/client/pb";
+option go_package = "mua/minigame/gomokusvr/internal/pb";
+
+// 通用RPC服务接口，与gatesvr集成
+service CommonService {
+  rpc SendMessage(GameMessage) returns (GameMessageResponse);
+}
+
+// 游戏消息
+message GameMessage {
+  MessageHead head = 1;
+  MessageType msg_type = 2;
+  bytes payload = 3;
+  int64 timestamp = 4;
+}
+
+// 消息头
+message MessageHead {
+  string msg_id = 1;        // 消息ID
+  string player_id = 2;     // 玩家ID
+  string service_name = 3;  // 服务名
+  string method = 4;        // 方法名
+}
+
+// 消息类型
+enum MessageType {
+  UNKNOWN = 0;
+  REQUEST = 1;
+  RESPONSE = 2;
+  NOTIFY = 3;
+}
+
+// 游戏消息响应
+message GameMessageResponse {
+  MessageHead head = 1;
+  int32 code = 2;
+  bytes payload = 3;
+  string message = 4;
+  int64 timestamp = 5;
+}
 
 // 房间状态
 enum RoomStatus {
@@ -61,6 +97,17 @@ message LeaveRoomRequest {
 
 // 离开房间响应
 message LeaveRoomResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+// 销毁房间请求（仅房主可以）
+message DestroyRoomRequest {
+  string room_id = 1;
+}
+
+// 销毁房间响应
+message DestroyRoomResponse {
   bool success = 1;
   string message = 2;
 }
@@ -153,12 +200,12 @@ message GameStateNotify {
   string event_message = 4;
 }
 
-// 玩家事件通知
+// 玩家进出房间通知
 message PlayerEventNotify {
   string room_id = 1;
   string player_id = 2;
-  string event_type = 3;  // JOIN, LEAVE, READY等
-  string event_message = 4;
+  string event_type = 3;  // JOIN, LEAVE, READY
+  PlayerInfo player_info = 4;
 }
 
 // 玩家准备请求
@@ -172,4 +219,4 @@ message PlayerReadyResponse {
   string message = 2;
   bool is_ready = 3;      // 当前准备状态
   RoomInfo room_info = 4; // 更新后的房间信息
-}
+} 

@@ -7,10 +7,13 @@ import (
 	"sync"
 	"time"
 
-	"mua/minigame/gomokusvr/internal/gateclient"
+	commonpb "mua/gatesvr/pb"
+	"mua/minigame/gomokusvr/internal/config"
 	"mua/minigame/gomokusvr/internal/nacos"
 	"mua/minigame/gomokusvr/internal/pb"
-	commonpb "mua/gatesvr/pb"
+
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
 	"google.golang.org/protobuf/proto"
 )
 
@@ -24,7 +27,7 @@ type PushNotification struct {
 
 // NotificationManager 通知管理器
 type NotificationManager struct {
-	connections map[string]gateclient.GateSvrClient // gatesvr客户端池
+	connections map[string]commonpb.GateSvrClient // gatesvr客户端池
 	mu          sync.RWMutex
 
 	// 推送队列
@@ -48,7 +51,7 @@ func GetNotificationManager() *NotificationManager {
 // NewNotificationManager 创建通知管理器
 func NewNotificationManager() *NotificationManager {
 	nm := &NotificationManager{
-		connections: make(map[string]gateclient.GateSvrClient),
+		connections: make(map[string]commonpb.GateSvrClient),
 		pushQueue:   make(chan *PushNotification, 1000), // 缓冲1000个通知
 		workers:     3,                                  // 3个工作协程
 	}
@@ -87,7 +90,11 @@ func (nm *NotificationManager) processPushNotification(notification *PushNotific
 	}
 
 	// 构造推送请求
-	pushReq := gateclient.NewPushRequest(notification.PlayerID, gameMsg)
+	pushReq := &commonpb.PushRequest{
+		PlayerId: notification.PlayerID,
+		CbType:   commonpb.CallbackType_PUSH,
+		Message:  gameMsg,
+	}
 
 	// 发送推送请求
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
@@ -126,8 +133,17 @@ func (nm *NotificationManager) buildGameMessage(notification *PushNotification) 
 		payload = jsonBytes
 	}
 
-	// 使用gateclient便捷方法构造游戏消息
-	gameMsg := gateclient.NewGameMessage(notification.PlayerID, notification.Method, payload)
+	// 构造游戏消息
+	gameMsg := &commonpb.GameMessage{
+		MsgHead: &commonpb.HeadMessage{
+			PlayerId:    notification.PlayerID,
+			ServiceName: "gomokusvr",
+			RequestId:   notification.Method,
+			Timestamp:   time.Now().UnixMilli(),
+		},
+		MsgType: commonpb.MessageType_CLIENT_MESSAGE,
+		Payload: payload,
+	}
 
 	return gameMsg, nil
 }
@@ -145,7 +161,7 @@ func (nm *NotificationManager) messageToBytes(message interface{}) ([]byte, erro
 }
 
 // getGateSvrClient 获取gatesvr客户端
-func (nm *NotificationManager) getGateSvrClient() (gateclient.GateSvrClient, error) {
+func (nm *NotificationManager) getGateSvrClient() (commonpb.GateSvrClient, error) {
 	// 获取gatesvr地址
 	addr, err := nm.getGateSvrAddress()
 	if err != nil {
@@ -170,12 +186,12 @@ func (nm *NotificationManager) getGateSvrClient() (gateclient.GateSvrClient, err
 	}
 
 	// 创建gRPC连接
-	conn, err := gateclient.CreateConnection(addr)
+	conn, err := grpc.Dial(addr, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		return nil, fmt.Errorf("创建连接失败: %v", err)
 	}
 
-	client = gateclient.NewGateSvrClient(conn)
+	client = commonpb.NewGateSvrClient(conn)
 	nm.connections[addr] = client
 
 	log.Printf("[通知管理器] 创建gatesvr客户端: %s", addr)
@@ -184,11 +200,14 @@ func (nm *NotificationManager) getGateSvrClient() (gateclient.GateSvrClient, err
 
 // getGateSvrAddress 获取gatesvr地址
 func (nm *NotificationManager) getGateSvrAddress() (string, error) {
-	// 从Nacos获取gatesvr实例
-	// 本地开发环境直接使用localhost
-	return "localhost:50051", nil
+	// 检查是否启用了Nacos
+	nacosConfig := config.GetNacosConfig()
+	if !nacosConfig.EnableRegister {
+		// 本地开发环境直接使用实际的gatesvr地址
+		return "192.168.0.110:50051", nil
+	}
 
-	// 注释掉的Nacos代码
+	// 从Nacos获取gatesvr实例
 	instances, err := nacos.GetServiceInstances("gatesvr")
 	if err != nil {
 		return "", fmt.Errorf("获取gatesvr实例失败: %v", err)
@@ -271,8 +290,14 @@ func PushGameNotificationToPlayers(playerIDs []string, protoMsg proto.Message, m
 
 // NotifyPiecePlaced 通知棋子已放置（专门用于五子棋下棋通知）
 func NotifyPiecePlaced(playerIDs []string, placedResp *pb.PlacePieceResponse) {
+	log.Printf("🎯 NotifyPiecePlaced: 准备推送棋子放置通知给 %d 个玩家: %v", len(playerIDs), playerIDs)
+	log.Printf("📝 通知内容: 成功=%t, 消息=%s, 游戏结果=%s",
+		placedResp.Success, placedResp.Message, placedResp.GameState.Result.String())
+
 	// 直接推送protobuf消息
 	PushGameNotificationToPlayers(playerIDs, placedResp, "PiecePlacedNotification")
+
+	log.Printf("✅ NotifyPiecePlaced: 已提交推送任务给通知管理器")
 }
 
 // NotifyGameStateChanged 通知游戏状态变化
@@ -322,4 +347,17 @@ func NotifyPlayerReady(playerIDs []string, roomID string, readyPlayerID string, 
 	}
 
 	PushGameNotificationToPlayers(playerIDs, notify, "PlayerReadyNotification")
+}
+
+// NotifyGameStarted 通知游戏开始
+func NotifyGameStarted(playerIDs []string, roomID string, gameState *pb.GameState) {
+	// 构造游戏开始通知
+	notify := &pb.GameStateNotify{
+		RoomId:       roomID,
+		GameState:    gameState,
+		EventType:    "GAME_START",
+		EventMessage: "游戏开始！",
+	}
+
+	PushGameNotificationToPlayers(playerIDs, notify, "GameStartNotification")
 }

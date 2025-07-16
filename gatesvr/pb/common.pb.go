@@ -78,8 +78,8 @@ func (MessageType) EnumDescriptor() ([]byte, []int) {
 type ServiceMessageType int32
 
 const (
-	ServiceMessageType_SYNC  ServiceMessageType = 0 // 等待回包类型
-	ServiceMessageType_ASYNC ServiceMessageType = 1 // 不等待回包类型
+	ServiceMessageType_SYNC  ServiceMessageType = 0 // 同步等待回包
+	ServiceMessageType_ASYNC ServiceMessageType = 1 // 异步不等待回包
 )
 
 // Enum value maps for ServiceMessageType.
@@ -124,18 +124,18 @@ func (ServiceMessageType) EnumDescriptor() ([]byte, []int) {
 // 通用消息头
 type HeadMessage struct {
 	state               protoimpl.MessageState `protogen:"open.v1"`
-	PlayerId            string                 `protobuf:"bytes,1,opt,name=player_id,json=playerId,proto3" json:"player_id,omitempty"`
-	ClientType          int32                  `protobuf:"varint,2,opt,name=client_type,json=clientType,proto3" json:"client_type,omitempty"`
-	ClientId            string                 `protobuf:"bytes,3,opt,name=client_id,json=clientId,proto3" json:"client_id,omitempty"`
-	RoleId              int64                  `protobuf:"varint,4,opt,name=role_id,json=roleId,proto3" json:"role_id,omitempty"`
-	ServiceName         string                 `protobuf:"bytes,5,opt,name=service_name,json=serviceName,proto3" json:"service_name,omitempty"` // 目标服务名（转发时使用）
-	Group               string                 `protobuf:"bytes,6,opt,name=group,proto3" json:"group,omitempty"`                                // 目标服务分组（转发时使用）
-	InstanceId          string                 `protobuf:"bytes,7,opt,name=instance_id,json=instanceId,proto3" json:"instance_id,omitempty"`    // 指定实例ID（可选，指定时只转发到该实例）
-	Token               string                 `protobuf:"bytes,8,opt,name=token,proto3" json:"token,omitempty"`
-	RequestId           string                 `protobuf:"bytes,9,opt,name=request_id,json=requestId,proto3" json:"request_id,omitempty"`
+	PlayerId            string                 `protobuf:"bytes,1,opt,name=player_id,json=playerId,proto3" json:"player_id,omitempty"`                                                      // 玩家ID
+	ClientType          int32                  `protobuf:"varint,2,opt,name=client_type,json=clientType,proto3" json:"client_type,omitempty"`                                               // 客户端类型
+	ClientId            string                 `protobuf:"bytes,3,opt,name=client_id,json=clientId,proto3" json:"client_id,omitempty"`                                                      // 客户端ID
+	RoleId              int64                  `protobuf:"varint,4,opt,name=role_id,json=roleId,proto3" json:"role_id,omitempty"`                                                           // 角色ID
+	ServiceName         string                 `protobuf:"bytes,5,opt,name=service_name,json=serviceName,proto3" json:"service_name,omitempty"`                                             // 目标服务名（转发时使用）
+	Group               string                 `protobuf:"bytes,6,opt,name=group,proto3" json:"group,omitempty"`                                                                            // 目标服务分组（转发时使用）
+	InstanceId          string                 `protobuf:"bytes,7,opt,name=instance_id,json=instanceId,proto3" json:"instance_id,omitempty"`                                                // 指定实例ID（可选，指定时只转发到该实例）
+	Token               string                 `protobuf:"bytes,8,opt,name=token,proto3" json:"token,omitempty"`                                                                            // 认证Token
+	RequestId           string                 `protobuf:"bytes,9,opt,name=request_id,json=requestId,proto3" json:"request_id,omitempty"`                                                   // 请求ID（用于追踪）
 	ServiceMsgType      ServiceMessageType     `protobuf:"varint,10,opt,name=service_msg_type,json=serviceMsgType,proto3,enum=common.ServiceMessageType" json:"service_msg_type,omitempty"` // 服务消息处理类型
 	LoadBalanceStrategy string                 `protobuf:"bytes,11,opt,name=load_balance_strategy,json=loadBalanceStrategy,proto3" json:"load_balance_strategy,omitempty"`                  // 负载均衡策略（"round_robin" 或 "weighted"）
-	Timestamp           int64                  `protobuf:"varint,12,opt,name=timestamp,proto3" json:"timestamp,omitempty"`                                                                  // 消息时间戳
+	Timestamp           int64                  `protobuf:"varint,12,opt,name=timestamp,proto3" json:"timestamp,omitempty"`                                                                  // 消息时间戳（毫秒）
 	unknownFields       protoimpl.UnknownFields
 	sizeCache           protoimpl.SizeCache
 }
@@ -254,14 +254,14 @@ func (x *HeadMessage) GetTimestamp() int64 {
 	return 0
 }
 
-// 通用消息体
+// 通用游戏消息
 type GameMessage struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	MsgHead       *HeadMessage           `protobuf:"bytes,1,opt,name=msg_head,json=msgHead,proto3" json:"msg_head,omitempty"`
-	MsgType       MessageType            `protobuf:"varint,2,opt,name=msg_type,json=msgType,proto3,enum=common.MessageType" json:"msg_type,omitempty"` // 使用枚举类型
-	Payload       []byte                 `protobuf:"bytes,3,opt,name=payload,proto3" json:"payload,omitempty"`
-	MsgTap        string                 `protobuf:"bytes,4,opt,name=msg_tap,json=msgTap,proto3" json:"msg_tap,omitempty"`
-	GameId        int32                  `protobuf:"varint,5,opt,name=game_id,json=gameId,proto3" json:"game_id,omitempty"`
+	MsgHead       *HeadMessage           `protobuf:"bytes,1,opt,name=msg_head,json=msgHead,proto3" json:"msg_head,omitempty"`                          // 消息头
+	MsgType       MessageType            `protobuf:"varint,2,opt,name=msg_type,json=msgType,proto3,enum=common.MessageType" json:"msg_type,omitempty"` // 消息类型
+	Payload       []byte                 `protobuf:"bytes,3,opt,name=payload,proto3" json:"payload,omitempty"`                                         // 消息负载（业务数据）
+	MsgTap        string                 `protobuf:"bytes,4,opt,name=msg_tap,json=msgTap,proto3" json:"msg_tap,omitempty"`                             // 消息标签（用于分类）
+	GameId        int32                  `protobuf:"varint,5,opt,name=game_id,json=gameId,proto3" json:"game_id,omitempty"`                            // 游戏ID（可选）
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -331,17 +331,17 @@ func (x *GameMessage) GetGameId() int32 {
 	return 0
 }
 
-// 通用回包
+// 通用游戏消息响应
 type GameMessageResponse struct {
 	state   protoimpl.MessageState `protogen:"open.v1"`
-	MsgHead *HeadMessage           `protobuf:"bytes,1,opt,name=msg_head,json=msgHead,proto3" json:"msg_head,omitempty"`
-	Ret     int32                  `protobuf:"varint,2,opt,name=ret,proto3" json:"ret,omitempty"`
+	MsgHead *HeadMessage           `protobuf:"bytes,1,opt,name=msg_head,json=msgHead,proto3" json:"msg_head,omitempty"` // 原始消息头
+	Ret     int32                  `protobuf:"varint,2,opt,name=ret,proto3" json:"ret,omitempty"`                       // 返回码（0=成功，非0=错误码）
 	// Types that are valid to be assigned to Payload:
 	//
 	//	*GameMessageResponse_Reason
 	//	*GameMessageResponse_Data
 	Payload           isGameMessageResponse_Payload `protobuf_oneof:"payload"`
-	ResponseTimestamp int64                         `protobuf:"varint,5,opt,name=response_timestamp,json=responseTimestamp,proto3" json:"response_timestamp,omitempty"` // 响应时间戳
+	ResponseTimestamp int64                         `protobuf:"varint,5,opt,name=response_timestamp,json=responseTimestamp,proto3" json:"response_timestamp,omitempty"` // 响应时间戳（毫秒）
 	unknownFields     protoimpl.UnknownFields
 	sizeCache         protoimpl.SizeCache
 }
@@ -427,11 +427,11 @@ type isGameMessageResponse_Payload interface {
 }
 
 type GameMessageResponse_Reason struct {
-	Reason string `protobuf:"bytes,3,opt,name=reason,proto3,oneof"`
+	Reason string `protobuf:"bytes,3,opt,name=reason,proto3,oneof"` // 错误原因（失败时）
 }
 
 type GameMessageResponse_Data struct {
-	Data []byte `protobuf:"bytes,4,opt,name=data,proto3,oneof"`
+	Data []byte `protobuf:"bytes,4,opt,name=data,proto3,oneof"` // 响应数据（成功时）
 }
 
 func (*GameMessageResponse_Reason) isGameMessageResponse_Payload() {}
@@ -482,7 +482,7 @@ const file_common_proto_rawDesc = "" +
 	"\x04SYNC\x10\x00\x12\t\n" +
 	"\x05ASYNC\x10\x012P\n" +
 	"\rCommonService\x12?\n" +
-	"\vSendMessage\x12\x13.common.GameMessage\x1a\x1b.common.GameMessageResponseB\x19Z\x17mua/gatesvr/internal/pbb\x06proto3"
+	"\vSendMessage\x12\x13.common.GameMessage\x1a\x1b.common.GameMessageResponseB\x10Z\x0emua/gatesvr/pbb\x06proto3"
 
 var (
 	file_common_proto_rawDescOnce sync.Once

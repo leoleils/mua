@@ -2,59 +2,66 @@ syntax = "proto3";
 
 package common;
 
-option go_package = "mua/gatesvr/internal/pb";
+option go_package = "mua/gatesvr/pb";
+
+// ========================= 枚举定义 =========================
 
 // 消息类型枚举
 enum MessageType {
-  HEARTBEAT = 0;           // 心跳消息
-  SERVICE_MESSAGE = 1;     // 服务消息（需要转发到后端服务处理）
-  CLIENT_MESSAGE = 2;      // 客户端消息（网关内部处理）
-  BROADCAST_MESSAGE = 3;   // 广播消息
+  HEARTBEAT = 0;                          // 心跳消息
+  SERVICE_MESSAGE = 1;                    // 服务消息（需要转发到后端服务处理）
+  CLIENT_MESSAGE = 2;                     // 客户端消息（网关内部处理）
+  BROADCAST_MESSAGE = 3;                  // 广播消息
 }
 
 // 服务消息处理类型
 enum ServiceMessageType {
-  SYNC = 0;     // 等待回包类型
-  ASYNC = 1;    // 不等待回包类型
+  SYNC = 0;                               // 同步等待回包
+  ASYNC = 1;                              // 异步不等待回包
 }
+
+// ========================= 消息结构定义 =========================
 
 // 通用消息头
 message HeadMessage {
-  string player_id = 1;
-  int32 client_type = 2;
-  string client_id = 3;
-  int64 role_id = 4;
-  string service_name = 5;        // 目标服务名（转发时使用）
-  string group = 6;               // 目标服务分组（转发时使用）
-  string instance_id = 7;         // 指定实例ID（可选，指定时只转发到该实例）
-  string token = 8;
-  string request_id = 9;
-  ServiceMessageType service_msg_type = 10;  // 服务消息处理类型
-  string load_balance_strategy = 11;         // 负载均衡策略（"round_robin" 或 "weighted"）
-  int64 timestamp = 12;                      // 消息时间戳
+  string player_id = 1;                     // 玩家ID
+  int32 client_type = 2;                    // 客户端类型
+  string client_id = 3;                     // 客户端ID
+  int64 role_id = 4;                        // 角色ID
+  string service_name = 5;                  // 目标服务名（转发时使用）
+  string group = 6;                         // 目标服务分组（转发时使用）
+  string instance_id = 7;                   // 指定实例ID（可选，指定时只转发到该实例）
+  string token = 8;                         // 认证Token
+  string request_id = 9;                    // 请求ID（用于追踪）
+  ServiceMessageType service_msg_type = 10; // 服务消息处理类型
+  string load_balance_strategy = 11;        // 负载均衡策略（"round_robin" 或 "weighted"）
+  int64 timestamp = 12;                     // 消息时间戳（毫秒）
 }
 
-// 通用消息体
+// 通用游戏消息
 message GameMessage {
-  HeadMessage msg_head = 1;
-  MessageType msg_type = 2;       // 使用枚举类型
-  bytes  payload   = 3;
-  string msg_tap = 4;
-  int32 game_id = 5;
+  HeadMessage msg_head = 1;                 // 消息头
+  MessageType msg_type = 2;                 // 消息类型
+  bytes payload = 3;                        // 消息负载（业务数据）
+  string msg_tap = 4;                       // 消息标签（用于分类）
+  int32 game_id = 5;                        // 游戏ID（可选）
 }
 
-// 通用回包
+// 通用游戏消息响应
 message GameMessageResponse {
-  HeadMessage msg_head = 1;
-  int32 ret = 2;
+  HeadMessage msg_head = 1;                 // 原始消息头
+  int32 ret = 2;                            // 返回码（0=成功，非0=错误码）
   oneof payload {
-    string reason = 3;
-    bytes  data = 4;
+    string reason = 3;                      // 错误原因（失败时）
+    bytes data = 4;                         // 响应数据（成功时）
   }
-  int64 response_timestamp = 5;   // 响应时间戳
+  int64 response_timestamp = 5;             // 响应时间戳（毫秒）
 }
 
-// 通用服务接口
+// ========================= 通用服务接口 =========================
+
+// 通用消息处理服务（用于业务服务实现）
 service CommonService {
+  // 发送消息到业务服务
   rpc SendMessage(GameMessage) returns (GameMessageResponse);
 } 

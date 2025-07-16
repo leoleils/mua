@@ -32,9 +32,15 @@ func (h *GameHandler) notifyOtherPlayers(room *room.Room, currentPlayerID string
 		}
 	}
 
+	log.Printf("房间 %s 中玩家 %s 下棋，需要通知的其他玩家: %v (共%d人)",
+		room.ID, currentPlayerID, otherPlayers, len(otherPlayers))
+
 	if len(otherPlayers) > 0 {
+		log.Printf("开始推送棋子放置通知 (PiecePlacedNotification) 给玩家: %v", otherPlayers)
 		notification.NotifyPiecePlaced(otherPlayers, placeResp)
-		log.Printf("推送下棋通知给玩家: %v", otherPlayers)
+		log.Printf("✅ 已完成推送下棋通知给玩家: %v", otherPlayers)
+	} else {
+		log.Printf("⚠️  房间 %s 中没有其他玩家需要接收通知", room.ID)
 	}
 }
 
@@ -109,4 +115,25 @@ func (h *GameHandler) notifyPlayerReady(room *room.Room, readyPlayerID string, i
 func structToBytes(data proto.Message) []byte {
 	bytes, _ := proto.Marshal(data)
 	return bytes
+}
+
+// notifyGameStarted 通知游戏开始
+func (h *GameHandler) notifyGameStarted(room *room.Room, gameState *pb.GameState) {
+	// 获取房间内所有玩家
+	allPlayers := room.GetAllPlayers()
+
+	log.Printf("推送游戏开始通知给房间 %s 的所有玩家: %v", room.ID, allPlayers)
+
+	// 构造游戏开始通知
+	notify := &pb.GameStateNotify{
+		RoomId:       room.ID,
+		GameState:    gameState,
+		EventType:    "GAME_START",
+		EventMessage: "游戏开始！",
+	}
+
+	// 推送通知给所有玩家
+	notification.PushGameNotificationToPlayers(allPlayers, notify, "GameStartNotification")
+
+	log.Printf("✅ 已完成推送游戏开始通知给房间 %s 的所有玩家: %v", room.ID, allPlayers)
 }

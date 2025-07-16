@@ -4,7 +4,7 @@ import "common.proto";
 
 package gatesvr;
 
-option go_package = "mua/gatesvr/internal/pb";
+option go_package = "mua/gatesvr/pb";
 
 enum CallbackType {
   SYNC = 0;
@@ -12,47 +12,62 @@ enum CallbackType {
   PUSH = 2;
 }
 
+// 推送请求
 message PushRequest {
-  string player_id = 1;
-  string ip = 2;
-  CallbackType cb_type = 3;
-  common.GameMessage message = 4;
+  string player_id = 1;                   // 目标玩家ID
+  string ip = 2;                          // 目标IP（可选，优先使用player_id）
+  CallbackType cb_type = 3;               // 回调类型
+  common.GameMessage message = 4;         // 要推送的消息
 }
 
+// 推送响应
 message PushResponse {
-  bool success = 1;
-  string message = 2;
+  bool success = 1;                       // 是否成功
+  string message = 2;                     // 响应消息
+  int32 error_code = 3;                   // 错误码（失败时）
 }
 
+// 网关核心服务
 service GateSvr {
-  // 踢下线
+  // 连接管理：踢下线
   rpc KickPlayer(KickPlayerRequest) returns (KickPlayerResponse);
-  // 消息转发
-  rpc ForwardMessage(ForwardMessageRequest) returns (ForwardMessageResponse);
-  // 通知客户端
+  
+  // 消息处理：推送消息到客户端
   rpc PushToClient(PushRequest) returns (PushResponse);
-  // 生成鉴权Token
+  
+  // 消息处理：转发消息到其他网关节点
+  rpc ForwardMessage(ForwardMessageRequest) returns (ForwardMessageResponse);
+  
+  // 认证管理：生成JWT Token
   rpc GenerateAuthToken(GenerateAuthTokenRequest) returns (GenerateAuthTokenResponse);
 }
 
+// 踢下线请求
 message KickPlayerRequest {
-  string player_id = 1;
-  string reason = 2;
+  string player_id = 1;                   // 玩家ID
+  string reason = 2;                      // 踢下线原因
+  bool force = 3;                         // 是否强制踢下线
 }
 
+// 踢下线响应
 message KickPlayerResponse {
-  bool success = 1;
-  string message = 2;
+  bool success = 1;                       // 是否成功
+  string message = 2;                     // 响应消息
+  int32 error_code = 3;                   // 错误码（失败时）
 }
 
+// 消息转发请求
 message ForwardMessageRequest {
-  string player_id = 1;
-  bytes payload = 2;
+  string player_id = 1;                   // 目标玩家ID
+  bytes payload = 2;                      // 消息负载（序列化后的GameMessage）
+  string service_name = 3;                // 来源服务名（用于日志追踪）
 }
 
+// 消息转发响应
 message ForwardMessageResponse {
-  bool success = 1;
-  string message = 2;
+  bool success = 1;                       // 是否成功
+  string message = 2;                     // 响应消息
+  int32 error_code = 3;                   // 错误码（失败时）
 }
 
 // Token生成请求

@@ -20,22 +20,24 @@ const _ = grpc.SupportPackageIsVersion9
 
 const (
 	GateSvr_KickPlayer_FullMethodName        = "/gatesvr.GateSvr/KickPlayer"
-	GateSvr_ForwardMessage_FullMethodName    = "/gatesvr.GateSvr/ForwardMessage"
 	GateSvr_PushToClient_FullMethodName      = "/gatesvr.GateSvr/PushToClient"
+	GateSvr_ForwardMessage_FullMethodName    = "/gatesvr.GateSvr/ForwardMessage"
 	GateSvr_GenerateAuthToken_FullMethodName = "/gatesvr.GateSvr/GenerateAuthToken"
 )
 
 // GateSvrClient is the client API for GateSvr service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+//
+// 网关核心服务
 type GateSvrClient interface {
-	// 踢下线
+	// 连接管理：踢下线
 	KickPlayer(ctx context.Context, in *KickPlayerRequest, opts ...grpc.CallOption) (*KickPlayerResponse, error)
-	// 消息转发
-	ForwardMessage(ctx context.Context, in *ForwardMessageRequest, opts ...grpc.CallOption) (*ForwardMessageResponse, error)
-	// 通知客户端
+	// 消息处理：推送消息到客户端
 	PushToClient(ctx context.Context, in *PushRequest, opts ...grpc.CallOption) (*PushResponse, error)
-	// 生成鉴权Token
+	// 消息处理：转发消息到其他网关节点
+	ForwardMessage(ctx context.Context, in *ForwardMessageRequest, opts ...grpc.CallOption) (*ForwardMessageResponse, error)
+	// 认证管理：生成JWT Token
 	GenerateAuthToken(ctx context.Context, in *GenerateAuthTokenRequest, opts ...grpc.CallOption) (*GenerateAuthTokenResponse, error)
 }
 
@@ -57,20 +59,20 @@ func (c *gateSvrClient) KickPlayer(ctx context.Context, in *KickPlayerRequest, o
 	return out, nil
 }
 
-func (c *gateSvrClient) ForwardMessage(ctx context.Context, in *ForwardMessageRequest, opts ...grpc.CallOption) (*ForwardMessageResponse, error) {
+func (c *gateSvrClient) PushToClient(ctx context.Context, in *PushRequest, opts ...grpc.CallOption) (*PushResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(ForwardMessageResponse)
-	err := c.cc.Invoke(ctx, GateSvr_ForwardMessage_FullMethodName, in, out, cOpts...)
+	out := new(PushResponse)
+	err := c.cc.Invoke(ctx, GateSvr_PushToClient_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *gateSvrClient) PushToClient(ctx context.Context, in *PushRequest, opts ...grpc.CallOption) (*PushResponse, error) {
+func (c *gateSvrClient) ForwardMessage(ctx context.Context, in *ForwardMessageRequest, opts ...grpc.CallOption) (*ForwardMessageResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(PushResponse)
-	err := c.cc.Invoke(ctx, GateSvr_PushToClient_FullMethodName, in, out, cOpts...)
+	out := new(ForwardMessageResponse)
+	err := c.cc.Invoke(ctx, GateSvr_ForwardMessage_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -90,14 +92,16 @@ func (c *gateSvrClient) GenerateAuthToken(ctx context.Context, in *GenerateAuthT
 // GateSvrServer is the server API for GateSvr service.
 // All implementations must embed UnimplementedGateSvrServer
 // for forward compatibility.
+//
+// 网关核心服务
 type GateSvrServer interface {
-	// 踢下线
+	// 连接管理：踢下线
 	KickPlayer(context.Context, *KickPlayerRequest) (*KickPlayerResponse, error)
-	// 消息转发
-	ForwardMessage(context.Context, *ForwardMessageRequest) (*ForwardMessageResponse, error)
-	// 通知客户端
+	// 消息处理：推送消息到客户端
 	PushToClient(context.Context, *PushRequest) (*PushResponse, error)
-	// 生成鉴权Token
+	// 消息处理：转发消息到其他网关节点
+	ForwardMessage(context.Context, *ForwardMessageRequest) (*ForwardMessageResponse, error)
+	// 认证管理：生成JWT Token
 	GenerateAuthToken(context.Context, *GenerateAuthTokenRequest) (*GenerateAuthTokenResponse, error)
 	mustEmbedUnimplementedGateSvrServer()
 }
@@ -112,11 +116,11 @@ type UnimplementedGateSvrServer struct{}
 func (UnimplementedGateSvrServer) KickPlayer(context.Context, *KickPlayerRequest) (*KickPlayerResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method KickPlayer not implemented")
 }
-func (UnimplementedGateSvrServer) ForwardMessage(context.Context, *ForwardMessageRequest) (*ForwardMessageResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ForwardMessage not implemented")
-}
 func (UnimplementedGateSvrServer) PushToClient(context.Context, *PushRequest) (*PushResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method PushToClient not implemented")
+}
+func (UnimplementedGateSvrServer) ForwardMessage(context.Context, *ForwardMessageRequest) (*ForwardMessageResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ForwardMessage not implemented")
 }
 func (UnimplementedGateSvrServer) GenerateAuthToken(context.Context, *GenerateAuthTokenRequest) (*GenerateAuthTokenResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GenerateAuthToken not implemented")
@@ -160,24 +164,6 @@ func _GateSvr_KickPlayer_Handler(srv interface{}, ctx context.Context, dec func(
 	return interceptor(ctx, in, info, handler)
 }
 
-func _GateSvr_ForwardMessage_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ForwardMessageRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(GateSvrServer).ForwardMessage(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: GateSvr_ForwardMessage_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(GateSvrServer).ForwardMessage(ctx, req.(*ForwardMessageRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _GateSvr_PushToClient_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(PushRequest)
 	if err := dec(in); err != nil {
@@ -192,6 +178,24 @@ func _GateSvr_PushToClient_Handler(srv interface{}, ctx context.Context, dec fun
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(GateSvrServer).PushToClient(ctx, req.(*PushRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _GateSvr_ForwardMessage_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ForwardMessageRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GateSvrServer).ForwardMessage(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: GateSvr_ForwardMessage_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GateSvrServer).ForwardMessage(ctx, req.(*ForwardMessageRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -226,12 +230,12 @@ var GateSvr_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _GateSvr_KickPlayer_Handler,
 		},
 		{
-			MethodName: "ForwardMessage",
-			Handler:    _GateSvr_ForwardMessage_Handler,
-		},
-		{
 			MethodName: "PushToClient",
 			Handler:    _GateSvr_PushToClient_Handler,
+		},
+		{
+			MethodName: "ForwardMessage",
+			Handler:    _GateSvr_ForwardMessage_Handler,
 		},
 		{
 			MethodName: "GenerateAuthToken",

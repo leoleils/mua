@@ -26,8 +26,9 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 //
-// 通用服务接口
+// 通用消息处理服务（用于业务服务实现）
 type CommonServiceClient interface {
+	// 发送消息到业务服务
 	SendMessage(ctx context.Context, in *GameMessage, opts ...grpc.CallOption) (*GameMessageResponse, error)
 }
 
@@ -53,8 +54,9 @@ func (c *commonServiceClient) SendMessage(ctx context.Context, in *GameMessage, 
 // All implementations must embed UnimplementedCommonServiceServer
 // for forward compatibility.
 //
-// 通用服务接口
+// 通用消息处理服务（用于业务服务实现）
 type CommonServiceServer interface {
+	// 发送消息到业务服务
 	SendMessage(context.Context, *GameMessage) (*GameMessageResponse, error)
 	mustEmbedUnimplementedCommonServiceServer()
 }
