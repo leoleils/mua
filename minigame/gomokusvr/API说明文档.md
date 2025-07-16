@@ -243,6 +243,46 @@ message PlacePieceResponse {
 }
 ```
 
+#### 2.4 获取游戏进度 (`GetGameProgress`)
+
+**功能描述**: 获取指定房间的完整游戏进度信息，包括房间状态、游戏状态、棋盘状态和剩余时间等。
+
+**权限要求**: 只有房间内的玩家可以查询该房间的游戏进度
+
+**请求载荷** (`GetGameProgressRequest`):
+```protobuf
+message GetGameProgressRequest {
+  string room_id = 1;    // 房间ID
+}
+```
+
+**响应载荷** (`GetGameProgressResponse`):
+```protobuf
+message GetGameProgressResponse {
+  bool success = 1;           // 是否成功
+  string message = 2;         // 响应消息
+  RoomInfo room_info = 3;     // 房间信息
+  GameState game_state = 4;   // 游戏状态
+  int32 remaining_time = 5;   // 剩余时间（秒）-1表示无限制
+}
+```
+
+**状态检查**:
+- 检查房间是否存在
+- 检查玩家是否在房间中
+- 返回完整的房间和游戏状态信息
+
+**返回信息**:
+- **房间信息**: 房间ID、名称、状态、玩家列表、房主等
+- **游戏状态**: 棋盘状态、当前轮次、游戏结果、走棋历史等  
+- **剩余时间**: 当前轮次剩余时间（当前实现为-1，表示无时间限制）
+
+**使用场景**:
+- 玩家重新连接时恢复游戏状态
+- 观战模式获取当前游戏进度
+- 前端界面刷新时同步最新状态
+- 调试和监控游戏状态
+
 ## 📋 消息结构
 
 ### 核心数据结构
@@ -336,6 +376,37 @@ enum GameResult {
 - **目标**: 房间内相关玩家
 - **格式**: protobuf 二进制序列化
 
+### gRPC 推送协议格式
+
+所有推送消息都通过 gatesvr 的 `PushToClient` gRPC 接口发送：
+
+```protobuf
+// gatesvr 推送请求
+message PushRequest {
+  string player_id = 1;           // 目标玩家ID
+  string ip = 2;                  // 目标IP（可选）
+  CallbackType cb_type = 3;       // 回调类型：PUSH
+  common.GameMessage message = 4; // 推送的游戏消息
+}
+
+// 推送的游戏消息格式
+message GameMessage {
+  HeadMessage msg_head = 1;       // 消息头
+  MessageType msg_type = 2;       // 消息类型：CLIENT_MESSAGE
+  bytes payload = 3;              // 消息负载（具体通知内容）
+  string msg_tap = 4;             // 消息标签
+  int32 game_id = 5;              // 游戏ID
+}
+
+// 消息头格式
+message HeadMessage {
+  string player_id = 1;           // 目标玩家ID
+  string service_name = 5;        // 服务名："gomokusvr"
+  string request_id = 9;          // 请求ID（通知类型名称）
+  int64 timestamp = 12;           // 时间戳
+}
+```
+
 ### 通知触发流程
 
 1. **房主开始游戏** → 触发 `GameStartNotification` → 推送给房间内所有玩家
@@ -350,14 +421,60 @@ enum GameResult {
 
 **触发时机**: 玩家成功下棋后  
 **推送对象**: 房间内除当前玩家外的所有其他玩家  
-**消息内容**: `PlacePieceResponse`
+
+**完整推送协议**:
+```protobuf
+// gRPC PushRequest
+{
+  "player_id": "target_player_123",
+  "cb_type": "PUSH",
+  "message": {
+    "msg_head": {
+      "player_id": "target_player_123",
+      "service_name": "gomokusvr",
+      "request_id": "PiecePlacedNotification",
+      "timestamp": 1699123456789
+    },
+    "msg_type": "CLIENT_MESSAGE",
+    "payload": <PlacePieceResponse序列化后的bytes>
+  }
+}
+```
+
+**Payload 内容** (`PlacePieceResponse`):
+```protobuf
+message PlacePieceResponse {
+  bool success = 1;           // 是否成功
+  string message = 2;         // 响应消息
+  GameState game_state = 3;   // 更新后的游戏状态
+}
+```
 
 #### 2. 游戏开始通知 (`GameStartNotification`)
 
 **触发时机**: 房主成功开始游戏时  
 **推送对象**: 房间内所有玩家（包括房主）  
-**消息内容**: `GameStateNotify`
 
+**完整推送协议**:
+```protobuf
+// gRPC PushRequest
+{
+  "player_id": "target_player_123",
+  "cb_type": "PUSH", 
+  "message": {
+    "msg_head": {
+      "player_id": "target_player_123",
+      "service_name": "gomokusvr",
+      "request_id": "GameStartNotification",
+      "timestamp": 1699123456789
+    },
+    "msg_type": "CLIENT_MESSAGE",
+    "payload": <GameStateNotify序列化后的bytes>
+  }
+}
+```
+
+**Payload 内容** (`GameStateNotify`):
 ```protobuf
 message GameStateNotify {
   string room_id = 1;          // 房间ID
@@ -371,40 +488,83 @@ message GameStateNotify {
 
 **触发时机**: 游戏状态发生变化时  
 **推送对象**: 房间内所有玩家  
-**消息内容**: `GameStateNotify`
 
+**完整推送协议**:
+```protobuf
+// gRPC PushRequest
+{
+  "player_id": "target_player_123",
+  "cb_type": "PUSH",
+  "message": {
+    "msg_head": {
+      "player_id": "target_player_123", 
+      "service_name": "gomokusvr",
+      "request_id": "GameStateChangedNotification",
+      "timestamp": 1699123456789
+    },
+    "msg_type": "CLIENT_MESSAGE",
+    "payload": <GameStateNotify序列化后的bytes>
+  }
+}
+```
+
+**Payload 内容** (`GameStateNotify`):
 ```protobuf
 message GameStateNotify {
   string room_id = 1;          // 房间ID
   GameState game_state = 2;    // 游戏状态
-  string event_type = 3;       // 事件类型
-  string event_message = 4;    // 事件消息
+  string event_type = 3;       // 事件类型: "GAME_STATE_CHANGED"
+  string event_message = 4;    // 事件消息: "游戏状态已更新"
 }
 ```
 
 #### 4. 玩家事件通知
 
-**玩家加入** (`PlayerJoinedNotification`):
-- **触发时机**: 新玩家加入房间
-- **推送对象**: 房间内除新玩家外的其他玩家
+##### 玩家加入通知 (`PlayerJoinedNotification`)
+**触发时机**: 新玩家加入房间  
+**推送对象**: 房间内除新玩家外的其他玩家  
 
-**玩家离开** (`PlayerLeftNotification`):
-- **触发时机**: 玩家离开房间
-- **推送对象**: 房间内除离开玩家外的其他玩家
+##### 玩家离开通知 (`PlayerLeftNotification`)
+**触发时机**: 玩家离开房间  
+**推送对象**: 房间内除离开玩家外的其他玩家  
 
-**玩家准备** (`PlayerReadyNotification`):
-- **触发时机**: 玩家准备状态变化
-- **推送对象**: 房间内除当前玩家外的其他玩家
+##### 玩家准备通知 (`PlayerReadyNotification`)
+**触发时机**: 玩家准备状态变化  
+**推送对象**: 房间内除当前玩家外的其他玩家  
 
-**消息结构** (`PlayerEventNotify`):
+**完整推送协议**（以PlayerJoinedNotification为例）:
+```protobuf
+// gRPC PushRequest
+{
+  "player_id": "target_player_456",
+  "cb_type": "PUSH",
+  "message": {
+    "msg_head": {
+      "player_id": "target_player_456",
+      "service_name": "gomokusvr", 
+      "request_id": "PlayerJoinedNotification",
+      "timestamp": 1699123456789
+    },
+    "msg_type": "CLIENT_MESSAGE",
+    "payload": <PlayerEventNotify序列化后的bytes>
+  }
+}
+```
+
+**Payload 内容** (`PlayerEventNotify`):
 ```protobuf
 message PlayerEventNotify {
   string room_id = 1;          // 房间ID
-  string player_id = 2;        // 玩家ID
+  string player_id = 2;        // 事件相关的玩家ID
   string event_type = 3;       // 事件类型：JOIN/LEAVE/READY
   PlayerInfo player_info = 4;  // 玩家信息（可选）
 }
 ```
+
+**各事件类型的 event_type 值**:
+- `PlayerJoinedNotification`: `"JOIN"`
+- `PlayerLeftNotification`: `"LEAVE"`  
+- `PlayerReadyNotification`: `"READY"`
 
 ## ❌ 错误码
 
@@ -481,18 +641,166 @@ message PlayerEventNotify {
 
 ### 3. 客户端接收通知示例
 
-客户端会收到来自 gatesvr 的推送消息：
+客户端会收到来自 gatesvr 的推送消息，包含完整的协议头和消息内容：
+
+#### 3.1 棋子放置通知示例
 
 ```protobuf
-// 棋子放置通知
+// 完整的推送消息格式
+{
+  "msg_head": {
+    "player_id": "player_456",              // 接收通知的玩家ID
+    "service_name": "gomokusvr",            // 服务名
+    "request_id": "PiecePlacedNotification", // 通知类型
+    "timestamp": 1699123456789              // 时间戳
+  },
+  "msg_type": "CLIENT_MESSAGE",             // 消息类型
+  "payload": <PlacePieceResponse序列化后的bytes>
+}
+
+// payload 反序列化后的内容 (PlacePieceResponse)
+{
+  "success": true,
+  "message": "下棋成功",
+  "game_state": {
+    "board": [0, 0, 0, ..., 1, 0, ...],     // 棋盘状态
+    "current_turn": "WHITE",                // 当前轮次
+    "result": "ONGOING",                    // 游戏结果
+    "total_moves": 3,                       // 总步数
+    "move_history": [                       // 走棋历史
+      {
+        "player_id": "player_123",
+        "color": "BLACK",
+        "x": 7,
+        "y": 7,
+        "move_number": 1
+      }
+    ]
+  }
+}
+```
+
+#### 3.2 游戏开始通知示例
+
+```protobuf
+// 完整的推送消息格式
+{
+  "msg_head": {
+    "player_id": "player_123",
+    "service_name": "gomokusvr", 
+    "request_id": "GameStartNotification",
+    "timestamp": 1699123456789
+  },
+  "msg_type": "CLIENT_MESSAGE",
+  "payload": <GameStateNotify序列化后的bytes>
+}
+
+// payload 反序列化后的内容 (GameStateNotify)
+{
+  "room_id": "room_001",
+  "game_state": {
+    "board": [0, 0, 0, ...],                // 初始空白棋盘
+    "current_turn": "BLACK",                // 黑子先手
+    "result": "ONGOING",                    // 游戏进行中
+    "total_moves": 0                        // 初始步数为0
+  },
+  "event_type": "GAME_START",
+  "event_message": "游戏开始！"
+}
+```
+
+#### 3.3 玩家事件通知示例
+
+```protobuf
+// 玩家加入通知
 {
   "msg_head": {
     "player_id": "player_456",
     "service_name": "gomokusvr",
-    "request_id": "PiecePlacedNotification"
+    "request_id": "PlayerJoinedNotification",
+    "timestamp": 1699123456789
   },
-  "msg_type": "CLIENT_MESSAGE",
-  "payload": <PlacePieceResponse序列化后的bytes>
+  "msg_type": "CLIENT_MESSAGE", 
+  "payload": <PlayerEventNotify序列化后的bytes>
+}
+
+// payload 反序列化后的内容 (PlayerEventNotify)
+{
+  "room_id": "room_001",
+  "player_id": "player_789",               // 新加入的玩家ID
+  "event_type": "JOIN",
+  "player_info": {                         // 新玩家信息
+    "player_id": "player_789",
+    "username": "新玩家",
+    "color": "WHITE",
+    "is_ready": false,
+    "join_time": 1699123456789
+  }
+}
+```
+
+### 4. 获取游戏进度示例
+
+```protobuf
+// 请求
+{
+  "head": {
+    "msg_id": "msg_003",
+    "player_id": "player_123", 
+    "service_name": "gomokusvr",
+    "method": "GetGameProgress"
+  },
+  "msg_type": "REQUEST",
+  "payload": <GetGameProgressRequest序列化后的bytes>,
+  "timestamp": 1699123456789
+}
+
+// GetGameProgressRequest 内容
+{
+  "room_id": "room_001"
+}
+
+// 响应示例
+{
+  "success": true,
+  "message": "获取游戏进度成功",
+  "room_info": {
+    "room_id": "room_001",
+    "room_name": "我的五子棋房间",
+    "status": "PLAYING",
+    "players": [
+      {
+        "player_id": "player_123",
+        "username": "玩家1",
+        "color": "BLACK",
+        "is_ready": true
+      },
+      {
+        "player_id": "player_456", 
+        "username": "玩家2",
+        "color": "WHITE",
+        "is_ready": true
+      }
+    ],
+    "owner_id": "player_123"
+  },
+  "game_state": {
+    "board": [0, 0, 0, ..., 1, 2, 0, ...], // 225个元素的棋盘数组
+    "current_turn": "WHITE",
+    "result": "ONGOING",
+    "total_moves": 5,
+    "move_history": [
+      {
+        "player_id": "player_123",
+        "color": "BLACK", 
+        "x": 7,
+        "y": 7,
+        "move_number": 1
+      }
+      // ... 更多走棋记录
+    ]
+  },
+  "remaining_time": -1  // -1表示无时间限制
 }
 ```
 

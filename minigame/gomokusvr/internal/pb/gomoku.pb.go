@@ -1808,6 +1808,128 @@ func (x *PlayerReadyResponse) GetRoomInfo() *RoomInfo {
 	return nil
 }
 
+// 获取游戏进度请求
+type GetGameProgressRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	RoomId        string                 `protobuf:"bytes,1,opt,name=room_id,json=roomId,proto3" json:"room_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetGameProgressRequest) Reset() {
+	*x = GetGameProgressRequest{}
+	mi := &file_proto_gomoku_proto_msgTypes[25]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetGameProgressRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetGameProgressRequest) ProtoMessage() {}
+
+func (x *GetGameProgressRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_gomoku_proto_msgTypes[25]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetGameProgressRequest.ProtoReflect.Descriptor instead.
+func (*GetGameProgressRequest) Descriptor() ([]byte, []int) {
+	return file_proto_gomoku_proto_rawDescGZIP(), []int{25}
+}
+
+func (x *GetGameProgressRequest) GetRoomId() string {
+	if x != nil {
+		return x.RoomId
+	}
+	return ""
+}
+
+// 获取游戏进度响应
+type GetGameProgressResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Success       bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+	Message       string                 `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
+	RoomInfo      *RoomInfo              `protobuf:"bytes,3,opt,name=room_info,json=roomInfo,proto3" json:"room_info,omitempty"`                 // 房间信息
+	GameState     *GameState             `protobuf:"bytes,4,opt,name=game_state,json=gameState,proto3" json:"game_state,omitempty"`              // 游戏状态
+	RemainingTime int32                  `protobuf:"varint,5,opt,name=remaining_time,json=remainingTime,proto3" json:"remaining_time,omitempty"` // 剩余时间（秒）-1表示无限制
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetGameProgressResponse) Reset() {
+	*x = GetGameProgressResponse{}
+	mi := &file_proto_gomoku_proto_msgTypes[26]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetGameProgressResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetGameProgressResponse) ProtoMessage() {}
+
+func (x *GetGameProgressResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_gomoku_proto_msgTypes[26]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetGameProgressResponse.ProtoReflect.Descriptor instead.
+func (*GetGameProgressResponse) Descriptor() ([]byte, []int) {
+	return file_proto_gomoku_proto_rawDescGZIP(), []int{26}
+}
+
+func (x *GetGameProgressResponse) GetSuccess() bool {
+	if x != nil {
+		return x.Success
+	}
+	return false
+}
+
+func (x *GetGameProgressResponse) GetMessage() string {
+	if x != nil {
+		return x.Message
+	}
+	return ""
+}
+
+func (x *GetGameProgressResponse) GetRoomInfo() *RoomInfo {
+	if x != nil {
+		return x.RoomInfo
+	}
+	return nil
+}
+
+func (x *GetGameProgressResponse) GetGameState() *GameState {
+	if x != nil {
+		return x.GameState
+	}
+	return nil
+}
+
+func (x *GetGameProgressResponse) GetRemainingTime() int32 {
+	if x != nil {
+		return x.RemainingTime
+	}
+	return 0
+}
+
 var File_proto_gomoku_proto protoreflect.FileDescriptor
 
 const file_proto_gomoku_proto_rawDesc = "" +
@@ -1930,7 +2052,16 @@ const file_proto_gomoku_proto_rawDesc = "" +
 	"\asuccess\x18\x01 \x01(\bR\asuccess\x12\x18\n" +
 	"\amessage\x18\x02 \x01(\tR\amessage\x12\x19\n" +
 	"\bis_ready\x18\x03 \x01(\bR\aisReady\x12-\n" +
-	"\troom_info\x18\x04 \x01(\v2\x10.gomoku.RoomInfoR\broomInfo*A\n" +
+	"\troom_info\x18\x04 \x01(\v2\x10.gomoku.RoomInfoR\broomInfo\"1\n" +
+	"\x16GetGameProgressRequest\x12\x17\n" +
+	"\aroom_id\x18\x01 \x01(\tR\x06roomId\"\xd5\x01\n" +
+	"\x17GetGameProgressResponse\x12\x18\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\x12\x18\n" +
+	"\amessage\x18\x02 \x01(\tR\amessage\x12-\n" +
+	"\troom_info\x18\x03 \x01(\v2\x10.gomoku.RoomInfoR\broomInfo\x120\n" +
+	"\n" +
+	"game_state\x18\x04 \x01(\v2\x11.gomoku.GameStateR\tgameState\x12%\n" +
+	"\x0eremaining_time\x18\x05 \x01(\x05R\rremainingTime*A\n" +
 	"\vMessageType\x12\v\n" +
 	"\aUNKNOWN\x10\x00\x12\v\n" +
 	"\aREQUEST\x10\x01\x12\f\n" +
@@ -1968,37 +2099,39 @@ func file_proto_gomoku_proto_rawDescGZIP() []byte {
 }
 
 var file_proto_gomoku_proto_enumTypes = make([]protoimpl.EnumInfo, 4)
-var file_proto_gomoku_proto_msgTypes = make([]protoimpl.MessageInfo, 25)
+var file_proto_gomoku_proto_msgTypes = make([]protoimpl.MessageInfo, 27)
 var file_proto_gomoku_proto_goTypes = []any{
-	(MessageType)(0),            // 0: gomoku.MessageType
-	(RoomStatus)(0),             // 1: gomoku.RoomStatus
-	(PlayerColor)(0),            // 2: gomoku.PlayerColor
-	(GameResult)(0),             // 3: gomoku.GameResult
-	(*GameMessage)(nil),         // 4: gomoku.GameMessage
-	(*MessageHead)(nil),         // 5: gomoku.MessageHead
-	(*GameMessageResponse)(nil), // 6: gomoku.GameMessageResponse
-	(*CreateRoomRequest)(nil),   // 7: gomoku.CreateRoomRequest
-	(*CreateRoomResponse)(nil),  // 8: gomoku.CreateRoomResponse
-	(*JoinRoomRequest)(nil),     // 9: gomoku.JoinRoomRequest
-	(*JoinRoomResponse)(nil),    // 10: gomoku.JoinRoomResponse
-	(*LeaveRoomRequest)(nil),    // 11: gomoku.LeaveRoomRequest
-	(*LeaveRoomResponse)(nil),   // 12: gomoku.LeaveRoomResponse
-	(*DestroyRoomRequest)(nil),  // 13: gomoku.DestroyRoomRequest
-	(*DestroyRoomResponse)(nil), // 14: gomoku.DestroyRoomResponse
-	(*PlacePieceRequest)(nil),   // 15: gomoku.PlacePieceRequest
-	(*PlacePieceResponse)(nil),  // 16: gomoku.PlacePieceResponse
-	(*RoomInfo)(nil),            // 17: gomoku.RoomInfo
-	(*PlayerInfo)(nil),          // 18: gomoku.PlayerInfo
-	(*GameState)(nil),           // 19: gomoku.GameState
-	(*Move)(nil),                // 20: gomoku.Move
-	(*GetRoomListRequest)(nil),  // 21: gomoku.GetRoomListRequest
-	(*GetRoomListResponse)(nil), // 22: gomoku.GetRoomListResponse
-	(*StartGameRequest)(nil),    // 23: gomoku.StartGameRequest
-	(*StartGameResponse)(nil),   // 24: gomoku.StartGameResponse
-	(*GameStateNotify)(nil),     // 25: gomoku.GameStateNotify
-	(*PlayerEventNotify)(nil),   // 26: gomoku.PlayerEventNotify
-	(*PlayerReadyRequest)(nil),  // 27: gomoku.PlayerReadyRequest
-	(*PlayerReadyResponse)(nil), // 28: gomoku.PlayerReadyResponse
+	(MessageType)(0),                // 0: gomoku.MessageType
+	(RoomStatus)(0),                 // 1: gomoku.RoomStatus
+	(PlayerColor)(0),                // 2: gomoku.PlayerColor
+	(GameResult)(0),                 // 3: gomoku.GameResult
+	(*GameMessage)(nil),             // 4: gomoku.GameMessage
+	(*MessageHead)(nil),             // 5: gomoku.MessageHead
+	(*GameMessageResponse)(nil),     // 6: gomoku.GameMessageResponse
+	(*CreateRoomRequest)(nil),       // 7: gomoku.CreateRoomRequest
+	(*CreateRoomResponse)(nil),      // 8: gomoku.CreateRoomResponse
+	(*JoinRoomRequest)(nil),         // 9: gomoku.JoinRoomRequest
+	(*JoinRoomResponse)(nil),        // 10: gomoku.JoinRoomResponse
+	(*LeaveRoomRequest)(nil),        // 11: gomoku.LeaveRoomRequest
+	(*LeaveRoomResponse)(nil),       // 12: gomoku.LeaveRoomResponse
+	(*DestroyRoomRequest)(nil),      // 13: gomoku.DestroyRoomRequest
+	(*DestroyRoomResponse)(nil),     // 14: gomoku.DestroyRoomResponse
+	(*PlacePieceRequest)(nil),       // 15: gomoku.PlacePieceRequest
+	(*PlacePieceResponse)(nil),      // 16: gomoku.PlacePieceResponse
+	(*RoomInfo)(nil),                // 17: gomoku.RoomInfo
+	(*PlayerInfo)(nil),              // 18: gomoku.PlayerInfo
+	(*GameState)(nil),               // 19: gomoku.GameState
+	(*Move)(nil),                    // 20: gomoku.Move
+	(*GetRoomListRequest)(nil),      // 21: gomoku.GetRoomListRequest
+	(*GetRoomListResponse)(nil),     // 22: gomoku.GetRoomListResponse
+	(*StartGameRequest)(nil),        // 23: gomoku.StartGameRequest
+	(*StartGameResponse)(nil),       // 24: gomoku.StartGameResponse
+	(*GameStateNotify)(nil),         // 25: gomoku.GameStateNotify
+	(*PlayerEventNotify)(nil),       // 26: gomoku.PlayerEventNotify
+	(*PlayerReadyRequest)(nil),      // 27: gomoku.PlayerReadyRequest
+	(*PlayerReadyResponse)(nil),     // 28: gomoku.PlayerReadyResponse
+	(*GetGameProgressRequest)(nil),  // 29: gomoku.GetGameProgressRequest
+	(*GetGameProgressResponse)(nil), // 30: gomoku.GetGameProgressResponse
 }
 var file_proto_gomoku_proto_depIdxs = []int32{
 	5,  // 0: gomoku.GameMessage.head:type_name -> gomoku.MessageHead
@@ -2019,13 +2152,15 @@ var file_proto_gomoku_proto_depIdxs = []int32{
 	19, // 15: gomoku.GameStateNotify.game_state:type_name -> gomoku.GameState
 	18, // 16: gomoku.PlayerEventNotify.player_info:type_name -> gomoku.PlayerInfo
 	17, // 17: gomoku.PlayerReadyResponse.room_info:type_name -> gomoku.RoomInfo
-	4,  // 18: gomoku.CommonService.SendMessage:input_type -> gomoku.GameMessage
-	6,  // 19: gomoku.CommonService.SendMessage:output_type -> gomoku.GameMessageResponse
-	19, // [19:20] is the sub-list for method output_type
-	18, // [18:19] is the sub-list for method input_type
-	18, // [18:18] is the sub-list for extension type_name
-	18, // [18:18] is the sub-list for extension extendee
-	0,  // [0:18] is the sub-list for field type_name
+	17, // 18: gomoku.GetGameProgressResponse.room_info:type_name -> gomoku.RoomInfo
+	19, // 19: gomoku.GetGameProgressResponse.game_state:type_name -> gomoku.GameState
+	4,  // 20: gomoku.CommonService.SendMessage:input_type -> gomoku.GameMessage
+	6,  // 21: gomoku.CommonService.SendMessage:output_type -> gomoku.GameMessageResponse
+	21, // [21:22] is the sub-list for method output_type
+	20, // [20:21] is the sub-list for method input_type
+	20, // [20:20] is the sub-list for extension type_name
+	20, // [20:20] is the sub-list for extension extendee
+	0,  // [0:20] is the sub-list for field type_name
 }
 
 func init() { file_proto_gomoku_proto_init() }
@@ -2039,7 +2174,7 @@ func file_proto_gomoku_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_proto_gomoku_proto_rawDesc), len(file_proto_gomoku_proto_rawDesc)),
 			NumEnums:      4,
-			NumMessages:   25,
+			NumMessages:   27,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

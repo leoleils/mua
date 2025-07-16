@@ -465,3 +465,24 @@ func (rm *RoomManager) ToggleReady(playerID, roomID string) (*Room, bool, error)
 	log.Printf("玩家切换准备状态 - 玩家: %s, 房间: %s, 状态: %t", playerID, roomID, newReadyState)
 	return room, newReadyState, nil
 }
+
+// HasPlayer 检查玩家是否在房间中
+func (r *Room) HasPlayer(playerID string) bool {
+	r.mu.RLock()
+	defer r.mu.RUnlock()
+
+	_, exists := r.Players[playerID]
+	return exists
+}
+
+// GetGameState 获取游戏状态
+func (r *Room) GetGameState() *pb.GameState {
+	r.mu.RLock()
+	defer r.mu.RUnlock()
+
+	if r.Game == nil {
+		return nil
+	}
+
+	return r.Game.GetGameState()
+}

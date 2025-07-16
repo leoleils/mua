@@ -576,8 +576,8 @@ func (f *MessageForwarder) getClient(targetAddr string) (pb.CommonServiceClient,
 		return nil, fmt.Errorf("连接池已满，当前连接数: %d", len(f.connections))
 	}
 
-	// 创建新连接
-	conn, err := grpc.Dial(targetAddr,
+	// 创建新连接 - 使用新的gRPC连接方式
+	conn, err := grpc.NewClient(targetAddr,
 		grpc.WithTransportCredentials(insecure.NewCredentials()),
 		grpc.WithDefaultCallOptions(grpc.MaxCallRecvMsgSize(4*1024*1024)), // 4MB
 	)

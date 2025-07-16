@@ -173,6 +173,7 @@ func (nm *NotificationManager) getGateSvrClient() (commonpb.GateSvrClient, error
 	nm.mu.RUnlock()
 
 	if exists {
+		log.Printf("[调试] 从缓存获取gatesvr客户端: %s", addr)
 		return client, nil
 	}
 
@@ -182,19 +183,24 @@ func (nm *NotificationManager) getGateSvrClient() (commonpb.GateSvrClient, error
 
 	// 双重检查
 	if client, exists := nm.connections[addr]; exists {
+		log.Printf("[调试] 从缓存获取gatesvr客户端: %s", addr)
 		return client, nil
 	}
 
-	// 创建gRPC连接
-	conn, err := grpc.Dial(addr, grpc.WithTransportCredentials(insecure.NewCredentials()))
+	// 使用新的gRPC连接方式 - grpc.NewClient
+	conn, err := grpc.NewClient(addr,
+		grpc.WithTransportCredentials(insecure.NewCredentials()),
+		grpc.WithDefaultCallOptions(grpc.MaxCallRecvMsgSize(4*1024*1024)), // 4MB
+		grpc.WithDefaultCallOptions(grpc.MaxCallSendMsgSize(4*1024*1024)), // 4MB
+	)
 	if err != nil {
-		return nil, fmt.Errorf("创建连接失败: %v", err)
+		return nil, fmt.Errorf("创建gRPC连接失败: %v", err)
 	}
 
+	// 创建gatesvr客户端
 	client = commonpb.NewGateSvrClient(conn)
 	nm.connections[addr] = client
-
-	log.Printf("[通知管理器] 创建gatesvr客户端: %s", addr)
+	log.Printf("[调试] 创建gatesvr客户端: %s", addr)
 	return client, nil
 }
 
@@ -202,9 +208,12 @@ func (nm *NotificationManager) getGateSvrClient() (commonpb.GateSvrClient, error
 func (nm *NotificationManager) getGateSvrAddress() (string, error) {
 	// 检查是否启用了Nacos
 	nacosConfig := config.GetNacosConfig()
+	log.Printf("[调试] Nacos配置 EnableRegister: %v", nacosConfig.EnableRegister)
 	if !nacosConfig.EnableRegister {
-		// 本地开发环境直接使用实际的gatesvr地址
-		return "192.168.0.110:50051", nil
+		// 本地开发环境直接使用IPv4地址，避免IPv6解析问题
+		addr := "127.0.0.1:50051"
+		log.Printf("[调试] 使用硬编码地址: %s", addr)
+		return addr, nil
 	}
 
 	// 从Nacos获取gatesvr实例
@@ -217,10 +226,10 @@ func (nm *NotificationManager) getGateSvrAddress() (string, error) {
 		return "", fmt.Errorf("没有可用的gatesvr实例")
 	}
 
-	// 简单选择第一个实例
+	// 使用第一个实例
 	instance := instances[0]
 	addr := fmt.Sprintf("%s:%d", instance.Ip, instance.Port)
-
+	log.Printf("[调试] 从Nacos获取地址: %s", addr)
 	return addr, nil
 }
 

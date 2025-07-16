@@ -10,10 +10,10 @@ import (
 	"mua/gatesvr/internal/forwarder"
 	"mua/gatesvr/internal/kafka"
 	"mua/gatesvr/internal/nacos"
-	"mua/gatesvr/pb"
 	"mua/gatesvr/internal/route"
 	"mua/gatesvr/internal/rpc"
 	"mua/gatesvr/internal/session"
+	"mua/gatesvr/pb"
 	"net"
 	"strconv"
 	"time"
@@ -70,7 +70,7 @@ func (a *App) Run() error {
 	go conn.StartWSServer(":6002")
 
 	// 启动gRPC服务
-	lis, err := net.Listen("tcp", fmt.Sprintf("%s:%d", a.ip, a.grpcPort))
+	lis, err := net.Listen("tcp", fmt.Sprintf("0.0.0.0:%d", a.grpcPort))
 	if err != nil {
 		return err
 	}

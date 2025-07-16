@@ -50,7 +50,7 @@ kafka:
 
 # 消息推送配置
 notification:
-  enabled: false  # 本地开发禁用消息推送
+  enabled: true   # 本地开发启用消息推送用于测试
   queue_size: 1000
   workers: 3
   timeout_sec: 3

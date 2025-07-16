@@ -219,4 +219,18 @@ message PlayerReadyResponse {
   string message = 2;
   bool is_ready = 3;      // 当前准备状态
   RoomInfo room_info = 4; // 更新后的房间信息
+}
+
+// 获取游戏进度请求
+message GetGameProgressRequest {
+  string room_id = 1;
+}
+
+// 获取游戏进度响应
+message GetGameProgressResponse {
+  bool success = 1;
+  string message = 2;
+  RoomInfo room_info = 3;     // 房间信息
+  GameState game_state = 4;   // 游戏状态
+  int32 remaining_time = 5;   // 剩余时间（秒）-1表示无限制
 } 

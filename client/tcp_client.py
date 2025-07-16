@@ -204,9 +204,158 @@ class TCPClient:
                     
             elif msg_type == MessageType.CLIENT_MESSAGE:
                 self.logger.debug(f"📥 收到客户端消息")
-                # 网关内部消息
+                # 网关内部消息 - 使用消息头中的request_id来确定通知类型
+                notification_type = request_id if request_id else ""
+                self.logger.debug(f"🔍 CLIENT_MESSAGE 通知类型: {notification_type}")
+                
                 if game_message.payload:
-                    message = game_message.payload.decode('utf-8')
+                    # 添加调试信息，显示消息的前几个字节
+                    hex_sample = game_message.payload[:20].hex() if len(game_message.payload) >= 20 else game_message.payload.hex()
+                    self.logger.debug(f"🔍 CLIENT_MESSAGE payload前20字节(hex): {hex_sample}")
+                    
+                    # 根据通知类型进行具体处理
+                    if notification_type == "PiecePlacedNotification":
+                        try:
+                            from gomoku_pb2 import PlacePieceResponse
+                            piece_response = PlacePieceResponse()
+                            piece_response.ParseFromString(game_message.payload)
+                            
+                            self.logger.info(f"♟️ 收到下棋通知: 成功={piece_response.success}, 消息={piece_response.message}")
+                            
+                            # 提取下棋位置信息
+                            if piece_response.game_state and piece_response.game_state.move_history:
+                                last_move = piece_response.game_state.move_history[-1]
+                                self.logger.info(f"📍 最新下棋位置: 玩家={last_move.player_id}, 位置=({last_move.x}, {last_move.y}), 颜色={last_move.color}")
+                            
+                            if hasattr(self.message_handler, 'handle_piece_placed_notification'):
+                                self.message_handler.handle_piece_placed_notification(piece_response)
+                            
+                            return  # 成功处理下棋通知
+                            
+                        except Exception as e:
+                            self.logger.error(f"❌ 解析下棋通知失败: {e}")
+                    
+                    elif notification_type == "GameStartNotification":
+                        try:
+                            from gomoku_pb2 import GameStateNotify
+                            game_state_event = GameStateNotify()
+                            game_state_event.ParseFromString(game_message.payload)
+                            
+                            self.logger.info(f"🎮 收到GameStateNotify: room={game_state_event.room_id}, event={game_state_event.event_type}, message={game_state_event.event_message}")
+                            
+                            if hasattr(self.message_handler, 'handle_game_state_notify'):
+                                self.message_handler.handle_game_state_notify(game_state_event)
+                            
+                            return  # 成功处理游戏开始通知
+                            
+                        except Exception as e:
+                            self.logger.error(f"❌ 解析游戏开始通知失败: {e}")
+                    
+                    elif notification_type in ["PlayerJoinedNotification", "PlayerLeftNotification", "PlayerReadyNotification"]:
+                        try:
+                            from gomoku_pb2 import PlayerEventNotify
+                            player_event = PlayerEventNotify()
+                            player_event.ParseFromString(game_message.payload)
+                            
+                            self.logger.info(f"⚙️ 收到PlayerEventNotify: room={player_event.room_id}, player={player_event.player_id}, event={player_event.event_type}")
+                            
+                            if hasattr(self.message_handler, 'handle_room_event_direct'):
+                                # 构建事件字典并直接处理
+                                event = {
+                                    'room_id': player_event.room_id,
+                                    'player_id': player_event.player_id,
+                                    'event_type': player_event.event_type,
+                                    'message_text': '',
+                                    'raw_message': game_message.payload
+                                }
+                                self.message_handler.handle_room_event_direct(event)
+                            
+                            return  # 成功处理玩家事件通知
+                            
+                        except Exception as e:
+                            self.logger.error(f"❌ 解析玩家事件通知失败: {e}")
+                    
+                    # 如果没有匹配的通知类型，尝试通用处理
+                    self.logger.debug(f"🔍 未知通知类型 {notification_type}，尝试通用解析")
+                    
+                    # 首先尝试作为protobuf数据处理
+                    try:
+                        # 检查是否为PlayerEventNotify
+                        from gomoku_pb2 import PlayerEventNotify
+                        player_event = PlayerEventNotify()
+                        player_event.ParseFromString(game_message.payload)
+                        
+                        self.logger.info(f"⚙️ 收到PlayerEventNotify: room={player_event.room_id}, player={player_event.player_id}, event={player_event.event_type}")
+                        
+                        if hasattr(self.message_handler, 'handle_room_event_direct'):
+                            # 构建事件字典并直接处理
+                            event = {
+                                'room_id': player_event.room_id,
+                                'player_id': player_event.player_id,
+                                'event_type': player_event.event_type,
+                                'message_text': '',
+                                'raw_message': game_message.payload
+                            }
+                            self.message_handler.handle_room_event_direct(event)
+                        
+                        return  # 成功处理protobuf消息，直接返回
+                        
+                    except Exception as protobuf_error:
+                        self.logger.debug(f"🔍 不是PlayerEventNotify，尝试GameStateNotify: {protobuf_error}")
+                    
+                    # 尝试解析为GameStateNotify (游戏状态通知)
+                    try:
+                        from gomoku_pb2 import GameStateNotify
+                        game_state_event = GameStateNotify()
+                        game_state_event.ParseFromString(game_message.payload)
+                        
+                        self.logger.info(f"🎮 收到GameStateNotify: room={game_state_event.room_id}, event={game_state_event.event_type}, message={game_state_event.event_message}")
+                        
+                        if hasattr(self.message_handler, 'handle_game_state_notify'):
+                            self.message_handler.handle_game_state_notify(game_state_event)
+                        
+                        return  # 成功处理GameStateNotify消息，直接返回
+                        
+                    except Exception as game_state_error:
+                        self.logger.debug(f"🔍 不是GameStateNotify，尝试简单通知格式: {game_state_error}")
+                    
+                    # 尝试解析为简单的通知消息格式 (status_code + message_text + extra_data)
+                    try:
+                        notification = self._parse_simple_notification(game_message.payload)
+                        if notification:
+                            self.logger.info(f"💬 收到简单通知: 状态={notification['status']}, 消息='{notification['message']}'")
+                            
+                            # 处理下棋成功通知
+                            if "下棋" in notification['message'] and "成功" in notification['message']:
+                                if hasattr(self.message_handler, 'handle_move_notification'):
+                                    self.message_handler.handle_move_notification(notification)
+                                else:
+                                    self.logger.info(f"♟️ 处理下棋成功通知: {notification['message']}")
+                            else:
+                                # 其他类型的通知
+                                if hasattr(self.message_handler, 'handle_simple_notification'):
+                                    self.message_handler.handle_simple_notification(notification)
+                                else:
+                                    self.logger.info(f"📢 系统通知: {notification['message']}")
+                            
+                            return  # 成功处理简单通知，直接返回
+                            
+                    except Exception as simple_error:
+                        self.logger.debug(f"🔍 不是简单通知格式，尝试文本处理: {simple_error}")
+                    
+                    # 如果都不是protobuf，尝试作为文本消息处理
+                    message = ""
+                    try:
+                        message = game_message.payload.decode('utf-8')
+                    except UnicodeDecodeError as e:
+                        self.logger.warning(f"⚠️ 客户端消息包含非UTF-8数据，使用错误处理: {e}")
+                        message = game_message.payload.decode('utf-8', errors='replace')
+                    except Exception as e:
+                        self.logger.error(f"❌ 解码客户端消息失败: {e}")
+                        message = str(game_message.payload)
+                        
+                    self.logger.info(f"⚙️ 收到系统消息: {message}")
+                    
                     if hasattr(self.message_handler, 'handle_system_message'):
                         self.message_handler.handle_system_message(message)
                     elif callable(self.message_handler):
@@ -231,7 +380,24 @@ class TCPClient:
                 
         except Exception as e:
             self.logger.error(f"❌ 消息处理失败: {e}")
-            self.logger.debug(f"消息详情: {game_message}")
+            # 添加更详细的错误信息和诊断
+            try:
+                msg_type = game_message.msg_type if game_message else "unknown"
+                service_name = game_message.msg_head.service_name if game_message and game_message.msg_head else "unknown"
+                request_id = game_message.msg_head.request_id if game_message and game_message.msg_head else "unknown"
+                payload_size = len(game_message.payload) if game_message and game_message.payload else 0
+                
+                self.logger.debug(f"消息诊断: type={msg_type}, service={service_name}, request_id={request_id}, payload_size={payload_size}")
+                
+                # 如果是编码错误，提供更多调试信息
+                if "codec can't decode" in str(e):
+                    self.logger.debug(f"编码错误详情: 可能是protobuf消息被错误地当作文本处理")
+                    if game_message and game_message.payload:
+                        hex_sample = game_message.payload[:20].hex() if len(game_message.payload) >= 20 else game_message.payload.hex()
+                        self.logger.debug(f"Payload前20字节(hex): {hex_sample}")
+                        
+            except Exception as debug_e:
+                self.logger.debug(f"消息诊断失败: {debug_e}")
     
     def send_message(self, game_message: GameMessage) -> bool:
         """发送游戏消息
@@ -327,10 +493,88 @@ class TCPClient:
             hex_data = message_data[:100].hex() if len(message_data) > 100 else message_data.hex()
             self.logger.debug(f"原始数据(前100字节): {hex_data}")
     
+    def _parse_simple_notification(self, payload: bytes) -> dict:
+        """解析简单的通知消息格式
+        
+        格式: field1(status) + field2(message_text) + field3(extra_data)
+        
+        Returns:
+            dict: 包含status, message, extra_data的字典，解析失败返回None
+        """
+        try:
+            offset = 0
+            fields = {}
+            
+            # 解析字段1: 状态码 (varint)
+            if offset >= len(payload):
+                return None
+                
+            tag = payload[offset]
+            offset += 1
+            
+            if (tag >> 3) != 1 or (tag & 0x7) != 0:  # 期望field1是varint
+                return None
+                
+            status = payload[offset]
+            offset += 1
+            fields['status'] = status
+            
+            # 解析字段2: 消息文本 (length-delimited)
+            if offset >= len(payload):
+                return None
+                
+            tag = payload[offset]
+            offset += 1
+            
+            if (tag >> 3) != 2 or (tag & 0x7) != 2:  # 期望field2是length-delimited
+                return None
+                
+            msg_length = payload[offset]
+            offset += 1
+            
+            if offset + msg_length > len(payload):
+                return None
+                
+            message_bytes = payload[offset:offset + msg_length]
+            offset += msg_length
+            
+            try:
+                message = message_bytes.decode('utf-8')
+                fields['message'] = message
+            except UnicodeDecodeError:
+                return None
+            
+            # 解析字段3: 额外数据 (可选)
+            extra_data = None
+            if offset < len(payload):
+                tag = payload[offset]
+                if (tag >> 3) == 3 and (tag & 0x7) == 2:  # field3是length-delimited
+                    offset += 1
+                    # 这里可能是varint长度，暂时简单处理
+                    # 由于数据可能被截断，我们不强制要求解析成功
+                    extra_data = payload[offset:]
+            
+            fields['extra_data'] = extra_data
+            return fields
+            
+        except Exception as e:
+            self.logger.debug(f"简单通知解析失败: {e}")
+            return None
+    
     def _handle_system_message(self, game_message: GameMessage):
         """处理系统消息（CLIENT_MESSAGE类型）"""
         try:
-            payload = game_message.payload.decode('utf-8') if game_message.payload else ""
+            # 安全地解码payload，处理可能的编码错误
+            payload = ""
+            if game_message.payload:
+                try:
+                    payload = game_message.payload.decode('utf-8')
+                except UnicodeDecodeError as e:
+                    self.logger.warning(f"⚠️ 系统消息包含非UTF-8数据，使用错误处理: {e}")
+                    payload = game_message.payload.decode('utf-8', errors='replace')
+                except Exception as e:
+                    self.logger.error(f"❌ 解码系统消息失败: {e}")
+                    payload = str(game_message.payload)
             
             if "AUTH_FAILED" in payload:
                 self.logger.error(f"🔐 认证失败: {payload}")

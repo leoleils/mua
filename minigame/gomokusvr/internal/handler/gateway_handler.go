@@ -56,6 +56,8 @@ func (g *GatewayHandler) SendMessage(ctx context.Context, req *pb.GameMessage) (
 		payload, err = g.handleStartGame(req)
 	case "PlayerReady":
 		payload, err = g.handlePlayerReady(req)
+	case "GetGameProgress":
+		payload, err = g.handleGetGameProgress(req)
 	default:
 		response.Code = 400
 		response.Message = fmt.Sprintf("未知的方法: %s", req.Head.Method)
@@ -281,4 +283,51 @@ func (g *GatewayHandler) handlePlayerReady(req *pb.GameMessage) ([]byte, error) 
 	}
 
 	return proto.Marshal(readyResp)
+}
+
+func (g *GatewayHandler) handleGetGameProgress(req *pb.GameMessage) ([]byte, error) {
+	var progressReq pb.GetGameProgressRequest
+	if err := proto.Unmarshal(req.Payload, &progressReq); err != nil {
+		return nil, fmt.Errorf("参数解析失败: %v", err)
+	}
+
+	// 获取房间信息
+	room := g.gameHandler.roomManager.GetRoom(progressReq.RoomId)
+	if room == nil {
+		return nil, fmt.Errorf("房间不存在: %s", progressReq.RoomId)
+	}
+
+	// 检查玩家是否在房间中
+	if !room.HasPlayer(req.Head.PlayerId) {
+		return nil, fmt.Errorf("玩家不在房间中")
+	}
+
+	// 获取游戏状态
+	gameState := room.GetGameState()
+	if gameState == nil {
+		// 如果游戏还未开始，创建一个空的游戏状态
+		gameState = &pb.GameState{
+			Board:       make([]int32, 225), // 15x15=225个位置，全部为0
+			CurrentTurn: pb.PlayerColor_BLACK,
+			Result:      pb.GameResult_ONGOING,
+			WinnerId:    "",
+			TotalMoves:  0,
+			MoveHistory: []*pb.Move{},
+		}
+	}
+
+	// 计算剩余时间（简化实现，可以根据具体需求调整）
+	remainingTime := int32(-1) // -1表示无限制时间
+
+	progressResp := &pb.GetGameProgressResponse{
+		Success:       true,
+		Message:       "获取游戏进度成功",
+		RoomInfo:      room.GetRoomInfo(),
+		GameState:     gameState,
+		RemainingTime: remainingTime,
+	}
+
+	log.Printf("玩家 %s 获取房间 %s 的游戏进度", req.Head.PlayerId, progressReq.RoomId)
+
+	return proto.Marshal(progressResp)
 }

@@ -292,6 +292,9 @@ class GomokuGUI:
         self.start_btn = ttk.Button(room_frame, text="开始游戏", command=self.start_game, state=tk.DISABLED)
         self.start_btn.pack(fill=tk.X, pady=1)
         
+        self.refresh_btn = ttk.Button(room_frame, text="刷新进度", command=self.refresh_game_progress, state=tk.DISABLED)
+        self.refresh_btn.pack(fill=tk.X, pady=1)
+        
         # 状态显示
         status_display_frame = ttk.LabelFrame(parent, text="当前状态")
         status_display_frame.pack(fill=tk.X, pady=(5, 0))
@@ -388,6 +391,12 @@ class GomokuGUI:
             self.start_btn.config(state=tk.NORMAL)
         else:
             self.start_btn.config(state=tk.DISABLED)
+            
+        # 刷新进度按钮：连接且在房间中
+        if connected and in_room:
+            self.refresh_btn.config(state=tk.NORMAL)
+        else:
+            self.refresh_btn.config(state=tk.DISABLED)
     
     def clear_log(self):
         """清空日志"""
@@ -581,6 +590,9 @@ class GomokuGUI:
         # 获取房间列表响应
         self.message_handler.set_response_handler("GetRoomList", self._handle_get_room_list_response)
         
+        # 获取游戏进度响应
+        self.message_handler.set_response_handler("GetGameProgress", self._handle_get_game_progress_response)
+        
         # 覆盖消息处理器的响应处理器获取方法
         self.message_handler._get_response_handler = self._get_response_handler
     
@@ -594,7 +606,8 @@ class GomokuGUI:
             "player_ready": self._handle_player_ready_response,
             "start_game": self._handle_start_game_response,
             "place_piece": self._handle_place_piece_response,
-            "get_room_list": self._handle_get_room_list_response
+            "get_room_list": self._handle_get_room_list_response,
+            "get_game_progress": self._handle_get_game_progress_response
         }
         
         return handler_map.get(operation_type, self._default_response_handler)
@@ -643,6 +656,24 @@ class GomokuGUI:
         """设置系统消息处理器"""
         self.message_handler.set_system_handler("AUTH_FAILED", self._handle_auth_failed)
         self.message_handler.set_system_handler("KICKED", self._handle_kicked)
+        
+        # 房间事件处理器
+        self.message_handler.set_system_handler("room_event", self._handle_room_event)
+        self.message_handler.set_system_handler("default_room_event", self._handle_room_event)
+        
+        # 特定房间事件处理器
+        self.message_handler.set_system_handler("room_event_join", self._handle_player_join_event)
+        self.message_handler.set_system_handler("room_event_leave", self._handle_player_leave_event)
+        self.message_handler.set_system_handler("room_event_ready", self._handle_player_ready_event)
+        self.message_handler.set_system_handler("room_event_unready", self._handle_player_unready_event)
+        self.message_handler.set_system_handler("room_event_start_game", self._handle_game_start_event)
+        
+        # 下棋通知处理器
+        self.message_handler.set_system_handler("piece_placed_notification", self._handle_piece_placed_notification)  # 新格式
+        self.message_handler.set_system_handler("move_notification", self._handle_move_notification)  # 旧格式兼容
+        self.message_handler.set_system_handler("piece_placed", self._handle_move_notification)  # 旧格式兼容
+        
+        self.log_message(f"🔧 系统处理器已设置: {len(self.message_handler.system_handlers)}个")
     
     def setup_notification_handlers(self):
         """设置通知处理器（旧方法，保持兼容性）"""
@@ -807,6 +838,79 @@ class GomokuGUI:
         request_id = self.message_handler.join_room(room_id, password)
         self.log_message(f"📤 加入房间请求: {room_id}")
     
+    def _handle_get_game_progress_response(self, response):
+        """处理获取游戏进度响应"""
+        if response.ret == 0:
+            from gomoku_pb2 import GetGameProgressResponse
+            progress_resp = GetGameProgressResponse()
+            progress_resp.ParseFromString(response.data)
+            
+            self.log_message("📊 游戏进度信息获取成功:")
+            self.log_message(f"   ✅ {progress_resp.message}")
+            
+            # 更新房间信息
+            if progress_resp.room_info:
+                self.room_info = progress_resp.room_info
+                self.current_room_id = progress_resp.room_info.room_id
+                room = progress_resp.room_info
+                
+                status_name = "等待中" if room.status == 0 else "游戏中" if room.status == 1 else "已结束"
+                self.log_message(f"   🏠 房间: [{room.room_id}] {room.room_name}")
+                self.log_message(f"   📊 状态: {status_name}")
+                self.log_message(f"   👥 玩家数: {len(room.players)}/2")
+                
+                if room.owner_id:
+                    self.log_message(f"   👑 房主: {room.owner_id}")
+                    self.is_owner = (room.owner_id == self.player_id)
+                
+                # 更新玩家信息
+                for player in room.players:
+                    ready_status = "✅" if player.is_ready else "⏳"
+                    color_name = "黑子" if player.color == 1 else "白子" if player.color == 2 else "无"
+                    self.log_message(f"      {ready_status} {player.player_id} ({color_name})")
+                    
+                    if player.player_id == self.player_id:
+                        self.is_ready = player.is_ready
+            
+            # 更新游戏状态
+            if progress_resp.game_state:
+                self.game_state = progress_resp.game_state
+                game_state = progress_resp.game_state
+                
+                result_name = self._get_game_result_name(game_state.result)
+                self.log_message(f"   🎮 游戏状态: {result_name}")
+                self.log_message(f"   🔢 总步数: {game_state.total_moves}")
+                
+                if game_state.current_turn:
+                    current_color = self._get_player_color_name(game_state.current_turn)
+                    self.log_message(f"   🎯 当前轮次: {current_color}")
+                
+                if game_state.winner_id:
+                    self.log_message(f"   🏆 获胜者: {game_state.winner_id}")
+                    
+                # 显示最近走棋
+                if game_state.move_history:
+                    recent_moves = game_state.move_history[-3:]  # 最近3步
+                    self.log_message(f"   📋 最近走棋:")
+                    for move in recent_moves:
+                        color_name = "黑子" if move.color == 1 else "白子"
+                        self.log_message(f"      {move.move_number}. {move.player_id} {color_name} ({move.x}, {move.y})")
+                
+                # 更新UI显示
+                self.update_board_display()
+            
+            # 显示剩余时间
+            if progress_resp.remaining_time != -1:
+                self.log_message(f"   ⏰ 剩余时间: {progress_resp.remaining_time}秒")
+            else:
+                self.log_message(f"   ⏰ 剩余时间: 无限制")
+            
+            # 刷新整体状态显示
+            self.refresh_status_display()
+                
+        else:
+            self.log_message(f"❌ 获取游戏进度失败: {response.reason}")
+    
     # ==================== 游戏操作通知处理器 ====================
     
     def _handle_create_room_notification(self, data):
@@ -893,19 +997,131 @@ class GomokuGUI:
     
     # ==================== 事件通知处理器 ====================
     
-    def _handle_piece_placed_notification(self, notification):
-        """处理棋子放置通知"""
-        place_resp = notification
-        self.game_state = place_resp.game_state
-        
-        self.log_message("🔔 对手下棋了！")
-        if hasattr(place_resp.game_state, 'last_move') and place_resp.game_state.last_move:
-            move = place_resp.game_state.last_move
-            self.log_message(f"   📍 落子位置: ({move.x}, {move.y})")
-            self.log_message(f"   🎮 对手: {move.player_id}")
-        
-        self.update_board_display()
-        self.refresh_status_display()
+    def _handle_piece_placed_notification(self, move_info):
+        """处理棋子放置通知（新格式 - 包含详细move_info）"""
+        try:
+            # move_info是一个字典，包含下棋的详细信息
+            if isinstance(move_info, dict):
+                # 显示下棋信息
+                self.log_message("🔔 收到对手下棋通知！")
+                
+                # 显示操作结果
+                if move_info.get('success', False):
+                    if move_info.get('message'):
+                        self.log_message(f"   ✅ {move_info['message']}")
+                else:
+                    self.log_message("   ❌ 下棋操作失败")
+                
+                # 显示下棋位置信息
+                x = move_info.get('x', -1)
+                y = move_info.get('y', -1)
+                player_id = move_info.get('player_id', '未知')
+                color = move_info.get('color', 0)
+                move_number = move_info.get('move_number', 0)
+                total_moves = move_info.get('total_moves', 0)
+                
+                self.log_message(f"   📍 落子位置: ({x}, {y})")
+                self.log_message(f"   🎮 玩家: {player_id}")
+                self.log_message(f"   🔢 第 {move_number} 步 (总步数: {total_moves})")
+                
+                # 显示棋子颜色
+                color_name = "黑子" if color == 1 else "白子" if color == 2 else "未知"
+                color_emoji = "⚫" if color == 1 else "⚪" if color == 2 else "❓"
+                self.log_message(f"   {color_emoji} 棋子颜色: {color_name}")
+                
+                # 显示当前轮次信息
+                current_turn = move_info.get('current_turn', 0)
+                current_color = "黑子" if current_turn == 1 else "白子" if current_turn == 2 else "未知"
+                self.log_message(f"   🎯 下一轮次: {current_color}")
+                
+                # 检查游戏结果
+                game_result = move_info.get('game_result', 0)
+                if game_result != 0:  # ONGOING = 0
+                    if game_result == 1:  # BLACK_WIN
+                        self.log_message("🏆 游戏结束：黑子获胜！")
+                    elif game_result == 2:  # WHITE_WIN
+                        self.log_message("🏆 游戏结束：白子获胜！")
+                    elif game_result == 3:  # DRAW
+                        self.log_message("🤝 游戏结束：平局！")
+                
+                # 更新游戏状态
+                if 'game_state' in move_info and move_info['game_state']:
+                    self.game_state = move_info['game_state']
+                    # 立即更新棋盘显示
+                    self.update_board_display()
+                else:
+                    # 如果没有完整游戏状态，创建临时棋盘状态用于显示
+                    if x >= 0 and y >= 0 and hasattr(self, 'board_canvas'):
+                        try:
+                            # 注意坐标映射：API的(x,y)对应界面的(row,col)
+                            self.log_message(f"🎯 单个位置更新: API坐标({x}, {y}) -> 界面位置(row={x}, col={y})")
+                            # 由于使用Canvas绘制，直接重绘整个棋盘
+                            self.draw_board()
+                        except Exception as e:
+                            self.log_message(f"⚠️ 更新棋盘显示失败: {e}")
+            else:
+                # 向后兼容：如果是旧格式的PlacePieceResponse对象
+                place_resp = move_info
+                
+                # 更新游戏状态
+                if hasattr(place_resp, 'game_state') and place_resp.game_state:
+                    self.game_state = place_resp.game_state
+                    
+                    # 显示下棋信息
+                    self.log_message("🔔 收到对手下棋通知！")
+                    
+                    # 显示操作结果
+                    if hasattr(place_resp, 'success') and place_resp.success:
+                        if hasattr(place_resp, 'message') and place_resp.message:
+                            self.log_message(f"   ✅ {place_resp.message}")
+                    else:
+                        self.log_message("   ❌ 下棋操作失败")
+                    
+                    # 显示走棋历史信息
+                    if hasattr(self.game_state, 'move_history') and self.game_state.move_history:
+                        total_moves = len(self.game_state.move_history)
+                        latest_move = self.game_state.move_history[-1]
+                        
+                        self.log_message(f"   📍 落子位置: ({latest_move.x}, {latest_move.y})")
+                        self.log_message(f"   🎮 玩家: {latest_move.player_id}")
+                        self.log_message(f"   🔢 第 {latest_move.move_number} 步 (总步数: {total_moves})")
+                        
+                        # 显示棋子颜色
+                        color_name = "黑子" if latest_move.color == 1 else "白子" if latest_move.color == 2 else "未知"
+                        self.log_message(f"   ⚫ 棋子颜色: {color_name}")
+                    
+                    # 显示当前轮次信息
+                    if hasattr(self.game_state, 'current_turn'):
+                        current_color = "黑子" if self.game_state.current_turn == 1 else "白子" if self.game_state.current_turn == 2 else "未知"
+                        self.log_message(f"   🎯 下一轮次: {current_color}")
+                    
+                    # 检查游戏结果
+                    if hasattr(self.game_state, 'result') and self.game_state.result != 0:  # ONGOING = 0
+                        if self.game_state.result == 1:  # BLACK_WIN
+                            self.log_message("🏆 游戏结束：黑子获胜！")
+                        elif self.game_state.result == 2:  # WHITE_WIN
+                            self.log_message("🏆 游戏结束：白子获胜！")
+                        elif self.game_state.result == 3:  # DRAW
+                            self.log_message("🤝 游戏结束：平局！")
+                        
+                        if hasattr(self.game_state, 'winner_id') and self.game_state.winner_id:
+                            self.log_message(f"   🎉 获胜者: {self.game_state.winner_id}")
+                    
+                    # 立即更新棋盘显示
+                    self.update_board_display()
+                    self.refresh_status_display()
+                    
+                    self.log_message("✅ 棋盘状态已同步更新")
+                else:
+                    self.log_message("⚠️ 下棋通知中没有游戏状态数据")
+                
+        except Exception as e:
+            self.log_message(f"❌ 处理下棋通知失败: {e}")
+            # 尝试基本的状态更新
+            if hasattr(notification, 'game_state'):
+                self.game_state = notification.game_state
+                self.update_board_display()
+                self.refresh_status_display()
     
     def _handle_game_state_changed_notification(self, notification):
         """处理游戏状态变化通知"""
@@ -1142,7 +1358,12 @@ class GomokuGUI:
         self.log_message(f"📤 开始游戏请求: {self.current_room_id}")
     
     def place_piece(self, row: int, col: int):
-        """下棋"""
+        """下棋
+        
+        Args:
+            row: 行坐标（垂直方向，对应API的y参数）
+            col: 列坐标（水平方向，对应API的x参数）
+        """
         if not self.tcp_client or not self.tcp_client.connected:
             messagebox.showerror("错误", "未连接到服务器")
             return
@@ -1155,8 +1376,28 @@ class GomokuGUI:
             messagebox.showwarning("警告", "游戏尚未开始")
             return
         
-        request_id = self.message_handler.place_piece(self.current_room_id, col, row)
-        self.log_message(f"📤 下棋请求: ({row}, {col})")
+        # 修复坐标映射：API期望(x, y)，其中x=行，y=列（根据后端Board[x][y]结构）
+        request_id = self.message_handler.place_piece(self.current_room_id, row, col)
+        self.log_message(f"📤 下棋请求: 界面位置({row}, {col}) -> API坐标(x={row}, y={col})")
+    
+    def get_game_progress(self, room_id: str = None):
+        """获取游戏进度"""
+        if not self.tcp_client or not self.tcp_client.connected:
+            messagebox.showerror("错误", "未连接到服务器")
+            return
+        
+        # 如果没有指定房间ID，使用当前房间
+        target_room_id = room_id or self.current_room_id
+        if not target_room_id:
+            messagebox.showwarning("警告", "请指定房间ID或先加入房间")
+            return
+            
+        request_id = self.message_handler.get_game_progress(target_room_id)
+        self.log_message(f"📤 获取游戏进度请求: {target_room_id}")
+    
+    def refresh_game_progress(self):
+        """刷新游戏进度（按钮回调）"""
+        self.get_game_progress()
     
     def get_status(self):
         """获取客户端状态"""
@@ -1193,7 +1434,8 @@ class GomokuGUI:
             self.connect_btn.config(text="连接")
             self.ready_btn.config(state=tk.DISABLED)
             self.start_btn.config(state=tk.DISABLED)
-            self.log_message("�� 已断开与服务器的连接")
+            self.refresh_btn.config(state=tk.DISABLED)
+            self.log_message("👋 已断开与服务器的连接")
     
     def log_message(self, message: str):
         """记录消息到状态面板"""
@@ -1211,6 +1453,239 @@ class GomokuGUI:
         else:
             # 从其他线程调用时，使用after方法
             self.root.after(0, lambda: self.log_message(message))
+    
+    # ==================== 房间事件处理器 ====================
+    
+    def _handle_room_event(self, event):
+        """通用房间事件处理器
+        
+        Args:
+            event: 包含room_id, player_id, event_type的字典
+        """
+        try:
+            room_id = event['room_id']
+            player_id = event['player_id']
+            event_type = event['event_type']
+            
+            self.log_message(f"🏠 房间事件: {player_id} {event_type} (房间:{room_id})")
+            
+            # 如果当前在同一个房间，更新界面
+            if hasattr(self, 'current_room_id') and self.current_room_id == room_id:
+                # 触发状态刷新
+                self.root.after(500, self.refresh_status_display)
+                
+        except Exception as e:
+            self.log_message(f"❌ 房间事件处理失败: {e}")
+    
+    def _handle_player_join_event(self, event):
+        """处理玩家加入房间事件"""
+        try:
+            room_id = event['room_id']
+            player_id = event['player_id']
+            
+            # 记录加入事件
+            self.log_message(f"👥 玩家 {player_id} 加入了房间 {room_id}")
+            
+            # 如果是当前房间，刷新状态
+            if hasattr(self, 'current_room_id') and self.current_room_id == room_id:
+                self.log_message("🔄 刷新房间状态...")
+                self.root.after(100, self.refresh_status_display)
+                
+        except Exception as e:
+            self.log_message(f"❌ 玩家加入事件处理失败: {e}")
+    
+    def _handle_player_leave_event(self, event):
+        """处理玩家离开房间事件"""
+        try:
+            room_id = event['room_id']
+            player_id = event['player_id']
+            
+            # 记录离开事件
+            self.log_message(f"👋 玩家 {player_id} 离开了房间 {room_id}")
+            
+            # 如果是当前房间，刷新状态
+            if hasattr(self, 'current_room_id') and self.current_room_id == room_id:
+                self.log_message("🔄 刷新房间状态...")
+                self.root.after(100, self.refresh_status_display)
+                
+        except Exception as e:
+            self.log_message(f"❌ 玩家离开事件处理失败: {e}")
+    
+    def _handle_player_ready_event(self, event):
+        """处理玩家准备事件"""
+        try:
+            room_id = event['room_id']
+            player_id = event['player_id']
+            
+            # 记录准备事件
+            self.log_message(f"✅ 玩家 {player_id} 已准备就绪")
+            
+            # 如果是当前房间，刷新状态和按钮状态
+            if hasattr(self, 'current_room_id') and self.current_room_id == room_id:
+                self.log_message("🔄 更新准备状态...")
+                self.root.after(100, self.refresh_status_display)
+                self.root.after(200, self._update_button_states)
+                
+        except Exception as e:
+            self.log_message(f"❌ 玩家准备事件处理失败: {e}")
+    
+    def _handle_player_unready_event(self, event):
+        """处理玩家取消准备事件"""
+        try:
+            room_id = event['room_id']
+            player_id = event['player_id']
+            
+            # 记录取消准备事件
+            self.log_message(f"⏸️ 玩家 {player_id} 取消准备")
+            
+            # 如果是当前房间，刷新状态和按钮状态
+            if hasattr(self, 'current_room_id') and self.current_room_id == room_id:
+                self.log_message("🔄 更新准备状态...")
+                self.root.after(100, self.refresh_status_display)
+                self.root.after(200, self._update_button_states)
+                
+        except Exception as e:
+            self.log_message(f"❌ 玩家取消准备事件处理失败: {e}")
+    
+    def _handle_game_start_event(self, event):
+        """处理游戏开始事件"""
+        try:
+            room_id = event['room_id']
+            player_id = event['player_id']
+            message_text = event.get('message_text', '')
+            
+            # 记录游戏开始事件
+            if message_text:
+                self.log_message(f"🎮 {message_text}")
+            else:
+                self.log_message(f"🎮 房主 {player_id} 开始了游戏！")
+            
+            # 如果是当前房间，更新游戏状态
+            if hasattr(self, 'current_room_id') and self.current_room_id == room_id:
+                self.log_message("🎯 游戏开始，进入游戏状态...")
+                
+                # 初始化游戏状态（创建一个基本的游戏状态对象）
+                self._initialize_game_state()
+                
+                # 更新界面状态
+                self.root.after(100, lambda: [
+                    self.refresh_status_display(),
+                    self._update_button_states(),
+                    self.log_message("✨ 游戏已开始，您可以点击棋盘下棋！"),
+                    self.log_message("💡 等待游戏状态通知获取详细信息...")
+                ])
+                
+        except Exception as e:
+            self.log_message(f"❌ 游戏开始事件处理失败: {e}")
+    
+    def _initialize_game_state(self):
+        """初始化游戏状态"""
+        try:
+            from gomoku_pb2 import GameState, GameResult
+            
+            # 创建一个基本的游戏状态
+            self.game_state = GameState()
+            self.game_state.result = GameResult.ONGOING  # 游戏进行中
+            
+            # 初始化15x15的空棋盘
+            self.game_state.board.extend([0] * 225)  # 15*15 = 225
+            
+            # 设置初始的游戏信息
+            self.game_state.total_moves = 0
+            
+            self.log_message("🎲 游戏状态已初始化，可以开始下棋")
+            
+        except Exception as e:
+            self.log_message(f"❌ 初始化游戏状态失败: {e}")
+            # 如果初始化失败，至少设置一个标记表示游戏已开始
+            self.game_state = True
+    
+    def _handle_move_notification(self, notification):
+        """处理简单下棋通知（备选方案，当PiecePlacedNotification不可用时使用）"""
+        try:
+            message = notification.get('message', '下棋成功')
+            self.log_message(f"♟️ 收到简单下棋通知: {message}")
+            self.log_message("ℹ️ 注意：这是简化版通知，可能缺少详细信息")
+            
+            # 简单通知不包含完整游戏状态，我们需要等待GameStateNotify
+            # 或者主动刷新房间信息来获取最新状态
+            self.log_message("⏳ 等待游戏状态更新...")
+            
+            # 延迟一小段时间后检查是否收到了完整的游戏状态
+            self.root.after(500, self._check_and_refresh_game_state)
+                
+        except Exception as e:
+            self.log_message(f"❌ 简单下棋通知处理失败: {e}")
+    
+    def _check_and_refresh_game_state(self):
+        """检查并刷新游戏状态"""
+        try:
+            if self.game_state and hasattr(self.game_state, 'move_history'):
+                # 如果已经有完整的游戏状态，直接更新显示
+                self.update_board_display()
+                self.refresh_status_display()
+                self.log_message("✅ 棋盘状态已更新")
+            else:
+                # 如果没有完整状态，尝试重新加入房间以获取最新状态
+                self.log_message("🔄 游戏状态不完整，尝试刷新...")
+                if hasattr(self, 'current_room_id') and self.current_room_id:
+                    self._refresh_room_state()
+                else:
+                    self.log_message("⚠️ 无法刷新：当前房间ID未知")
+                    
+        except Exception as e:
+            self.log_message(f"❌ 检查游戏状态失败: {e}")
+    
+    def _refresh_room_state(self):
+        """刷新房间状态（重新加入房间以获取最新信息）"""
+        try:
+            if not self.tcp_client or not self.tcp_client.connected:
+                self.log_message("❌ 无法刷新：未连接到服务器")
+                return
+                
+            self.log_message(f"🔄 正在刷新房间状态: {self.current_room_id}")
+            
+            # 重新加入房间以获取最新的房间信息和游戏状态
+            self.message_handler.set_response_handler("JoinRoom", self._handle_refresh_join_response)
+            request_id = self.message_handler.join_room(self.current_room_id, "")
+            
+        except Exception as e:
+            self.log_message(f"❌ 刷新房间状态失败: {e}")
+    
+    def _handle_refresh_join_response(self, response):
+        """处理刷新加入房间的响应"""
+        try:
+            if response.ret == 0:
+                from gomoku_pb2 import JoinRoomResponse
+                join_resp = JoinRoomResponse()
+                join_resp.ParseFromString(response.data)
+                
+                # 更新房间信息
+                self.room_info = join_resp.room_info
+                self.current_room_id = join_resp.room_info.room_id
+                
+                # 更新游戏状态
+                if join_resp.room_info.game_state:
+                    self.game_state = join_resp.room_info.game_state
+                    self.log_message("✅ 游戏状态已刷新")
+                    
+                    # 显示最新的走棋记录
+                    if hasattr(self.game_state, 'move_history') and self.game_state.move_history:
+                        total_moves = len(self.game_state.move_history)
+                        latest_move = self.game_state.move_history[-1]
+                        self.log_message(f"📋 总步数: {total_moves}, 最新一步: ({latest_move.x}, {latest_move.y}) by {latest_move.player_id}")
+                    
+                    # 更新棋盘显示
+                    self.update_board_display()
+                    self.refresh_status_display()
+                else:
+                    self.log_message("⚠️ 房间信息中没有游戏状态")
+                    
+            else:
+                self.log_message(f"❌ 刷新房间状态失败: {response.reason}")
+                
+        except Exception as e:
+            self.log_message(f"❌ 处理刷新响应失败: {e}")
     
     def run(self):
         """运行GUI"""
