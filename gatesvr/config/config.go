@@ -283,3 +283,8 @@ func GetConnectionConfig() ConnectionConfig {
 
 	return connCfg
 }
+
+// SetConfigPath 允许外部设置配置文件路径
+func SetConfigPath(path string) {
+	configPath = path
+}
