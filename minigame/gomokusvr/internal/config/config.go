@@ -136,12 +136,31 @@ type PerformanceConfig struct {
 }
 
 var globalConfig *Config
+var configPath string = "config-local.yaml"
+
+// SetConfigPath 允许外部设置配置文件路径
+func SetConfigPath(path string) {
+	configPath = path
+}
 
 // LoadConfig 加载配置文件
 func LoadConfig() error {
-	configFile := "config-local.yaml"
+	// 优先使用外部设置的 configPath
+	if configPath != "" {
+		if configData, err := os.ReadFile(configPath); err == nil {
+			log.Printf("成功加载配置文件: %s", configPath)
+			var config Config
+			if err := yaml.Unmarshal(configData, &config); err != nil {
+				return err
+			}
+			globalConfig = &config
+			log.Printf("配置加载完成: %+v", config)
+			return nil
+		}
+	}
 
-	// 尝试从当前目录和上级目录加载配置
+	// 兼容原有多路径查找
+	configFile := "config-local.yaml"
 	configPaths := []string{
 		configFile,
 		filepath.Join("..", configFile),

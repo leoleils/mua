@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"log"
 	"net"
@@ -8,8 +9,8 @@ import (
 	"os/signal"
 	"syscall"
 
-	"mua/minigame/gomokusvr/internal/config"
 	gatesvrpb "mua/gatesvr/pb"
+	"mua/minigame/gomokusvr/internal/config"
 	"mua/minigame/gomokusvr/internal/handler"
 	"mua/minigame/gomokusvr/internal/nacos"
 	"mua/minigame/gomokusvr/internal/pb"
@@ -20,6 +21,13 @@ import (
 
 func main() {
 	log.Println("五子棋服务启动中...")
+
+	// 新增：解析 -config 启动参数
+	configFile := flag.String("config", "", "配置文件路径（可选，默认使用config-local.yaml）")
+	flag.Parse()
+	if *configFile != "" {
+		config.SetConfigPath(*configFile)
+	}
 
 	// 1. 加载配置
 	if err := config.LoadConfig(); err != nil {
@@ -54,7 +62,7 @@ func main() {
 
 	server := grpc.NewServer()
 	gameHandler := handler.NewGameHandler()
-	
+
 	// 注册gomoku自己的服务
 	gatewayHandler := handler.NewGatewayHandler(gameHandler)
 	pb.RegisterCommonServiceServer(server, gatewayHandler)
