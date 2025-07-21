@@ -59,6 +59,30 @@ func (a *App) Init() error {
 	log.Println("启动限流监控服务...")
 	forwarder.InitMonitor()
 
+	// 启动Kafka玩家事件消费者
+	log.Println("启动Kafka玩家事件消费者...")
+	go kafka.StartPlayerEventConsumer(
+		func(evt *pb.PlayerStatusChanged, gateOnline bool) {
+			if evt.Event == pb.PlayerStatusEventType_ONLINE {
+				playerID := evt.PlayerId
+				gatesvrID := evt.GatesvrId
+				// 先判断gatesvrID是否在线
+				if !nacos.IsGatesvrInstanceOnline(gatesvrID) {
+					log.Printf("[Kafka] 收到历史玩家上线消息，gatesvrID=%s 不在线，丢弃", gatesvrID)
+					return
+				}
+				if sess, ok := session.GetSession(playerID); ok {
+					if sess.GateSvrID != gatesvrID {
+						log.Printf("[Kafka] 检测到玩家[%s]异地登录，本地踢下线，原gatesvrID=%s, 新gatesvrID=%s", playerID, sess.GateSvrID, gatesvrID)
+						session.KickSession(sess, "异地登录")
+					}
+				}
+				// 设置或更新路由表
+				route.Set(playerID, gatesvrID)
+			}
+		},
+	)
+
 	return nil
 }
 

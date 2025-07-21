@@ -30,24 +30,27 @@ type PlayerEvent struct {
 type PlayerEventHandler func(event *pb.PlayerStatusChanged, gateOnline bool)
 
 // StartPlayerEventConsumer 启动玩家事件消费者
-func StartPlayerEventConsumer(brokers []string, topic string, groupID string, handler PlayerEventHandler) {
-	log.Printf("---topic: %s, groupID: %s ---", topic, groupID)
-
-	// 1. 读取配置
+func StartPlayerEventConsumer(handler PlayerEventHandler) {
 	cfg := config.GetConfig().Kafka
+	log.Printf("---topic: %s, groupID: %s ---", cfg.Topic, cfg.GroupID)
 
-	// 2. 加载CA证书
-	caCert, err := ioutil.ReadFile(cfg.CaCert)
-	if err != nil {
-		log.Fatalf("加载Kafka CA证书失败: %v", err)
-	}
-	caCertPool := x509.NewCertPool()
-	caCertPool.AppendCertsFromPEM(caCert)
-	tlsConfig := &tls.Config{
-		RootCAs: caCertPool,
+	var tlsConfig *tls.Config
+	if cfg.CaCert == "" {
+		log.Println("Kafka CA证书路径为空，跳过TLS配置（本地开发模式，明文连接Kafka）")
+		tlsConfig = nil
+	} else {
+		caCert, err := ioutil.ReadFile(cfg.CaCert)
+		if err != nil {
+			log.Fatalf("加载Kafka CA证书失败: %v", err)
+		}
+		caCertPool := x509.NewCertPool()
+		caCertPool.AppendCertsFromPEM(caCert)
+		tlsConfig = &tls.Config{
+			RootCAs: caCertPool,
+		}
 	}
 
-	// 3. 构造Dialer
+	// 构造Dialer
 	dialer := &kafka.Dialer{
 		Timeout: 10 * time.Second,
 		TLS:     tlsConfig,
@@ -59,9 +62,9 @@ func StartPlayerEventConsumer(brokers []string, topic string, groupID string, ha
 
 	go func() {
 		r := kafka.NewReader(kafka.ReaderConfig{
-			Brokers:     brokers,
-			Topic:       topic,
-			GroupID:     groupID,
+			Brokers:     cfg.Brokers,
+			Topic:       cfg.Topic,
+			GroupID:     cfg.GroupID,
 			MinBytes:    1e3,               // 1KB
 			MaxBytes:    10e6,              // 10MB
 			StartOffset: kafka.FirstOffset, // 从最早的消息开始消费
