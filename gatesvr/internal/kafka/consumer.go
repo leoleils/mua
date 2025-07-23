@@ -29,7 +29,7 @@ type PlayerEvent struct {
 
 type PlayerEventHandler func(event *pb.PlayerStatusChanged, gateOnline bool)
 
-// StartPlayerEventConsumer 启动玩家事件消费者
+// StartPlayerEventConsumer 启动玩家事件消费者（带重试机制）
 func StartPlayerEventConsumer(handler PlayerEventHandler) {
 	cfg := config.GetConfig().Kafka
 	log.Printf("---topic: %s, groupID: %s ---", cfg.Topic, cfg.GroupID)
@@ -60,35 +60,52 @@ func StartPlayerEventConsumer(handler PlayerEventHandler) {
 		},
 	}
 
+	// 添加重试逻辑
+	maxRetries := 3
+	baseDelay := time.Second
+
 	go func() {
-		r := kafka.NewReader(kafka.ReaderConfig{
-			Brokers:     cfg.Brokers,
-			Topic:       cfg.Topic,
-			GroupID:     cfg.GroupID,
-			MinBytes:    1e3,               // 1KB
-			MaxBytes:    10e6,              // 10MB
-			StartOffset: kafka.FirstOffset, // 从最早的消息开始消费
-			Dialer:      dialer,            // 关键：加上认证
-		})
-
-		defer r.Close()
-		for {
-			m, err := r.ReadMessage(context.Background())
-			if err != nil {
-				log.Printf("Kafka 读取消息失败: %v", err)
+		for attempt := 0; attempt < maxRetries; attempt++ {
+			if err := consumeMessages(cfg, dialer, handler); err != nil {
+				delay := baseDelay * time.Duration(1<<uint(attempt)) // 指数退避
+				log.Printf("Kafka消费失败，%v后重试(%d/%d): %v", delay, attempt+1, maxRetries, err)
+				time.Sleep(delay)
 				continue
 			}
-			log.Printf("Kafka消息 offset=%d key=%s value=%s", m.Offset, string(m.Key), string(m.Value))
-
-			var evt pb.PlayerStatusChanged
-			if err := proto.Unmarshal(m.Value, &evt); err != nil {
-				log.Printf("Kafka pb消息解析失败: %v", err)
-				continue
-			}
-
-			gateOnline := nacos.IsGatesvrInstanceOnline(evt.GatesvrId)
-
-			handler(&evt, gateOnline)
+			break
 		}
 	}()
+}
+
+// consumeMessages 消费Kafka消息的核心逻辑
+func consumeMessages(cfg config.KafkaConfig, dialer *kafka.Dialer, handler PlayerEventHandler) error {
+	r := kafka.NewReader(kafka.ReaderConfig{
+		Brokers:     cfg.Brokers,
+		Topic:       cfg.Topic,
+		GroupID:     cfg.GroupID,
+		MinBytes:    1e3,               // 1KB
+		MaxBytes:    10e6,              // 10MB
+		StartOffset: kafka.FirstOffset, // 从最早的消息开始消费
+		Dialer:      dialer,            // 关键：加上认证
+	})
+
+	defer r.Close()
+	for {
+		m, err := r.ReadMessage(context.Background())
+		if err != nil {
+			log.Printf("Kafka 读取消息失败: %v", err)
+			return err // 返回错误触发重试
+		}
+		log.Printf("Kafka消息 offset=%d key=%s value=%s", m.Offset, string(m.Key), string(m.Value))
+
+		var evt pb.PlayerStatusChanged
+		if err := proto.Unmarshal(m.Value, &evt); err != nil {
+			log.Printf("Kafka pb消息解析失败: %v", err)
+			continue
+		}
+
+		gateOnline := nacos.IsGatesvrInstanceOnline(evt.GatesvrId)
+
+		handler(&evt, gateOnline)
+	}
 }

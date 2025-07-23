@@ -89,6 +89,9 @@ type ConnectionConfig struct {
 	EnableStructuredLog    bool `yaml:"enable_structured_log"`     // 启用结构化日志
 	MaxMessageSize         int  `yaml:"max_message_size"`          // 最大消息大小(字节)
 	HeartbeatIntervalSec   int  `yaml:"heartbeat_interval_sec"`    // 心跳间隔(秒)
+	MaxConnections         int  `yaml:"max_connections"`           // 最大连接数
+	MaxIdleTimeSec         int  `yaml:"max_idle_time_sec"`         // 最大空闲时间(秒)
+	CleanupIntervalSec     int  `yaml:"cleanup_interval_sec"`      // 清理间隔(秒)
 }
 
 type AppConfig struct {
@@ -279,6 +282,15 @@ func GetConnectionConfig() ConnectionConfig {
 	}
 	if connCfg.HeartbeatIntervalSec == 0 {
 		connCfg.HeartbeatIntervalSec = 30
+	}
+	if connCfg.MaxConnections == 0 {
+		connCfg.MaxConnections = 100
+	}
+	if connCfg.MaxIdleTimeSec == 0 {
+		connCfg.MaxIdleTimeSec = 300 // 5分钟
+	}
+	if connCfg.CleanupIntervalSec == 0 {
+		connCfg.CleanupIntervalSec = 60 // 1分钟
 	}
 
 	return connCfg

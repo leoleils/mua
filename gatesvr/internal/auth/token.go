@@ -9,6 +9,7 @@ import (
 	"log"
 	"strings"
 	"sync"
+	"sync/atomic"
 	"time"
 
 	"mua/gatesvr/config"
@@ -41,7 +42,7 @@ type TokenCache struct {
 	cache sync.Map     // playerID -> *TokenInfo
 	mu    sync.RWMutex // 保护清理操作
 
-	// 性能统计
+	// 性能统计 - 使用原子操作避免竞态
 	hitCount   int64
 	missCount  int64
 	totalCount int64
@@ -166,7 +167,7 @@ func VerifyToken(token string) (*TokenClaims, error) {
 
 // ValidatePlayerToken 验证玩家Token（带Redis和内存双重缓存优化）
 func ValidatePlayerToken(playerID, token string) (*TokenClaims, error) {
-	globalTokenCache.totalCount++
+	globalTokenCache.incrementMiss() // 默认增加未命中计数
 
 	// 1. 优先检查Redis缓存
 	redisCache := GetRedisTokenCache()
@@ -174,7 +175,7 @@ func ValidatePlayerToken(playerID, token string) (*TokenClaims, error) {
 		if claims, found := redisCache.GetToken(token); found {
 			// Redis缓存命中，验证PlayerID
 			if claims.PlayerID == playerID {
-				globalTokenCache.hitCount++
+				globalTokenCache.incrementHit()
 				log.Printf("[Token验证] Redis缓存命中 - 玩家: %s", playerID)
 
 				// 同步到内存缓存
@@ -199,7 +200,7 @@ func ValidatePlayerToken(playerID, token string) (*TokenClaims, error) {
 		if tokenInfo.Token == token && tokenInfo.IsValid {
 			// 检查是否过期
 			if tokenInfo.Claims.ExpireTime >= time.Now().Unix() {
-				globalTokenCache.hitCount++
+				globalTokenCache.incrementHit()
 				log.Printf("[Token验证] 内存缓存命中 - 玩家: %s", playerID)
 
 				// 同步到Redis缓存
@@ -219,8 +220,6 @@ func ValidatePlayerToken(playerID, token string) (*TokenClaims, error) {
 			}
 		}
 	}
-
-	globalTokenCache.missCount++
 
 	// 3. 缓存未命中，进行完整验证
 	claims, err := VerifyToken(token)
@@ -329,15 +328,16 @@ func GetCacheStats() map[string]interface{} {
 	})
 
 	var hitRate float64
-	if globalTokenCache.totalCount > 0 {
-		hitRate = float64(globalTokenCache.hitCount) / float64(globalTokenCache.totalCount) * 100
+	totalCount := globalTokenCache.getTotalCount()
+	if totalCount > 0 {
+		hitRate = float64(globalTokenCache.getHitCount()) / float64(totalCount) * 100
 	}
 
 	stats := map[string]interface{}{
 		"memory_cache": map[string]interface{}{
-			"total_requests": globalTokenCache.totalCount,
-			"cache_hits":     globalTokenCache.hitCount,
-			"cache_misses":   globalTokenCache.missCount,
+			"total_requests": totalCount,
+			"cache_hits":     globalTokenCache.getHitCount(),
+			"cache_misses":   globalTokenCache.getMissCount(),
 			"hit_rate":       fmt.Sprintf("%.2f%%", hitRate),
 			"cached_tokens":  totalCached,
 		},
@@ -431,4 +431,31 @@ func GetPlayerTokenInfo(playerID string) (*TokenInfo, bool) {
 		return cachedInfo.(*TokenInfo), true
 	}
 	return nil, false
+}
+
+// incrementHit 原子增加缓存命中计数
+func (tc *TokenCache) incrementHit() {
+	atomic.AddInt64(&tc.hitCount, 1)
+	atomic.AddInt64(&tc.totalCount, 1)
+}
+
+// incrementMiss 原子增加缓存未命中计数
+func (tc *TokenCache) incrementMiss() {
+	atomic.AddInt64(&tc.missCount, 1)
+	atomic.AddInt64(&tc.totalCount, 1)
+}
+
+// getHitCount 获取命中计数
+func (tc *TokenCache) getHitCount() int64 {
+	return atomic.LoadInt64(&tc.hitCount)
+}
+
+// getMissCount 获取未命中计数
+func (tc *TokenCache) getMissCount() int64 {
+	return atomic.LoadInt64(&tc.missCount)
+}
+
+// getTotalCount 获取总请求数
+func (tc *TokenCache) getTotalCount() int64 {
+	return atomic.LoadInt64(&tc.totalCount)
 }

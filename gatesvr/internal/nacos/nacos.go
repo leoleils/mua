@@ -3,6 +3,8 @@ package nacos
 import (
 	"fmt"
 	"log"
+	"sync"
+	"time"
 
 	"mua/gatesvr/config"
 
@@ -358,8 +360,36 @@ func (lb *LoadBalancer) GetRPCAddr() (string, error) {
 
 // 全局负载均衡器管理
 var (
-	loadBalancers = make(map[string]*LoadBalancer)
+	loadBalancers     = make(map[string]*LoadBalancer)
+	loadBalancerMutex = sync.RWMutex{}
+	cleanupTicker     *time.Ticker
 )
+
+// 初始化负载均衡器清理协程
+func init() {
+	// 启动定时清理过期的负载均衡器
+	go startLoadBalancerCleanup()
+}
+
+// 启动负载均衡器清理协程
+func startLoadBalancerCleanup() {
+	cleanupTicker = time.NewTicker(10 * time.Minute)
+	defer cleanupTicker.Stop()
+
+	for range cleanupTicker.C {
+		cleanupExpiredLoadBalancers()
+	}
+}
+
+// 清理过期的负载均衡器
+func cleanupExpiredLoadBalancers() {
+	loadBalancerMutex.Lock()
+	defer loadBalancerMutex.Unlock()
+
+	// 这里可以添加具体的清理逻辑
+	// 目前只是记录日志，实际应用中可以根据需要清理
+	log.Printf("[负载均衡器] 定时清理检查，当前缓存数量: %d", len(loadBalancers))
+}
 
 // 通过服务名获取 RPC 地址（轮询）
 func GetRPCAddrRoundRobin(serviceName string) (string, error) {

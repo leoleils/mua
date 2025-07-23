@@ -2,6 +2,19 @@
 
 GateServer 是一个高性能的游戏网关服务器，提供 TCP 和 WebSocket 连接支持，负责客户端连接管理、消息转发、认证管理等功能。
 
+## 🎯 核心功能
+
+- **双协议支持**: TCP (6001) + WebSocket (6002) 客户端连接
+- **消息转发**: 支持同步/异步转发到后端微服务
+- **消息推送**: 服务端主动推送到客户端 (SYNC/ASYNC/PUSH)
+- **认证管理**: JWT Token 认证和权限管理 (Redis缓存优化)
+- **连接管理**: 心跳保活、异地登录检测、连接监控
+- **负载均衡**: 支持轮询和权重负载均衡
+- **限流保护**: 全局、服务、玩家三级限流
+- **服务发现**: 基于 Nacos 的服务注册发现
+- **事件驱动**: Kafka 事件推送和状态同步
+- **监控告警**: 健康检查和性能监控
+
 ## 🚀 快速开始
 
 ### 启动服务
@@ -189,6 +202,317 @@ rate_limit:
   player_rate: 10
 ```
 
+## 🚀 部署指南
+
+### Docker部署
+
+```bash
+# 构建镜像
+docker build -t gatesvr:latest .
+
+# 运行容器
+docker run -d \
+  --name gatesvr \
+  -p 6001:6001 \
+  -p 6002:6002 \
+  -p 50051:50051 \
+  -p 8082:8082 \
+  -v ./config.yaml:/app/config.yaml \
+  gatesvr:latest
+
+# 环境变量配置
+docker run -d \
+  --name gatesvr \
+  -e GATESVR_CONFIG=config-local.yaml \
+  -v ./config-local.yaml:/app/config-local.yaml \
+  gatesvr:latest
+```
+
+### Kubernetes部署
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gatesvr
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: gatesvr
+  template:
+    metadata:
+      labels:
+        app: gatesvr
+    spec:
+      containers:
+      - name: gatesvr
+        image: gatesvr:latest
+        ports:
+        - containerPort: 6001
+        - containerPort: 6002
+        - containerPort: 50051
+        - containerPort: 8082
+        env:
+        - name: GATESVR_CONFIG
+          value: "config.yaml"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8082
+          initialDelaySeconds: 30
+          periodSeconds: 30
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: gatesvr-service
+spec:
+  selector:
+    app: gatesvr
+  ports:
+  - name: tcp
+    port: 6001
+    targetPort: 6001
+  - name: websocket
+    port: 6002
+    targetPort: 6002
+  - name: grpc
+    port: 50051
+    targetPort: 50051
+  - name: monitor
+    port: 8082
+    targetPort: 8082
+  type: ClusterIP
+```
+
+### 环境配置
+
+#### 开发环境 (config-local.yaml)
+```yaml
+# 本地开发配置，禁用认证和限流
+nacos:
+  addr: localhost
+  port: 8848
+auth:
+  enabled: false
+rate_limit:
+  enabled: false
+```
+
+#### 生产环境 (config.yaml)
+```yaml
+# 生产环境配置，启用所有功能
+nacos:
+  addr: mse-3cb9ef30-p.nacos-ans.mse.aliyuncs.com
+kafka:
+  brokers:
+    - alikafka-serverless-cn-0mm42ujh802-1000.alikafka.aliyuncs.com:9093
+auth:
+  enabled: true
+  secret_key: "production-secret-key"
+rate_limit:
+  enabled: true
+```
+
+## ⚙️ 配置详解
+
+### 核心配置项
+
+#### 连接配置
+```yaml
+connection:
+  first_message_timeout_sec: 5     # 首条消息超时(秒)
+  read_timeout_sec: 60             # 读取超时(秒)
+  write_timeout_sec: 10            # 写入超时(秒)
+  enable_structured_log: true      # 启用结构化日志
+  max_message_size: 4194304        # 最大消息大小(4MB)
+  heartbeat_interval_sec: 30       # 心跳间隔(秒)
+  max_connections: 100             # 最大连接数
+  max_idle_time_sec: 300           # 最大空闲时间(秒)
+  cleanup_interval_sec: 60         # 清理间隔(秒)
+```
+
+#### 认证配置
+```yaml
+auth:
+  enabled: true                           # 是否启用认证
+  secret_key: "your-jwt-secret-key"      # JWT密钥
+  token_expire_hours: 24                 # Token过期时间(小时)
+  cleanup_interval_min: 10               # 清理间隔(分钟)
+  require_auth:                          # 需要认证的消息类型
+    - "SERVICE_MESSAGE"
+  whitelist_services:                    # 免认证服务
+    - "health"
+    - "version"
+  max_tokens_per_player: 3               # 单玩家最大Token数
+  enable_auto_refresh: true              # 自动刷新
+  refresh_threshold_min: 60              # 刷新阈值(分钟)
+  
+  # Redis缓存配置
+  enable_redis_cache: true               # 启用Redis缓存
+  redis_addr: "localhost:6379"           # Redis地址
+  redis_password: ""                     # Redis密码
+  redis_db: 0                           # 数据库索引
+  redis_key_prefix: "mua:token:"         # 键前缀
+```
+
+#### 限流配置
+```yaml
+rate_limit:
+  enabled: true                    # 启用限流
+  global_rate: 500                 # 全局每秒请求数
+  global_capacity: 1000            # 全局令牌桶容量
+  service_rate: 100                # 单服务每秒请求数
+  service_capacity: 200            # 单服务令牌桶容量
+  player_rate: 10                  # 单玩家每秒请求数
+  player_capacity: 20              # 单玩家令牌桶容量
+```
+
+## 📡 接口文档
+
+### gRPC API接口
+
+#### 1. KickPlayer - 踢下线
+```protobuf
+rpc KickPlayer(KickPlayerRequest) returns (KickPlayerResponse);
+
+message KickPlayerRequest {
+  string player_id = 1;  // 玩家ID
+  string reason = 2;     // 踢下线原因
+}
+
+message KickPlayerResponse {
+  int32 ret = 1;         // 返回码
+  string reason = 2;     // 返回信息
+}
+```
+
+#### 2. PushToClient - 推送消息
+```protobuf
+rpc PushToClient(PushRequest) returns (PushResponse);
+
+message PushRequest {
+  string player_id = 1;           // 目标玩家ID
+  string ip = 2;                  // 目标IP（可选）
+  CallbackType cb_type = 3;       // 回调类型
+  common.GameMessage message = 4; // 要推送的消息
+}
+
+message PushResponse {
+  int32 ret = 1;         // 返回码
+  string reason = 2;     // 返回信息
+}
+```
+
+#### 3. ForwardMessage - 消息转发
+```protobuf
+rpc ForwardMessage(ForwardMessageRequest) returns (ForwardMessageResponse);
+
+message ForwardMessageRequest {
+  common.GameMessage message = 1;  // 要转发的消息
+  string target_gatesvr_id = 2;    // 目标网关ID
+}
+
+message ForwardMessageResponse {
+  int32 ret = 1;         // 返回码
+  string reason = 2;     // 返回信息
+}
+```
+
+#### 4. GenerateAuthToken - 生成Token
+```protobuf
+rpc GenerateAuthToken(GenerateAuthTokenRequest) returns (GenerateAuthTokenResponse);
+
+message GenerateAuthTokenRequest {
+  string player_id = 1;           // 玩家ID
+  string username = 2;            // 用户名
+  int32 level = 3;                // 等级
+  bool is_vip = 4;                // VIP状态
+  repeated string permissions = 5; // 权限列表
+  string platform = 6;            // 平台类型
+  string device_id = 7;           // 设备ID
+}
+
+message GenerateAuthTokenResponse {
+  int32 ret = 1;         // 返回码
+  string reason = 2;     // 返回信息
+  string token = 3;      // 生成的Token
+}
+```
+
+### HTTP监控接口
+
+#### 健康检查
+```bash
+GET /health
+# 响应: {"status": "ok", "timestamp": "2024-01-01T00:00:00Z"}
+```
+
+#### 服务状态
+```bash
+GET /status
+# 响应: 包含连接数、内存使用、CPU使用等详细信息
+```
+
+#### 认证缓存统计
+```bash
+GET /auth/cache/stats
+# 响应: 内存缓存和Redis缓存的命中率统计
+```
+
+### TCP/WebSocket客户端接口
+
+#### 连接建立
+```python
+# TCP连接
+socket.connect(('127.0.0.1', 6001))
+
+# WebSocket连接
+ws = new WebSocket('ws://127.0.0.1:6002')
+```
+
+#### 心跳消息
+```protobuf
+message GameMessage {
+  msg_type = HEARTBEAT  # 心跳类型
+  msg_head.player_id = "player123"  # 玩家ID
+}
+```
+
+#### 业务消息
+```protobuf
+message GameMessage {
+  msg_type = SERVICE_MESSAGE  # 服务消息
+  msg_head.service_name = "gomokusvr"  # 目标服务
+  msg_head.service_msg_type = SYNC  # 同步/异步
+  payload = "业务数据"  # 业务负载
+}
+```
+
+## 📊 监控和运维
+
+### 性能监控
+- **连接监控**: 实时连接数、连接建立/断开速率
+- **消息监控**: 消息处理QPS、平均响应时间
+- **缓存监控**: Token缓存命中率、Redis连接状态
+- **资源监控**: CPU、内存、网络使用情况
+
+### 日志管理
+```bash
+# 结构化日志
+{"level":"info","time":"2024-01-01T00:00:00Z","msg":"连接建立","player_id":"player123"}
+
+# 错误日志
+{"level":"error","time":"2024-01-01T00:00:00Z","msg":"认证失败","player_id":"player123","error":"token_expired"}
+```
+
+### 告警配置
+- 连接数异常告警
+- 错误率过高告警
+- 响应时间过长告警
+- Redis连接失败告警
+
 ## 🚨 常见问题
 
 ### 连接问题
@@ -200,6 +524,11 @@ rate_limit:
 1. **连接数过多**: 调整系统ulimit限制
 2. **内存占用高**: 检查连接泄漏和垃圾回收
 3. **CPU使用率高**: 分析热点代码和优化算法
+
+### 配置问题
+1. **Nacos连接失败**: 检查Nacos地址和网络
+2. **Redis缓存问题**: 检查Redis连接和配置
+3. **Kafka事件处理**: 检查Kafka配置和权限
 
 ### 更多问题
 参见各个详细文档的故障排查章节。

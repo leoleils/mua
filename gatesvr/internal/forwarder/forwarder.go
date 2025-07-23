@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"strings"
 	"sync"
 	"time"
 
@@ -15,6 +16,26 @@ import (
 	"google.golang.org/grpc/connectivity"
 	"google.golang.org/grpc/credentials/insecure"
 )
+
+// 日志采样器
+var (
+	logSampler = time.NewTicker(1 * time.Second)
+)
+
+// logStructuredSampled 采样日志输出
+func logStructuredSampled(message string, fields map[string]interface{}) {
+	select {
+	case <-logSampler.C:
+		// 构造结构化日志
+		logMsg := message
+		for key, value := range fields {
+			logMsg += fmt.Sprintf(" %s=%v", key, value)
+		}
+		log.Println("[采样日志] " + logMsg)
+	default:
+		// 丢弃采样外的日志
+	}
+}
 
 // 连接信息
 type connInfo struct {
@@ -48,9 +69,9 @@ func (tb *tokenBucket) tryAcquire(count int64) bool {
 	defer tb.mu.Unlock()
 
 	now := time.Now()
-	// 计算需要添加的令牌数
-	elapsed := now.Sub(tb.lastTime).Seconds()
-	tokensToAdd := int64(elapsed * float64(tb.rate))
+	// 使用更精确的时间计算方式
+	elapsed := now.Sub(tb.lastTime)
+	tokensToAdd := int64(float64(elapsed) / float64(time.Second) * float64(tb.rate))
 
 	// 更新令牌数，不超过容量
 	tb.tokens += tokensToAdd
@@ -273,12 +294,26 @@ type MessageForwarder struct {
 
 // NewMessageForwarder 创建消息转发器
 func NewMessageForwarder() *MessageForwarder {
+	// 获取连接配置
+	connCfg := config.GetConnectionConfig()
+
 	mf := &MessageForwarder{
 		connections:     make(map[string]*connInfo),
 		rateLimiter:     newRateLimiter(),
-		maxIdleTime:     5 * time.Minute, // 5分钟空闲超时
-		cleanupInterval: 1 * time.Minute, // 1分钟清理一次
-		maxConnections:  100,             // 最大100个连接
+		maxIdleTime:     time.Duration(connCfg.MaxIdleTimeSec) * time.Second,
+		cleanupInterval: time.Duration(connCfg.CleanupIntervalSec) * time.Second,
+		maxConnections:  connCfg.MaxConnections,
+	}
+
+	// 设置默认值
+	if mf.maxIdleTime == 0 {
+		mf.maxIdleTime = 5 * time.Minute
+	}
+	if mf.cleanupInterval == 0 {
+		mf.cleanupInterval = 1 * time.Minute
+	}
+	if mf.maxConnections == 0 {
+		mf.maxConnections = 100
 	}
 
 	// 启动连接池清理协程
@@ -611,11 +646,29 @@ func (f *MessageForwarder) removeConnection(targetAddr string) {
 
 // isConnectionError 判断是否为连接错误
 func isConnectionError(err error) bool {
-	// 简单的错误类型判断，可以根据需要扩展
+	if err == nil {
+		return false
+	}
+
+	// 检查是否为连接相关错误
 	errStr := err.Error()
-	return len(errStr) > 0 && (
-	// 可以添加更多连接错误的判断条件
-	false) // 暂时返回false，避免过度清理
+	connectionErrors := []string{
+		"connection refused",
+		"connection reset",
+		"broken pipe",
+		"timeout",
+		"unavailable",
+		"connect: connection refused",
+		"i/o timeout",
+		"context deadline exceeded",
+	}
+
+	for _, connErr := range connectionErrors {
+		if strings.Contains(strings.ToLower(errStr), strings.ToLower(connErr)) {
+			return true
+		}
+	}
+	return false
 }
 
 // Close 关闭转发器，清理所有连接
