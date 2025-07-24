@@ -7,10 +7,10 @@ service:
 
 # Nacos服务注册与发现
 nacos:
-  addr: mse-3cb9ef30-p.nacos-ans.mse.aliyuncs.com
+  addr: mse-a5934da0-nacos-ans.mse.aliyuncs.com
   port: 8848
-  username: "${NACOS_USERNAME}"
-  password: "${NACOS_PASSWORD}"
+  username: ""
+  password: ""
   service: gomokusvr
   group: DEFAULT_GROUP
   cluster: default
@@ -31,7 +31,7 @@ kafka:
   
   # 生产者配置 - 发布游戏事件
   producer:
-    enabled: true                    # 是否启用消息生产
+    enabled: false                    # 是否启用消息生产
     topics:
       game_events: "game_events"     # 游戏事件主题
       room_events: "room_events"     # 房间事件主题
