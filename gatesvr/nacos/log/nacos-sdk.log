@@ -1,0 +1,142 @@
+2025-07-21T16:07:14.778+0800	ERROR	security/security_proxy.go:117	login in err:Post "http://mse-3cb9ef30-p.nacos-ans.mse.aliyuncs.com:8848/nacos/v1/auth/users/login": context deadline exceeded (Client.Timeout exceeded while awaiting headers)
+2025-07-21T16:07:14.781+0800	INFO	naming_http/push_receiver.go:89	udp server start, port: 55257
+2025-07-21T16:07:14.781+0800	INFO	rpc/rpc_client.go:157	init rpc client for name %!(EXTRA string=945c9a76-a528-487d-bd3b-091c85c5b7ef)
+2025-07-21T16:07:14.781+0800	INFO	rpc/rpc_client.go:166	get app conn labels from client config map[] 
+2025-07-21T16:07:14.781+0800	INFO	rpc/rpc_client.go:168	get app conn labels from env map[] 
+2025-07-21T16:07:14.782+0800	INFO	rpc/rpc_client.go:171	final app conn labels : map[] 
+2025-07-21T16:07:14.782+0800	INFO	rpc/rpc_client.go:327	[RpcClient.Start] 945c9a76-a528-487d-bd3b-091c85c5b7ef try to connect to server on start up, server: {serverIp:mse-3cb9ef30-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848}
+2025-07-21T16:07:14.782+0800	INFO	rpc/grpc_client.go:175	check tls config %!(EXTRA *constant.TLSConfig=&{false false false    })
+2025-07-21T16:07:14.782+0800	INFO	rpc/grpc_client.go:180	try to get tls config from env
+2025-07-21T16:07:14.782+0800	INFO	rpc/grpc_client.go:189	 tls config from env is not enable
+2025-07-21T16:07:14.783+0800	INFO	util/common.go:96	Local IP:192.168.255.254
+2025-07-21T16:07:17.784+0800	WARN	rpc/rpc_client.go:329	[RpcClient.Start] 945c9a76-a528-487d-bd3b-091c85c5b7ef fail to connect to server on start up, error message=server check request failed , err:rpc error: code = DeadlineExceeded desc = context deadline exceeded while waiting for connections to become ready, start up retry times left=2
+2025-07-21T16:07:17.785+0800	INFO	rpc/rpc_client.go:327	[RpcClient.Start] 945c9a76-a528-487d-bd3b-091c85c5b7ef try to connect to server on start up, server: {serverIp:mse-3cb9ef30-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848}
+2025-07-21T16:07:17.785+0800	INFO	rpc/grpc_client.go:175	check tls config %!(EXTRA *constant.TLSConfig=&{false false false    })
+2025-07-21T16:07:17.785+0800	INFO	rpc/grpc_client.go:180	try to get tls config from env
+2025-07-21T16:07:17.785+0800	INFO	rpc/grpc_client.go:189	 tls config from env is not enable
+2025-07-21T16:07:20.787+0800	WARN	rpc/rpc_client.go:329	[RpcClient.Start] 945c9a76-a528-487d-bd3b-091c85c5b7ef fail to connect to server on start up, error message=server check request failed , err:rpc error: code = DeadlineExceeded desc = context deadline exceeded while waiting for connections to become ready, start up retry times left=1
+2025-07-21T16:07:20.787+0800	INFO	rpc/rpc_client.go:327	[RpcClient.Start] 945c9a76-a528-487d-bd3b-091c85c5b7ef try to connect to server on start up, server: {serverIp:mse-3cb9ef30-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848}
+2025-07-21T16:07:20.787+0800	INFO	rpc/grpc_client.go:175	check tls config %!(EXTRA *constant.TLSConfig=&{false false false    })
+2025-07-21T16:07:20.787+0800	INFO	rpc/grpc_client.go:180	try to get tls config from env
+2025-07-21T16:07:20.787+0800	INFO	rpc/grpc_client.go:189	 tls config from env is not enable
+2025-07-21T16:07:23.788+0800	WARN	rpc/rpc_client.go:329	[RpcClient.Start] 945c9a76-a528-487d-bd3b-091c85c5b7ef fail to connect to server on start up, error message=server check request failed , err:rpc error: code = DeadlineExceeded desc = context deadline exceeded while waiting for connections to become ready, start up retry times left=0
+2025-07-21T16:07:23.788+0800	INFO	rpc/rpc_client.go:426	945c9a76-a528-487d-bd3b-091c85c5b7ef try to re connect to a new server, server is not appointed, will choose a random server.
+2025-07-21T16:07:23.788+0800	INFO	naming_grpc/naming_grpc_proxy.go:95	register instance namespaceId:<public>,serviceName:<gatesvr> with instance:<{"instanceId":"","ip":"192.168.0.109","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"","serviceName":"","metadata":{"instanceID":"gatesvr-1753085229776509000"},"instanceHeartBeatInterval":0,"ipDeleteTimeout":0,"instanceHeartBeatTimeOut":0}>
+2025-07-21T16:07:23.789+0800	INFO	rpc/grpc_client.go:175	check tls config %!(EXTRA *constant.TLSConfig=&{false false false    })
+2025-07-21T16:07:23.789+0800	INFO	rpc/grpc_client.go:180	try to get tls config from env
+2025-07-21T16:07:23.789+0800	INFO	rpc/grpc_client.go:189	 tls config from env is not enable
+2025-07-21T16:07:23.789+0800	ERROR	rpc/rpc_client.go:629	Send request fail, request=InstanceRequest, body={"requestId":"","namespace":"public","serviceName":"gatesvr","groupName":"DEFAULT_GROUP","module":"naming","type":"registerInstance","instance":{"instanceId":"","ip":"192.168.0.109","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"","serviceName":"","metadata":{"instanceID":"gatesvr-1753085229776509000"},"instanceHeartBeatInterval":0,"ipDeleteTimeout":0,"instanceHeartBeatTimeOut":0}}, retryTimes=0, error=client not connected, current status:STARTING
+github.com/nacos-group/nacos-sdk-go/v2/common/remote/rpc.(*RpcClient).Request
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/common/remote/rpc/rpc_client.go:591
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client/naming_grpc.(*NamingGrpcProxy).requestToServer
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/clients/naming_client/naming_grpc/naming_grpc_proxy.go:88
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client/naming_grpc.(*NamingGrpcProxy).RegisterInstance
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/clients/naming_client/naming_grpc/naming_grpc_proxy.go:99
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client.(*NamingProxyDelegate).RegisterInstance
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/clients/naming_client/naming_proxy_delegate.go:92
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client.(*NamingClient).RegisterInstance
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/clients/naming_client/naming_client.go:124
+mua/gatesvr/internal/nacos.Register
+	/Users/chenleiyu/go/mua/gatesvr/internal/nacos/nacos.go:54
+mua/gatesvr/internal/app.initNacosAndRegister
+	/Users/chenleiyu/go/mua/gatesvr/internal/app/app.go:152
+mua/gatesvr/internal/app.(*App).Init
+	/Users/chenleiyu/go/mua/gatesvr/internal/app/app.go:46
+main.main
+	/Users/chenleiyu/go/mua/gatesvr/cmd/main.go:21
+runtime.main
+	/opt/homebrew/Cellar/go/1.24.3/libexec/src/runtime/proc.go:283
+runtime.goexit
+	/opt/homebrew/Cellar/go/1.24.3/libexec/src/runtime/asm_arm64.s:1223
+2025-07-21T16:07:23.890+0800	ERROR	rpc/rpc_client.go:629	Send request fail, request=InstanceRequest, body={"requestId":"","namespace":"public","serviceName":"gatesvr","groupName":"DEFAULT_GROUP","module":"naming","type":"registerInstance","instance":{"instanceId":"","ip":"192.168.0.109","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"","serviceName":"","metadata":{"instanceID":"gatesvr-1753085229776509000"},"instanceHeartBeatInterval":0,"ipDeleteTimeout":0,"instanceHeartBeatTimeOut":0}}, retryTimes=1, error=client not connected, current status:STARTING
+github.com/nacos-group/nacos-sdk-go/v2/common/remote/rpc.(*RpcClient).Request
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/common/remote/rpc/rpc_client.go:591
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client/naming_grpc.(*NamingGrpcProxy).requestToServer
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/clients/naming_client/naming_grpc/naming_grpc_proxy.go:88
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client/naming_grpc.(*NamingGrpcProxy).RegisterInstance
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/clients/naming_client/naming_grpc/naming_grpc_proxy.go:99
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client.(*NamingProxyDelegate).RegisterInstance
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/clients/naming_client/naming_proxy_delegate.go:92
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client.(*NamingClient).RegisterInstance
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/clients/naming_client/naming_client.go:124
+mua/gatesvr/internal/nacos.Register
+	/Users/chenleiyu/go/mua/gatesvr/internal/nacos/nacos.go:54
+mua/gatesvr/internal/app.initNacosAndRegister
+	/Users/chenleiyu/go/mua/gatesvr/internal/app/app.go:152
+mua/gatesvr/internal/app.(*App).Init
+	/Users/chenleiyu/go/mua/gatesvr/internal/app/app.go:46
+main.main
+	/Users/chenleiyu/go/mua/gatesvr/cmd/main.go:21
+runtime.main
+	/opt/homebrew/Cellar/go/1.24.3/libexec/src/runtime/proc.go:283
+runtime.goexit
+	/opt/homebrew/Cellar/go/1.24.3/libexec/src/runtime/asm_arm64.s:1223
+2025-07-21T16:07:23.992+0800	ERROR	rpc/rpc_client.go:629	Send request fail, request=InstanceRequest, body={"requestId":"","namespace":"public","serviceName":"gatesvr","groupName":"DEFAULT_GROUP","module":"naming","type":"registerInstance","instance":{"instanceId":"","ip":"192.168.0.109","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"","serviceName":"","metadata":{"instanceID":"gatesvr-1753085229776509000"},"instanceHeartBeatInterval":0,"ipDeleteTimeout":0,"instanceHeartBeatTimeOut":0}}, retryTimes=2, error=client not connected, current status:STARTING
+github.com/nacos-group/nacos-sdk-go/v2/common/remote/rpc.(*RpcClient).Request
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/common/remote/rpc/rpc_client.go:591
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client/naming_grpc.(*NamingGrpcProxy).requestToServer
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/clients/naming_client/naming_grpc/naming_grpc_proxy.go:88
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client/naming_grpc.(*NamingGrpcProxy).RegisterInstance
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/clients/naming_client/naming_grpc/naming_grpc_proxy.go:99
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client.(*NamingProxyDelegate).RegisterInstance
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/clients/naming_client/naming_proxy_delegate.go:92
+github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client.(*NamingClient).RegisterInstance
+	/Users/chenleiyu/go/pkg/mod/github.com/nacos-group/nacos-sdk-go/v2@v2.3.2/clients/naming_client/naming_client.go:124
+mua/gatesvr/internal/nacos.Register
+	/Users/chenleiyu/go/mua/gatesvr/internal/nacos/nacos.go:54
+mua/gatesvr/internal/app.initNacosAndRegister
+	/Users/chenleiyu/go/mua/gatesvr/internal/app/app.go:152
+mua/gatesvr/internal/app.(*App).Init
+	/Users/chenleiyu/go/mua/gatesvr/internal/app/app.go:46
+main.main
+	/Users/chenleiyu/go/mua/gatesvr/cmd/main.go:21
+runtime.main
+	/opt/homebrew/Cellar/go/1.24.3/libexec/src/runtime/proc.go:283
+runtime.goexit
+	/opt/homebrew/Cellar/go/1.24.3/libexec/src/runtime/asm_arm64.s:1223
+2025-07-21T16:19:57.044+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-21T16:19:57.047+0800	INFO	naming_http/push_receiver.go:89	udp server start, port: 55775
+2025-07-21T16:19:57.048+0800	INFO	rpc/rpc_client.go:157	init rpc client for name %!(EXTRA string=1b8e83ba-430b-4ee2-9491-02983c59825d)
+2025-07-21T16:19:57.048+0800	INFO	rpc/rpc_client.go:166	get app conn labels from client config map[] 
+2025-07-21T16:19:57.048+0800	INFO	rpc/rpc_client.go:168	get app conn labels from env map[] 
+2025-07-21T16:19:57.048+0800	INFO	rpc/rpc_client.go:171	final app conn labels : map[] 
+2025-07-21T16:19:57.048+0800	INFO	rpc/rpc_client.go:327	[RpcClient.Start] 1b8e83ba-430b-4ee2-9491-02983c59825d try to connect to server on start up, server: {serverIp:mse-3cb9ef30-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848}
+2025-07-21T16:19:57.048+0800	INFO	rpc/grpc_client.go:175	check tls config %!(EXTRA *constant.TLSConfig=&{false false false    })
+2025-07-21T16:19:57.048+0800	INFO	rpc/grpc_client.go:180	try to get tls config from env
+2025-07-21T16:19:57.048+0800	INFO	rpc/grpc_client.go:189	 tls config from env is not enable
+2025-07-21T16:19:57.050+0800	INFO	util/common.go:96	Local IP:192.168.255.254
+2025-07-21T16:19:57.284+0800	INFO	rpc/rpc_client.go:337	1b8e83ba-430b-4ee2-9491-02983c59825d success to connect to server {serverIp:mse-3cb9ef30-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848} on start up, connectionId=1753085997192_36.101.200.246_6501
+2025-07-21T16:19:57.286+0800	INFO	naming_grpc/naming_grpc_proxy.go:95	register instance namespaceId:<public>,serviceName:<gatesvr> with instance:<{"instanceId":"","ip":"192.168.0.109","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"","serviceName":"","metadata":{"instanceID":"gatesvr-1753085995845515000"},"instanceHeartBeatInterval":0,"ipDeleteTimeout":0,"instanceHeartBeatTimeOut":0}>
+2025-07-21T16:19:57.287+0800	INFO	rpc/rpc_client.go:486	1b8e83ba-430b-4ee2-9491-02983c59825d notify connected event to listeners , connectionId=1753085997192_36.101.200.246_6501
+2025-07-21T16:19:57.288+0800	INFO	naming_grpc/naming_grpc_proxy.go:95	register instance namespaceId:<public>,serviceName:<gatesvr> with instance:<{"instanceId":"","ip":"192.168.0.109","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"","serviceName":"","metadata":{"instanceID":"gatesvr-1753085995845515000"},"instanceHeartBeatInterval":0,"ipDeleteTimeout":0,"instanceHeartBeatTimeOut":0}>
+2025-07-21T16:20:02.095+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-21T16:20:07.139+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-21T16:20:12.184+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-21T16:20:17.229+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-21T16:20:22.274+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-21T16:20:27.320+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-21T16:20:32.367+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-21T16:20:37.412+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-21T16:20:42.459+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-21T16:20:47.506+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-21T16:20:52.554+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-21T16:20:57.600+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-21T16:21:02.646+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-21T16:21:07.694+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-21T16:21:12.741+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-21T16:21:17.789+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-21T16:21:22.834+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-21T16:21:27.884+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-21T16:21:32.932+0800	ERROR	security/security_proxy.go:117	login in err:User ${NACOS_USERNAME} not found
+2025-07-21T17:28:16.718+0800	INFO	naming_http/push_receiver.go:89	udp server start, port: 55707
+2025-07-21T17:28:16.720+0800	INFO	rpc/rpc_client.go:157	init rpc client for name %!(EXTRA string=6c3e56fc-a436-47da-b364-91ce23336144)
+2025-07-21T17:28:16.720+0800	INFO	rpc/rpc_client.go:166	get app conn labels from client config map[] 
+2025-07-21T17:28:16.720+0800	INFO	rpc/rpc_client.go:168	get app conn labels from env map[] 
+2025-07-21T17:28:16.720+0800	INFO	rpc/rpc_client.go:171	final app conn labels : map[] 
+2025-07-21T17:28:16.720+0800	INFO	rpc/rpc_client.go:327	[RpcClient.Start] 6c3e56fc-a436-47da-b364-91ce23336144 try to connect to server on start up, server: {serverIp:mse-3cb9ef30-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848}
+2025-07-21T17:28:16.720+0800	INFO	rpc/grpc_client.go:175	check tls config %!(EXTRA *constant.TLSConfig=&{false false false    })
+2025-07-21T17:28:16.720+0800	INFO	rpc/grpc_client.go:180	try to get tls config from env
+2025-07-21T17:28:16.720+0800	INFO	rpc/grpc_client.go:189	 tls config from env is not enable
+2025-07-21T17:28:16.722+0800	INFO	util/common.go:96	Local IP:192.168.255.254
+2025-07-21T17:28:17.070+0800	INFO	rpc/rpc_client.go:337	6c3e56fc-a436-47da-b364-91ce23336144 success to connect to server {serverIp:mse-3cb9ef30-p.nacos-ans.mse.aliyuncs.com serverPort:8848 serverGrpcPort:9848} on start up, connectionId=1753090096898_36.101.200.246_7003
+2025-07-21T17:28:17.071+0800	INFO	naming_grpc/naming_grpc_proxy.go:95	register instance namespaceId:<public>,serviceName:<gatesvr> with instance:<{"instanceId":"","ip":"192.168.0.109","port":50051,"weight":10,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"","serviceName":"","metadata":{"instanceID":"gatesvr-1753090096717906000"},"instanceHeartBeatInterval":0,"ipDeleteTimeout":0,"instanceHeartBeatTimeOut":0}>

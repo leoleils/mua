@@ -224,17 +224,11 @@ func (s *server) KickPlayer(ctx context.Context, req *pb.KickPlayerRequest) (*pb
 		session.KickPlayer(playerID, reason)
 		return &pb.KickPlayerResponse{
 			Success: true,
-			Message: "本节点踢下线成功",
+			Message: playerID + "本节点踢下线成功",
 		}, nil
 	}
-	if gatesvrID, ok := route.Get(playerID); ok {
-		addr := nacos.GetGatesvrAddrByInstanceID(gatesvrID)
-		err := rpc.KickPlayerRemote(addr, playerID, reason)
-		if err == nil {
-			return &pb.KickPlayerResponse{Success: true, Message: "远程踢下线成功"}, nil
-		}
-	}
-	return &pb.KickPlayerResponse{Success: false, Message: "未找到目标玩家路由"}, nil
+
+	return &pb.KickPlayerResponse{Success: false, Message: "未找到目标玩家连接"}, nil
 }
 
 func (s *server) ForwardMessage(ctx context.Context, req *pb.ForwardMessageRequest) (*pb.ForwardMessageResponse, error) {
