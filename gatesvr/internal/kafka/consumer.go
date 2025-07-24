@@ -96,13 +96,13 @@ func consumeMessages(cfg config.KafkaConfig, dialer *kafka.Dialer, handler Playe
 			log.Printf("Kafka 读取消息失败: %v", err)
 			return err // 返回错误触发重试
 		}
-		log.Printf("Kafka消息 offset=%d key=%s value=%s", m.Offset, string(m.Key), string(m.Value))
 
 		var evt pb.PlayerStatusChanged
 		if err := proto.Unmarshal(m.Value, &evt); err != nil {
 			log.Printf("Kafka pb消息解析失败: %v", err)
 			continue
 		}
+		log.Printf("Kafka消息 offset=%d key=%s value=%s", m.Offset, string(m.Key), string(evt.String()))
 
 		gateOnline := nacos.IsGatesvrInstanceOnline(evt.GatesvrId)
 
