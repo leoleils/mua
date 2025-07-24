@@ -15,6 +15,7 @@ import (
 	"mua/gatesvr/internal/session"
 	"mua/gatesvr/pb"
 	"net"
+	"net/http"
 	"strconv"
 	"time"
 
@@ -26,6 +27,8 @@ import (
 type App struct {
 	ip       string
 	grpcPort uint64
+	httpPort int
+	httpSrv  *http.Server
 	grpcSrv  *grpc.Server
 	grpcLis  net.Listener
 	cancel   context.CancelFunc
@@ -86,12 +89,28 @@ func (a *App) Init() error {
 	return nil
 }
 
-// Run 运行应用程序，启动TCP、WebSocket和gRPC服务
+// Run 运行应用程序，启动TCP、WebSocket、HTTP和gRPC服务
 func (a *App) Run() error {
 	// 启动TCP接入服务
 	go conn.StartTCPServer(":6001")
 	// 启动WebSocket接入服务
 	go conn.StartWSServer(":6002")
+
+	// 启动HTTP健康检查服务
+	a.httpPort = 8083
+	http.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusOK)
+		w.Write([]byte("OK"))
+	})
+	a.httpSrv = &http.Server{
+		Addr: fmt.Sprintf("0.0.0.0:%d", a.httpPort),
+	}
+	go func() {
+		log.Printf("HTTP服务启动，端口: %d", a.httpPort)
+		if err := a.httpSrv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+			log.Printf("HTTP服务异常退出: %v", err)
+		}
+	}()
 
 	// 启动gRPC服务
 	lis, err := net.Listen("tcp", fmt.Sprintf("0.0.0.0:%d", a.grpcPort))
@@ -119,6 +138,15 @@ func (a *App) Stop() {
 	if a.cancel != nil {
 		a.cancel()
 	}
+	// 关闭HTTP服务
+	if a.httpSrv != nil {
+		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+		defer cancel()
+		if err := a.httpSrv.Shutdown(ctx); err != nil {
+			log.Printf("HTTP服务关闭失败: %v", err)
+		}
+	}
+	// 关闭gRPC服务
 	if a.grpcSrv != nil {
 		a.grpcSrv.GracefulStop()
 	}
