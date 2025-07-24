@@ -417,13 +417,13 @@ func (f *MessageForwarder) getTargetServiceAddr(head *pb.HeadMessage) (string, e
 	// 获取服务配置
 	serviceConfig := config.GetServiceConfig(serviceName)
 
-	// 检查是否有直接配置的endpoints（本地开发模式）
-	if endpoints := getDirectEndpoints(serviceName); len(endpoints) > 0 {
-		// 简单的轮询选择
-		addr := endpoints[0] // 本地开发环境通常只有一个实例
-		log.Printf("[消息转发] 使用直接配置地址: 服务=%s, 地址=%s", serviceName, addr)
-		return addr, nil
-	}
+	// // 检查是否有直接配置的endpoints（本地开发模式）
+	// if endpoints := getDirectEndpoints(serviceName); len(endpoints) > 0 {
+	// 	// 简单的轮询选择
+	// 	addr := endpoints[0] // 本地开发环境通常只有一个实例
+	// 	log.Printf("[消息转发] 使用直接配置地址: 服务=%s, 地址=%s", serviceName, addr)
+	// 	return addr, nil
+	// }
 
 	// 使用配置中的分组（如果消息头没有指定）
 	if groupName == "" {
