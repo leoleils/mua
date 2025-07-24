@@ -296,6 +296,16 @@ func GetConnectionConfig() ConnectionConfig {
 	return connCfg
 }
 
+// GetRPCTimeout 获取RPC超时时间（毫秒），如果没有配置则返回默认值5000ms
+func GetRPCTimeout() time.Duration {
+	cfg := GetConfig()
+	timeoutMs := cfg.ServiceForwarding.RequestTimeoutMs
+	if timeoutMs <= 0 {
+		timeoutMs = 5000 // 默认5秒
+	}
+	return time.Duration(timeoutMs) * time.Millisecond
+}
+
 // SetConfigPath 允许外部设置配置文件路径
 func SetConfigPath(path string) {
 	configPath = path
